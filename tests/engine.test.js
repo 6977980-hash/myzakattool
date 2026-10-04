@@ -39,8 +39,26 @@ test('Maliki and Hanbali: jewellery exempt, debts deducted', () => {
 	assert.equal(round(E.calculate('hanbali', sample, prices).zakat), 10000);
 });
 
-test('Ahl-e-Hadith: jewellery included, lower nisab', () => {
-	assert.equal(round(E.calculate('ahlehadith', sample, prices).zakat), 36469);
+test('Ahl-e-Hadith: jewellery included, lower nisab, debts not deducted (IslamQA 22426)', () => {
+	const r = E.calculate('ahlehadith', sample, prices);
+	// 1,50,000 + 3,50,000 + 3 tola 22K (10,58,750) = 15,58,750; the 1,00,000 debt is not subtracted.
+	assert.equal(round(r.zakatable), 1558750);
+	assert.equal(round(r.zakat), 38969);
+	assert.equal(r.debtsDeducted, 0);
+	assert.equal(E.MADHABS.ahlehadith.debts, false);
+	assert.equal(r.lines.find((l) => l.key === 'debts').included, false);
+	// Debts larger than all wealth still do not cancel zakat.
+	assert.equal(E.calculate('ahlehadith', { money: { cash: 300000 }, liabilities: { debts: 500000 } }, prices).zakat, 7500);
+});
+
+test('A zero nisab (missing silver or gold rate) never makes zakat due', () => {
+	const noSilver = { gold: prices.gold, silver: 0 };
+	for (const k of E.MADHAB_ORDER) {
+		const r = E.calculate(k, { money: { cash: 100 } }, noSilver);
+		if (r.nisab === 0) assert.equal(r.due, false, k);
+	}
+	assert.equal(E.calculate('hanafi', { money: { cash: 100 } }, noSilver).due, false);
+	assert.equal(E.calculate('hanafi', { money: { cash: 100 } }, { gold: 0, silver: 0 }).zakat, 0);
 });
 
 test("Ja'fari (Sistani): no zakat on paper money or jewellery, khums note", () => {
@@ -74,6 +92,16 @@ test("Shafi'i: worn gold above 860 g becomes zakatable", () => {
 	assert.equal(r.due, true);
 });
 
+test("Shafi'i: the 860 g limit uses the gross weight, with its own why key", () => {
+	// 900 g of 18K is only 675 g pure, but the jewellery itself weighs above the limit.
+	const r = E.calculate('shafii', { goldWorn: { weight: 900, unit: 'gram', karat: 18 } }, prices);
+	assert.ok(r.notes.includes('shafii_excess_jewellery'));
+	assert.equal(r.lines.find((l) => l.key === 'goldWorn').why, 'shafii_jewellery_excess');
+	const under = E.calculate('shafii', { goldWorn: { weight: 800, unit: 'gram', karat: 24 } }, prices);
+	assert.equal(under.lines.find((l) => l.key === 'goldWorn').why, 'jewellery_no');
+	assert.equal(under.due, false);
+});
+
 test('Debts larger than wealth give zero, not negative', () => {
 	const r = E.calculate('hanafi', { money: { cash: 1000 }, liabilities: { debts: 5000 } }, prices);
 	assert.equal(r.zakatable, 0);
@@ -105,6 +133,23 @@ test('Roman Urdu parser', () => {
 	assert.equal(E.parseText('committee mein 60,000').committee, 60000);
 });
 
+test('Roman Urdu parser: compound amounts, currency words, no commas, spoken fractions', () => {
+	assert.deepEqual(E.parseText('5 lakh 50 hazar cash'), { cash: 550000 });
+	assert.deepEqual(E.parseText('Rs.50000 cash'), { cash: 50000 });
+	assert.deepEqual(E.parseText('rs 50000 cash'), { cash: 50000 });
+	assert.deepEqual(E.parseText('PKR 50000 cash'), { cash: 50000 });
+	assert.deepEqual(E.parseText('3 tola sona 5 lakh cash'), { gold: { weight: 3, unit: 'tola' }, cash: 500000 });
+	assert.deepEqual(E.parseText('3 tola sona, 1 tola sona'), { gold: { weight: 4, unit: 'tola' } });
+	assert.deepEqual(E.parseText('5 lakh rupay bank mein'), { bank: 500000 });
+	assert.deepEqual(E.parseText('50000 rupay'), { cash: 50000 });
+	assert.deepEqual(E.parseText('dedh lakh cash'), { cash: 150000 });
+	assert.deepEqual(E.parseText('dhai lakh cash'), { cash: 250000 });
+	assert.deepEqual(E.parseText('arhai lakh bank'), { bank: 250000 });
+	assert.deepEqual(E.parseText('sawa 2 tola sona'), { gold: { weight: 2.25, unit: 'tola' } });
+	assert.deepEqual(E.parseText('sadhe 3 lakh bank'), { bank: 350000 });
+	assert.deepEqual(E.parseText('3 tola sona 20k cash'), { gold: { weight: 3, unit: 'tola' }, cash: 20000 });
+});
+
 test('fitrana and khums', () => {
 	assert.equal(E.fitrana(5, 300), 1500);
 	assert.equal(E.khums({ savings: 100000, unusedItems: 20000 }).khums, 24000);
@@ -114,6 +159,8 @@ test('country defaults', () => {
 	assert.deepEqual(E.countryDefaults('pk'), { currency: 'PKR', unit: 'tola', madhab: 'hanafi' });
 	assert.equal(E.countryDefaults('ID').madhab, 'shafii');
 	assert.equal(E.countryDefaults('XX').currency, 'USD');
+	assert.equal(E.countryDefaults('AE').madhab, 'maliki');
+	assert.equal(E.countryDefaults('JO').madhab, 'shafii');
 });
 
 test('zakat already paid (bank deduction) reduces what is left to pay', () => {
@@ -147,6 +194,10 @@ test('ushr and livestock', () => {
 	assert.deepEqual(E.ushr('hanafi', 400, 100, 'rain'), { rate: 0.1, nisabKg: 0, due: true, kg: 40, value: 4000 });
 	assert.equal(E.ushr('shafii', 400, 100, 'rain').due, false);
 	assert.equal(E.ushr('maliki', 1000, 100, 'irrigated').kg, 50);
+	assert.equal(E.ushr('ahlehadith', 400, 100, 'rain').due, false);
+	assert.equal(E.ushr('jafari', 700, 100, 'rain').due, false);
+	assert.equal(E.ushr('jafari', 900, 100, 'rain').nisabKg, 847);
+	assert.equal(E.ushr('jafari', 900, 100, 'rain').kg, 90);
 	assert.deepEqual(E.livestock('sheep', 39), []);
 	assert.deepEqual(E.livestock('sheep', 121), [{ n: 2, what: 'sheep' }]);
 	assert.deepEqual(E.livestock('sheep', 450), [{ n: 4, what: 'sheep' }]);

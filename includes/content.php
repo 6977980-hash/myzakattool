@@ -18,7 +18,7 @@ function myzt_content_pages() {
 	$p['home'] = array(
 		'title' => 'Zakat Calculator for Every Madhab',
 		'seo'   => 'Zakat Calculator {year} for Every Madhab | Live Gold Rate',
-		'desc'  => "Free zakat calculator for Hanafi, Shafi'i, Maliki, Hanbali, Ahl-e-Hadith and Shia with today's gold and silver rate in your currency. Tola or gram, cited sources.",
+		'desc'  => "Free zakat calculator for Hanafi, Shafi'i, Maliki, Hanbali, Ahl-e-Hadith and Shia with today's gold and silver rate in your currency. Tola or gram, sourced.",
 		'nav'   => 'Zakat Calculator',
 		'blurb' => 'every madhab',
 		'llms'  => true,
@@ -30,26 +30,27 @@ function myzt_content_pages() {
 <h2>How to calculate zakat, step by step</h2>
 <ol>
 <li><strong>Add up what you own:</strong> cash at home, bank balances, gold and silver, business stock, shares, crypto, committee (BC) payments and money others owe you.</li>
-<li><strong>Subtract debts</strong> that are due now, if your madhab allows it (Hanafi, Maliki, Hanbali and Ahl-e-Hadith do; the relied-upon Shafi'i view does not).</li>
+<li><strong>Subtract debts</strong> that are due now, if your madhab allows it (Hanafi, Maliki and Hanbali scholars do; the relied-upon Shafi'i view and the Permanent Committee followed by Ahl-e-Hadith scholars do not).</li>
 <li><strong>Compare with the nisab.</strong> Hanafi scholars use the silver nisab for cash and mixed wealth; Hanbali and Ahl-e-Hadith use whichever is lower; Shafi'i scholars in Malaysia and Singapore usually use gold.</li>
 <li><strong>Pay 2.5%</strong> of the total if it reaches the nisab and a lunar year (hawl) has passed.</li>
 </ol>
 <h2>Why the result changes from one madhab to another</h2>
 <p>The biggest difference is <strong>jewellery that is worn</strong>. In the Hanafi madhab zakat is due on it (Darul Uloom Deoband, Fatwa 2310/H=713/th=1431). In the Shafi'i, Maliki and Hanbali madhabs permissible worn jewellery is exempt. Debts and the choice of gold or silver nisab also change the answer. Press <em>Compare all madhabs</em> above to see your own numbers side by side, or read the <a href="/madhab-comparison/">full comparison</a>.</p>
 <h2>Worked example</h2>
-<p>Ahmed has Rs 1,50,000 cash, Rs 3,50,000 in the bank, 3 tola of 22K gold jewellery that he owns and his wife wears, and Rs 1,00,000 of debt due now.</p>
+<p>Ahmed has Rs 5,00,000 cash, Rs 15,00,000 in the bank, 3 tola of 22K gold jewellery that he owns and his wife wears, and Rs 2,00,000 of debt due now.</p>
 <ul>
-<li><strong>Hanafi and Ahl-e-Hadith:</strong> the jewellery is counted and the debt is subtracted, so zakat is 2.5% of Rs 4,00,000 plus the value of the gold.</li>
-<li><strong>Maliki and Hanbali:</strong> worn jewellery is not counted, so zakat is 2.5% of Rs 4,00,000 = Rs 10,000.</li>
-<li><strong>Shafi'i:</strong> the jewellery is exempt and the debt is not subtracted, so Rs 5,00,000 is compared with the gold nisab (about [myzt_rate type="nisab-gold" currency="PKR"] today). It is below it, so nothing is due unless he chooses the silver nisab.</li>
+<li><strong>Hanafi:</strong> the jewellery is counted and the debt is subtracted, so zakat is 2.5% of Rs 18,00,000 (Rs 45,000) plus 2.5% of the value of the gold.</li>
+<li><strong>Ahl-e-Hadith:</strong> the jewellery is counted and the debt is not subtracted, so zakat is 2.5% of Rs 20,00,000 (Rs 50,000) plus 2.5% of the value of the gold.</li>
+<li><strong>Maliki and Hanbali:</strong> worn jewellery is not counted and the debt is subtracted, so zakat is 2.5% of Rs 18,00,000 = Rs 45,000.</li>
+<li><strong>Shafi'i:</strong> the jewellery is exempt and the debt is not subtracted, so Rs 20,00,000 is compared with the gold nisab (about [myzt_rate type="nisab-gold" currency="PKR"] today). If it is below that, nothing is due unless he chooses the silver nisab, which would make it Rs 50,000.</li>
 <li><strong>Shia (Sistani):</strong> no zakat on paper money or jewellery; khums applies instead.</li>
 </ul>
-<p>The calculator above does these steps for you with today's rate.</p>
+<p>The calculator above does these steps for you with today's rate. In Pakistan, the <a href="/zakat-calculator-pakistan/">Pakistan zakat calculator</a> adds tola, rupees, committee, prize bonds and the bank's 1 Ramadan deduction. Not sure when your zakat is due? The <a href="/zakat-date-calculator/">zakat date calculator</a> finds your date and sets reminders.</p>
 <h2>Is my data safe?</h2>
 <p>Yes. Everything is calculated inside your browser. Nothing you type is sent to our server or saved by us. You can download a PDF report or a data file for your own records.</p>
 [myzt_faq]
 HTML
-		. $author . '[myzt_related slugs="hanafi-zakat-calculator,zakat-on-gold-calculator,nisab,fitrana-calculator"]',
+		. $author . '[myzt_related slugs="zakat-calculator-pakistan,hanafi-zakat-calculator,zakat-on-gold-calculator,nisab"]',
 		'faq'   => array(
 			array( 'q' => 'How much is zakat on 1 lakh rupees?', 'a' => 'If your total zakatable wealth is above the nisab, zakat on Rs 1,00,000 is Rs 2,500 (2.5%).' ),
 			array( 'q' => 'Is zakat due on gold jewellery that is worn?', 'a' => "In the Hanafi madhab and according to the Saudi Permanent Committee (followed by many Ahl-e-Hadith scholars), yes. In the Shafi'i, Maliki and Hanbali madhabs, permissible jewellery that is worn is exempt." ),
@@ -62,7 +63,7 @@ HTML
 	/* ------------------------------------------------------------------ */
 	$p['madhab'] = array(
 		'title' => 'Zakat Calculator by Madhab',
-		'seo'   => 'Zakat Calculator by Madhab: Hanafi, Shafi\'i, Maliki, Hanbali, Shia',
+		'seo'   => 'Zakat Calculator by Madhab: Hanafi, Shafi\'i, Shia & More',
 		'desc'  => 'Pick your school of thought and calculate zakat by its rules: Hanafi, Shafi\'i, Maliki, Hanbali, Ahl-e-Hadith or Shia Ja\'fari, each with cited sources.',
 		'nav'   => 'By Madhab',
 		'blurb' => 'all schools',
@@ -81,7 +82,7 @@ HTML
 <h2>How to choose your madhab</h2>
 <p>Follow the school you already follow for prayer and fasting. If your family is Deobandi or Barelvi, that is Hanafi. If you pray with Ahl-e-Hadith scholars, use the Ahl-e-Hadith calculator. Followers of Fiqh-e-Jafaria should use the Shia calculator. If you are a convert or unsure, ask the imam of the mosque you attend and use that school, rather than picking whichever gives the lowest number.</p>
 <h2>Why the results differ</h2>
-<p>The four questions that change the amount are: is worn jewellery zakatable, do debts reduce zakat, which nisab (gold or silver) applies to cash, and are gold and silver added together. For a family with a lot of jewellery, the Hanafi and Ahl-e-Hadith results are usually the highest; for someone with large debts, the Shafi'i result can be higher because debts are not subtracted. Each calculator page lists its source fatwas, and our <a href="/methodology/">methodology</a> explains how we read them.</p>
+<p>The four questions that change the amount are: is worn jewellery zakatable, do debts reduce zakat, which nisab (gold or silver) applies to cash, and are gold and silver added together. For a family with a lot of jewellery, the Hanafi and Ahl-e-Hadith results are usually the highest; for someone with large debts, the Shafi'i and Ahl-e-Hadith results can be higher because debts are not subtracted. Each calculator page lists its source fatwas, and our <a href="/methodology/">methodology</a> explains how we read them.</p>
 <p>Whichever school you follow, the calculator gives an estimate. It is not a fatwa; see the <a href="/disclaimer/">disclaimer</a>.</p>
 [myzt_faq]
 HTML
@@ -96,9 +97,10 @@ HTML
 	$madhab_pages = array(
 		'hanafi-zakat-calculator' => array(
 			'key'   => 'hanafi',
+			'question' => "How is zakat calculated in the Hanafi madhab?",
 			'title' => 'Hanafi Zakat Calculator',
-			'seo'   => 'Hanafi Zakat Calculator {year} (Deobandi & Barelvi) | Live Rate',
-			'desc'  => 'Calculate zakat by Hanafi fiqh: jewellery included, debts deducted, silver nisab. Live gold and silver rate in tola or gram, with Darul Uloom Deoband references.',
+			'seo'   => 'Hanafi Zakat Calculator {year} (Deobandi & Barelvi)',
+			'desc'  => 'Calculate zakat by Hanafi fiqh: jewellery included, debts deducted, silver nisab. Live gold and silver rate in tola or gram, with Darul Uloom Deoband fatwas.',
 			'nav'   => 'Hanafi',
 			'blurb' => 'Deobandi & Barelvi',
 			'intro' => '<p>This calculator follows the Hanafi madhab, the school followed by most Muslims in Pakistan, India, Bangladesh, Afghanistan and Turkey. Deobandi and Barelvi scholars agree on these zakat rules.</p>',
@@ -126,6 +128,7 @@ HTML,
 		),
 		'shafi-zakat-calculator' => array(
 			'key'   => 'shafii',
+			'question' => "How is zakat calculated in the Shafi'i madhab?",
 			'title' => "Shafi'i Zakat Calculator",
 			'seo'   => "Shafi'i Zakat Calculator {year}: Gold, Jewellery & Cash",
 			'desc'  => "Calculate zakat by Shafi'i fiqh: worn jewellery exempt, debts not deducted, gold and silver checked separately. Live rates, choice of gold or silver nisab.",
@@ -152,6 +155,7 @@ HTML,
 		),
 		'maliki-zakat-calculator' => array(
 			'key'   => 'maliki',
+			'question' => "How is zakat calculated in the Maliki madhab?",
 			'title' => 'Maliki Zakat Calculator',
 			'seo'   => 'Maliki Zakat Calculator {year}: Cash, Gold & Business',
 			'desc'  => 'Calculate zakat by Maliki fiqh: worn jewellery exempt, debts deducted from cash, gold, silver and trade goods. Live rates, gold or silver nisab.',
@@ -163,7 +167,7 @@ HTML,
 <h2>Maliki zakat rules used in this calculator</h2>
 <ul>
 <li><strong>Jewellery:</strong> no zakat on permissible jewellery that is used and worn (Mufti of Wilayah Persekutuan, Irsyad Fatwa 38, summarising the Maliki, Shafi'i and Hanbali view).</li>
-<li><strong>Debts:</strong> debts reduce zakat on "hidden" wealth: cash, gold, silver and trade goods. They do not reduce zakat on crops and livestock, which this calculator does not cover.</li>
+<li><strong>Debts:</strong> debts reduce zakat on "hidden" wealth: cash, gold, silver and trade goods. They do not reduce zakat on crops and livestock (see the <a href="/ushr-calculator/">ushr and livestock calculator</a>).</li>
 <li><strong>Gold and silver:</strong> may be combined to reach the nisab.</li>
 <li><strong>Money owed to you:</strong> a merchant pays yearly on trade debts; for a cash loan, zakat is paid when it is received.</li>
 <li><strong>Nisab for cash:</strong> the calculator starts with silver and lets you switch to gold. Ask a local scholar which your community uses.</li>
@@ -177,6 +181,7 @@ HTML,
 		),
 		'hanbali-zakat-calculator' => array(
 			'key'   => 'hanbali',
+			'question' => "How is zakat calculated in the Hanbali madhab?",
 			'title' => 'Hanbali Zakat Calculator',
 			'seo'   => 'Hanbali Zakat Calculator {year}: Gold, Cash & Jewellery',
 			'desc'  => 'Calculate zakat by Hanbali fiqh: permissible worn jewellery exempt, debts deducted, gold and silver combined using the nisab that is best for the poor.',
@@ -202,9 +207,10 @@ HTML,
 		),
 		'ahl-e-hadith-zakat-calculator' => array(
 			'key'   => 'ahlehadith',
+			'question' => "How do Ahl-e-Hadith scholars calculate zakat?",
 			'title' => 'Ahl-e-Hadith Zakat Calculator',
 			'seo'   => 'Ahl-e-Hadith Zakat Calculator {year}: Zevar, Cash, Gold',
-			'desc'  => 'Zakat calculator for Ahl-e-Hadith (Salafi): jewellery included, debts deducted, cash added to gold and silver, lower nisab. Live rates and cited sources.',
+			'desc'  => 'Zakat calculator for Ahl-e-Hadith (Salafi): jewellery included, debts not deducted, cash added to gold and silver, lower nisab. Live rates, cited sources.',
 			'nav'   => 'Ahl-e-Hadith',
 			'blurb' => 'Salafi view',
 			'intro' => '<p>This calculator applies the rulings of the Saudi Permanent Committee for Research and Fatwa (al-Lajnah ad-Da\'imah) and Shaykh Ibn Uthaymeen, which Ahl-e-Hadith scholars in Pakistan and India commonly follow.</p>',
@@ -214,7 +220,7 @@ HTML,
 <ul>
 <li><strong>Jewellery:</strong> "The more correct view is that zakat on jewellery is obligatory if it reaches the nisab" (IslamQA 19901, citing the Permanent Committee).</li>
 <li><strong>Cash with gold and silver:</strong> cash may be added to gold or silver to complete the nisab, and cash is zakatable when it reaches the lower of the two nisabs (IslamQA 201807, citing the Permanent Committee and Ibn Uthaymeen).</li>
-<li><strong>Debts:</strong> deducted before checking the nisab.</li>
+<li><strong>Debts:</strong> not deducted. "Being in debt does not mean that zakah should not be paid" (Permanent Committee); Shaykh Ibn Baz called this the more correct opinion and Shaykh Ibn Uthaymeen explained that zakat is tied to the wealth while a debt is a personal obligation (IslamQA 22426). A debt that is due now and being demanded can be paid off first, which reduces what you own on your zakat date.</li>
 </ul>
 <p>We have not found a published fatwa from a Pakistani Ahl-e-Hadith institution on every point above. If your scholar differs, the comparison table shows the other views.</p>
 HTML,
@@ -226,8 +232,9 @@ HTML,
 		),
 		'shia-zakat-calculator' => array(
 			'key'   => 'jafari',
+			'question' => "Do Shia Muslims pay zakat on cash and jewellery?",
 			'title' => "Shia (Ja'fari) Zakat Calculator",
-			'seo'   => "Shia Zakat Calculator (Ja'fari, Sistani) & Khums Guide",
+			'seo'   => "Shia Zakat Calculator {year} (Ja'fari, Sistani Rulings)",
 			'desc'  => "Shia Ja'fari zakat explained by Ayatollah Sistani's rulings: which assets carry zakat, the gold and silver nisab in mithqal, and when khums applies instead.",
 			'nav'   => 'Shia (Ja\'fari)',
 			'blurb' => 'Sistani rulings',
@@ -241,14 +248,14 @@ HTML,
 <li><strong>Currency:</strong> zakat applies only when gold or silver is minted and used in transactions as money; modern paper money and coins of other metals do not qualify (ruling 1915).</li>
 <li><strong>Jewellery:</strong> not zakatable while gold and silver are not used as currency (ruling 1916).</li>
 </ul>
-<p>Because of this, the calculator usually shows zero zakat for cash, bank money and jewellery in Ja'fari mode. Use the <a href="/khums-calculator/">khums calculator</a> for your yearly surplus.</p>
+<p>Because of this, the calculator usually shows zero zakat for cash, bank money and jewellery in Ja'fari mode. Use the <a href="/khums-calculator/">khums calculator</a> for your yearly surplus, and read <a href="/khums-who-must-pay/">who must pay khums and what counts</a>.</p>
 <p>Followers of other maraji' (for example Ayatollah Khamenei) should check their marja's rulings, which may differ in details.</p>
 HTML,
 			'faq'   => array(
 				array( 'q' => 'Do Shia Muslims pay zakat on cash?', 'a' => 'According to Ayatollah Sistani, no: paper money is not zakatable, but khums (20%) is due on the surplus of the year.' ),
 				array( 'q' => "What is the gold nisab in Ja'fari fiqh?", 'a' => "20 shar'i mithqal, about 69.12 g, according to Ayatollah Sistani (ruling 1912)." ),
 			),
-			'related' => 'khums-calculator,madhab-comparison,fitrana-calculator,nisab',
+			'related' => 'khums-calculator,khums-who-must-pay,madhab-comparison,nisab',
 		),
 	);
 
@@ -261,7 +268,7 @@ HTML,
 			'blurb'   => $m['blurb'],
 			'hub'     => 'madhab',
 			'llms'    => true,
-			'content' => $m['intro'] . '[myzt_trust][zakat_calculator madhab="' . $m['key'] . '"][myzt_answer q="' . esc_attr( $m['title'] ) . ': the short answer"]' . $m['answer'] . '[/myzt_answer]' .
+			'content' => $m['intro'] . '[myzt_trust][zakat_calculator madhab="' . $m['key'] . '"][myzt_answer q="' . esc_attr( $m['question'] ) . '"]' . $m['answer'] . '[/myzt_answer]' .
 				$m['body'] . '<p>See how the same numbers come out in every school in the <a href="/madhab-comparison/">madhab comparison</a>. How we read each source is explained in our <a href="/methodology/">methodology</a>.</p>[myzt_faq]' . $author . '[myzt_related slugs="' . $m['related'] . '"]',
 			'faq'     => $m['faq'],
 		);
@@ -271,7 +278,7 @@ HTML,
 	$p['madhab-comparison'] = array(
 		'title' => 'Zakat in the 4 Madhabs and Shia: Comparison',
 		'seo'   => 'Zakat According to 4 Madhabs & Shia: Comparison Table',
-		'desc'  => "How Hanafi, Shafi'i, Maliki, Hanbali, Ahl-e-Hadith and Shia fiqh differ on zakat: jewellery, debts, nisab, combining gold and silver. With sources and calculator.",
+		'desc'  => "How Hanafi, Shafi'i, Maliki, Hanbali, Ahl-e-Hadith and Shia fiqh differ on zakat: jewellery, debts, nisab, combining gold and silver. Sources and calculator.",
 		'nav'   => 'Madhab Comparison',
 		'blurb' => 'side by side',
 		'hub'   => 'madhab',
@@ -282,7 +289,7 @@ HTML,
 <thead><tr><th>Question</th><th>Hanafi</th><th>Shafi'i</th><th>Maliki</th><th>Hanbali</th><th>Ahl-e-Hadith</th><th>Shia (Sistani)</th></tr></thead>
 <tbody>
 <tr><td>Worn jewellery</td><td>Zakatable</td><td>Exempt</td><td>Exempt</td><td>Exempt</td><td>Zakatable</td><td>Exempt</td></tr>
-<tr><td>Debts subtracted</td><td>Yes</td><td>No</td><td>Yes (cash, gold, trade)</td><td>Yes</td><td>Yes</td><td>n/a</td></tr>
+<tr><td>Debts subtracted</td><td>Yes</td><td>No</td><td>Yes (cash, gold, trade)</td><td>Yes</td><td>No</td><td>n/a</td></tr>
 <tr><td>Nisab for cash</td><td>Silver</td><td>Gold (local practice)</td><td>Silver or gold</td><td>Lower of the two</td><td>Lower of the two</td><td>No zakat on paper money</td></tr>
 <tr><td>Gold + silver combined</td><td>Yes, by value</td><td>No</td><td>Yes</td><td>Yes</td><td>Yes</td><td>No</td></tr>
 <tr><td>Gold nisab</td><td>87.48 g</td><td>87.48 g</td><td>87.48 g</td><td>87.48 g</td><td>87.48 g</td><td>69.12 g (coins)</td></tr>
@@ -306,8 +313,8 @@ HTML
 	/* ------------------------------------------------------------------ */
 	$p['calculators'] = array(
 		'title' => 'Zakat Calculators',
-		'seo'   => 'Zakat Calculators: Gold, Business, Fitrana, Khums, Pakistan',
-		'desc'  => 'All free zakat tools in one place: zakat on gold, business zakat, Pakistan calculator, fitrana, khums, nisab today and gold rate today.',
+		'seo'   => 'All Zakat Calculators: Gold, Fitrana, Fidya, Ushr, Khums',
+		'desc'  => 'All free zakat tools in one place: gold, business, Pakistan, fitrana, fidya and kaffara, zakat date tracker, ushr and livestock, khums, nisab and gold rate.',
 		'nav'   => 'Calculators',
 		'blurb' => 'all tools',
 		'content' => <<<'HTML'
@@ -367,9 +374,27 @@ HTML
 <li><strong>Gold:</strong> local jewellery is usually 21K or 22K; choose the karat so only the pure gold is counted.</li>
 </ul>
 <h2>Bank deduction on 1 Ramadan</h2>
-<p>Under Pakistan's zakat law, banks deduct 2.5% from savings accounts whose balance is above the government's nisab on 1 Ramadan. Current accounts are not deducted. People who are exempt on grounds of fiqh can submit a CZ-50 declaration to their bank before Ramadan. Read the <a href="/bank-zakat-deduction-pakistan/">full guide</a>.</p>
+<p>Under Pakistan's zakat law, banks deduct 2.5% from savings accounts whose balance is at or above the government's nisab on 1 Ramadan. Current accounts are not deducted. People who are exempt on grounds of fiqh can submit a CZ-50 declaration to their bank before Ramadan. Read the <a href="/bank-zakat-deduction-pakistan/">full guide</a>.</p>
 <h2>International rate vs. sarafa rate</h2>
 <p>The calculator uses the international gold rate converted to rupees. The local sarafa rate can be a little higher or lower; if you want to use it, tick <em>Use my own local rate</em>.</p>
+<h2>Zakat kaise nikalein: 5 steps</h2>
+<ol>
+<li><strong>Apni zakat ki tareekh tay karein.</strong> Zakat us din farz hoti hai jab aapke maal ko nisab tak pohanche aik qamri saal ho jaye. Bohat se log 1 Ramazan rakhte hain; apni tareekh ke liye <a href="/zakat-date-calculator/">zakat date calculator</a> dekhein.</li>
+<li><strong>Us din sab kuch likhein:</strong> ghar ki naqdi, har bank account, sona aur chandi (tola aur karat ke saath), committee mein jama raqam, prize bonds, savings certificates, shares, bechne ke liye plot aur karobari maal.</li>
+<li><strong>Jo qarz abhi ada karna hai</strong> (is mahine ka kiraya, bill, qist) Hanafi fiqh mein minus karein.</li>
+<li><strong>Nisab se muqabla karein.</strong> Hanafi fiqh mein naqdi aur mile jule maal ke liye chandi ka nisab (52.5 tola) hai, jo aaj taqreeban [myzt_rate type="nisab-silver" currency="PKR"] hai.</li>
+<li><strong>Kul ka 2.5% ada karein,</strong> aur bank ne 1 Ramazan ko jo kaata ho woh <em>Already paid</em> mein likh kar minus kar dein.</li>
+</ol>
+<h2>Gold in tola and grams</h2>
+<figure class="wp-block-table"><table><thead><tr><th>Tola</th><th>Grams</th><th>Pure gold in 22K</th></tr></thead><tbody>
+<tr><td>1</td><td>11.66 g</td><td>10.69 g</td></tr>
+<tr><td>5</td><td>58.32 g</td><td>53.46 g</td></tr>
+<tr><td>7.5 (gold nisab)</td><td>87.48 g</td><td>80.19 g</td></tr>
+<tr><td>10</td><td>116.64 g</td><td>106.92 g</td></tr>
+</tbody></table></figure>
+<p>Jewellers in Pakistan also sell by masha and ratti: 1 tola = 12 masha = 96 ratti. Only the pure gold counts, so choose 22K or 21K in the calculator rather than entering the weight as 24K. For the full picture see <a href="/zakat-on-1-tola-gold/">zakat on 1 tola gold</a> and <a href="/zakat-on-jewellery/">zakat on jewellery</a>.</p>
+<h2>Who receives your zakat</h2>
+<p>Zakat goes to the eight groups named in Surah at-Tawbah (9:60), mainly the poor and the needy. It cannot go to your own parents, grandparents, children or grandchildren, and a husband cannot give his zakat to his wife. Brothers, sisters and other relatives who are eligible may receive it, with double reward. See <a href="/who-can-receive-zakat/">who can receive zakat</a>.</p>
 [myzt_faq]
 HTML
 		. $author . '[myzt_related slugs="hanafi-zakat-calculator,zakat-on-gold-calculator,fitrana-calculator,bank-zakat-deduction-pakistan"]',
@@ -377,6 +402,9 @@ HTML
 			array( 'q' => 'Committee ke paison par zakat hai?', 'a' => 'Haan, committee mein jitni raqam aap jama kara chuke hain wo aap ki milkiyat hai aur us par zakat hai.' ),
 			array( 'q' => 'Is zakat due on a plot in Pakistan?', 'a' => 'Only if it was bought with the intention to sell. Then its current market value is zakatable. A plot or house for living has no zakat.' ),
 			array( 'q' => 'Does the bank deduction count as my zakat?', 'a' => 'Calculate your full zakat and subtract what the bank has already deducted. Ask your scholar about your case.' ),
+			array( 'q' => 'Zakat kis par farz hai?', 'a' => 'Hanafi fiqh mein har aqil baligh Muslim par jis ke paas zaroorat se zyada maal nisab ke barabar ya us se zyada ho aur us par aik qamri saal guzar jaye. Baqi maslakon mein bachon aur deewanon ke maal par bhi zakat hai, jo un ka wali ada karta hai.' ),
+			array( 'q' => 'Kya yeh calculator Urdu mein hai?', 'a' => 'Haan. Calculator ke upar "اردو" dabayein, poora calculator Urdu mein ho jata hai. Raqam lakh aur crore mein dikhayi jati hai.' ),
+			array( 'q' => 'Savings certificates (NSC, Behbood) par zakat kaise lagegi?', 'a' => 'Jitni raqam lagayi hai usay "Savings certificates" field mein likhein. Agar un se zakat kat chuki hai to woh "Already paid" mein likhein.' ),
 		),
 	);
 
@@ -415,8 +443,8 @@ HTML
 
 	$p['business-zakat-calculator'] = array(
 		'title' => 'Business Zakat Calculator',
-		'seo'   => 'Business Zakat Calculator: Stock, Cash, Receivables',
-		'desc'  => 'Calculate zakat on a business: stock at sale value, business cash, money owed by customers, minus supplier bills. Every madhab, with a PDF report for your records.',
+		'seo'   => 'Business Zakat Calculator {year}: Stock, Cash, Receivables',
+		'desc'  => 'Calculate zakat on a business: stock at sale value, business cash and money owed by customers, minus supplier bills. Every madhab, with a PDF report.',
 		'nav'   => 'Business Zakat',
 		'blurb' => 'stock & receivables',
 		'hub'   => 'calculators',
@@ -445,14 +473,14 @@ HTML
 
 	$p['fitrana-calculator'] = array(
 		'title' => 'Fitrana Calculator (Zakat al-Fitr)',
-		'seo'   => 'Fitrana {year} Calculator: Sadqa-e-Fitr per Person',
+		'seo'   => 'Fitrana Calculator {year}: Sadqa-e-Fitr per Person',
 		'desc'  => 'Calculate fitrana (sadaqat al-fitr) for your family: number of people times the amount for wheat, barley, dates or raisins. Who must pay and when.',
 		'nav'   => 'Fitrana',
 		'blurb' => 'per person',
 		'hub'   => 'calculators',
 		'llms'  => true,
 		'content' => <<<'HTML'
-[myzt_answer q="How much is fitrana?"]Fitrana is paid for every member of the family before the Eid prayer. In Hanafi fiqh it is half a sa' of wheat (about 2 kg) or one sa' of barley, dates or raisins (about 4 kg), or their value. Scholars announce the amount in money each Ramadan.[/myzt_answer]
+[myzt_answer q="How much is fitrana?"]Fitrana is paid for every member of the family before the Eid prayer. In Hanafi fiqh it is half a sa' of wheat (about 1.75 to 2 kg) or one sa' of barley, dates or raisins (about 4 kg), or their value. Scholars announce the amount in money each Ramadan.[/myzt_answer]
 [zakat_fitrana]
 <h2>Who must pay fitrana?</h2>
 <p>Every Muslim who has wealth above his basic needs on the morning of Eid pays for himself and for his young children. Many pay for their wife and other dependants as well.</p>
@@ -460,7 +488,7 @@ HTML
 <p>Before the Eid prayer, so that the poor can celebrate Eid. Paying it during Ramadan is allowed and makes it easier to reach people in need.</p>
 <h2>Which item to choose</h2>
 <p>You may pay the value of any of the four items. Those who can afford it are encouraged to pay by the more expensive items (dates or raisins), as this gives more to the poor.</p>
-<p>Missed fasts you cannot make up, or a fast broken on purpose? Use the <a href="/fidya-kaffara-calculator/">fidya and kaffara calculator</a>.</p>
+<p>Missed fasts you cannot make up, or a fast broken on purpose? Use the <a href="/fidya-kaffara-calculator/">fidya and kaffara calculator</a>, or read <a href="/roza-fidya/">who pays roza fidya and how much</a>.</p>
 [myzt_faq]
 HTML
 		. $author . '[myzt_related slugs="who-can-receive-zakat,zakat-calculator-pakistan,khums-calculator,home"]',
@@ -472,14 +500,14 @@ HTML
 
 	$p['fidya-kaffara-calculator'] = array(
 		'title' => 'Fidya and Kaffara Calculator',
-		'seo'   => 'Fidya and Kaffara Calculator {year}: Roza Fidya in Rupees',
+		'seo'   => 'Fidya Calculator {year}: Roza Fidya & Kaffara in Rupees',
 		'desc'  => 'Work out fidya for fasts you cannot make up and kaffara for a fast broken on purpose: number of fasts times the daily amount, with the Hanafi rules explained.',
 		'nav'   => 'Fidya & Kaffara',
 		'blurb' => 'roza fidya',
 		'hub'   => 'calculators',
 		'llms'  => true,
 		'content' => <<<'HTML'
-[myzt_answer q="How much is fidya for one fast?"]In the Hanafi madhab the fidya for one missed fast is the same as one fitrana: half a sa' of wheat (about 2 kg) or its value, given to a poor person. Kaffara for a fast broken on purpose is fasting 60 days in a row, or, for someone who cannot, feeding 60 poor people, which is 60 times that amount.[/myzt_answer]
+[myzt_answer q="How much is fidya for one fast?"]In the Hanafi madhab the fidya for one missed fast is the same as one fitrana: half a sa' of wheat (about 1.75 to 2 kg) or its value, given to a poor person. Kaffara for a fast broken on purpose is fasting 60 days in a row, or, for someone who cannot, feeding 60 poor people, which is 60 times that amount.[/myzt_answer]
 [zakat_fidya]
 <h2>Fidya: who pays it</h2>
 <p>Fidya is for a person who cannot fast and has no hope of fasting later, such as someone very old or with a long-term illness. They pay one fidya for each fast. Someone who missed fasts because of travel, a short illness, pregnancy or breastfeeding makes the fasts up later (qada) and does not pay fidya instead. If a person who could have made up their fasts dies without doing so, and left a will (wasiyyat), the fidya is paid from up to one third of what they left.</p>
@@ -503,8 +531,8 @@ HTML
 
 	$p['zakat-date-calculator'] = array(
 		'title' => 'Zakat Date Calculator and Hawl Tracker',
-		'seo'   => 'Zakat Date Calculator: Hawl Tracker, Reminders & Missed Years',
-		'desc'  => 'Find your next zakat date from the day your wealth reached the nisab, get calendar reminders, and calculate zakat for years you missed (qaza zakat).',
+		'seo'   => 'Zakat Date Calculator {year}: Hawl Date & Reminders',
+		'desc'  => 'Find your next zakat date from the day your wealth reached the nisab, see it in Hijri and Gregorian dates, get calendar reminders and add up missed years.',
 		'nav'   => 'Zakat date',
 		'blurb' => 'hawl, reminders',
 		'hub'   => 'calculators',
@@ -534,14 +562,14 @@ HTML
 
 	$p['ushr-calculator'] = array(
 		'title' => 'Ushr and Livestock Zakat Calculator',
-		'seo'   => 'Ushr Calculator: Zakat on Crops (10%, 5%) and Livestock',
+		'seo'   => 'Ushr Calculator {year}: Wheat, Rice & Livestock Zakat',
 		'desc'  => 'Calculate ushr on wheat, rice and other crops (10% rain-fed, 5% irrigated) in maunds, and zakat on goats, sheep, cows, buffaloes and camels.',
 		'nav'   => 'Ushr & livestock',
 		'blurb' => 'fasal, maweshi',
 		'hub'   => 'calculators',
 		'llms'  => true,
 		'content' => <<<'HTML'
-[myzt_answer q="How much is ushr?"]Ushr is 10% of the harvest for land watered by rain or rivers, and 5% (nisf-ushr) for land watered by tube wells, canals you pay for, or other costly irrigation. It is due at harvest, with no waiting year. Imam Abu Hanifa set no minimum quantity; the Shafi'i, Maliki and Hanbali schools require at least 5 wasq (about 653 kg).[/myzt_answer]
+[myzt_answer q="How much is ushr?"]Ushr is 10% of the harvest for land watered by rain or rivers, and 5% (nisf-ushr) for land watered by tube wells or other costly irrigation (scholars differ on government canal water). It is due at harvest, with no waiting year. Imam Abu Hanifa set no minimum quantity; the Shafi'i, Maliki and Hanbali schools require at least 5 wasq (about 653 kg).[/myzt_answer]
 [zakat_ushr]
 <h2>Which crops?</h2>
 <p>In the Hanafi madhab ushr is due on everything the land produces for sale or food: wheat, rice, maize, sugarcane, cotton, vegetables and fruit. The other schools limit it to staple foods that can be stored (wheat, rice, barley, dates, raisins and similar). Firewood, grass and reeds are not included.</p>
@@ -598,7 +626,7 @@ HTML
 
 	$p['khums-calculator'] = array(
 		'title' => 'Khums Calculator',
-		'seo'   => 'Khums Calculator: 20% of Yearly Surplus (Sistani)',
+		'seo'   => 'Khums Calculator {year}: 20% of Yearly Surplus (Sistani)',
 		'desc'  => 'Calculate khums on your yearly surplus according to Ayatollah Sistani: savings, unused items and trade stock bought from income. Sahm-e-Imam and Sahm-e-Sadat.',
 		'nav'   => 'Khums',
 		'blurb' => 'Shia, 20%',
@@ -630,7 +658,7 @@ HTML
 
 	$p['nisab'] = array(
 		'title' => 'Nisab Today: Gold and Silver Nisab for Zakat',
-		'seo'   => 'Nisab for Zakat Today ({year}): Gold & Silver Value',
+		'seo'   => 'Zakat Nisab {year} Today: Gold & Silver Nisab Value',
 		'desc'  => 'Today\'s zakat nisab in your currency: silver 612.36 g (52.5 tola) and gold 87.48 g (7.5 tola), from live international rates. Which nisab to use by madhab.',
 		'nav'   => 'Nisab Today',
 		'blurb' => 'in your currency',
@@ -639,7 +667,7 @@ HTML
 [myzt_answer q="What is the nisab today?"]The silver nisab (612.36 g) is about [myzt_rate type="nisab-silver" currency="PKR"] and the gold nisab (87.48 g) is about [myzt_rate type="nisab-gold" currency="PKR"] today. Choose your currency below.[/myzt_answer]
 [zakat_nisab]
 [myzt_reviewed rates="1"]
-<p>Run a mosque or blog website? Show this nisab on it with our <a href="/free-zakat-widget/">free nisab widget</a>.</p>
+<p>Own only a little gold? See <a href="/zakat-on-1-tola-gold/">how much zakat is due on 1 tola of gold</a> and <a href="/zakat-on-1-lakh-rupees/">on 1 lakh rupees</a>. Run a mosque or blog website? Show this nisab on it with our <a href="/free-zakat-widget/">free nisab widget</a>.</p>
 <h2>Which nisab applies to you?</h2>
 <ul>
 <li><strong>Only gold:</strong> the gold nisab, 87.48 g (7.5 tola) of pure gold.</li>
@@ -671,7 +699,7 @@ HTML
 <h2>About these rates</h2>
 <p>These are international spot prices, refreshed every hour and converted with daily exchange rates. Jewellers' prices include making charges and local premiums, so the price you pay in a shop is higher. For zakat, the value of the pure gold is what counts.</p>
 <p>1 tola = 11.664 g · 1 troy ounce = 31.103 g · 22K gold is 91.7% pure, 21K is 87.5%, 18K is 75%.</p>
-<p>Use these rates directly in the <a href="/zakat-on-gold-calculator/">zakat on gold calculator</a>.</p>
+<p>Use these rates directly in the <a href="/zakat-on-gold-calculator/">zakat on gold calculator</a>, or see <a href="/zakat-on-1-tola-gold/">zakat on 1 tola gold</a> worked out at today's rate.</p>
 [myzt_faq]
 HTML
 		. $author . '[myzt_related slugs="zakat-on-gold-calculator,nisab,home,zakat-calculator-pakistan"]',
@@ -684,8 +712,8 @@ HTML
 	/* ------------------------------------------------------------------ */
 	$p['guides'] = array(
 		'title' => 'Zakat Guides',
-		'seo'   => 'Zakat Guides: Gold, Jewellery, Bank Deduction, Who to Pay',
-		'desc'  => 'Short, sourced answers to common zakat questions: zakat on 1 tola gold, 1 lakh rupees, jewellery in the 4 madhabs, bank deduction in Pakistan and who can receive zakat.',
+		'seo'   => 'Zakat Guides: Gold, Fidya, Ushr, Khums, Bank Deduction',
+		'desc'  => 'Sourced zakat guides: gold and jewellery, 1 lakh rupees, bank deduction, savings certificates, hawl, missed zakat, fidya, kaffara, ushr, livestock and khums.',
 		'nav'   => 'Guides',
 		'blurb' => 'answers',
 		'llms'  => true,
@@ -717,7 +745,7 @@ HTML,
 	$p['methodology'] = array(
 		'title' => 'How We Calculate Zakat (Methodology and Sources)',
 		'seo'   => 'How We Calculate Zakat: Methodology, Sources & Rates',
-		'desc'  => 'The rules and sources behind My Zakat Tool for each madhab, the nisab weights, how gold and silver rates are fetched and converted, and what the calculator does not cover.',
+		'desc'  => 'The rules and sources behind My Zakat Tool for each madhab and tool, the nisab weights, how gold and silver rates are fetched, and how content is checked.',
 		'nav'   => 'Methodology',
 		'blurb' => 'sources',
 		'llms'  => true,
@@ -741,15 +769,25 @@ HTML,
 <h2 id="hanbali">Hanbali</h2>
 <p>Permissible jewellery kept for use or lending exempt; debts deducted; gold and silver combined; cash and trade goods measured by the nisab better for the poor. Source: <em>Akhsar al-Mukhtasarat</em>, Book of Zakat.</p>
 <h2 id="ahlehadith">Ahl-e-Hadith</h2>
-<p>Jewellery zakatable if it reaches the nisab; cash combined with gold and silver; lower nisab; debts deducted. Sources: Permanent Committee (al-Lajnah ad-Da'imah) and Shaykh Ibn Uthaymeen via IslamQA answers 19901 and 201807. We have not found a written fatwa from a Pakistani Ahl-e-Hadith institution on every point; this is our best reading.</p>
+<p>Jewellery zakatable if it reaches the nisab; cash combined with gold and silver; lower nisab; debts not deducted. Sources: Permanent Committee (al-Lajnah ad-Da'imah), Shaykh Ibn Baz and Shaykh Ibn Uthaymeen via IslamQA answers <a href="https://islamqa.info/en/answers/19901" rel="noopener" target="_blank">19901</a>, <a href="https://islamqa.info/en/answers/201807" rel="noopener" target="_blank">201807</a> and <a href="https://islamqa.info/en/answers/22426" rel="noopener" target="_blank">22426</a>. We have not found a written fatwa from a Pakistani Ahl-e-Hadith institution on every point; this is our best reading.</p>
 <h2 id="jafari">Shia (Ja'fari)</h2>
-<p>Following Ayatollah Sistani, <em>Islamic Laws</em>, rulings 1912-1916: zakat on gold and silver only for coins used as currency (gold 69.12 g, silver 483.84 g); paper money and jewellery not zakatable today; khums applies to the yearly surplus.</p>
+<p>Following Ayatollah Sistani, <a href="https://www.sistani.org/english/book/48/" rel="noopener" target="_blank"><em>Islamic Laws</em></a>, rulings 1912-1916: zakat on gold and silver only for coins used as currency (gold 69.12 g, silver 483.84 g); paper money and jewellery not zakatable today; khums applies to the yearly surplus.</p>
 <h2>Gold, silver and currency rates</h2>
 <p>Gold and silver spot prices in US dollars per troy ounce come from gold-api.com, with a daily fallback from the open currency-api by Fawaz Ahmed. Exchange rates come from the same currency-api. Our server refreshes them every hour and caches them; your browser never contacts these services. All values are international rates; you can enter your own local rate.</p>
-<h2>What the calculator does not cover</h2>
-<ul><li>Livestock and crops (ushr)</li><li>Exact hawl dates (we assume the year is complete)</li><li>Pension and provident funds, where scholars differ</li></ul>
-<h2>Review</h2>
-<p>The rules are compiled from the sources above by the site author. They have not yet been reviewed by a scholar on our behalf; when that happens, the reviewer's name will be shown on every page.</p>
+<h2>Already paid and bank deduction</h2>
+<p>Amounts entered under <em>Already paid</em> (the bank's 1 Ramadan deduction, or zakat you gave earlier this year) are subtracted from the zakat due, never below zero. Savings certificates are counted at the amount invested. See <a href="/bank-zakat-deduction-pakistan/">bank zakat deduction</a> and <a href="/zakat-on-savings-certificates/">zakat on savings certificates</a>.</p>
+<h2>The other tools</h2>
+<ul>
+<li><strong><a href="/zakat-date-calculator/">Zakat date and missed years</a>:</strong> the next zakat date is one lunar year of 354.367 days after the day wealth reached the nisab ("no zakat until a year passes", <a href="https://sunnah.com/abudawud:1573" rel="noopener" target="_blank">Abu Dawud 1573</a>). Hijri dates are shown from the Umm al-Qura calendar, so local moon sighting can differ by a day. For missed years the Hanafi option treats each earlier year's unpaid zakat as a debt that lowers the next year's wealth (<em>al-Hidayah</em>).</li>
+<li><strong><a href="/ushr-calculator/">Ushr</a>:</strong> 10% for land watered by rain or rivers and 5% for costly irrigation (<a href="https://sunnah.com/bukhari:1483" rel="noopener" target="_blank">Bukhari 1483</a>). Imam Abu Hanifa set no minimum; the other schools require 5 wasq, about 653 kg (Muslim 979). Ayatollah Sistani's minimum is higher (about 847 kg) and covers wheat, barley, dates and raisins only.</li>
+<li><strong>Livestock:</strong> goats, sheep and camels up to 120 follow the letter of Abu Bakr (<a href="https://sunnah.com/bukhari:1454" rel="noopener" target="_blank">Bukhari 1454</a>); cows and buffaloes follow the hadith of Mu'adh (one tabi' for every 30, one musinnah for every 40). Camels above 120 and the Ja'fari tables are not calculated: ask a scholar.</li>
+<li><strong><a href="/fitrana-calculator/">Fitrana</a> and <a href="/fidya-kaffara-calculator/">fidya and kaffara</a>:</strong> in Hanafi fiqh one fitrana or one day's fidya is half a sa' of wheat (about 1.75 to 2 kg) or one sa' of barley, dates or raisins, or its value; the other schools use one mudd (about 0.6 kg) for fidya. Kaffara is 60 days of fasting, or feeding 60 poor people only for someone who cannot fast (<a href="https://sunnah.com/bukhari:1936" rel="noopener" target="_blank">Bukhari 1936</a>, Muslim 1111). Enter the money amount announced by your scholars each Ramadan; the fitrana calculator may show amounts we have filled in from those announcements.</li>
+<li><strong><a href="/khums-calculator/">Khums</a>:</strong> 20% of the year's surplus income, split equally into sahm-e-imam and sahm-e-sadat, following Ayatollah Sistani's <em>Islamic Laws</em> (khums chapter, rulings 1769 onwards and 1851). Gifts count as income; inheritance and mahr do not.</li>
+</ul>
+<h2>What is not covered</h2>
+<ul><li>Pension and provident funds, where scholars differ</li><li>Camels above 120, and Shia livestock tables</li><li>Exact local moon-sighting dates</li></ul>
+<h2>How the content is written and checked</h2>
+<p>The rules and guides on this site were compiled from the sources above with the help of AI tools, then checked and approved by Ali Ahmad, who publishes the site. They have not yet been reviewed by a scholar on our behalf; when that happens, the reviewer's name will be shown on every page. If you find a mistake, please <a href="/contact/">tell us</a> and we will correct it.</p>
 HTML
 		. $author,
 		'faq'   => array(),

@@ -17,12 +17,12 @@ function myzt_content_posts() {
 		'who-can-receive-zakat'         => array(
 			'title'   => 'Who Can Receive Zakat? The 8 Categories Explained',
 			'seo'     => 'Who Can Receive Zakat? 8 Categories (Zakat Kis Ko Dein)',
-			'desc'    => 'The eight groups who may receive zakat according to Surah at-Tawbah 9:60, who cannot receive it (parents, children, spouse, Sayyids) and practical tips for paying.',
+			'desc'    => 'The eight groups who may receive zakat according to Surah at-Tawbah 9:60, who cannot receive it (parents, children, wife, Sayyids) and tips for paying.',
 			'nav'     => 'Who can receive zakat',
 			'blurb'   => 'masarif-e-zakat',
 			'content' => <<<'HTML'
-[myzt_answer q="Who can receive zakat?"]The Quran (9:60) names eight groups: the poor (fuqara), the needy (masakin), zakat workers, those whose hearts are to be reconciled, freeing captives, people in debt, in the cause of Allah, and stranded travellers. Your own parents, children and spouse are not among them.[/myzt_answer]
-<p>Working out how much zakat you owe is half the job. The other half is making sure it reaches someone who is allowed to take it, because zakat given to the wrong person does not count as paid. Here is the list from the Quran, followed by the people scholars agree you should not give to, and the mistakes we see most often.</p>
+[myzt_answer q="Who can receive zakat?"]The Quran (9:60) names eight groups: the poor (fuqara), the needy (masakin), zakat workers, those whose hearts are to be reconciled, freeing captives, people in debt, in the cause of Allah, and stranded travellers. Your own parents and children cannot receive your zakat, and a husband cannot give his to his wife; whether a wife may give hers to a poor husband is disputed.[/myzt_answer]
+<p>Working out how much zakat you owe is half the job. The other half is making sure it reaches someone who is allowed to take it, because zakat given to the wrong person does not count as paid. Here is the list from the Quran, followed by the people scholars agree you should not give to, and the most common mistakes.</p>
 <h2>The eight categories (masarif-e-zakat)</h2>
 <blockquote><p>"Zakat is only for the poor, the needy, those employed to collect it, those whose hearts are to be reconciled, freeing captives, those in debt, in the cause of Allah, and the traveller: an obligation from Allah." (Surah at-Tawbah 9:60)</p></blockquote>
 <ol>
@@ -184,7 +184,7 @@ HTML
 
 		'bank-zakat-deduction-pakistan' => array(
 			'title'   => 'Bank Zakat Deduction in Pakistan on 1 Ramadan',
-			'seo'     => 'Bank Zakat Deduction Pakistan: 1 Ramadan, Nisab, CZ-50',
+			'seo'     => 'Bank Zakat Deduction {year} Pakistan: 1 Ramadan, CZ-50',
 			'desc'    => 'How banks deduct zakat on 1 Ramadan in Pakistan, which accounts are affected, the government nisab, the CZ-50 exemption declaration, and whether to pay again.',
 			'nav'     => 'Bank zakat deduction',
 			'blurb'   => '1 Ramadan, CZ-50',
@@ -209,6 +209,7 @@ HTML
 <li>If you prefer to pay all your zakat yourself, keep long-term savings in a current account so the bank does not deduct, and pay in full on your own date.</li>
 <li>Submit CZ-50 only if you are genuinely eligible under your fiqh.</li>
 </ul>
+<p>Hold National Savings certificates? Some schemes are deducted at source and some are exempt: see <a href="/zakat-on-savings-certificates/">zakat on savings certificates</a>.</p>
 <p>Please ask your scholar about your own situation. Calculate the full amount with the <a href="/zakat-calculator-pakistan/">Pakistan zakat calculator</a>; if you follow Fiqh-e-Jafaria, see the <a href="/shia-zakat-calculator/">Shia zakat calculator</a> and <a href="/khums-calculator/">khums calculator</a>.</p>
 [myzt_faq]
 HTML

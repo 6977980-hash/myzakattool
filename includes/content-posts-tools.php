@@ -277,12 +277,12 @@ HTML
 
 		'roza-fidya' => array(
 			'title'   => 'Roza Fidya: How Much to Pay for Missed Fasts and Who Pays It',
-			'seo'     => 'Roza Fidya {year}: Fidya for Missed Fasts in Rupees',
+			'seo'     => 'Roza Fidya Kitna Hai? Who Pays & How Much ({year})',
 			'desc'    => 'Who may pay fidya instead of fasting, how much it is in the Hanafi and other schools, how to turn it into rupees, and worked examples for 10, 30 and 60 fasts.',
 			'nav'     => 'Roza fidya guide',
 			'blurb'   => 'roza fidya',
 			'content' => <<<'HTML'
-[myzt_answer q="How much is fidya for a missed fast?"]Fidya is paid only by someone who can never make up their fasts, such as a very old or permanently ill person. In the Hanafi madhab it is one fitrana for each fast: half a sa' of wheat (about 2 kg) or its value. The Shafi'i, Maliki and Hanbali schools set it at one mudd of staple food, about 0.6 kg.[/myzt_answer]
+[myzt_answer q="How much is fidya for a missed fast?"]Fidya is paid only by someone who can never make up their fasts, such as a very old or permanently ill person. In the Hanafi madhab it is one fitrana for each fast: half a sa' of wheat (about 1.75 to 2 kg) or its value. The Shafi'i, Maliki and Hanbali schools set it at one mudd of staple food, about 0.6 kg.[/myzt_answer]
 <p>Every Ramadan families ask the same question about an elderly parent or a relative with a long illness: they cannot fast, so what do they owe? The answer is fidya, a small payment of food or its value for each fast, given to the poor. It is simple to work out, but it is often paid by the wrong people or at the wrong rate. This guide explains who may pay it, how much it is in each school, how to turn it into rupees, and the mistakes to avoid. To skip straight to the numbers, use the <a href="/fidya-kaffara-calculator/">fidya and kaffara calculator</a>.</p>
 <h2>What fidya is</h2>
 <p>Fidya means a ransom or compensation. In fasting it is the food (or its value) given to a poor person in place of a fast that a person cannot keep and will never be able to make up. The basis is the Quran:</p>
@@ -319,7 +319,7 @@ HTML
 <h3>Hanafi</h3>
 <p>The fidya for one fast equals one sadaqat al-fitr (fitrana). You may give any one of these, or its value in money:</p>
 <ul>
-<li>half a sa' of wheat or wheat flour, about 2 kg (scholars give figures between 1.75 kg and 2 kg depending on how they convert the sa');</li>
+<li>half a sa' of wheat or wheat flour, about 1.75 to 2 kg (the figure depends on how the sa' is converted; 2 kg is the cautious round figure);</li>
 <li>one sa' of barley, about 4 kg;</li>
 <li>one sa' of dates, about 4 kg;</li>
 <li>one sa' of raisins, about 4 kg.</li>
@@ -364,7 +364,7 @@ HTML
 </ul>
 <p>Whatever the school, paying promptly is better than letting it slide. Poor families need food in Ramadan, and an elderly person's health may not leave time for later.</p>
 <h3>One poor person or several</h3>
-<p>In the Hanafi school the fidya for many fasts may all be given to one poor person, and most Hanafi scholars also allow one fast's fidya to be split among several. The Shafi'i school allows several mudds to go to one person, but one mudd should not be divided between two. Either way, the recipient must be someone eligible for zakat: poor or needy, not your own parents, grandparents, children, grandchildren or spouse, and in the Sunni schools not a Sayyid. Our guide on <a href="/who-can-receive-zakat/">who can receive zakat</a> sets out the full list; fidya goes to the same poor and needy people.</p>
+<p>In the Hanafi school the fidya for many fasts may all be given to one poor person, and most Hanafi scholars also allow one fast's fidya to be split among several. The Shafi'i school allows several mudds to go to one person, but one mudd should not be divided between two. Either way, the recipient must be someone eligible for zakat: poor or needy, not your own parents, grandparents, children, grandchildren or wife (a wife giving to a poor husband is disputed), and in the Sunni schools not a Sayyid. Our guide on <a href="/who-can-receive-zakat/">who can receive zakat</a> sets out the full list; fidya goes to the same poor and needy people.</p>
 <p>As with zakat, the fidya should become the property of the poor person. Using it to build a mosque or pay a madrasa's electricity bill does not fulfil it. A charity that distributes food or cash to needy families directly is fine.</p>
 <h2>Fidya for a deceased person</h2>
 <p>If someone dies with missed fasts, what is owed depends on whether they had a chance to make them up.</p>
@@ -382,7 +382,7 @@ HTML
 <li><strong>Paying fidya for a temporary excuse.</strong> A traveller, a student with exams, someone with a short illness or a pregnant woman must make up the fasts. Money does not replace them.</li>
 <li><strong>Confusing fidya with kaffara.</strong> Fidya is one amount per fast for someone who cannot fast. Kaffara is for breaking a fast deliberately and is 60 days of fasting (or feeding 60 poor people if that is impossible). See <a href="/kaffara-for-breaking-a-fast/">kaffara for breaking a fast</a>.</li>
 <li><strong>Using an old rate.</strong> Last year's figure is usually too low. Check this year's announcement.</li>
-<li><strong>Giving it to family you already support.</strong> Fidya cannot go to your parents, children or spouse.</li>
+<li><strong>Giving it to family you already support.</strong> Fidya cannot go to your parents, children or wife.</li>
 <li><strong>Mixing schools to pay the least.</strong> Following the Hanafi rule on pregnancy (no fidya) but the Shafi'i amount (one mudd) for an elderly parent is picking and choosing. Follow one school's package.</li>
 <li><strong>Not counting accurately.</strong> Write down the number of fasts missed and why, so you know which are qada and which are fidya.</li>
 <li><strong>Paying for the whole month on the first night in a school that does not allow it.</strong> Hanafis may; Shafi'is should pay day by day or after.</li>
@@ -477,18 +477,18 @@ HTML
 <p>If you truly cannot fast 60 days in a row, feeding is the replacement. In the Hanafi school there are two ways to do it:</p>
 <ol>
 <li><strong>Two full meals for each of 60 poor people,</strong> for example lunch and dinner, or sehri and iftar, to the point that they are satisfied. The same 60 people should eat both meals.</li>
-<li><strong>Give each of 60 poor people the amount of one fitrana:</strong> half a sa' of wheat (about 2 kg), or one sa' of barley, dates or raisins, or the money value of that. The <a href="/fitrana-calculator/">fitrana calculator</a> uses the same per-person amount.</li>
+<li><strong>Give each of 60 poor people the amount of one fitrana:</strong> half a sa' of wheat (about 1.75 to 2 kg), or one sa' of barley, dates or raisins, or the money value of that. The <a href="/fitrana-calculator/">fitrana calculator</a> uses the same per-person amount.</li>
 </ol>
 <p>Two rules about the number of people matter here:</p>
 <ul>
 <li><strong>One person on 60 different days is allowed.</strong> If you cannot find 60 people, you may give the fitrana amount (or two meals) to one poor person every day for 60 days. Each day counts as one person.</li>
 <li><strong>One person all at once on one day is not.</strong> Handing one person 60 fitrana amounts on a single day counts as feeding one person only, in the Hanafi view. You would still owe 59.</li>
 </ul>
-<p>In the Shafi'i, Maliki and Hanbali schools each person gets one mudd of the local staple food (about 0.6 kg of wheat or rice), which is less than the Hanafi half sa', and these schools generally expect food rather than money. The recipients must be people who are eligible for zakat, though not your own parents, children or spouse; see <a href="/who-can-receive-zakat/">who can receive zakat</a>.</p>
+<p>In the Shafi'i, Maliki and Hanbali schools each person gets one mudd of the local staple food (about 0.6 kg of wheat or rice), which is less than the Hanafi half sa', and these schools generally expect food rather than money. The recipients must be people who are eligible for zakat, though not your own parents, children or wife (a wife giving to a poor husband is disputed); see <a href="/who-can-receive-zakat/">who can receive zakat</a>.</p>
 <h2>Kaffara in rupees: a worked example</h2>
 <p>The numbers below are <strong>hypothetical</strong>, only to show the method. Use the fitrana amount your scholars announce this Ramadan, or the local price of about 2 kg of wheat flour.</p>
 <h3>Example 1: fitrana method</h3>
-<p>Imagine the announced fitrana for wheat is Rs 300 per person. One kaffara by feeding is 60 × Rs 300 = <strong>Rs 18,000</strong>. If the person can afford it, paying by the dates or raisins rate (say Rs 1,200 per person in this example) gives 60 × Rs 1,200 = Rs 72,000, which carries more reward but is not required.</p>
+<p>Imagine the announced fitrana for wheat is Rs 300 per person. One kaffara by feeding is 60 × Rs 300 = <strong>Rs 18,000</strong>. If the person can afford it, paying by the dates or raisins rate (say Rs 1,500 per person in this example) gives 60 × Rs 1,500 = Rs 90,000, which carries more reward but is not required.</p>
 <h3>Example 2: meals method</h3>
 <p>Suppose a simple meal costs Rs 250. Two meals for 60 people is 60 × 2 × Rs 250 = <strong>Rs 30,000</strong>.</p>
 <h3>Example 3: three broken fasts</h3>
@@ -529,7 +529,7 @@ HTML
 
 		'ushr-on-crops' => array(
 			'title'   => 'Ushr on Crops: How Much on Wheat, Rice, Cotton and Sugarcane?',
-			'seo'     => 'Ushr on Crops {year}: Gandum Par Ushr Kitna Hai? (10%, 5%)',
+			'seo'     => 'Ushr on Crops: Gandum Par Ushr Kitna Hai? ({year})',
 			'desc'    => 'Ushr is 10% of the harvest on rain-fed land and 5% on tube well or paid irrigation. Nisab, crops, costs, tenants and examples in maunds and rupees.',
 			'nav'     => 'Ushr on crops',
 			'blurb'   => 'fasal ka ushr',
@@ -566,7 +566,7 @@ HTML
 <li><strong>Imam Abu Hanifa:</strong> no nisab. Ushr is due on any harvest, small or large, because the verse and the hadith of "a tenth" are general. This is the main Hanafi position, and our calculator uses it when you choose Hanafi.</li>
 <li><strong>Imam Abu Yusuf and Imam Muhammad</strong> (his two students), and the <strong>Shafi'i, Maliki and Hanbali</strong> schools: no ushr below 5 wasq, based on the hadith "There is no sadaqah in less than five awsuq" (Sahih Muslim 979). Ahl-e-Hadith scholars follow this view as well.</li>
 </ul>
-<p>One wasq is 60 sa', so 5 wasq is 300 sa'. Measured in wheat this comes to roughly 653 kg, which is about <strong>16.3 maund</strong> (1 maund = 40 kg). Different scholars give slightly different modern weights because the sa' was a measure of volume, not weight, but 650 kg is the commonly used figure and the one our calculator applies.</p>
+<p>One wasq is 60 sa', so 5 wasq is 300 sa'. Measured in wheat this comes to roughly 653 kg, which is about <strong>16.3 maund</strong> (1 maund = 40 kg). Different scholars give slightly different modern weights because the sa' was a measure of volume, not weight, but about 653 kg is the commonly used figure and the one our calculator applies.</p>
 <p>In practice: a family with a small plot that produces 10 maund of wheat owes ushr in the Hanafi school (1 maund on rain-fed land) but nothing in the Shafi'i, Maliki or Hanbali view. Above about 16 maund, every Sunni school agrees ushr is due.</p>
 <p><strong>Shia Ja'fari fiqh</strong> is narrower again: zakat on crops applies only to wheat, barley, dates and raisins, with its own minimum. Ayatollah Sistani's rulings state that minimum in an older unit that works out somewhat higher than 653 kg, and they treat costs differently from the classical Sunni view, so Shia readers should check his Islamic Laws on sistani.org.</p>
 
@@ -624,10 +624,10 @@ HTML
 </ul>
 
 <h2>Ushr and the government in Pakistan</h2>
-<p>The Zakat and Ushr Ordinance 1980 set up a state system in which ushr was assessed on landholders and collected through local zakat and ushr committees, alongside the bank zakat deduction described in our guide to <a href="/bank-zakat-deduction-pakistan/">bank zakat deduction in Pakistan</a>. Over the years government collection of ushr fell away in practice, and after the 18th Amendment in 2010 zakat and ushr administration was devolved to the provinces. Arrangements may differ from province to province and can change, but today most farmers we hear from pay ushr themselves, directly to deserving people. If a government body does collect ushr from you, ask your scholar whether you still owe the difference, for example where the official rate or assessment was lower than the actual crop.</p>
+<p>The Zakat and Ushr Ordinance 1980 set up a state system in which ushr was assessed on landholders and collected through local zakat and ushr committees, alongside the bank zakat deduction described in our guide to <a href="/bank-zakat-deduction-pakistan/">bank zakat deduction in Pakistan</a>. Over the years government collection of ushr fell away in practice, and after the 18th Amendment in 2010 zakat and ushr administration was devolved to the provinces. Arrangements may differ from province to province and can change, but today many farmers pay ushr themselves, directly to deserving people. If a government body does collect ushr from you, ask your scholar whether you still owe the difference, for example where the official rate or assessment was lower than the actual crop.</p>
 
 <h2>Who receives ushr</h2>
-<p>Ushr goes to the same eight categories as all zakat, listed in Surah at-Tawbah 9:60: the poor, the needy, people in debt, stranded travellers and the rest. The same exclusions apply: not your own parents, children or spouse, and not Sayyids in the Sunni schools. See <a href="/who-can-receive-zakat/">who can receive zakat</a> for the full list. Many farmers give part of their ushr to landless labourers who helped with the harvest, which is allowed as long as it is a separate gift and not their wages.</p>
+<p>Ushr goes to the same eight categories as all zakat, listed in Surah at-Tawbah 9:60: the poor, the needy, people in debt, stranded travellers and the rest. The same exclusions apply: not your own parents, children or wife, and not Sayyids in the Sunni schools. See <a href="/who-can-receive-zakat/">who can receive zakat</a> for the full list. Many farmers give part of their ushr to landless labourers who helped with the harvest, which is allowed as long as it is a separate gift and not their wages.</p>
 
 <h2>Common mistakes</h2>
 <ul>
@@ -840,7 +840,7 @@ HTML
 <tr><td>Defence Savings Certificates (DSC)</td><td>Yes, collected at source "as per rules"</td><td>Yes. Subtract what was deducted.</td></tr>
 <tr><td>Special Savings Certificates (SSC)</td><td>Yes, collected at source</td><td>Yes. Subtract what was deducted.</td></tr>
 <tr><td>Special Savings Account (SSA)</td><td>Yes; CDNS says it is collected when the principal is withdrawn</td><td>Yes. Track deductions carefully (see below).</td></tr>
-<tr><td>National Savings Savings Account</td><td>Yes, CDNS says zakat applies</td><td>Yes. Subtract what was deducted.</td></tr>
+<tr><td>Savings Account (National Savings)</td><td>Yes, CDNS says zakat applies</td><td>Yes. Subtract what was deducted.</td></tr>
 <tr><td>Sarwa Islamic Savings Account / Term Account</td><td>Per the Sarwa rules, deducted under the Zakat and Ushr Ordinance; ask your branch how it applies to your account</td><td>Yes. Subtract anything deducted.</td></tr>
 <tr><td>Regular Income Certificates (RIC)</td><td>No, exempt from compulsory deduction</td><td>Yes, pay it yourself.</td></tr>
 <tr><td>Behbood Savings Certificates (BSC)</td><td>No, exempt</td><td>Yes, if the holder is above the nisab.</td></tr>
@@ -947,7 +947,7 @@ HTML
 
 		'khums-who-must-pay' => array(
 			'title'   => 'Khums: Who Must Pay, What Counts and How to Calculate It',
-			'seo'     => 'Khums Kis Par Wajib Hai? Rules & Calculator ({year})',
+			'seo'     => 'Khums Kis Par Wajib Hai? Who Pays & What Counts ({year})',
 			'desc'    => 'Who must pay khums under Ayatollah Sistani\'s rulings: yearly surplus, khums date, expenses, gifts, mahr, Sahm-e-Imam, Sahm-e-Sadat and a PKR example.',
 			'nav'     => 'Khums: who must pay',
 			'blurb'   => 'khums kis par',

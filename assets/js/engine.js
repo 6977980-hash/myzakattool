@@ -47,8 +47,8 @@
 			ref: 'Akhsar al-Mukhtasarat, Book of Zakat (Hanbali)',
 		},
 		ahlehadith: {
-			name: 'Ahl-e-Hadith', jewellery: true, debts: true, cashNisab: 'lower', userNisab: false, combine: true,
-			ref: 'Permanent Committee (al-Lajnah ad-Daimah) via IslamQA 19901 and 201807',
+			name: 'Ahl-e-Hadith', jewellery: true, debts: false, cashNisab: 'lower', userNisab: false, combine: true,
+			ref: 'Permanent Committee (al-Lajnah ad-Daimah) via IslamQA 19901, 201807 and 22426 (debts do not reduce zakat)',
 		},
 		jafari: {
 			name: "Shia (Ja'fari)", jewellery: false, debts: false, cashNisab: 'gold', userNisab: false, combine: false,
@@ -164,8 +164,11 @@
 		// Jewellery treatment.
 		var goldWornIncluded = m.jewellery;
 		var silverWornIncluded = m.jewellery;
-		if (!m.jewellery && madhabKey === 'shafii' && goldWornG > SHAFII_JEWELLERY_LIMIT_G) {
+		var goldWornExcess = false;
+		// The customary limit is judged on the gross weight of the jewellery, not its pure-gold content.
+		if (!m.jewellery && madhabKey === 'shafii' && toGrams(input.goldWorn && input.goldWorn.weight, input.goldWorn && input.goldWorn.unit) > SHAFII_JEWELLERY_LIMIT_G) {
 			goldWornIncluded = true;
+			goldWornExcess = true;
 			notes.push('shafii_excess_jewellery');
 		}
 
@@ -176,7 +179,7 @@
 
 		lines.push({ key: 'money', value: money, included: true });
 		if (goldKeptV) lines.push({ key: 'goldKept', value: goldKeptV, included: true });
-		if (goldWornV) lines.push({ key: 'goldWorn', value: goldWornV, included: goldWornIncluded, why: goldWornIncluded ? 'jewellery_yes' : 'jewellery_no' });
+		if (goldWornV) lines.push({ key: 'goldWorn', value: goldWornV, included: goldWornIncluded, why: goldWornExcess ? 'shafii_jewellery_excess' : goldWornIncluded ? 'jewellery_yes' : 'jewellery_no' });
 		if (silverKeptV) lines.push({ key: 'silverKept', value: silverKeptV, included: true });
 		if (silverWornV) lines.push({ key: 'silverWorn', value: silverWornV, included: silverWornIncluded, why: silverWornIncluded ? 'jewellery_yes' : 'jewellery_no' });
 		if (debts) lines.push({ key: 'debts', value: -debts, included: m.debts, why: m.debts ? 'debts_yes' : 'debts_no' });
@@ -202,7 +205,7 @@
 				nisabBasis = basis === 'lower' ? (nisab.silver <= nisab.gold ? 'silver' : 'gold') : basis;
 				nisabV = nisab[nisabBasis];
 			}
-			var due = net > 0 && net >= nisabV * (1 - 1e-9);
+			var due = nisabV > 0 && net > 0 && net >= nisabV * (1 - 1e-9);
 			result = {
 				zakatable: net, debtsDeducted: m.debts ? Math.min(debts, gross) : 0,
 				nisab: nisabV, nisabBasis: nisabBasis, due: due, zakat: due ? net * RATE : 0,
@@ -216,8 +219,8 @@
 			var otherV = poolMetal === 'gold' ? silverV : goldV;
 			var otherG = poolMetal === 'gold' ? silverG : goldG;
 			var otherNisabG = otherMetal === 'gold' ? GOLD_NISAB_G : SILVER_NISAB_G;
-			var poolDue = pool > 0 && pool >= nisab[poolMetal] * (1 - 1e-9);
-			var otherDue = otherG >= otherNisabG * (1 - 1e-9);
+			var poolDue = nisab[poolMetal] > 0 && pool > 0 && pool >= nisab[poolMetal] * (1 - 1e-9);
+			var otherDue = otherG > 0 && otherG >= otherNisabG * (1 - 1e-9);
 			var z = (poolDue ? pool * RATE : 0) + (otherDue ? otherV * RATE : 0);
 			if (otherV > 0) notes.push('shafii_separate');
 			result = {
@@ -315,6 +318,7 @@
 
 	/* ---------- ushr (crops) ---------- */
 	var WASQ5_KG = 653; // 5 wasq (300 sa'), the Shafi'i/Maliki/Hanbali nisab for crops, about 653 kg of wheat
+	var SISTANI_CROP_KG = 847; // Ayatollah Sistani: about 847 kg, and only for wheat, barley, dates and raisins
 
 	/**
 	 * Ushr on a harvest. kg: quantity, price: value per kg, watering: 'rain' (10%) | 'irrigated' (5%) | 'mixed' (7.5%).
@@ -323,9 +327,9 @@
 	function ushr(madhabKey, kg, price, watering) {
 		var rate = watering === 'irrigated' ? 0.05 : watering === 'mixed' ? 0.075 : 0.1;
 		var q = num(kg);
-		var hasNisab = madhabKey !== 'hanafi';
-		var due = q > 0 && (!hasNisab || q >= WASQ5_KG);
-		return { rate: rate, nisabKg: hasNisab ? WASQ5_KG : 0, due: due, kg: due ? q * rate : 0, value: due ? q * rate * num(price) : 0 };
+		var nisabKg = madhabKey === 'hanafi' ? 0 : madhabKey === 'jafari' ? SISTANI_CROP_KG : WASQ5_KG;
+		var due = q > 0 && q >= nisabKg;
+		return { rate: rate, nisabKg: nisabKg, due: due, kg: due ? q * rate : 0, value: due ? q * rate * num(price) : 0 };
 	}
 
 	/* ---------- livestock (grazing animals, Sunni schools) ---------- */
@@ -392,7 +396,7 @@
 		[/^(sona|sonay|sone|sonaa|gold|zevar|zewar|jewellery|jewelry|zaiwar)$/, 'gold'],
 		[/^(chandi|chaandi|silver)$/, 'silver'],
 		[/^(bank|account|savings|saving)$/, 'bank'],
-		[/^(cash|naqd|naqdi|paise|paisay|paisa|rupay|rupees|rupee|rs|pkr|ghar)$/, 'cash'],
+		[/^(cash|naqd|naqdi|ghar)$/, 'cash'],
 		[/^(qarz|qarza|karz|udhar|udhaar|loan|debt|debts|bill|bills)$/, 'debts'],
 		[/^(business|karobar|kaarobar|dukan|stock|maal|inventory)$/, 'stock'],
 		[/^(committee|commitee|bc|bisi|kameti)$/, 'committee'],
@@ -403,10 +407,52 @@
 		[/^(prize|bond|bonds)$/, 'prizeBonds'],
 		[/^(nsc|behbood|certificate|certificates|dsc|sarmaya)$/, 'savingsCerts'],
 	];
+	// Words that only name the currency: they mean cash unless another kind (bank, qarz...) is named.
+	var CURRENCY_WORD = /^(paise|paisay|paisa|rupay|rupaye|rupees|rupee|rs|pkr|inr)$/;
+	// Spoken fractions: dedh 1.5, dhai/arhai 2.5; sawa X = X + 0.25, sadhe X = X + 0.5, paune X = X - 0.25.
+	var FRACTION = [[/^(dedh|derh|dehd)$/, 1.5], [/^(dhai|dhaai|arhai|adhai|arhaai)$/, 2.5]];
+	var FRACTION_ADD = [[/^(sawa|sava)$/, 0.25], [/^(sadhe|saadhe|sarhe|saarhe|sade)$/, 0.5], [/^(paune|pone)$/, -0.25]];
 
 	function match(table, word) {
 		for (var i = 0; i < table.length; i++) if (table[i][0].test(word)) return table[i][1];
 		return null;
+	}
+
+	function isNum(w) { return /^\d+(\.\d+)?$/.test(w); }
+
+	/** Turn spoken fractions into plain numbers: "dedh lakh" -> "1.5 lakh", "sawa 2 tola" -> "2.25 tola". */
+	function spokenNumbers(words) {
+		var out = [];
+		for (var i = 0; i < words.length; i++) {
+			var w = words[i];
+			var f = match(FRACTION, w);
+			if (f !== null) { out.push(String(f)); continue; }
+			var add = match(FRACTION_ADD, w);
+			if (add !== null) {
+				var next = words[i + 1] || '';
+				if (isNum(next)) { out.push(String(parseFloat(next) + add)); i++; continue; }
+				// "sawa lakh" = 1.25 lakh, "sadhe hazar" = 1.5 thousand
+				if (match(MULT, next)) { out.push(String(1 + add)); continue; }
+			}
+			out.push(w);
+		}
+		return out;
+	}
+
+	function addMetal(out, kind, item) {
+		var prev = out[kind];
+		if (!prev) {
+			out[kind] = { weight: item.amount, unit: item.unit || 'tola' };
+			if (item.karat) out[kind].karat = item.karat;
+			return;
+		}
+		var u = item.unit || 'tola';
+		if (prev.unit === u) prev.weight = Math.round((prev.weight + item.amount) * 1e6) / 1e6;
+		else {
+			prev.weight = Math.round((toGrams(prev.weight, prev.unit) + toGrams(item.amount, u)) * 1000) / 1000;
+			prev.unit = 'gram';
+		}
+		if (!prev.karat && item.karat) prev.karat = item.karat;
 	}
 
 	/**
@@ -418,34 +464,60 @@
 		if (!text) return out;
 		var parts = String(text).toLowerCase()
 			.replace(/(\d),(\d)/g, '$1$2')
+			.replace(/\b(?:rs|pkr|inr)\.?\s*(?=\d)/g, '')
 			.replace(/(\d)([a-z])/g, '$1 $2')
 			.split(/\s*(?:,|;|\+|\band\b|\baur\b|\bor\b|\bphir\b|\.\s)\s*/);
+		var items = [];
 		for (var p = 0; p < parts.length; p++) {
-			var words = parts[p].split(/[^a-z0-9.]+/).filter(Boolean);
-			var amount = null, unit = null, karat = null, kind = null;
+			var words = spokenNumbers(parts[p].split(/[^a-z0-9.]+/).filter(Boolean));
+			var cur = { amount: null, unit: null, karat: null, kind: null, weak: false, lastMul: 0 };
+			items.push(cur);
 			for (var i = 0; i < words.length; i++) {
 				var w = words[i];
-				if (/^\d+(\.\d+)?$/.test(w)) {
+				if (isNum(w)) {
 					var n = parseFloat(w);
 					var next = words[i + 1] || '';
 					var mul = match(MULT, next);
 					var u = match(UNIT, next);
-					if (u === 'karat' || (next === 'k' && n <= 24 && amount !== null)) { karat = n; i++; continue; }
-					if (mul) { n *= mul; i++; }
-					else if (u) { unit = u; i++; }
-					if (amount === null) amount = n;
+					// "22k" after a weight is the karat, unless a money word follows ("3 tola sona 20k cash").
+					var after = match(KEYWORDS, words[i + 2] || '');
+					var kAsKarat = next === 'k' && n <= 24 && cur.amount !== null && (!cur.kind || cur.kind === 'gold') && (!after || after === 'gold') && !CURRENCY_WORD.test(words[i + 2] || '');
+					if (u === 'karat' || kAsKarat) { cur.karat = n; i++; continue; }
+					// "5 lakh 50 hazar": a smaller amount right after a multiplied one is added to it.
+					if (cur.amount !== null && !cur.kind && !cur.weak && cur.lastMul && !u && (mul ? mul < cur.lastMul : n < cur.lastMul)) {
+						cur.amount += mul ? n * mul : n;
+						cur.lastMul = mul || 0;
+						if (mul) i++;
+						continue;
+					}
+					// A new amount after a complete item starts the next item ("3 tola sona 5 lakh cash").
+					if (cur.amount !== null && (cur.kind || cur.weak)) {
+						cur = { amount: null, unit: null, karat: null, kind: null, weak: false, lastMul: 0 };
+						items.push(cur);
+					}
+					if (cur.amount !== null) { if (mul || u) i++; continue; }
+					if (mul) { n *= mul; i++; cur.lastMul = mul; }
+					else if (u) { cur.unit = u; i++; }
+					cur.amount = n;
 					continue;
 				}
+				if (CURRENCY_WORD.test(w)) { cur.weak = true; continue; }
 				var k = match(KEYWORDS, w);
-				if (k && !kind) kind = k;
+				if (!k) continue;
+				if (!cur.kind) cur.kind = k;
+				else if (cur.amount !== null && k !== cur.kind) {
+					// "sona 3 tola cash 5 lakh": a new kind after a complete item starts the next item.
+					cur = { amount: null, unit: null, karat: null, kind: k, weak: false, lastMul: 0 };
+					items.push(cur);
+				}
 			}
-			if (amount === null || !kind) continue;
-			if (kind === 'gold' || kind === 'silver') {
-				out[kind] = { weight: amount, unit: unit || 'tola' };
-				if (karat) out[kind].karat = karat;
-			} else {
-				out[kind] = (out[kind] || 0) + amount;
-			}
+		}
+		for (var j = 0; j < items.length; j++) {
+			var it = items[j];
+			var kind = it.kind || (it.weak ? 'cash' : null);
+			if (it.amount === null || !kind) continue;
+			if (kind === 'gold' || kind === 'silver') addMetal(out, kind, it);
+			else out[kind] = (out[kind] || 0) + it.amount;
 		}
 		return out;
 	}
@@ -462,9 +534,9 @@
 		MA: ['MAD', 'gram', 'maliki'], DZ: ['DZD', 'gram', 'maliki'], TN: ['TND', 'gram', 'maliki'],
 		LY: ['LYD', 'gram', 'maliki'], NG: ['NGN', 'gram', 'maliki'], SN: ['XOF', 'gram', 'maliki'],
 		ML: ['XOF', 'gram', 'maliki'], MR: ['MRU', 'gram', 'maliki'], SD: ['SDG', 'gram', 'maliki'],
-		SA: ['SAR', 'gram', 'hanbali'], QA: ['QAR', 'gram', 'hanbali'], AE: ['AED', 'gram', 'hanbali'],
+		SA: ['SAR', 'gram', 'hanbali'], QA: ['QAR', 'gram', 'hanbali'], AE: ['AED', 'gram', 'maliki'],
 		KW: ['KWD', 'gram', 'hanbali'], BH: ['BHD', 'gram', 'hanbali'], OM: ['OMR', 'gram', 'hanbali'],
-		JO: ['JOD', 'gram', 'hanafi'], IQ: ['IQD', 'gram', 'jafari'], IR: ['IRR', 'gram', 'jafari'],
+		JO: ['JOD', 'gram', 'shafii'], IQ: ['IQD', 'gram', 'jafari'], IR: ['IRR', 'gram', 'jafari'],
 		AZ: ['AZN', 'gram', 'jafari'], LB: ['LBP', 'gram', 'jafari'],
 		GB: ['GBP', 'gram', 'hanafi'], US: ['USD', 'gram', 'hanafi'], CA: ['CAD', 'gram', 'hanafi'],
 		AU: ['AUD', 'gram', 'hanafi'], NZ: ['NZD', 'gram', 'hanafi'], ZA: ['ZAR', 'gram', 'hanafi'],
@@ -486,7 +558,7 @@
 		MADHABS: MADHABS, MADHAB_ORDER: MADHAB_ORDER, COUNTRIES: COUNTRIES,
 		toGrams: toGrams, perGram: perGram, nisabValues: nisabValues,
 		calculate: calculate, compare: compare, family: family, fitrana: fitrana, fidya: fidya, kaffara: kaffara, khums: khums,
-		hawlDates: hawlDates, hawlYearsBetween: hawlYearsBetween, missedZakat: missedZakat, ushr: ushr, livestock: livestock, WASQ5_KG: WASQ5_KG,
+		hawlDates: hawlDates, hawlYearsBetween: hawlYearsBetween, missedZakat: missedZakat, ushr: ushr, livestock: livestock, WASQ5_KG: WASQ5_KG, SISTANI_CROP_KG: SISTANI_CROP_KG,
 		parseText: parseText, countryDefaults: countryDefaults,
 	};
 });
