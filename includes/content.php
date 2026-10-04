@@ -362,7 +362,7 @@ HTML
 <h2>What to include in Pakistan</h2>
 <ul>
 <li><strong>Committee (BC):</strong> the amount you have paid in so far is your money and is zakatable. Once you receive the committee, count what is left of it.</li>
-<li><strong>Prize bonds and savings certificates:</strong> count their face value.</li>
+<li><strong>Prize bonds and savings certificates (NSC, Behbood, DSC):</strong> count the amount you invested, in the "Savings certificates" field. If zakat was deducted from them, enter it under "Already paid". See <a href="/zakat-on-savings-certificates/">zakat on savings certificates</a>.</li>
 <li><strong>Plots:</strong> a plot bought to sell is trade goods; count its market value. A house or plot for your own use has no zakat.</li>
 <li><strong>Gold:</strong> local jewellery is usually 21K or 22K; choose the karat so only the pure gold is counted.</li>
 </ul>
@@ -489,10 +489,10 @@ HTML
 <p>In the Shafi'i, Maliki and Hanbali schools the fidya and each kaffara meal are one mudd of the local staple food (about 0.6 kg), which is less than the Hanafi half sa'. The Shafi'i and Hanbali schools require kaffara only for breaking the fast with marital relations; eating or drinking deliberately needs qada and repentance. Use the amount your own scholars announce.</p>
 <h2>How much in rupees?</h2>
 <p>Each Ramadan, the Council of Islamic Ideology and major madrasas announce fitrana and fidya amounts for wheat, barley, dates and raisins. Enter that amount above, or the price of about 2 kg of flour where you live. Pay by the more expensive items if you can afford it.</p>
-<p>Also see the <a href="/fitrana-calculator/">fitrana calculator</a> and <a href="/who-can-receive-zakat/">who can receive zakat</a>; fidya and kaffara go to the same poor and needy people.</p>
+<p>Read the full guides: <a href="/roza-fidya/">roza fidya: who pays and how much</a> and <a href="/kaffara-for-breaking-a-fast/">kaffara for breaking a fast</a>. Also see the <a href="/fitrana-calculator/">fitrana calculator</a> and <a href="/who-can-receive-zakat/">who can receive zakat</a>; fidya and kaffara go to the same poor and needy people.</p>
 [myzt_faq]
 HTML
-		. $author . '[myzt_related slugs="fitrana-calculator,who-can-receive-zakat,calculators,home"]',
+		. $author . '[myzt_related slugs="roza-fidya,kaffara-for-breaking-a-fast,fitrana-calculator,who-can-receive-zakat"]',
 		'faq'   => array(
 			array( 'q' => 'Roze ka fidya kitna hai?', 'a' => 'Hanafi fiqh mein aik roze ka fidya aik fitrane ke barabar hai: aadha sa\' gandum (taqreeban 2 kg) ya uski qeemat.' ),
 			array( 'q' => 'What is the kaffara for breaking a fast?', 'a' => 'Fasting 60 days in a row. Only someone who cannot do that may feed 60 poor people instead.' ),
@@ -520,10 +520,11 @@ HTML
 <p>Zakat that was not paid stays owed; it does not lapse with time. Estimate your zakatable wealth on each missed zakat date and enter it year by year. In the Hanafi view, zakat you owed for an earlier year counts as a debt, so it reduces the wealth for the next year; the tick box does this for you. Pay what you can now and make a plan for the rest.</p>
 <h2>Gregorian or lunar year?</h2>
 <p>Zakat follows the lunar year. If you keep accounts on a Gregorian (solar) year, some scholars say you should pay 2.577% instead of 2.5% to make up for the extra 11 days. Our main calculator uses 2.5% on a lunar year.</p>
+<p>More detail: <a href="/hawl-zakat-due-date/">what hawl is and when zakat becomes due</a>, and <a href="/missed-zakat-past-years/">how to pay zakat for past years</a>.</p>
 <p>When the date comes, work out the amount with the <a href="/">zakat calculator</a>. If your bank deducted zakat on 1 Ramadan, enter it under "Already paid".</p>
 [myzt_faq]
 HTML
-		. $author . '[myzt_related slugs="home,nisab,bank-zakat-deduction-pakistan,calculators"]',
+		. $author . '[myzt_related slugs="hawl-zakat-due-date,missed-zakat-past-years,home,nisab"]',
 		'faq'   => array(
 			array( 'q' => 'Does zakat have to be paid in Ramadan?', 'a' => 'No. It is due on your own zakat date. Paying in Ramadan is allowed if it is your date, or as an advance payment.' ),
 			array( 'q' => 'Zakat ki tareekh kaise maloom karein?', 'a' => 'Jis din aapka maal pehli dafa nisab ko pohncha, us se aik qamri saal baad. Har saal wahi islami tareekh hoti hai.' ),
@@ -554,10 +555,11 @@ HTML
 <figure class="wp-block-table"><table><thead><tr><th>Cows and buffaloes</th><th>Give</th></tr></thead><tbody>
 <tr><td>30 to 39</td><td>1 calf in its 2nd year (tabi')</td></tr><tr><td>40 to 59</td><td>1 cow in its 3rd year (musinnah)</td></tr><tr><td>60 and above</td><td>1 tabi' for every 30, 1 musinnah for every 40</td></tr>
 </tbody></table></figure>
+<p>Full guides: <a href="/ushr-on-crops/">ushr on wheat, rice, cotton and other crops</a> and <a href="/zakat-on-livestock/">zakat on goats, cows, buffaloes and camels</a>.</p>
 <p>Ushr and livestock zakat go to the same people as other zakat; see <a href="/who-can-receive-zakat/">who can receive zakat</a>. For cash, gold and savings use the <a href="/">main calculator</a>.</p>
 [myzt_faq]
 HTML
-		. $author . '[myzt_related slugs="home,business-zakat-calculator,who-can-receive-zakat,calculators"]',
+		. $author . '[myzt_related slugs="ushr-on-crops,zakat-on-livestock,business-zakat-calculator,who-can-receive-zakat"]',
 		'faq'   => array(
 			array( 'q' => 'Gandum par kitna ushr hai?', 'a' => 'Barani (baarish wali) zameen par paidawar ka 10%, aur tube well ya khareede paani wali zameen par 5%.' ),
 			array( 'q' => 'Are costs deducted before ushr?', 'a' => 'In the classical view, no: ushr is on the whole harvest, which is why irrigated land pays half. Some contemporary scholars allow deducting costs such as fertiliser; ask your scholar.' ),
@@ -614,13 +616,13 @@ HTML
 <h2>What not to include</h2>
 <ul>
 <li>Money on which khums was already paid.</li>
-<li>Gifts and inheritance (in Ayatollah Sistani's view inheritance is not subject to khums, with some exceptions).</li>
+<li>Inheritance and mahr (in Ayatollah Sistani's view these are not subject to khums, with some exceptions). Gifts are different: he treats them as income, so khums is due on what is left of a gift at your khums date.</li>
 <li>Your house, car and items you use, bought within the year for your needs.</li>
 </ul>
-<p>Rules differ between maraji'. Please confirm details with your marja's office.</p>
+<p>Rules differ between maraji'. Please confirm details with your marja's office. For a fuller explanation, read <a href="/khums-who-must-pay/">who must pay khums, and sahm-e-imam and sahm-e-sadat</a>.</p>
 [myzt_faq]
 HTML
-		. $author . '[myzt_related slugs="shia-zakat-calculator,madhab-comparison,fitrana-calculator,methodology"]',
+		. $author . '[myzt_related slugs="khums-who-must-pay,shia-zakat-calculator,madhab-comparison,fitrana-calculator"]',
 		'faq'   => array(
 			array( 'q' => 'Is khums 20% of total savings?', 'a' => 'It is 20% of the surplus of the year from income, after the year\'s expenses, on which khums has not been paid.' ),
 		),

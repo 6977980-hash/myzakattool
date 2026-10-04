@@ -9,9 +9,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+require_once __DIR__ . '/content-posts-tools.php';
+
 function myzt_content_posts() {
 	$author = '[myzt_author]';
-	return array(
+	return myzt_content_posts_tools() + array(
 		'who-can-receive-zakat'         => array(
 			'title'   => 'Who Can Receive Zakat? The 8 Categories Explained',
 			'seo'     => 'Who Can Receive Zakat? 8 Categories (Zakat Kis Ko Dein)',

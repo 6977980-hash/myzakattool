@@ -9,7 +9,7 @@ Hostinger Git deploy pulls the `main` branch into `public_html/wp-content/plugin
 Git deploys do not fire WordPress's activation hook, so the plugin installs itself the first time someone opens **wp-admin** after a deploy with a new version number:
 
 - First install only: site title "My Zakat Tool", tagline, `/%postname%/` permalinks, comments off, the untouched "Hello world" post and "Sample page" moved to trash, a main menu.
-- Every version change: creates any of the 28 pages and 5 guide posts that are missing, and updates pages it created to the new text unless someone has edited them, sets the home page as the static front page, schedules the hourly rate refresh and fetches rates once.
+- Every version change: creates any of the 28 pages and 13 guide posts that are missing, and updates pages it created to the new text unless someone has edited them, sets the home page as the static front page, schedules the hourly rate refresh and fetches rates once.
 
 **Settings → My Zakat Tool** shows the rate status, a "Refresh rates now" button, "Create missing pages", author details, fitrana amounts, AdSense IDs and the ads ON/OFF switch.
 
