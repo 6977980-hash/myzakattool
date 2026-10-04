@@ -59,7 +59,8 @@
 	var MADHAB_ORDER = ['hanafi', 'shafii', 'maliki', 'hanbali', 'ahlehadith', 'jafari'];
 
 	// Asset fields that count as money / trade wealth (same treatment in every Sunni madhab).
-	var MONEY_FIELDS = ['cash', 'bank', 'committee', 'businessCash', 'stock', 'receivables', 'shares', 'crypto', 'prizeBonds', 'plot', 'other'];
+	var MONEY_FIELDS = ['cash', 'bank', 'committee', 'businessCash', 'stock', 'receivables', 'shares', 'crypto', 'prizeBonds', 'savingsCerts', 'plot', 'other'];
+	var PAID_FIELDS = ['bankDeducted', 'paidAlready'];
 	var DEBT_FIELDS = ['debts', 'installments', 'bills', 'suppliers'];
 
 	function num(v) {
@@ -118,9 +119,10 @@
 	 * Calculate zakat for one person under one madhab.
 	 *
 	 * input: {
-	 *   money: { cash, bank, committee, businessCash, stock, receivables, shares, crypto, prizeBonds, plot, other },
+	 *   money: { cash, bank, committee, businessCash, stock, receivables, shares, crypto, prizeBonds, savingsCerts, plot, other },
 	 *   goldWorn, goldKept, silverWorn, silverKept: { weight, unit: 'gram'|'tola'|'oz', karat },
-	 *   liabilities: { debts, installments, bills, suppliers },
+	 *   liabilities: { debts, installments, bills, suppliers, bankDeducted, paidAlready },
+ *     (bankDeducted / paidAlready are zakat already paid this year: subtracted from the zakat, not from wealth)
 	 *   nisabBasis: optional 'gold'|'silver' override (only where the madhab allows it)
 	 * }
 	 * prices: { gold, silver } per gram, pure, in the user's currency.
@@ -152,11 +154,11 @@
 			lines.push({ key: 'money', value: money, included: false, why: 'jafari_money' });
 			lines.push({ key: 'gold', value: goldWornV + goldKeptV, included: false, why: 'jafari_gold' });
 			lines.push({ key: 'silver', value: silverWornV + silverKeptV, included: false, why: 'jafari_gold' });
-			return {
+			return applyPaid({
 				madhab: madhabKey, name: m.name, ref: m.ref, zakatable: 0, debtsDeducted: 0,
 				nisab: nisab.gold, nisabBasis: 'coins', due: false, zakat: 0, lines: lines,
 				notes: anything > 0 ? ['jafari_khums'] : [], khums: true,
-			};
+			}, input);
 		}
 
 		// Jewellery treatment.
@@ -227,12 +229,22 @@
 
 		if (num(input.money && input.money.receivablesDoubtful)) notes.push('doubtful_receivables');
 
+		applyPaid(result, input);
 		result.madhab = madhabKey;
 		result.name = m.name;
 		result.ref = m.ref;
 		result.lines = lines;
 		result.notes = notes;
 		result.userNisab = m.userNisab;
+		return result;
+	}
+
+	/** Zakat already paid this year (e.g. the bank's 1 Ramadan deduction) reduces what is left to pay. */
+	function applyPaid(result, input) {
+		var paid = sumFields(input.liabilities, PAID_FIELDS);
+		result.paid = Math.min(paid, result.zakat);
+		result.paidEntered = paid;
+		result.payable = Math.max(0, result.zakat - paid);
 		return result;
 	}
 
@@ -244,12 +256,22 @@
 	/** Combine several family members' results (zakat is due on each person separately). */
 	function family(results) {
 		var total = 0;
-		for (var i = 0; i < results.length; i++) total += results[i].zakat;
+		for (var i = 0; i < results.length; i++) total += results[i].payable !== undefined ? results[i].payable : results[i].zakat;
 		return total;
 	}
 
 	function fitrana(persons, perPerson) {
 		return Math.max(0, Math.floor(num(persons))) * num(perPerson);
+	}
+
+	/** Fidya: one fitrana-sized amount for each fast a person can never make up (Hanafi). */
+	function fidya(fasts, perDay) {
+		return Math.max(0, Math.floor(num(fasts))) * num(perDay);
+	}
+
+	/** Kaffara for a deliberately broken fast, when fasting 60 days is not possible: feed 60 poor people. */
+	function kaffara(count, perDay) {
+		return Math.max(0, Math.floor(num(count))) * 60 * num(perDay);
 	}
 
 	/** Khums (Ja'fari): 20% of the year's surplus income still held at the khums date. */
@@ -286,6 +308,7 @@
 		[/^(plot|plaat|property|zameen)$/, 'plot'],
 		[/^(lena|lenay|receivable|receivables|wapsi)$/, 'receivables'],
 		[/^(prize|bond|bonds)$/, 'prizeBonds'],
+		[/^(nsc|behbood|certificate|certificates|dsc|sarmaya)$/, 'savingsCerts'],
 	];
 
 	function match(table, word) {
@@ -369,7 +392,7 @@
 		GOLD_NISAB_G: GOLD_NISAB_G, SILVER_NISAB_G: SILVER_NISAB_G, RATE: RATE,
 		MADHABS: MADHABS, MADHAB_ORDER: MADHAB_ORDER, COUNTRIES: COUNTRIES,
 		toGrams: toGrams, perGram: perGram, nisabValues: nisabValues,
-		calculate: calculate, compare: compare, family: family, fitrana: fitrana, khums: khums,
+		calculate: calculate, compare: compare, family: family, fitrana: fitrana, fidya: fidya, kaffara: kaffara, khums: khums,
 		parseText: parseText, countryDefaults: countryDefaults,
 	};
 });

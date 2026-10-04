@@ -3,7 +3,7 @@
  * Plugin Name: My Zakat Tool
  * Plugin URI: https://myzakattool.com/
  * Description: Zakat calculator for every madhab (Hanafi, Shafi'i, Maliki, Hanbali, Ahl-e-Hadith, Shia) with live gold and silver rates, PDF reports, site pages and built-in SEO.
- * Version: 1.2.0
+ * Version: 1.3.0
  * Requires at least: 6.0
  * Requires PHP: 7.4
  * Author: Ali Ahmad
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MYZAKATTOOL_VERSION', '1.2.0' );
+define( 'MYZAKATTOOL_VERSION', '1.3.0' );
 define( 'MYZAKATTOOL_FILE', __FILE__ );
 define( 'MYZAKATTOOL_DIR', plugin_dir_path( __FILE__ ) );
 define( 'MYZAKATTOOL_URL', plugin_dir_url( __FILE__ ) );

@@ -198,7 +198,7 @@ HTML
 <h2>Exemption: the CZ-50 declaration</h2>
 <p>A Muslim who is exempt on grounds of their fiqh, most commonly followers of Fiqh-e-Jafaria, can submit a CZ-50 declaration to the bank. It is an affidavit on stamp paper, attested as the bank requires, and it must reach the bank before Ramadan; banks usually ask for it a few weeks early. Ask your branch for its current form and deadline. Our PDF report is a personal estimate and cannot be used for this or any other official purpose.</p>
 <h2>Do I have to pay zakat again?</h2>
-<p>You pay the difference. Calculate your full zakat on all your wealth, then subtract what the bank already deducted. The bank looks at one account, on one fixed date, with the government's nisab. Your own zakat covers gold, cash at home, other accounts and business assets, on your own zakat date.</p>
+<p>You pay the difference. Calculate your full zakat on all your wealth, then subtract what the bank already deducted. In our calculator, tap <strong>Already paid</strong> and enter the bank's deduction: it shows what is still left to pay. The bank looks at one account, on one fixed date, with the government's nisab. Your own zakat covers gold, cash at home, other accounts and business assets, on your own zakat date.</p>
 <h2>Example</h2>
 <p>Sana had Rs 8,00,000 in a savings account on 1 Ramadan, so the bank deducted Rs 20,000. She also owns 4 tola of gold and keeps Rs 1,50,000 at home. Her full zakat in the Hanafi madhab is 2.5% of the cash, savings and gold together. If that comes to Rs 45,000, she still owes Rs 25,000.</p>
 <h2>How to avoid paying twice</h2>

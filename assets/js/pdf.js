@@ -10,12 +10,14 @@
 	var QR = ["11111110101101110010001111111","10000010100101110001001000001","10111010100101100000101011101","10111010011100111111101011101","10111010100011010011001011101","10000010011101100000101000001","11111110101010101010101111111","00000000000110111000100000000","10011111100001101101010010111","00101101010110111011000110110","11110111101000110100111010100","01010000011100111111110111001","01000011000001110000101100001","11011000010000011110101111111","11101110010100110011011000101","00111101001011100000011000101","01101010100000010001100001000","11101000000110010101110010110","11110010111101110011001011001","11111101110101001000000001100","11000011010011001100111111110","00000000100101010010100011000","11111110110001011011101011000","10000010111001001101100010010","10111010100101001001111111011","10111010111001111110010100001","10111010001110010000100110111","10000010011100101010011111101","11111110110011010001110000000"];
 
 	var LABELS = {
-		cash: 'Cash at home', prizeBonds: 'Prize bonds / certificates', bank: 'Bank balance', businessCash: 'Business cash',
+		cash: 'Cash at home', prizeBonds: 'Prize bonds', savingsCerts: 'Savings certificates (NSC, Behbood etc.)', bank: 'Bank balance', businessCash: 'Business cash',
 		stock: 'Stock / inventory', shares: 'Shares / mutual funds', crypto: 'Crypto', committee: 'Committee (BC) paid in',
 		receivables: 'Money owed to you', receivablesDoubtful: 'Doubtful debts owed to you (not counted)', plot: 'Plot / property for sale', other: 'Other trade goods',
 		debts: 'Debts due now', installments: 'Instalments (next 12 months)', bills: 'Unpaid bills', suppliers: 'Unpaid supplier bills',
 		goldWorn: 'Gold jewellery (worn)', goldKept: 'Gold (kept)', silverWorn: 'Silver jewellery (worn)', silverKept: 'Silver (kept)',
 	};
+
+	var PAID = { bankDeducted: 'Zakat deducted by bank (already paid)', paidAlready: 'Zakat already paid this year' };
 
 	var loading = null;
 	function loadJsPdf() {
@@ -89,12 +91,13 @@
 
 			// Summary box.
 			var total = 0, anyDue = false;
-			data.persons.forEach(function (p) { total += p.result.zakat; anyDue = anyDue || p.result.due; });
+			var paidAll = 0;
+			data.persons.forEach(function (p) { total += p.result.payable; paidAll += p.result.paid || 0; anyDue = anyDue || p.result.due; });
 			doc.setDrawColor(teal[0], teal[1], teal[2]);
 			doc.setFillColor(230, 244, 241);
 			doc.setLineWidth(0.5);
 			doc.roundedRect(M, y, W - 2 * M, 24, 3, 3, 'FD');
-			text(data.persons.length > 1 ? 'Total zakat (family)' : 'Total zakat', M + 6, y + 8, 10, false, mute);
+			text((paidAll ? 'Zakat still to pay' : 'Total zakat') + (data.persons.length > 1 ? ' (family)' : ''), M + 6, y + 8, 10, false, mute);
 			text(fmt(total, cur), M + 6, y + 18, 20, true, teal);
 			text(anyDue ? 'Above nisab: zakat is due' : 'Below nisab: zakat is not due', W - M - 6, y + 14, 10, true, anyDue ? [30, 122, 60] : mute, 'right');
 			y += 32;
@@ -114,7 +117,8 @@
 					var desc = m.weight + ' ' + (m.unit === 'gram' ? 'g' : m.unit) + (k.indexOf('gold') === 0 ? ' ' + m.karat + 'K' : '');
 					row(LABELS[k] + ' (' + desc + ')', fmt(grams * price, cur));
 				});
-				Object.keys(liab).forEach(function (k) { if (liab[k]) row(LABELS[k] || k, fmt(-liab[k], cur)); });
+				Object.keys(liab).forEach(function (k) { if (liab[k] && !PAID[k]) row(LABELS[k] || k, fmt(-liab[k], cur)); });
+				Object.keys(PAID).forEach(function (k) { if (liab[k]) row(PAID[k], fmt(liab[k], cur)); });
 
 				y += 2; space(30);
 				text('How it was calculated', M, y, 11, true); y += 6;
@@ -130,7 +134,11 @@
 					});
 					row('Zakatable wealth', fmt(r.zakatable, cur), true);
 					row('Nisab used (' + (r.nisabBasis === 'gold' ? 'gold 87.48 g' : 'silver 612.36 g') + ')', fmt(r.nisab, cur));
-					row(r.due ? 'Zakatable wealth x 2.5% = Zakat' : 'Below nisab, so zakat', fmt(r.zakat, cur), true, teal);
+					row(r.due ? 'Zakatable wealth x 2.5% = Zakat' : 'Below nisab, so zakat', fmt(r.zakat, cur), true, r.paid ? ink : teal);
+					if (r.paid) {
+						row('Already paid / deducted by bank', fmt(-r.paid, cur));
+						row('Zakat still to pay', fmt(r.payable, cur), true, teal);
+					}
 					space(10);
 					doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5); color(mute);
 					var f = doc.splitTextToSize('Formula: (cash + bank + gold and silver value + business stock + money owed to you + other zakatable assets) - debts allowed in this madhab = zakatable wealth. If zakatable wealth is at least the nisab, zakat = 2.5% of it.', W - 2 * M - 4);

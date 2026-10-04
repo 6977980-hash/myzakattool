@@ -24,7 +24,10 @@
 			have: 'What do you own?', haveHint: '(tap all that apply)',
 			t_cash: 'Cash', t_bank: 'Bank', t_gold: 'Gold', t_silver: 'Silver', t_business: 'Business', t_shares: 'Shares / Crypto',
 			t_committee: 'Committee / BC', t_receivables: 'Money owed to you', t_plot: 'Plot (for sale)', t_debts: 'Debts / Bills',
-			f_cash: 'Cash at home', f_prizeBonds: 'Prize bonds / savings certificates', f_bank: 'Bank balance (all accounts)',
+			f_cash: 'Cash at home', f_prizeBonds: 'Prize bonds', f_savingsCerts: 'Savings certificates (NSC, Behbood, DSC, RIC)',
+			t_paid: 'Already paid', f_bankDeducted: 'Zakat the bank deducted on 1 Ramadan', f_paidAlready: 'Zakat already paid this year',
+			h_bankDeducted: 'Shown on your bank statement or zakat certificate.', h_savingsCerts: 'Enter the amount invested (face value).',
+			l_paid: 'Already paid / deducted by bank', toPay: 'Still to pay', totalZakat: 'Total zakat', f_bank: 'Bank balance (all accounts)',
 			f_goldWorn: 'Gold jewellery you wear', f_goldKept: 'Other gold (bars, coins, kept jewellery)',
 			f_silverWorn: 'Silver jewellery you wear', f_silverKept: 'Other silver',
 			f_businessCash: 'Business cash and bank', f_stock: 'Stock / inventory (sale value)', f_suppliers: 'Unpaid supplier bills',
@@ -64,6 +67,8 @@
 			discLink: 'Disclaimer', resetConfirm: 'Clear all entries?', savedLocal: 'Saved on this device only.',
 			shareText: 'My zakat estimate', calTitle: 'Zakat due (one lunar year)',
 			persons: 'Number of people', item: 'Pay as', perPerson: 'Amount per person', fitranaTotal: 'Total fitrana',
+			fd_fasts: 'Fasts you cannot make up (fidya)', fd_broken: 'Kaffaras due (fasts broken on purpose)', fd_perDay: 'Amount for one poor person, one day', fd_fidya: 'Fidya', fd_kaffara: 'Kaffara (feeding 60 poor people each)', fd_total: 'Total to pay',
+			fd_hFasts: 'Only for illness or old age with no hope of fasting later. Otherwise make the fasts up.', fd_hBroken: 'Hanafi: several fasts broken in the same Ramadan need one kaffara. Kaffara by feeding is only for someone who cannot fast 60 days in a row.',
 			wheat: 'Wheat / flour', barley: 'Barley', dates: 'Dates', raisins: 'Raisins',
 			k_savings: 'Savings from this year\'s income', k_unused: 'Items bought from income, still unused', k_stock: 'Trade stock (from income)', k_debts: 'Debts of this year',
 			k_total: 'Khums (20%)', k_surplus: 'Surplus', k_imam: 'Sahm-e-Imam (10%)', k_sadat: 'Sahm-e-Sadat (10%)',
@@ -79,7 +84,10 @@
 			have: 'آپ کے پاس کیا ہے؟', haveHint: '(جو ہے اس پر ٹیپ کریں)',
 			t_cash: 'نقد', t_bank: 'بینک', t_gold: 'سونا', t_silver: 'چاندی', t_business: 'کاروبار', t_shares: 'شیئرز/کرپٹو',
 			t_committee: 'کمیٹی', t_receivables: 'لینا ہے', t_plot: 'پلاٹ (بیچنے کے لیے)', t_debts: 'قرض/بل',
-			f_cash: 'گھر میں نقد رقم', f_prizeBonds: 'پرائز بانڈ / سیونگ سرٹیفکیٹ', f_bank: 'بینک بیلنس (تمام اکاؤنٹ)',
+			f_cash: 'گھر میں نقد رقم', f_prizeBonds: 'پرائز بانڈ', f_savingsCerts: 'بچت سرٹیفکیٹ (این ایس سی، بہبود، ڈی ایس سی)',
+			t_paid: 'ادا شدہ', f_bankDeducted: 'یکم رمضان کو بینک کی کاٹی گئی زکوٰۃ', f_paidAlready: 'اس سال پہلے سے ادا کی گئی زکوٰۃ',
+			h_bankDeducted: 'بینک اسٹیٹمنٹ یا زکوٰۃ سرٹیفکیٹ پر لکھی ہوتی ہے۔', h_savingsCerts: 'لگائی گئی رقم لکھیں۔',
+			l_paid: 'ادا شدہ / بینک کی کٹوتی', toPay: 'ابھی ادا کرنی ہے', totalZakat: 'کل زکوٰۃ', f_bank: 'بینک بیلنس (تمام اکاؤنٹ)',
 			f_goldWorn: 'پہنا جانے والا سونے کا زیور', f_goldKept: 'باقی سونا (بسکٹ، سکے، رکھا ہوا زیور)',
 			f_silverWorn: 'پہنا جانے والا چاندی کا زیور', f_silverKept: 'باقی چاندی',
 			f_businessCash: 'کاروبار کی نقد اور بینک رقم', f_stock: 'مال / اسٹاک (فروخت کی قیمت)', f_suppliers: 'سپلائرز کے واجب الادا بل',
@@ -118,6 +126,8 @@
 			discLink: 'ڈسکلیمر', resetConfirm: 'سب خانے صاف کر دیں؟', savedLocal: 'صرف اسی ڈیوائس پر محفوظ۔',
 			shareText: 'میری زکوٰۃ کا اندازہ', calTitle: 'زکوٰۃ کی تاریخ (ایک قمری سال)',
 			persons: 'افراد کی تعداد', item: 'کس چیز سے', perPerson: 'فی فرد رقم', fitranaTotal: 'کل فطرانہ',
+			fd_fasts: 'روزے جن کی قضا ممکن نہیں (فدیہ)', fd_broken: 'کفارے (جان بوجھ کر توڑے گئے روزے)', fd_perDay: 'ایک مسکین کا ایک دن کا کھانا', fd_fidya: 'فدیہ', fd_kaffara: 'کفارہ (ہر ایک کے لیے 60 مسکین)', fd_total: 'کل رقم',
+			fd_hFasts: 'صرف بیماری یا بڑھاپے میں جب بعد میں روزہ رکھنے کی امید نہ ہو۔ ورنہ قضا رکھیں۔', fd_hBroken: 'حنفی: ایک رمضان کے کئی توڑے گئے روزوں کا ایک کفارہ کافی ہے۔ کھانا کھلانا صرف اس کے لیے ہے جو 60 مسلسل روزے نہ رکھ سکے۔',
 			wheat: 'گندم / آٹا', barley: 'جو', dates: 'کھجور', raisins: 'کشمش',
 			k_savings: 'اس سال کی آمدنی سے بچت', k_unused: 'آمدنی سے خریدی غیر استعمال شدہ چیزیں', k_stock: 'تجارتی مال (آمدنی سے)', k_debts: 'اس سال کے قرض',
 			k_total: 'خمس (20%)', k_surplus: 'بچت', k_imam: 'سہمِ امام (10%)', k_sadat: 'سہمِ سادات (10%)',
@@ -218,7 +228,7 @@
 
 	/* ---------- field definitions ---------- */
 	var TILES = [
-		['cash', '💵', [['money', 'cash'], ['money', 'prizeBonds']]],
+		['cash', '💵', [['money', 'cash'], ['money', 'prizeBonds'], ['money', 'savingsCerts']]],
 		['bank', '🏦', [['money', 'bank']]],
 		['gold', '🥇', [['metal', 'goldWorn'], ['metal', 'goldKept']]],
 		['silver', '🥈', [['metal', 'silverWorn'], ['metal', 'silverKept']]],
@@ -228,6 +238,7 @@
 		['receivables', '📄', [['money', 'receivables'], ['money', 'receivablesDoubtful']]],
 		['plot', '🏠', [['money', 'plot'], ['money', 'other']]],
 		['debts', '➖', [['liab', 'debts'], ['liab', 'installments'], ['liab', 'bills']]],
+		['paid', '✅', [['liab', 'bankDeducted'], ['liab', 'paidAlready']]],
 	];
 
 	function newPerson(name) {
@@ -384,7 +395,8 @@
 			var r = all[st.active];
 			var p = st.persons[st.active];
 			var html = '<div class="myzt-due">' + esc(st.persons.length > 1 ? t('zakatFor') + ' ' + (p.name || (st.active === 0 ? t('me') : '#' + (st.active + 1))) : t('yourZakat')) + ' (' + esc(r.name) + ')</div>' +
-				'<div class="myzt-amt">' + money(r.zakat, st.currency) + '</div>' +
+				'<div class="myzt-amt">' + money(r.paid ? r.payable : r.zakat, st.currency) + '</div>' +
+				(r.paid ? '<div class="myzt-small">' + esc(t('toPay')) + ' · ' + esc(t('totalZakat')) + ' ' + money(r.zakat, st.currency) + '</div>' : '') +
 				'<div class="myzt-badge' + (r.due ? '' : ' no') + '">' + (r.due ? '✓ ' + esc(t('due')) : esc(t('notDue'))) + '</div>';
 			r.lines.forEach(function (l, i) {
 				if (!l.value && l.key !== 'money') return;
@@ -396,6 +408,10 @@
 				html += '<div class="myzt-line"><span><b>' + esc(t('l_total')) + '</b></span><span><b>' + money(r.zakatable, st.currency) + '</b></span></div>' +
 					'<div class="myzt-line"><span>' + esc(t('nisabUsed')) + ': ' + esc(t(r.nisabBasis === 'gold' ? 'basisGold' : 'basisSilver')) + '</span><span>' + money(r.nisab, st.currency) + '</span></div>' +
 					'<div class="myzt-line"><span>' + esc(t('l_rate')) + '</span><span><b>' + money(r.zakat, st.currency) + '</b></span></div>';
+			}
+			if (r.paid) {
+				html += '<div class="myzt-line"><span>' + esc(t('l_paid')) + '</span><span>' + money(-r.paid, st.currency) + '</span></div>' +
+					'<div class="myzt-line"><span><b>' + esc(t('toPay')) + '</b></span><span><b>' + money(r.payable, st.currency) + '</b></span></div>';
 			}
 			r.notes.forEach(function (n) {
 				html += '<div class="myzt-note">' + esc(t('n_' + n)) + (n === 'jafari_khums' && CFG.urls && CFG.urls.khums ? ' <a href="' + esc(CFG.urls.khums) + '">' + esc(t('seeKhums')) + ' →</a>' : '') + '</div>';
@@ -443,7 +459,7 @@
 			}
 			if (!pr) { stickyEl.hidden = true; return; }
 			var all = results(pr);
-			var total = all.length > 1 ? E.family(all) : all[0].zakat;
+			var total = all.length > 1 ? E.family(all) : all[0].payable;
 			stickyEl.hidden = false;
 			stickyEl.innerHTML = '<span>' + esc(all.length > 1 ? t('family') : t('yourZakat')) + ' (' + esc(E.MADHABS[st.madhab].name) + ')</span><b>' + money(total, st.currency) + '</b>';
 		}
@@ -515,7 +531,7 @@
 					p.metal[key] = { weight: String(r[k].weight), unit: r[k].unit, karat: r[k].karat || (k === 'gold' ? 22 : 24) };
 				} else if (k === 'debts') { p.tiles.debts = true; p.liab.debts = r[k]; }
 				else {
-					var tileOf = { cash: 'cash', bank: 'bank', stock: 'business', committee: 'committee', shares: 'shares', crypto: 'shares', plot: 'plot', receivables: 'receivables', prizeBonds: 'cash' }[k];
+					var tileOf = { cash: 'cash', bank: 'bank', stock: 'business', committee: 'committee', shares: 'shares', crypto: 'shares', plot: 'plot', receivables: 'receivables', prizeBonds: 'cash', savingsCerts: 'cash' }[k];
 					if (tileOf) { p.tiles[tileOf] = true; p.money[k] = r[k]; }
 				}
 			});
@@ -689,6 +705,43 @@
 		render();
 	}
 
+	function Fidya(root) {
+		var F = CFG.fitrana || {};
+		var cur = pickCurrency(root);
+		var st = { fasts: 0, broken: 0, item: 'wheat', amount: 0 };
+		function preset() { return (F.currency === cur && F[st.item]) ? +F[st.item] : 0; }
+		st.amount = preset();
+		function out() {
+			var f = E.fidya(st.fasts, st.amount), k = E.kaffara(st.broken, st.amount);
+			return '<div class="myzt-line"><span>' + esc(t('fd_fidya')) + '</span><span>' + money(f, cur) + '</span></div>' +
+				'<div class="myzt-line"><span>' + esc(t('fd_kaffara')) + '</span><span>' + money(k, cur) + '</span></div>' +
+				'<div class="myzt-due" style="margin-top:8px">' + esc(t('fd_total')) + '</div><div class="myzt-amt">' + money(f + k, cur) + '</div>';
+		}
+		function render() {
+			root.innerHTML = '<div class="myzt-card myzt-mini">' + curSelect(cur) +
+				'<div class="myzt-field"><label for="myzt-df">' + esc(t('fd_fasts')) + '<span class="myzt-help">' + esc(t('fd_hFasts')) + '</span></label><input class="myzt-inp" id="myzt-df" inputmode="numeric" data-f="fasts" value="' + (st.fasts || '') + '" placeholder="0"></div>' +
+				'<div class="myzt-field"><label for="myzt-dk">' + esc(t('fd_broken')) + '<span class="myzt-help">' + esc(t('fd_hBroken')) + '</span></label><input class="myzt-inp" id="myzt-dk" inputmode="numeric" data-f="broken" value="' + (st.broken || '') + '" placeholder="0"></div>' +
+				'<div class="myzt-field"><label>' + esc(t('item')) + '</label><span class="myzt-seg">' + ['wheat', 'barley', 'dates', 'raisins'].map(function (i) {
+					return '<button type="button" data-item="' + i + '" aria-pressed="' + (st.item === i) + '">' + esc(t(i)) + '</button>';
+				}).join('') + '</span></div>' +
+				'<div class="myzt-field"><label for="myzt-da">' + esc(t('fd_perDay')) + ' (' + cur + ')</label><input class="myzt-inp" id="myzt-da" inputmode="decimal" data-f="amount" value="' + esc(plain(st.amount, cur)) + '"></div>' +
+				'<div data-out>' + out() + '</div>' +
+				(F.note ? '<p class="myzt-small">' + esc(F.note) + '</p>' : '') + '<div class="myzt-disc">' + esc(t('disc')) + '</div></div>';
+		}
+		root.addEventListener('input', function (e) {
+			var f = e.target.dataset.f;
+			if (!f) return;
+			st[f] = num(e.target.value);
+			root.querySelector('[data-out]').innerHTML = out();
+		});
+		root.addEventListener('change', function (e) { if (e.target.dataset.cur !== undefined) { cur = e.target.value; st.amount = preset(); render(); } });
+		root.addEventListener('click', function (e) {
+			var b = e.target.closest('[data-item]');
+			if (b) { st.item = b.dataset.item; st.amount = preset() || st.amount; render(); }
+		});
+		render();
+	}
+
 	function Khums(root) {
 		var cur = pickCurrency(root);
 		var st = { savings: 0, unusedItems: 0, tradeStock: 0, debts: 0 };
@@ -715,7 +768,7 @@
 	}
 
 	function boot() {
-		var map = { calculator: Calculator, goldrate: GoldRate, nisab: Nisab, fitrana: Fitrana, khums: Khums };
+		var map = { calculator: Calculator, goldrate: GoldRate, nisab: Nisab, fitrana: Fitrana, fidya: Fidya, khums: Khums };
 		document.querySelectorAll('.myzt[data-widget]').forEach(function (el) {
 			var fn = map[el.dataset.widget];
 			if (fn && !el.dataset.ready) { el.dataset.ready = '1'; fn(el); }
