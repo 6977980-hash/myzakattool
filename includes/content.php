@@ -37,7 +37,14 @@ function myzt_content_pages() {
 <h2>Why the result changes from one madhab to another</h2>
 <p>The biggest difference is <strong>jewellery that is worn</strong>. In the Hanafi madhab zakat is due on it (Darul Uloom Deoband, Fatwa 2310/H=713/th=1431). In the Shafi'i, Maliki and Hanbali madhabs permissible worn jewellery is exempt. Debts and the choice of gold or silver nisab also change the answer. Press <em>Compare all madhabs</em> above to see your own numbers side by side, or read the <a href="/madhab-comparison/">full comparison</a>.</p>
 <h2>Worked example</h2>
-<p>Ahmed has Rs 1,50,000 cash, Rs 3,50,000 in the bank, 3 tola of 22K gold jewellery that his wife does not own separately, and Rs 1,00,000 of debt due now. In the Hanafi madhab everything is counted and the debt is subtracted, so zakat is 2.5% of the total. In the Maliki and Hanbali madhabs the worn jewellery is not counted, so zakat is 2.5% of Rs 4,00,000 = Rs 10,000. In the Shafi'i madhab the debt is not subtracted and, with the gold nisab, Rs 5,00,000 may be below the nisab. The calculator above does these steps for you with today's rate.</p>
+<p>Ahmed has Rs 1,50,000 cash, Rs 3,50,000 in the bank, 3 tola of 22K gold jewellery that he owns and his wife wears, and Rs 1,00,000 of debt due now.</p>
+<ul>
+<li><strong>Hanafi and Ahl-e-Hadith:</strong> the jewellery is counted and the debt is subtracted, so zakat is 2.5% of Rs 4,00,000 plus the value of the gold.</li>
+<li><strong>Maliki and Hanbali:</strong> worn jewellery is not counted, so zakat is 2.5% of Rs 4,00,000 = Rs 10,000.</li>
+<li><strong>Shafi'i:</strong> the jewellery is exempt and the debt is not subtracted, so Rs 5,00,000 is compared with the gold nisab (about [myzt_rate type="nisab-gold" currency="PKR"] today). It is below it, so nothing is due unless he chooses the silver nisab.</li>
+<li><strong>Shia (Sistani):</strong> no zakat on paper money or jewellery; khums applies instead.</li>
+</ul>
+<p>The calculator above does these steps for you with today's rate.</p>
 <h2>Is my data safe?</h2>
 <p>Yes. Everything is calculated inside your browser. Nothing you type is sent to our server or saved by us. You can download a PDF report or a data file for your own records.</p>
 [myzt_faq]
@@ -71,9 +78,19 @@ HTML
 <li><a href="/shia-zakat-calculator/"><strong>Shia (Ja'fari) zakat calculator</strong></a>: rulings of Ayatollah Sistani, with a link to khums.</li>
 </ul>
 <p>Not sure? Use the <a href="/madhab-comparison/">madhab comparison</a> to see all six results for the same numbers.</p>
+<h2>How to choose your madhab</h2>
+<p>Follow the school you already follow for prayer and fasting. If your family is Deobandi or Barelvi, that is Hanafi. If you pray with Ahl-e-Hadith scholars, use the Ahl-e-Hadith calculator. Followers of Fiqh-e-Jafaria should use the Shia calculator. If you are a convert or unsure, ask the imam of the mosque you attend and use that school, rather than picking whichever gives the lowest number.</p>
+<h2>Why the results differ</h2>
+<p>The four questions that change the amount are: is worn jewellery zakatable, do debts reduce zakat, which nisab (gold or silver) applies to cash, and are gold and silver added together. For a family with a lot of jewellery, the Hanafi and Ahl-e-Hadith results are usually the highest; for someone with large debts, the Shafi'i result can be higher because debts are not subtracted. Each calculator page lists its source fatwas, and our <a href="/methodology/">methodology</a> explains how we read them.</p>
+<p>Whichever school you follow, the calculator gives an estimate. It is not a fatwa; see the <a href="/disclaimer/">disclaimer</a>.</p>
+[myzt_faq]
 HTML
 		. $author,
-		'faq'   => array(),
+		'faq'   => array(
+			array( 'q' => 'Which madhab is followed in Pakistan?', 'a' => 'Most Sunni Muslims in Pakistan follow the Hanafi madhab (Deobandi and Barelvi). There are also large Ahl-e-Hadith and Shia (Ja\'fari) communities.' ),
+			array( 'q' => 'Can I choose the madhab that gives less zakat?', 'a' => 'Scholars advise following the school you already follow, not choosing rulings for convenience. If unsure, ask a scholar.' ),
+			array( 'q' => 'Main kaunsa maslak chunoon?', 'a' => 'Jis maslak par aap namaz aur roza mein amal karte hain, wahi chunain. Deobandi aur Barelvi dono Hanafi hain.' ),
+		),
 	);
 
 	$madhab_pages = array(
@@ -304,9 +321,24 @@ HTML
 <li><a href="/khums-calculator/">Khums calculator</a></li>
 <li><a href="/nisab/">Nisab today</a> and <a href="/gold-rate-today/">gold rate today</a></li>
 </ul>
+<h2>Which tool should I use?</h2>
+<ul>
+<li><strong>A salaried person or family with savings and gold:</strong> start with the <a href="/">main calculator</a> and choose your madhab. Add family members to calculate each person's zakat separately.</li>
+<li><strong>Only gold or jewellery:</strong> the <a href="/zakat-on-gold-calculator/">zakat on gold calculator</a> takes tola, gram or ounce and the karat (24K, 22K, 21K, 18K).</li>
+<li><strong>A shopkeeper or trader:</strong> the <a href="/business-zakat-calculator/">business zakat calculator</a> values stock at selling price, adds money customers owe you and subtracts supplier bills.</li>
+<li><strong>In Pakistan, with a savings account:</strong> the <a href="/zakat-calculator-pakistan/">Pakistan calculator</a> handles committees (BC), prize bonds and the bank's 1 Ramadan deduction.</li>
+<li><strong>Before Eid:</strong> the <a href="/fitrana-calculator/">fitrana calculator</a> works out sadaqat al-fitr for every person in the house.</li>
+<li><strong>Fiqh-e-Jafaria:</strong> the <a href="/khums-calculator/">khums calculator</a> for the yearly surplus, next to the <a href="/shia-zakat-calculator/">Shia zakat calculator</a>.</li>
+</ul>
+<p>Every tool runs in your browser, so nothing you enter is sent to us, and each one can produce a short PDF of your own figures for your records.</p>
+[myzt_faq]
 HTML
 		. $author,
-		'faq'   => array(),
+		'faq'   => array(
+			array( 'q' => 'Are these zakat calculators free?', 'a' => 'Yes, all of them, with no sign-up.' ),
+			array( 'q' => 'Which gold rate do the calculators use?', 'a' => 'The international spot price, refreshed every hour. You can enter your own local rate instead.' ),
+			array( 'q' => 'Do the calculators work outside Pakistan?', 'a' => 'Yes. They support about 50 currencies, and grams and ounces as well as tola.' ),
+		),
 	);
 
 	$p['zakat-calculator-pakistan'] = array(
@@ -521,7 +553,7 @@ HTML
 		'nav'   => 'Guides',
 		'blurb' => 'answers',
 		'llms'  => true,
-		'content' => '<p>Clear answers with sources. Each guide links to the calculator so you can check your own numbers.</p>[myzt_guides]' . $author,
+		'content' => '<p>Clear answers to the zakat questions people ask most, each with its source and a link to the calculator so you can check your own numbers. Rulings differ between the schools, so every guide says which madhab a statement belongs to.</p><h2>All guides</h2>[myzt_guides]<h2>Start here</h2><p>New to zakat? Read <a href="/nisab/">what the nisab is</a>, then <a href="/who-can-receive-zakat/">who can receive zakat</a>, and use the <a href="/">calculator</a>. For the differences between schools see the <a href="/madhab-comparison/">madhab comparison</a>, and for rates see <a href="/gold-rate-today/">gold rate today</a>.</p>' . $author,
 		'faq'   => array(),
 	);
 
@@ -703,131 +735,4 @@ HTML,
 }
 
 /** Guide articles, created as posts in the "Guides" category. */
-function myzt_content_posts() {
-	$author = '[myzt_author]';
-	return array(
-		'who-can-receive-zakat' => array(
-			'title' => 'Who Can Receive Zakat? The 8 Categories Explained',
-			'seo'   => 'Who Can Receive Zakat? 8 Categories (Zakat Kis Ko Dein)',
-			'desc'  => 'The eight groups who may receive zakat according to Surah at-Tawbah 9:60, who cannot receive it (parents, children, spouse) and practical tips for paying.',
-			'nav'   => 'Who can receive zakat',
-			'blurb' => 'masarif-e-zakat',
-			'content' => <<<'HTML'
-[myzt_answer q="Who can receive zakat?"]The Quran (9:60) names eight groups: the poor (fuqara), the needy (masakin), zakat workers, those whose hearts are to be reconciled, freeing captives, people in debt, in the cause of Allah, and stranded travellers.[/myzt_answer]
-<h2>The eight categories</h2>
-<ol>
-<li><strong>Fuqara (the poor):</strong> people whose wealth is below the nisab after basic needs.</li>
-<li><strong>Masakin (the needy):</strong> people in even greater hardship.</li>
-<li><strong>Zakat workers:</strong> those appointed to collect and distribute zakat.</li>
-<li><strong>Those whose hearts are to be reconciled.</strong></li>
-<li><strong>Freeing captives.</strong></li>
-<li><strong>People in debt</strong> who cannot repay from their own wealth.</li>
-<li><strong>In the cause of Allah (fi sabilillah).</strong></li>
-<li><strong>Stranded travellers</strong> who have run out of money, even if wealthy at home.</li>
-</ol>
-<h2>Who cannot receive your zakat</h2>
-<ul>
-<li>Your parents and grandparents, your children and grandchildren.</li>
-<li>Your husband or wife (according to most Hanafi scholars a wife may not give to her husband; other schools allow it).</li>
-<li>Anyone who owns wealth at or above the nisab beyond basic needs.</li>
-<li>In Sunni fiqh, descendants of the Prophet ﷺ (Banu Hashim / Sayyids).</li>
-</ul>
-<p>Brothers, sisters, uncles, aunts and in-laws who are eligible may receive zakat, and giving to relatives brings double reward.</p>
-<h2>Practical tips</h2>
-<ul>
-<li>Make the intention (niyyah) of zakat when you give or set the money aside.</li>
-<li>You do not have to tell the person it is zakat.</li>
-<li>Trusted charities can distribute it for you; ask how they use zakat funds.</li>
-</ul>
-<p>First work out how much you owe with the <a href="/">zakat calculator</a>.</p>
-HTML
-			. $author . '[myzt_related slugs="home,fitrana-calculator,madhab-comparison,guides"]',
-			'faq' => array(),
-		),
-		'zakat-on-jewellery' => array(
-			'title' => 'Zakat on Jewellery: What the 4 Madhabs and Shia Say',
-			'seo'   => 'Zakat on Gold Jewellery: 4 Madhabs & Shia (Zevar Par Zakat)',
-			'desc'  => 'Is zakat due on gold jewellery that is worn? Hanafi and Ahl-e-Hadith say yes; Shafi\'i, Maliki and Hanbali say no; Sistani says no. Sources and how to calculate.',
-			'nav'   => 'Zakat on jewellery',
-			'blurb' => 'zevar par zakat',
-			'content' => <<<'HTML'
-[myzt_answer q="Is zakat due on jewellery?"]In the Hanafi madhab and according to the Saudi Permanent Committee (Ahl-e-Hadith), yes, even if worn. In the Shafi'i, Maliki and Hanbali madhabs permissible jewellery that is worn is exempt. According to Ayatollah Sistani it is exempt today.[/myzt_answer]
-<h2>Hanafi</h2>
-<p>Darul Uloom Deoband: "Zakah is wajib on them though they are used daily" (Fatwa 2310/H=713/th=1431). Count the pure gold at today's price.</p>
-<h2>Shafi'i</h2>
-<p>No zakat on permissible worn jewellery, unless it exceeds the customary amount (about 860 g) or is kept for investment (MUIS Office of the Mufti, citing al-Majmu').</p>
-<h2>Maliki and Hanbali</h2>
-<p>Permissible jewellery that is used or lent out is exempt (Irsyad Fatwa 38; <em>Akhsar al-Mukhtasarat</em>).</p>
-<h2>Ahl-e-Hadith</h2>
-<p>"The more correct view is that zakat on jewellery is obligatory if it reaches the nisab" (IslamQA 19901, citing the Permanent Committee).</p>
-<h2>Shia (Sistani)</h2>
-<p>Women's gold and silver ornaments are not zakatable while gold and silver are not used as currency (ruling 1916).</p>
-<h2>Who pays: husband or wife?</h2>
-<p>Zakat is due on the owner. If the jewellery belongs to the wife, it is her zakat, and it is calculated with her own wealth. The family mode in the calculator lets you calculate each person separately.</p>
-<p>Calculate it now with the <a href="/zakat-on-gold-calculator/">zakat on gold calculator</a>.</p>
-HTML
-			. $author . '[myzt_related slugs="zakat-on-gold-calculator,madhab-comparison,hanafi-zakat-calculator,shafi-zakat-calculator"]',
-			'faq' => array(),
-		),
-		'zakat-on-1-tola-gold' => array(
-			'title' => 'How Much Zakat on 1 Tola Gold?',
-			'seo'   => 'Zakat on 1 Tola Gold {year}: Amount at Today\'s Rate',
-			'desc'  => 'Zakat on 1 tola of gold at today\'s rate for 24K and 22K, when it is due (nisab), and how 1 tola combines with cash in Hanafi fiqh.',
-			'nav'   => 'Zakat on 1 tola gold',
-			'blurb' => 'today\'s amount',
-			'content' => <<<'HTML'
-[myzt_answer q="How much zakat on 1 tola of gold?"]Today 1 tola of 24K gold is worth about [myzt_rate type="gold-tola" currency="PKR"], so 2.5% is about [myzt_rate type="gold-tola-zakat" currency="PKR"]. For 22K gold it is about [myzt_rate type="gold22-tola-zakat" currency="PKR"].[/myzt_answer]
-<h2>Is zakat due on just 1 tola?</h2>
-<p>If 1 tola of gold is all you own, no: it is below the gold nisab of 7.5 tola. But if you also have some cash or silver, Hanafi scholars add everything together and compare it with the silver nisab (about [myzt_rate type="nisab-silver" currency="PKR"] today). Most people with savings will pass it, and then zakat is due on the 1 tola too.</p>
-<h2>Example</h2>
-<p>You have 1 tola of 22K gold and Rs 2,00,000 in the bank. In Hanafi fiqh, the total is above the silver nisab, so you pay 2.5% of the whole amount, including the gold.</p>
-<p>Enter your own numbers in the <a href="/zakat-on-gold-calculator/">zakat on gold calculator</a>.</p>
-HTML
-			. $author . '[myzt_related slugs="zakat-on-gold-calculator,gold-rate-today,nisab,zakat-on-1-lakh-rupees"]',
-			'faq' => array(),
-		),
-		'zakat-on-1-lakh-rupees' => array(
-			'title' => 'Zakat on 1 Lakh Rupees: How Much?',
-			'seo'   => 'Zakat on 1 Lakh Rupees: Rs 2,500 and When It Is Due',
-			'desc'  => 'Zakat on Rs 1,00,000 is Rs 2,500 if your total wealth is above the nisab. Table for 50,000 to 50 lakh, and why 1 lakh alone may be below the nisab.',
-			'nav'   => 'Zakat on 1 lakh',
-			'blurb' => 'Rs 2,500',
-			'content' => <<<'HTML'
-[myzt_answer q="How much zakat on 1 lakh rupees?"]Rs 2,500, which is 2.5% of Rs 1,00,000, if your total zakatable wealth has been above the nisab for a lunar year.[/myzt_answer]
-<figure class="wp-block-table"><table><thead><tr><th>Amount</th><th>Zakat (2.5%)</th></tr></thead><tbody>
-<tr><td>Rs 50,000</td><td>Rs 1,250</td></tr>
-<tr><td>Rs 1,00,000</td><td>Rs 2,500</td></tr>
-<tr><td>Rs 2,00,000</td><td>Rs 5,000</td></tr>
-<tr><td>Rs 5,00,000</td><td>Rs 12,500</td></tr>
-<tr><td>Rs 10,00,000</td><td>Rs 25,000</td></tr>
-<tr><td>Rs 50,00,000</td><td>Rs 1,25,000</td></tr>
-</tbody></table></figure>
-<h2>Is 1 lakh above the nisab?</h2>
-<p>The silver nisab today is about [myzt_rate type="nisab-silver" currency="PKR"]. If Rs 1,00,000 is all you have and it is below that, zakat is not due. If you also own gold or other savings, add them all together first.</p>
-<p>Check your full amount with the <a href="/zakat-calculator-pakistan/">Pakistan zakat calculator</a>.</p>
-HTML
-			. $author . '[myzt_related slugs="zakat-calculator-pakistan,nisab,zakat-on-1-tola-gold,home"]',
-			'faq' => array(),
-		),
-		'bank-zakat-deduction-pakistan' => array(
-			'title' => 'Bank Zakat Deduction in Pakistan on 1 Ramadan',
-			'seo'   => 'Bank Zakat Deduction Pakistan: 1 Ramadan, Nisab, CZ-50',
-			'desc'  => 'How banks deduct zakat on 1 Ramadan in Pakistan, which accounts are affected, the government nisab, the CZ-50 exemption declaration, and whether to pay again.',
-			'nav'   => 'Bank zakat deduction',
-			'blurb' => '1 Ramadan, CZ-50',
-			'content' => <<<'HTML'
-[myzt_answer q="Do banks deduct zakat in Pakistan?"]Yes. Under Pakistan's zakat law, banks deduct 2.5% on 1 Ramadan from savings and similar accounts whose balance is at or above the nisab announced by the government for that year. Current accounts are not deducted.[/myzt_answer]
-<h2>Which accounts are affected</h2>
-<p>Savings (profit-and-loss sharing) accounts, fixed deposits and some savings certificates held by Muslim citizens. The government notifies the nisab amount for deduction shortly before Ramadan each year.</p>
-<h2>Exemption: the CZ-50 declaration</h2>
-<p>A person who is exempt on grounds of their fiqh can submit a CZ-50 declaration, on stamp paper and attested as required, to the bank before Ramadan. Ask your bank for its current requirements. Our PDF report cannot be used for this.</p>
-<h2>Do I have to pay zakat again?</h2>
-<p>Calculate your full zakat on all your wealth with the <a href="/zakat-calculator-pakistan/">calculator</a>, then subtract what the bank already deducted. The bank deducts only on that account, on a fixed date and with the government's nisab, which may not match your own zakat year. Please ask your scholar about your situation.</p>
-<h2>Ways people avoid double payment</h2>
-<ul><li>Keep long-term savings in a current account and pay zakat yourself.</li><li>Submit CZ-50 if you are eligible.</li><li>Keep the bank's deduction certificate and subtract it from your total.</li></ul>
-HTML
-			. $author . '[myzt_related slugs="zakat-calculator-pakistan,hanafi-zakat-calculator,shia-zakat-calculator,disclaimer"]',
-			'faq' => array(),
-		),
-	);
-}
+require_once __DIR__ . '/content-posts.php';

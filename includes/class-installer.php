@@ -118,6 +118,7 @@ class MYZT_Installer {
 			}
 			if ( $existing ) {
 				$ids[ $slug ] = $existing->ID;
+				self::refresh( $existing, $def );
 				continue;
 			}
 			$postarr = array(
@@ -138,6 +139,7 @@ class MYZT_Installer {
 				continue;
 			}
 			self::meta( $id, $def );
+			update_post_meta( $id, '_myzt_hash', md5( get_post_field( 'post_content', $id ) ) );
 			$ids[ $slug ] = $id;
 			++$created;
 		}
@@ -152,12 +154,43 @@ class MYZT_Installer {
 		return $created;
 	}
 
+	/**
+	 * Brings a page the plugin created up to date with the current text, but only if nobody has edited it
+	 * since (its content still matches what the plugin last wrote, or it was never modified).
+	 */
+	private static function refresh( $post, $def ) {
+		if ( ! get_post_meta( $post->ID, '_myzt_managed', true ) ) {
+			return false;
+		}
+		$hash      = get_post_meta( $post->ID, '_myzt_hash', true );
+		$current   = md5( $post->post_content );
+		$untouched = $hash ? hash_equals( $hash, $current ) : $post->post_modified_gmt === $post->post_date_gmt;
+		if ( ! $untouched ) {
+			return false;
+		}
+		if ( $post->post_content !== $def['content'] ) {
+			wp_update_post(
+				array(
+					'ID'           => $post->ID,
+					'post_content' => $def['content'],
+					'post_title'   => $def['title'],
+					'post_excerpt' => isset( $def['desc'] ) ? str_replace( '{year}', (string) self::season_year(), $def['desc'] ) : '',
+				)
+			);
+		}
+		self::meta( $post->ID, $def );
+		update_post_meta( $post->ID, '_myzt_hash', md5( get_post_field( 'post_content', $post->ID ) ) );
+		return true;
+	}
+
 	private static function meta( $id, $def ) {
 		update_post_meta( $id, '_myzt_managed', 1 );
 		update_post_meta( $id, '_myzt_title', $def['seo'] );
 		update_post_meta( $id, '_myzt_desc', $def['desc'] );
 		if ( ! empty( $def['faq'] ) ) {
 			update_post_meta( $id, '_myzt_faq', wp_slash( wp_json_encode( $def['faq'], JSON_UNESCAPED_UNICODE ) ) );
+		} else {
+			delete_post_meta( $id, '_myzt_faq' );
 		}
 		if ( in_array( get_post_field( 'post_name', $id ), array( 'privacy-policy', 'terms' ), true ) ) {
 			update_post_meta( $id, '_myzt_noindex', 1 );
