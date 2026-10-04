@@ -21,6 +21,8 @@ class MYZT_Installer {
 		add_shortcode( 'myzt_guides', array( __CLASS__, 'guides_list' ) );
 		add_action( 'wp_footer', array( __CLASS__, 'footer_links' ), 50 );
 		add_action( 'after_switch_theme', array( __CLASS__, 'menu' ) );
+		add_action( 'after_switch_theme', array( __CLASS__, 'logo' ) );
+		add_action( 'wp_head', array( __CLASS__, 'logo_css' ), 20 );
 	}
 
 	/** Zakat season year: the year of the coming Ramadan (Ramadan falls in Feb-Mar in 2026-2030). */
@@ -57,6 +59,7 @@ class MYZT_Installer {
 		}
 		self::create_pages();
 		self::menu();
+		self::logo();
 		if ( $first ) {
 			update_option( 'myzt_installed', time() );
 		}
@@ -216,6 +219,53 @@ class MYZT_Installer {
 		$add( 'about', 'About' );
 		$locations[ $loc ] = $menu_id;
 		set_theme_mod( 'nav_menu_locations', $locations );
+	}
+
+	/** Sets the plugin's logo as the theme logo (the favicon set comes from MYZT_SEO), unless the owner already chose their own. */
+	public static function logo() {
+		if ( get_theme_mod( 'custom_logo' ) ) {
+			return;
+		}
+		$id = (int) get_option( 'myzt_logo_id' );
+		if ( ! $id || ! get_post( $id ) ) {
+			$src = MYZAKATTOOL_DIR . 'assets/img/icon-512.png';
+			$up  = wp_upload_bits( 'my-zakat-tool-logo.png', null, file_get_contents( $src ) ); // phpcs:ignore
+			if ( ! empty( $up['error'] ) ) {
+				return;
+			}
+			$id = wp_insert_attachment(
+				array(
+					'post_title'     => 'My Zakat Tool logo',
+					'post_mime_type' => 'image/png',
+					'post_status'    => 'inherit',
+				),
+				$up['file']
+			);
+			if ( ! $id || is_wp_error( $id ) ) {
+				return;
+			}
+			require_once ABSPATH . 'wp-admin/includes/image.php';
+			wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $up['file'] ) );
+			update_post_meta( $id, '_wp_attachment_image_alt', 'My Zakat Tool' );
+			update_option( 'myzt_logo_id', $id );
+		}
+		set_theme_mod( 'custom_logo', $id );
+		// GeneratePress shows the logo at full size unless a width is set.
+		$gp = get_option( 'generate_settings' );
+		if ( is_array( $gp ) || false === $gp ) {
+			$gp = (array) $gp;
+			if ( empty( $gp['logo_width'] ) ) {
+				$gp['logo_width'] = 44;
+				update_option( 'generate_settings', $gp );
+			}
+		}
+	}
+
+	/** Keeps the header logo small next to the site name in any theme. */
+	public static function logo_css() {
+		if ( (int) get_theme_mod( 'custom_logo' ) === (int) get_option( 'myzt_logo_id' ) ) {
+			echo '<style id="myzt-logo">.site-logo img,.custom-logo{max-height:44px;width:auto}.site-branding-container{display:flex;align-items:center;gap:10px}</style>' . "\n";
+		}
 	}
 
 	/** [myzt_guides]: list of guide posts. */
