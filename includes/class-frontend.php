@@ -260,7 +260,7 @@ class MYZT_Frontend {
 	public static function trust() {
 		self::enqueue();
 		$s     = MYZT_Settings::get();
-		$items = array( '✓ Sources cited for every madhab', '✓ Your data is never saved', '✓ Live gold &amp; silver rates' );
+		$items = array( '✓ Sources cited for every madhab', '✓ Your data stays on your device', '✓ Live gold &amp; silver rates' );
 		if ( $s['reviewer'] ) {
 			$items[] = '✓ Reviewed by ' . esc_html( $s['reviewer'] );
 		}
