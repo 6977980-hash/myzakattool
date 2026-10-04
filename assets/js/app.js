@@ -70,6 +70,20 @@
 			fd_fasts: 'Fasts you cannot make up (fidya)', fd_broken: 'Kaffaras due (fasts broken on purpose)', fd_perDay: 'Amount for one poor person, one day', fd_fidya: 'Fidya', fd_kaffara: 'Kaffara (feeding 60 poor people each)', fd_total: 'Total to pay',
 			fd_hFasts: 'Only for illness or old age with no hope of fasting later. Otherwise make the fasts up.', fd_hBroken: 'Hanafi: several fasts broken in the same Ramadan need one kaffara. Kaffara by feeding is only for someone who cannot fast 60 days in a row.',
 			wheat: 'Wheat / flour', barley: 'Barley', dates: 'Dates', raisins: 'Raisins',
+			h_start: 'Date your wealth first reached the nisab (or your usual zakat date)', h_next: 'Your next zakat dates', h_left: 'days left',
+			h_ics: 'Add next 5 zakat dates to my calendar', h_note: 'Dates move about 11 days earlier each year (lunar year). They may differ by a day with moon sighting.',
+			h_missed: 'Missed years', h_missedN: 'How many years of zakat were not paid?', h_wealthY: 'Zakatable wealth on zakat date, year', h_sub: 'Count earlier unpaid zakat as a debt (Hanafi)',
+			h_nisabNow: 'Nisab used (today\'s silver nisab, edit if needed)', h_missedTotal: 'Zakat owed for missed years', h_yearsSince: 'Lunar years since this date',
+			u_crops: 'Crops (ushr)', u_animals: 'Livestock', u_madhab: 'Madhab', u_hanafi: 'Hanafi', u_others: "Shafi'i, Maliki, Hanbali",
+			u_qty: 'Harvest quantity', u_price: 'Price per', u_water: 'Watering', u_rain: 'Rain / river (10%)', u_irr: 'Tube well / paid water (5%)', u_mixed: 'Half and half (7.5%)',
+			u_due: 'Ushr to give', u_value: 'Value', u_notDue: 'Below the nisab of 5 wasq (about 653 kg): no ushr in this madhab.',
+			u_note: 'Ushr is due at harvest, with no waiting year. Costs of seed, fertiliser and labour are not deducted in the classical view; some contemporary scholars allow deducting them, so ask your scholar. Hanafi: if both kinds of water are used, the one used for most of the season decides.',
+			a_sheep: 'Goats and sheep', a_cows: 'Cows and buffaloes', a_camels: 'Camels', a_give: 'Give',
+			a_none: 'Below the nisab: nothing due.', w_sheep: 'goat or sheep (at least 1 year old)', w_tabi: 'calf in its 2nd year (tabi\')', w_musinnah: 'cow in its 3rd year (musinnah)',
+			w_bintMakhad: 'she-camel in its 2nd year', w_bintLabun: 'she-camel in its 3rd year', w_hiqqa: 'she-camel in its 4th year', w_jadha: 'she-camel in its 5th year', w_askScholar: 'More than 120 camels: please ask a scholar, the schools differ.',
+			a_note: 'Only for animals that graze freely for most of the year, are not used for work, and have been owned for a lunar year. Animals kept for sale are trade goods: add their value in the main calculator.',
+			k_date: 'Your khums date', k_ics: 'Add khums date to calendar', k_paid: 'Not included: money on which khums was already paid, and gifts or inheritance (ask your marja\'s office about gifts).',
+			k_where: 'Pay Sahm-e-Imam to the office or authorised representative of your marja, and Sahm-e-Sadat to needy Sayyids.',
 			k_savings: 'Savings from this year\'s income', k_unused: 'Items bought from income, still unused', k_stock: 'Trade stock (from income)', k_debts: 'Debts of this year',
 			k_total: 'Khums (20%)', k_surplus: 'Surplus', k_imam: 'Sahm-e-Imam (10%)', k_sadat: 'Sahm-e-Sadat (10%)',
 			perGram: 'per gram', perTola: 'per tola', perOz: 'per ounce', purity: 'Purity',
@@ -129,6 +143,20 @@
 			fd_fasts: 'روزے جن کی قضا ممکن نہیں (فدیہ)', fd_broken: 'کفارے (جان بوجھ کر توڑے گئے روزے)', fd_perDay: 'ایک مسکین کا ایک دن کا کھانا', fd_fidya: 'فدیہ', fd_kaffara: 'کفارہ (ہر ایک کے لیے 60 مسکین)', fd_total: 'کل رقم',
 			fd_hFasts: 'صرف بیماری یا بڑھاپے میں جب بعد میں روزہ رکھنے کی امید نہ ہو۔ ورنہ قضا رکھیں۔', fd_hBroken: 'حنفی: ایک رمضان کے کئی توڑے گئے روزوں کا ایک کفارہ کافی ہے۔ کھانا کھلانا صرف اس کے لیے ہے جو 60 مسلسل روزے نہ رکھ سکے۔',
 			wheat: 'گندم / آٹا', barley: 'جو', dates: 'کھجور', raisins: 'کشمش',
+			h_start: 'جس دن مال پہلی بار نصاب کو پہنچا (یا آپ کی زکوٰۃ کی تاریخ)', h_next: 'آپ کی اگلی زکوٰۃ کی تاریخیں', h_left: 'دن باقی',
+			h_ics: 'اگلی 5 تاریخیں کیلنڈر میں شامل کریں', h_note: 'قمری سال کی وجہ سے تاریخ ہر سال تقریباً 11 دن پہلے آتی ہے۔ چاند کے حساب سے ایک دن کا فرق ہو سکتا ہے۔',
+			h_missed: 'رہ جانے والے سال', h_missedN: 'کتنے سال کی زکوٰۃ ادا نہیں ہوئی؟', h_wealthY: 'زکوٰۃ کی تاریخ پر قابلِ زکوٰۃ مال، سال', h_sub: 'پچھلی ادا نہ کی گئی زکوٰۃ کو قرض شمار کریں (حنفی)',
+			h_nisabNow: 'نصاب (آج کا چاندی کا نصاب، چاہیں تو بدلیں)', h_missedTotal: 'رہ جانے والے سالوں کی زکوٰۃ', h_yearsSince: 'اس تاریخ سے گزرے قمری سال',
+			u_crops: 'فصل (عشر)', u_animals: 'مویشی', u_madhab: 'مسلک', u_hanafi: 'حنفی', u_others: 'شافعی، مالکی، حنبلی',
+			u_qty: 'پیداوار کی مقدار', u_price: 'قیمت فی', u_water: 'آب پاشی', u_rain: 'بارش / دریا (10%)', u_irr: 'ٹیوب ویل / خریدا پانی (5%)', u_mixed: 'آدھا آدھا (7.5%)',
+			u_due: 'عشر', u_value: 'قیمت', u_notDue: 'پانچ وسق (تقریباً 653 کلو) سے کم: اس مسلک میں عشر نہیں۔',
+			u_note: 'عشر فصل کٹنے پر واجب ہے، سال گزرنا شرط نہیں۔ بیج، کھاد اور مزدوری کا خرچ روایتی رائے میں منہا نہیں ہوتا؛ بعض علما اجازت دیتے ہیں، اپنے عالم سے پوچھیں۔ حنفی: دونوں طرح کا پانی ہو تو جو زیادہ عرصہ استعمال ہوا اس کا اعتبار ہے۔',
+			a_sheep: 'بکریاں اور بھیڑیں', a_cows: 'گائے اور بھینسیں', a_camels: 'اونٹ', a_give: 'دیں',
+			a_none: 'نصاب سے کم: کچھ واجب نہیں۔', w_sheep: 'بکری یا بھیڑ (کم از کم 1 سال)', w_tabi: 'دوسرے سال کا بچھڑا (تبیع)', w_musinnah: 'تیسرے سال کی گائے (مسنہ)',
+			w_bintMakhad: 'دوسرے سال کی اونٹنی', w_bintLabun: 'تیسرے سال کی اونٹنی', w_hiqqa: 'چوتھے سال کی اونٹنی', w_jadha: 'پانچویں سال کی اونٹنی', w_askScholar: '120 سے زیادہ اونٹ: عالم سے پوچھیں، مسالک میں اختلاف ہے۔',
+			a_note: 'صرف ان جانوروں پر جو سال کا زیادہ حصہ چر کر گزارتے ہوں، کام میں نہ لیے جاتے ہوں اور ایک قمری سال ملکیت میں رہے ہوں۔ بیچنے کے لیے رکھے جانور تجارتی مال ہیں۔',
+			k_date: 'آپ کی خمس کی تاریخ', k_ics: 'خمس کی تاریخ کیلنڈر میں شامل کریں', k_paid: 'شامل نہیں: وہ رقم جس کا خمس پہلے ادا ہو چکا، اور تحفہ یا وراثت (تحفے کے بارے میں اپنے مرجع کے دفتر سے پوچھیں)۔',
+			k_where: 'سہمِ امام اپنے مرجع کے دفتر یا مجاز نمائندے کو، اور سہمِ سادات مستحق سادات کو دیں۔',
 			k_savings: 'اس سال کی آمدنی سے بچت', k_unused: 'آمدنی سے خریدی غیر استعمال شدہ چیزیں', k_stock: 'تجارتی مال (آمدنی سے)', k_debts: 'اس سال کے قرض',
 			k_total: 'خمس (20%)', k_surplus: 'بچت', k_imam: 'سہمِ امام (10%)', k_sadat: 'سہمِ سادات (10%)',
 			perGram: 'فی گرام', perTola: 'فی تولہ', perOz: 'فی اونس', purity: 'خالصیت',
@@ -174,6 +202,30 @@
 	function save(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
 	function unitLabel(u) { return u === 'tola' ? 'tola' : u === 'oz' ? 'oz' : 'g'; }
 	function unitGrams(u) { return u === 'tola' ? E.GRAMS_PER_TOLA : u === 'oz' ? E.GRAMS_PER_OZ : 1; }
+	/** Calendar file with one all-day event per date and a reminder 3 days before. */
+	function icsFile(name, title, dates) {
+		var stamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z';
+		var lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//My Zakat Tool//EN'];
+		dates.forEach(function (iso, i) {
+			var d = iso.replace(/-/g, '');
+			var end = new Date(Date.parse(iso + 'T00:00:00Z') + 864e5).toISOString().slice(0, 10).replace(/-/g, '');
+			lines.push('BEGIN:VEVENT', 'UID:' + Date.now() + '-' + i + '@myzakattool', 'DTSTAMP:' + stamp, 'DTSTART;VALUE=DATE:' + d, 'DTEND;VALUE=DATE:' + end,
+				'SUMMARY:' + title, 'DESCRIPTION:' + (CFG.siteUrl || location.origin), 'BEGIN:VALARM', 'TRIGGER:-P3D', 'ACTION:DISPLAY', 'DESCRIPTION:' + title, 'END:VALARM', 'END:VEVENT');
+		});
+		lines.push('END:VCALENDAR');
+		download(name, new Blob([lines.join('\r\n')], { type: 'text/calendar' }));
+	}
+
+	function hijri(iso) {
+		try {
+			return new Intl.DateTimeFormat((lang === 'ur' ? 'ur' : 'en') + '-u-ca-islamic-umalqura', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(iso + 'T00:00:00Z'));
+		} catch (e) { return ''; }
+	}
+
+	function niceDate(iso) {
+		try { return new Intl.DateTimeFormat(lang === 'ur' ? 'ur-PK' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(iso + 'T00:00:00Z')); } catch (e) { return iso; }
+	}
+
 	function download(name, blob) {
 		var a = document.createElement('a');
 		a.href = URL.createObjectURL(blob);
@@ -755,8 +807,21 @@
 		function render() {
 			root.innerHTML = '<div class="myzt-card myzt-mini">' + curSelect(cur) + [['savings', 'k_savings'], ['unusedItems', 'k_unused'], ['tradeStock', 'k_stock'], ['debts', 'k_debts']].map(function (f) {
 				return '<div class="myzt-field"><label for="myzt-k-' + f[0] + '">' + esc(t(f[1])) + '</label><input class="myzt-inp" id="myzt-k-' + f[0] + '" inputmode="decimal" data-k="' + f[0] + '" value="' + esc(plain(st[f[0]], cur)) + '"></div>';
-			}).join('') + '<div data-out>' + out() + '</div><div class="myzt-disc">' + esc(t('disc')) + '</div></div>';
+			}).join('') + '<div data-out>' + out() + '</div>' +
+				'<p class="myzt-small">' + esc(t('k_paid')) + '</p><p class="myzt-small">' + esc(t('k_where')) + '</p>' +
+				'<div class="myzt-field"><label for="myzt-kd">' + esc(t('k_date')) + '</label><div class="myzt-row"><input class="myzt-inp" type="date" id="myzt-kd" data-kdate value="' + esc(kdate) + '">' +
+				'<button type="button" class="myzt-btn" data-act="kics">📅 ' + esc(t('k_ics')) + '</button></div></div>' +
+				'<div class="myzt-disc">' + esc(t('disc')) + '</div></div>';
 		}
+		var kdate = load('myzt_khums_date', '') || '';
+		root.addEventListener('click', function (e) {
+			if (!e.target.closest('[data-act="kics"]') || !kdate) return;
+			// Khums year is a solar year: same date every year.
+			var y = new Date().getUTCFullYear(), md = kdate.slice(4), list = [];
+			for (var i = 0; list.length < 5 && i < 7; i++) { var d = (y + i) + md; if (d >= new Date().toISOString().slice(0, 10)) list.push(d); }
+			icsFile('khums-date.ics', t('k_date'), list);
+		});
+		root.addEventListener('change', function (e) { if (e.target.hasAttribute('data-kdate')) { kdate = e.target.value; save('myzt_khums_date', kdate); } });
 		root.addEventListener('input', function (e) {
 			var k = e.target.dataset.k;
 			if (!k) return;
@@ -767,8 +832,129 @@
 		render();
 	}
 
+	function Hawl(root) {
+		var KEY = 'myzt_hawl';
+		var cur = pickCurrency(root);
+		var st = load(KEY, null) || { start: '', missed: 0, wealth: [], sub: true, nisab: 0 };
+		var today = new Date().toISOString().slice(0, 10);
+		function nisabNow() { var pr = pricesFor(cur); return pr ? E.nisabValues(pr).silver : 0; }
+		function out() {
+			var h = '';
+			if (st.start) {
+				var dates = E.hawlDates(st.start, 3, today);
+				h += '<div class="myzt-due">' + esc(t('h_next')) + '</div>';
+				dates.forEach(function (d, i) {
+					var left = Math.round((Date.parse(d + 'T00:00:00Z') - Date.parse(today + 'T00:00:00Z')) / 864e5);
+					h += '<div class="myzt-line"><span>' + (i === 0 ? '<b>' : '') + esc(niceDate(d)) + (i === 0 ? '</b>' : '') + ' <span class="myzt-small">' + esc(hijri(d)) + '</span></span><span>' + left + ' ' + esc(t('h_left')) + '</span></div>';
+				});
+				h += '<div class="myzt-small" style="margin:6px 0">' + esc(t('h_yearsSince')) + ': ' + E.hawlYearsBetween(st.start, today) + '</div>' +
+					'<button type="button" class="myzt-btn" data-act="ics">📅 ' + esc(t('h_ics')) + '</button>' +
+					'<p class="myzt-small">' + esc(t('h_note')) + '</p>';
+			}
+			return h;
+		}
+		function missedOut() {
+			var n = Math.min(15, Math.max(0, Math.floor(st.missed)));
+			var nis = st.nisab || nisabNow();
+			var r = E.missedZakat(st.wealth.slice(0, n), nis, st.sub);
+			return r.rows.map(function (row, i) {
+				return '<div class="myzt-line"><span>' + (i + 1) + '</span><span>' + money(row.zakat, cur) + '</span></div>';
+			}).join('') + '<div class="myzt-due" style="margin-top:8px">' + esc(t('h_missedTotal')) + '</div><div class="myzt-amt">' + money(r.total, cur) + '</div>';
+		}
+		function render() {
+			var n = Math.min(15, Math.max(0, Math.floor(st.missed)));
+			var rows = '';
+			for (var i = 0; i < n; i++) {
+				rows += '<div class="myzt-field"><label for="myzt-hw' + i + '">' + esc(t('h_wealthY')) + ' ' + (i + 1) + '</label><input class="myzt-inp" id="myzt-hw' + i + '" inputmode="decimal" data-w="' + i + '" value="' + esc(plain(st.wealth[i] || 0, cur)) + '"></div>';
+			}
+			root.innerHTML = '<div class="myzt-card myzt-mini">' +
+				'<div class="myzt-field"><label for="myzt-hs">' + esc(t('h_start')) + '</label><input class="myzt-inp" type="date" id="myzt-hs" data-h="start" max="' + today + '" value="' + esc(st.start) + '"></div>' +
+				'<div data-out>' + out() + '</div>' +
+				'<div class="myzt-sec"><h4>' + esc(t('h_missed')) + '</h4>' + curSelect(cur) +
+				'<div class="myzt-field"><label for="myzt-hm">' + esc(t('h_missedN')) + '</label><input class="myzt-inp" id="myzt-hm" inputmode="numeric" data-h="missed" value="' + (n || '') + '" placeholder="0"></div>' +
+				'<div class="myzt-field"><label for="myzt-hn">' + esc(t('h_nisabNow')) + '</label><input class="myzt-inp" id="myzt-hn" inputmode="decimal" data-h="nisab" value="' + esc(plain(st.nisab || nisabNow(), cur)) + '"></div>' +
+				'<label class="myzt-small"><input type="checkbox" data-h="sub"' + (st.sub ? ' checked' : '') + '> ' + esc(t('h_sub')) + '</label>' +
+				rows + '<div data-missed>' + (n ? missedOut() : '') + '</div></div>' +
+				'<div class="myzt-disc">' + esc(t('disc')) + '</div></div>';
+		}
+		root.addEventListener('change', function (e) {
+			var el = e.target;
+			if (el.dataset.cur !== undefined) { cur = el.value; st.nisab = 0; save(KEY, st); render(); return; }
+			if (el.dataset.h === 'start') { st.start = el.value; save(KEY, st); root.querySelector('[data-out]').innerHTML = out(); }
+			if (el.dataset.h === 'sub') { st.sub = el.checked; save(KEY, st); root.querySelector('[data-missed]').innerHTML = missedOut(); }
+			if (el.dataset.h === 'missed' && num(el.value) !== st.missed) { st.missed = num(el.value); save(KEY, st); setTimeout(render, 0); }
+		});
+		root.addEventListener('input', function (e) {
+			var el = e.target;
+			if (el.dataset.w !== undefined) st.wealth[+el.dataset.w] = num(el.value);
+			else if (el.dataset.h === 'nisab') st.nisab = num(el.value);
+			else return;
+			save(KEY, st);
+			root.querySelector('[data-missed]').innerHTML = missedOut();
+		});
+		root.addEventListener('click', function (e) {
+			if (e.target.closest('[data-act="ics"]') && st.start) icsFile('zakat-dates.ics', t('calTitle'), E.hawlDates(st.start, 5, today));
+		});
+		render();
+		freshRates(function () { if (!st.nisab) render(); });
+	}
+
+	function Ushr(root) {
+		var cur = pickCurrency(root);
+		var cd = E.countryDefaults(COUNTRY);
+		var st = { tab: 'crops', madhab: cd.madhab === 'hanafi' || cd.madhab === 'ahlehadith' ? 'hanafi' : 'shafii', qty: 0, unit: 'maund', price: 0, water: 'rain', sheep: 0, cows: 0, camels: 0 };
+		function kg() { return st.unit === 'maund' ? st.qty * 40 : st.qty; }
+		function cropsOut() {
+			var perKg = st.unit === 'maund' ? st.price / 40 : st.price;
+			var r = E.ushr(st.madhab, kg(), perKg, st.water);
+			if (!r.due) return kg() ? '<div class="myzt-note">' + esc(t('u_notDue')) + '</div>' : '';
+			var qty = st.unit === 'maund' ? r.kg / 40 : r.kg;
+			return '<div class="myzt-due">' + esc(t('u_due')) + '</div><div class="myzt-amt">' + (Math.round(qty * 100) / 100) + ' ' + (st.unit === 'maund' ? 'maund' : 'kg') + '</div>' +
+				(r.value ? '<div class="myzt-line"><span>' + esc(t('u_value')) + '</span><span><b>' + money(r.value, cur) + '</b></span></div>' : '');
+		}
+		function animalsOut() {
+			return ['sheep', 'cows', 'camels'].map(function (k) {
+				if (!st[k]) return '';
+				var due = E.livestock(k, st[k]);
+				var txt = due.length ? due.map(function (d) { return (d.n ? d.n + ' × ' : '') + t('w_' + d.what); }).join(' + ') : t('a_none');
+				return '<div class="myzt-line"><span>' + esc(t('a_' + k)) + ': ' + st[k] + '</span><span><b>' + esc(txt) + '</b></span></div>';
+			}).join('');
+		}
+		function seg(key, opts) {
+			return '<span class="myzt-seg">' + opts.map(function (o) { return '<button type="button" data-u="' + key + '" data-v="' + o[0] + '" aria-pressed="' + (st[key] === o[0]) + '">' + esc(t(o[1])) + '</button>'; }).join('') + '</span>';
+		}
+		function render() {
+			var h = '<div class="myzt-card myzt-mini"><div class="myzt-field">' + seg('tab', [['crops', 'u_crops'], ['animals', 'u_animals']]) + '</div>';
+			if (st.tab === 'crops') {
+				h += '<div class="myzt-field"><label>' + esc(t('u_madhab')) + '</label>' + seg('madhab', [['hanafi', 'u_hanafi'], ['shafii', 'u_others']]) + '</div>' +
+					'<div class="myzt-field"><label for="myzt-uq">' + esc(t('u_qty')) + '</label><div class="myzt-row"><input class="myzt-inp" id="myzt-uq" inputmode="decimal" data-n="qty" value="' + (st.qty || '') + '" placeholder="0">' +
+					'<span class="myzt-seg"><button type="button" data-u="unit" data-v="maund" aria-pressed="' + (st.unit === 'maund') + '">maund (40 kg)</button><button type="button" data-u="unit" data-v="kg" aria-pressed="' + (st.unit === 'kg') + '">kg</button></span></div></div>' +
+					'<div class="myzt-field"><label for="myzt-up">' + esc(t('u_price')) + ' ' + (st.unit === 'maund' ? 'maund' : 'kg') + ' (' + cur + ')</label><input class="myzt-inp" id="myzt-up" inputmode="decimal" data-n="price" value="' + esc(plain(st.price, cur)) + '"></div>' +
+					'<div class="myzt-field"><label>' + esc(t('u_water')) + '</label>' + seg('water', [['rain', 'u_rain'], ['irrigated', 'u_irr'], ['mixed', 'u_mixed']]) + '</div>' +
+					'<div data-out>' + cropsOut() + '</div><p class="myzt-small">' + esc(t('u_note')) + '</p>';
+			} else {
+				h += ['sheep', 'cows', 'camels'].map(function (k) {
+					return '<div class="myzt-field"><label for="myzt-a' + k + '">' + esc(t('a_' + k)) + '</label><input class="myzt-inp" id="myzt-a' + k + '" inputmode="numeric" data-n="' + k + '" value="' + (st[k] || '') + '" placeholder="0"></div>';
+				}).join('') + '<div data-out>' + animalsOut() + '</div><p class="myzt-small">' + esc(t('a_note')) + '</p>';
+			}
+			root.innerHTML = h + curSelect(cur) + '<div class="myzt-disc">' + esc(t('disc')) + '</div></div>';
+		}
+		root.addEventListener('input', function (e) {
+			var k = e.target.dataset.n;
+			if (!k) return;
+			st[k] = num(e.target.value);
+			root.querySelector('[data-out]').innerHTML = st.tab === 'crops' ? cropsOut() : animalsOut();
+		});
+		root.addEventListener('click', function (e) {
+			var b = e.target.closest('[data-u]');
+			if (b) { st[b.dataset.u] = b.dataset.v; render(); }
+		});
+		root.addEventListener('change', function (e) { if (e.target.dataset.cur !== undefined) { cur = e.target.value; render(); } });
+		render();
+	}
+
 	function boot() {
-		var map = { calculator: Calculator, goldrate: GoldRate, nisab: Nisab, fitrana: Fitrana, fidya: Fidya, khums: Khums };
+		var map = { calculator: Calculator, goldrate: GoldRate, nisab: Nisab, fitrana: Fitrana, fidya: Fidya, khums: Khums, hawl: Hawl, ushr: Ushr };
 		document.querySelectorAll('.myzt[data-widget]').forEach(function (el) {
 			var fn = map[el.dataset.widget];
 			if (fn && !el.dataset.ready) { el.dataset.ready = '1'; fn(el); }

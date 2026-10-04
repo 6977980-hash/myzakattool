@@ -319,8 +319,11 @@ HTML
 <li><a href="/business-zakat-calculator/">Business zakat calculator</a> (stock, receivables, suppliers)</li>
 <li><a href="/fitrana-calculator/">Fitrana calculator</a></li>
 <li><a href="/fidya-kaffara-calculator/">Fidya and kaffara calculator</a></li>
+<li><a href="/zakat-date-calculator/">Zakat date calculator</a> (hawl tracker, reminders, missed years)</li>
+<li><a href="/ushr-calculator/">Ushr and livestock calculator</a> (crops, goats, cows, camels)</li>
 <li><a href="/khums-calculator/">Khums calculator</a></li>
 <li><a href="/nisab/">Nisab today</a> and <a href="/gold-rate-today/">gold rate today</a></li>
+<li><a href="/free-zakat-widget/">Free nisab widget</a> for mosque and blog websites</li>
 </ul>
 <h2>Which tool should I use?</h2>
 <ul>
@@ -329,6 +332,8 @@ HTML
 <li><strong>A shopkeeper or trader:</strong> the <a href="/business-zakat-calculator/">business zakat calculator</a> values stock at selling price, adds money customers owe you and subtracts supplier bills.</li>
 <li><strong>In Pakistan, with a savings account:</strong> the <a href="/zakat-calculator-pakistan/">Pakistan calculator</a> handles committees (BC), prize bonds and the bank's 1 Ramadan deduction.</li>
 <li><strong>Before Eid:</strong> the <a href="/fitrana-calculator/">fitrana calculator</a> works out sadaqat al-fitr for every person in the house, and the <a href="/fidya-kaffara-calculator/">fidya and kaffara calculator</a> covers missed or broken fasts.</li>
+<li><strong>Not sure when your zakat is due, or missed some years:</strong> the <a href="/zakat-date-calculator/">zakat date calculator</a>.</li>
+<li><strong>Farmers and livestock owners:</strong> the <a href="/ushr-calculator/">ushr and livestock calculator</a>.</li>
 <li><strong>Fiqh-e-Jafaria:</strong> the <a href="/khums-calculator/">khums calculator</a> for the yearly surplus, next to the <a href="/shia-zakat-calculator/">Shia zakat calculator</a>.</li>
 </ul>
 <p>Every tool runs in your browser, so nothing you enter is sent to us, and each one can produce a short PDF of your own figures for your records.</p>
@@ -496,6 +501,99 @@ HTML
 		),
 	);
 
+	$p['zakat-date-calculator'] = array(
+		'title' => 'Zakat Date Calculator and Hawl Tracker',
+		'seo'   => 'Zakat Date Calculator: Hawl Tracker, Reminders & Missed Years',
+		'desc'  => 'Find your next zakat date from the day your wealth reached the nisab, get calendar reminders, and calculate zakat for years you missed (qaza zakat).',
+		'nav'   => 'Zakat date',
+		'blurb' => 'hawl, reminders',
+		'hub'   => 'calculators',
+		'llms'  => true,
+		'content' => <<<'HTML'
+[myzt_answer q="When is my zakat due?"]Zakat is due one lunar (Islamic) year after the day your wealth first reached the nisab, and on the same Islamic date every year after that. Because the lunar year is about 354 days, the date moves about 11 days earlier each year in the Gregorian calendar. Ramadan is not required; many people choose it only for the extra reward.[/myzt_answer]
+[zakat_hawl]
+<h2>What is hawl?</h2>
+<p>Hawl is the full lunar year that wealth must stay at or above the nisab before zakat becomes due. You do not count each rupee separately: in the Hanafi madhab what matters is that you were above the nisab at the start and at the end of the year, even if your balance went up and down in between. Money added during the year is counted with the rest on the zakat date.</p>
+<h2>I don't know the exact date</h2>
+<p>If you cannot remember when your wealth first reached the nisab, scholars advise picking a date you can reasonably estimate, such as an Islamic date you will remember (for example 1 Ramadan), and keeping to it every year. Enter that date above.</p>
+<h2>Zakat for years you missed</h2>
+<p>Zakat that was not paid stays owed; it does not lapse with time. Estimate your zakatable wealth on each missed zakat date and enter it year by year. In the Hanafi view, zakat you owed for an earlier year counts as a debt, so it reduces the wealth for the next year; the tick box does this for you. Pay what you can now and make a plan for the rest.</p>
+<h2>Gregorian or lunar year?</h2>
+<p>Zakat follows the lunar year. If you keep accounts on a Gregorian (solar) year, some scholars say you should pay 2.577% instead of 2.5% to make up for the extra 11 days. Our main calculator uses 2.5% on a lunar year.</p>
+<p>When the date comes, work out the amount with the <a href="/">zakat calculator</a>. If your bank deducted zakat on 1 Ramadan, enter it under "Already paid".</p>
+[myzt_faq]
+HTML
+		. $author . '[myzt_related slugs="home,nisab,bank-zakat-deduction-pakistan,calculators"]',
+		'faq'   => array(
+			array( 'q' => 'Does zakat have to be paid in Ramadan?', 'a' => 'No. It is due on your own zakat date. Paying in Ramadan is allowed if it is your date, or as an advance payment.' ),
+			array( 'q' => 'Zakat ki tareekh kaise maloom karein?', 'a' => 'Jis din aapka maal pehli dafa nisab ko pohncha, us se aik qamri saal baad. Har saal wahi islami tareekh hoti hai.' ),
+			array( 'q' => 'Do I have to pay zakat for past years I missed?', 'a' => 'Yes. Unpaid zakat remains owed. Estimate the wealth for each year and pay it.' ),
+		),
+	);
+
+	$p['ushr-calculator'] = array(
+		'title' => 'Ushr and Livestock Zakat Calculator',
+		'seo'   => 'Ushr Calculator: Zakat on Crops (10%, 5%) and Livestock',
+		'desc'  => 'Calculate ushr on wheat, rice and other crops (10% rain-fed, 5% irrigated) in maunds, and zakat on goats, sheep, cows, buffaloes and camels.',
+		'nav'   => 'Ushr & livestock',
+		'blurb' => 'fasal, maweshi',
+		'hub'   => 'calculators',
+		'llms'  => true,
+		'content' => <<<'HTML'
+[myzt_answer q="How much is ushr?"]Ushr is 10% of the harvest for land watered by rain or rivers, and 5% (nisf-ushr) for land watered by tube wells, canals you pay for, or other costly irrigation. It is due at harvest, with no waiting year. Imam Abu Hanifa set no minimum quantity; the Shafi'i, Maliki and Hanbali schools require at least 5 wasq (about 653 kg).[/myzt_answer]
+[zakat_ushr]
+<h2>Which crops?</h2>
+<p>In the Hanafi madhab ushr is due on everything the land produces for sale or food: wheat, rice, maize, sugarcane, cotton, vegetables and fruit. The other schools limit it to staple foods that can be stored (wheat, rice, barley, dates, raisins and similar). Firewood, grass and reeds are not included.</p>
+<h2>Who pays: owner or tenant?</h2>
+<p>When land is given on a crop-share basis (batai), each party pays ushr on their own share. For land rented for cash, Imam Abu Hanifa said the owner pays; his students Abu Yusuf and Muhammad, and most other schools, say the tenant who owns the crop pays. Many Pakistani muftis follow the second view today.</p>
+<h2>Zakat on livestock</h2>
+<p>Zakat on animals applies to goats, sheep, cows, buffaloes and camels that graze freely for most of the year, are not used for ploughing or transport, and have been owned for a full lunar year. The minimums are 40 goats or sheep, 30 cows or buffaloes, and 5 camels. Dairy animals fed at home on bought fodder are not zakatable as livestock; their milk income becomes part of your cash. Animals bought to sell are trade goods: add their market value in the <a href="/business-zakat-calculator/">business zakat calculator</a>.</p>
+<figure class="wp-block-table"><table><thead><tr><th>Goats and sheep</th><th>Give</th></tr></thead><tbody>
+<tr><td>40 to 120</td><td>1</td></tr><tr><td>121 to 200</td><td>2</td></tr><tr><td>201 to 399</td><td>3</td></tr><tr><td>400 and above</td><td>1 for every 100</td></tr>
+</tbody></table></figure>
+<figure class="wp-block-table"><table><thead><tr><th>Cows and buffaloes</th><th>Give</th></tr></thead><tbody>
+<tr><td>30 to 39</td><td>1 calf in its 2nd year (tabi')</td></tr><tr><td>40 to 59</td><td>1 cow in its 3rd year (musinnah)</td></tr><tr><td>60 and above</td><td>1 tabi' for every 30, 1 musinnah for every 40</td></tr>
+</tbody></table></figure>
+<p>Ushr and livestock zakat go to the same people as other zakat; see <a href="/who-can-receive-zakat/">who can receive zakat</a>. For cash, gold and savings use the <a href="/">main calculator</a>.</p>
+[myzt_faq]
+HTML
+		. $author . '[myzt_related slugs="home,business-zakat-calculator,who-can-receive-zakat,calculators"]',
+		'faq'   => array(
+			array( 'q' => 'Gandum par kitna ushr hai?', 'a' => 'Barani (baarish wali) zameen par paidawar ka 10%, aur tube well ya khareede paani wali zameen par 5%.' ),
+			array( 'q' => 'Are costs deducted before ushr?', 'a' => 'In the classical view, no: ushr is on the whole harvest, which is why irrigated land pays half. Some contemporary scholars allow deducting costs such as fertiliser; ask your scholar.' ),
+			array( 'q' => 'Is there zakat on dairy buffaloes?', 'a' => 'Not as livestock if they are mostly fed bought fodder at home. Their income is counted with your cash.' ),
+		),
+	);
+
+	$p['free-zakat-widget'] = array(
+		'title' => 'Free Nisab and Gold Rate Widget for Your Website',
+		'seo'   => 'Free Nisab Widget: Live Zakat Nisab & Gold Rate for Websites',
+		'desc'  => 'Add a free, live nisab and gold rate box to your mosque, madrasa or blog website. Copy one line of code; it updates every hour in your currency.',
+		'nav'   => 'Free widget',
+		'blurb' => 'for mosques & blogs',
+		'hub'   => 'calculators',
+		'content' => <<<'HTML'
+<p>Mosques, madrasas, Islamic centres and bloggers can show today's nisab and gold rate on their own website for free. The box below updates every hour from international gold and silver prices, in the currency you choose. No sign-up, no ads, no tracking.</p>
+<h2>Preview and code</h2>
+[myzt_embed_code currency="PKR"]
+<h2>How to add it</h2>
+<ol>
+<li>Copy the code above.</li>
+<li>In WordPress, add a "Custom HTML" block (or a Custom HTML widget in your sidebar) and paste it. On other sites, paste it where you want the box to appear.</li>
+<li>Keep the small "Nisab by My Zakat Tool" line: it tells your visitors where the numbers come from.</li>
+</ol>
+<h2>Good to know</h2>
+<ul>
+<li>The silver nisab is 52.5 tola (612.36 g) and the gold nisab 7.5 tola (87.48 g). Hanafi scholars use the silver nisab for cash.</li>
+<li>Prices are international spot rates; local jewellers' prices are a little higher.</li>
+<li>The box is an estimate for guidance, not a fatwa; see our <a href="/disclaimer/">disclaimer</a>.</li>
+</ul>
+<p>Questions or a different design? <a href="/contact/">Contact us</a>.</p>
+HTML
+		. $author,
+		'faq'   => array(),
+	);
+
 	$p['khums-calculator'] = array(
 		'title' => 'Khums Calculator',
 		'seo'   => 'Khums Calculator: 20% of Yearly Surplus (Sistani)',
@@ -539,6 +637,7 @@ HTML
 [myzt_answer q="What is the nisab today?"]The silver nisab (612.36 g) is about [myzt_rate type="nisab-silver" currency="PKR"] and the gold nisab (87.48 g) is about [myzt_rate type="nisab-gold" currency="PKR"] today. Choose your currency below.[/myzt_answer]
 [zakat_nisab]
 [myzt_reviewed rates="1"]
+<p>Run a mosque or blog website? Show this nisab on it with our <a href="/free-zakat-widget/">free nisab widget</a>.</p>
 <h2>Which nisab applies to you?</h2>
 <ul>
 <li><strong>Only gold:</strong> the gold nisab, 87.48 g (7.5 tola) of pure gold.</li>

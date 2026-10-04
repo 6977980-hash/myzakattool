@@ -274,6 +274,99 @@
 		return Math.max(0, Math.floor(num(count))) * 60 * num(perDay);
 	}
 
+	/* ---------- hawl (zakat year) ---------- */
+	var LUNAR_YEAR_DAYS = 354.36707;
+
+	/** Next zakat dates, one lunar year apart, from the date wealth first reached the nisab (ISO yyyy-mm-dd). */
+	function hawlDates(startIso, count, fromIso) {
+		var start = Date.parse(startIso + 'T00:00:00Z');
+		if (isNaN(start)) return [];
+		var from = fromIso ? Date.parse(fromIso + 'T00:00:00Z') : start;
+		var out = [];
+		for (var n = 1; out.length < (count || 3) && n < 200; n++) {
+			var d = start + Math.round(n * LUNAR_YEAR_DAYS) * 864e5;
+			if (d >= from) out.push(new Date(d).toISOString().slice(0, 10));
+		}
+		return out;
+	}
+
+	/** Completed lunar years between two ISO dates. */
+	function hawlYearsBetween(startIso, endIso) {
+		var a = Date.parse(startIso + 'T00:00:00Z'), b = Date.parse(endIso + 'T00:00:00Z');
+		if (isNaN(a) || isNaN(b) || b < a) return 0;
+		return Math.floor((b - a) / 864e5 / LUNAR_YEAR_DAYS + 1e-9);
+	}
+
+	/**
+	 * Zakat for past years that were not paid. wealth: zakatable wealth on each missed zakat date, oldest first.
+	 * subtractUnpaid: treat earlier unpaid zakat as a debt that reduces later years (Hanafi view).
+	 */
+	function missedZakat(wealth, nisabValue, subtractUnpaid) {
+		var owed = 0, rows = [];
+		for (var i = 0; i < wealth.length; i++) {
+			var w = num(wealth[i]);
+			var base = subtractUnpaid ? Math.max(0, w - owed) : w;
+			var z = base > 0 && base >= num(nisabValue) * (1 - 1e-9) ? base * RATE : 0;
+			owed += z;
+			rows.push({ wealth: w, base: base, zakat: z });
+		}
+		return { rows: rows, total: owed };
+	}
+
+	/* ---------- ushr (crops) ---------- */
+	var WASQ5_KG = 653; // 5 wasq (300 sa'), the Shafi'i/Maliki/Hanbali nisab for crops, about 653 kg of wheat
+
+	/**
+	 * Ushr on a harvest. kg: quantity, price: value per kg, watering: 'rain' (10%) | 'irrigated' (5%) | 'mixed' (7.5%).
+	 * Hanafi (Imam Abu Hanifa): no nisab for crops. Other schools: due only from 5 wasq.
+	 */
+	function ushr(madhabKey, kg, price, watering) {
+		var rate = watering === 'irrigated' ? 0.05 : watering === 'mixed' ? 0.075 : 0.1;
+		var q = num(kg);
+		var hasNisab = madhabKey !== 'hanafi';
+		var due = q > 0 && (!hasNisab || q >= WASQ5_KG);
+		return { rate: rate, nisabKg: hasNisab ? WASQ5_KG : 0, due: due, kg: due ? q * rate : 0, value: due ? q * rate * num(price) : 0 };
+	}
+
+	/* ---------- livestock (grazing animals, Sunni schools) ---------- */
+	/** Returns a list of { n, what } to give, e.g. [{ n: 1, what: 'sheep' }]. Camels above 120: ask a scholar. */
+	function livestock(type, count) {
+		var c = Math.floor(num(count));
+		if (type === 'sheep') {
+			if (c < 40) return [];
+			if (c <= 120) return [{ n: 1, what: 'sheep' }];
+			if (c <= 200) return [{ n: 2, what: 'sheep' }];
+			if (c < 400) return [{ n: 3, what: 'sheep' }];
+			return [{ n: Math.floor(c / 100), what: 'sheep' }];
+		}
+		if (type === 'cows') {
+			if (c < 30) return [];
+			// Every 30 = one 1-year calf (tabi'), every 40 = one 2-year cow (musinnah); pick the split that covers most.
+			var best = null;
+			for (var m = 0; m * 40 <= c; m++) {
+				var t = Math.floor((c - m * 40) / 30);
+				var covered = m * 40 + t * 30;
+				if (!best || covered > best.covered || (covered === best.covered && m > best.m)) best = { m: m, t: t, covered: covered };
+			}
+			var out = [];
+			if (best.t) out.push({ n: best.t, what: 'tabi' });
+			if (best.m) out.push({ n: best.m, what: 'musinnah' });
+			return out;
+		}
+		if (type === 'camels') {
+			if (c < 5) return [];
+			if (c < 25) return [{ n: Math.floor(c / 5), what: 'sheep' }];
+			if (c <= 35) return [{ n: 1, what: 'bintMakhad' }];
+			if (c <= 45) return [{ n: 1, what: 'bintLabun' }];
+			if (c <= 60) return [{ n: 1, what: 'hiqqa' }];
+			if (c <= 75) return [{ n: 1, what: 'jadha' }];
+			if (c <= 90) return [{ n: 2, what: 'bintLabun' }];
+			if (c <= 120) return [{ n: 2, what: 'hiqqa' }];
+			return [{ n: 0, what: 'askScholar' }];
+		}
+		return [];
+	}
+
 	/** Khums (Ja'fari): 20% of the year's surplus income still held at the khums date. */
 	function khums(input) {
 		var surplus = num(input.savings) + num(input.unusedItems) + num(input.tradeStock) - num(input.debts);
@@ -393,6 +486,7 @@
 		MADHABS: MADHABS, MADHAB_ORDER: MADHAB_ORDER, COUNTRIES: COUNTRIES,
 		toGrams: toGrams, perGram: perGram, nisabValues: nisabValues,
 		calculate: calculate, compare: compare, family: family, fitrana: fitrana, fidya: fidya, kaffara: kaffara, khums: khums,
+		hawlDates: hawlDates, hawlYearsBetween: hawlYearsBetween, missedZakat: missedZakat, ushr: ushr, livestock: livestock, WASQ5_KG: WASQ5_KG,
 		parseText: parseText, countryDefaults: countryDefaults,
 	};
 });

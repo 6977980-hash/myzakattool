@@ -132,3 +132,27 @@ test('zakat already paid (bank deduction) reduces what is left to pay', () => {
 	assert.equal(round(E.family([r, E.calculate('hanafi', { money: { bank: 400000 } }, prices)])), 15000);
 	assert.equal(E.parseText('2 lakh behbood').savingsCerts, 200000);
 });
+
+test('hawl dates and missed years', () => {
+	assert.deepEqual(E.hawlDates('2025-03-01', 2), ['2026-02-18', '2027-02-08']);
+	assert.equal(E.hawlYearsBetween('2023-01-01', '2026-01-01'), 3);
+	const m = E.missedZakat([500000, 500000], 100000, true);
+	assert.equal(m.rows[0].zakat, 12500);
+	assert.equal(m.rows[1].zakat, (500000 - 12500) * 0.025);
+	assert.equal(E.missedZakat([500000, 500000], 100000, false).total, 25000);
+	assert.equal(E.missedZakat([50000], 100000, false).total, 0);
+});
+
+test('ushr and livestock', () => {
+	assert.deepEqual(E.ushr('hanafi', 400, 100, 'rain'), { rate: 0.1, nisabKg: 0, due: true, kg: 40, value: 4000 });
+	assert.equal(E.ushr('shafii', 400, 100, 'rain').due, false);
+	assert.equal(E.ushr('maliki', 1000, 100, 'irrigated').kg, 50);
+	assert.deepEqual(E.livestock('sheep', 39), []);
+	assert.deepEqual(E.livestock('sheep', 121), [{ n: 2, what: 'sheep' }]);
+	assert.deepEqual(E.livestock('sheep', 450), [{ n: 4, what: 'sheep' }]);
+	assert.deepEqual(E.livestock('cows', 30), [{ n: 1, what: 'tabi' }]);
+	assert.deepEqual(E.livestock('cows', 70), [{ n: 1, what: 'tabi' }, { n: 1, what: 'musinnah' }]);
+	assert.deepEqual(E.livestock('cows', 120), [{ n: 3, what: 'musinnah' }]);
+	assert.deepEqual(E.livestock('camels', 12), [{ n: 2, what: 'sheep' }]);
+	assert.deepEqual(E.livestock('camels', 50), [{ n: 1, what: 'hiqqa' }]);
+});
