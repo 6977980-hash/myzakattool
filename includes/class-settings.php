@@ -54,6 +54,7 @@ class MYZT_Settings {
 		add_action( 'admin_init', array( __CLASS__, 'register' ) );
 		add_action( 'admin_post_myzt_refresh', array( __CLASS__, 'handle_refresh' ) );
 		add_action( 'admin_post_myzt_pages', array( __CLASS__, 'handle_pages' ) );
+		add_action( 'admin_post_myzt_theme', array( __CLASS__, 'handle_theme' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( MYZAKATTOOL_FILE ), array( __CLASS__, 'action_link' ) );
 	}
 
@@ -144,6 +145,32 @@ class MYZT_Settings {
 		exit;
 	}
 
+	/** One click: install GeneratePress from WordPress.org (if missing) and activate it. */
+	public static function handle_theme() {
+		if ( ! current_user_can( 'install_themes' ) || ! current_user_can( 'switch_themes' ) ) {
+			wp_die( esc_html__( 'Not allowed.', 'myzakattool' ), 403 );
+		}
+		check_admin_referer( 'myzt_theme' );
+		$ok = 'generatepress' === get_stylesheet();
+		if ( ! $ok ) {
+			if ( ! wp_get_theme( 'generatepress' )->exists() ) {
+				require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+				require_once ABSPATH . 'wp-admin/includes/theme.php';
+				$api = themes_api( 'theme_information', array( 'slug' => 'generatepress', 'fields' => array( 'sections' => false ) ) );
+				if ( ! is_wp_error( $api ) && ! empty( $api->download_link ) ) {
+					$up = new Theme_Upgrader( new Automatic_Upgrader_Skin() );
+					$up->install( $api->download_link );
+				}
+			}
+			if ( wp_get_theme( 'generatepress' )->exists() ) {
+				switch_theme( 'generatepress' );
+				$ok = true;
+			}
+		}
+		wp_safe_redirect( admin_url( 'options-general.php?page=myzakattool&theme=' . ( $ok ? 1 : 0 ) ) );
+		exit;
+	}
+
 	public static function handle_pages() {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( esc_html__( 'Not allowed.', 'myzakattool' ), 403 );
@@ -199,6 +226,21 @@ class MYZT_Settings {
 				<?php submit_button( __( 'Refresh rates now', 'myzakattool' ), 'secondary', 'submit', false ); ?>
 			</form>
 			<p class="description"><?php echo esc_html__( 'Rates refresh every hour through WP-Cron. For reliable updates on a low-traffic site, add a Hostinger cron job (every 15 minutes):', 'myzakattool' ) . ' <code>wget -q -O - ' . esc_html( site_url( 'wp-cron.php?doing_wp_cron' ) ) . ' &gt;/dev/null 2&gt;&amp;1</code>'; ?></p>
+
+			<h2><?php esc_html_e( 'Theme', 'myzakattool' ); ?></h2>
+			<?php if ( isset( $_GET['theme'] ) ) : // phpcs:ignore ?>
+				<div class="notice <?php echo $_GET['theme'] ? 'notice-success' : 'notice-error'; // phpcs:ignore ?>"><p><?php echo $_GET['theme'] ? esc_html__( 'GeneratePress is active and the main menu is in place.', 'myzakattool' ) : esc_html__( 'Could not install GeneratePress automatically. Install it from Appearance → Themes → Add New.', 'myzakattool' ); // phpcs:ignore ?></p></div>
+			<?php endif; ?>
+			<?php if ( 'generatepress' === get_stylesheet() ) : ?>
+				<p><?php esc_html_e( 'GeneratePress is active.', 'myzakattool' ); ?></p>
+			<?php else : ?>
+				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+					<?php wp_nonce_field( 'myzt_theme' ); ?>
+					<input type="hidden" name="action" value="myzt_theme">
+					<p class="description"><?php esc_html_e( 'GeneratePress is a free, fast theme that suits the calculator. One click installs it from WordPress.org, activates it and sets the menu.', 'myzakattool' ); ?></p>
+					<?php submit_button( __( 'Install and activate GeneratePress', 'myzakattool' ), 'primary', 'submit', false ); ?>
+				</form>
+			<?php endif; ?>
 
 			<h2><?php esc_html_e( 'Pages', 'myzakattool' ); ?></h2>
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
