@@ -108,6 +108,14 @@ class MYZT_SEO {
 	}
 
 	public static function head() {
+		if ( is_front_page() ) {
+			foreach ( array( 'gsc_verify' => 'google-site-verification', 'bing_verify' => 'msvalidate.01' ) as $k => $name ) {
+				$code = MYZT_Settings::get( $k );
+				if ( $code ) {
+					echo '<meta name="' . esc_attr( $name ) . '" content="' . esc_attr( $code ) . '">' . "\n";
+				}
+			}
+		}
 		$post_id = is_singular() ? get_queried_object_id() : 0;
 		if ( self::meta_on() ) {
 			$desc  = self::current_desc();

@@ -45,10 +45,10 @@ If Rank Math, Yoast, AIOSEO or SEOPress is activated, the plugin turns off its o
 
 ## Recommended WordPress setup
 
-1. Theme: GeneratePress (free), with a primary and a footer menu.
+1. Theme: GeneratePress (free). Activating it puts the plugin's main menu in the primary location automatically; footer trust links are added by the plugin.
 2. LiteSpeed Cache (Hostinger), plus Cloudflare in front of the domain.
-3. Security: Wordfence with two-factor login, a custom login URL (e.g. WPS Hide Login), and in `wp-config.php`: `define( 'DISALLOW_FILE_EDIT', true );`
-4. Google Search Console: verify the domain and submit `https://myzakattool.com/wp-sitemap.xml`.
+3. Security: built into the plugin (Settings → My Zakat Tool → Security): an optional secret login address (wp-login.php and wp-admin then show "not found" to visitors), 5 failed logins lock an IP for 15 minutes, generic login errors, no username discovery, XML-RPC off, security headers. If the login address is forgotten, add `define( 'MYZT_NO_LOGIN_SLUG', true );` to `wp-config.php`. For two-factor login install the free **Two Factor** plugin (or Wordfence), and add `define( 'DISALLOW_FILE_EDIT', true );` to `wp-config.php`.
+4. Google Search Console: paste the HTML-tag verification code in Settings → My Zakat Tool, press Verify, then submit `https://myzakattool.com/wp-sitemap.xml`.
 5. AdSense: once approved, enter the publisher ID and slot IDs in Settings → My Zakat Tool and switch ads on. Slots keep a fixed height so the page never jumps, and an empty slot shows nothing.
 
 ## Tests

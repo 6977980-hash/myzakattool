@@ -20,6 +20,7 @@ class MYZT_Installer {
 		add_action( 'admin_init', array( __CLASS__, 'maybe_upgrade' ) );
 		add_shortcode( 'myzt_guides', array( __CLASS__, 'guides_list' ) );
 		add_action( 'wp_footer', array( __CLASS__, 'footer_links' ), 50 );
+		add_action( 'after_switch_theme', array( __CLASS__, 'menu' ) );
 	}
 
 	/** Zakat season year: the year of the coming Ramadan (Ramadan falls in Feb-Mar in 2026-2030). */
@@ -55,8 +56,8 @@ class MYZT_Installer {
 			self::site_basics();
 		}
 		self::create_pages();
+		self::menu();
 		if ( $first ) {
-			self::menu();
 			update_option( 'myzt_installed', time() );
 		}
 		update_option( 'myzt_version', MYZAKATTOOL_VERSION );
@@ -160,7 +161,8 @@ class MYZT_Installer {
 		}
 	}
 
-	private static function menu() {
+	/** Puts the main menu in the theme's primary location (creating it once); runs on install and on theme switch. */
+	public static function menu() {
 		$locations = get_theme_mod( 'nav_menu_locations', array() );
 		$registered = get_registered_nav_menus();
 		if ( ! $registered ) {
@@ -170,13 +172,16 @@ class MYZT_Installer {
 		if ( ! empty( $locations[ $loc ] ) ) {
 			return;
 		}
+		$menu = wp_get_nav_menu_object( 'Main Menu' );
+		if ( $menu ) {
+			// Already built earlier (e.g. for the previous theme): just assign it.
+			$locations[ $loc ] = $menu->term_id;
+			set_theme_mod( 'nav_menu_locations', $locations );
+			return;
+		}
 		$menu_id = wp_create_nav_menu( 'Main Menu' );
 		if ( is_wp_error( $menu_id ) ) {
-			$menu = wp_get_nav_menu_object( 'Main Menu' );
-			if ( ! $menu ) {
-				return;
-			}
-			$menu_id = $menu->term_id;
+			return;
 		}
 		$add = function ( $slug, $title, $parent = 0 ) use ( $menu_id ) {
 			$p = get_page_by_path( $slug );
