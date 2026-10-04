@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="My Zakat Tool">
+  <defs><mask id="m"><rect width="64" height="64" fill="#fff"/><circle cx="39" cy="25" r="15" fill="#000"/></mask></defs>
+  <rect width="64" height="64" rx="14" fill="#0f766e"/>
+  <circle cx="30" cy="33" r="19" fill="#fff" mask="url(#m)"/>
+  <circle cx="42" cy="39" r="9.5" fill="#f2b23a"/>
+  <circle cx="42" cy="39" r="6.3" fill="none" stroke="#c98a12" stroke-width="1.6"/>
+  <path d="M39.6 39h4.8M42 36.6v4.8" stroke="#c98a12" stroke-width="1.6" stroke-linecap="round"/>
+</svg>
