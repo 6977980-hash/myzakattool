@@ -35,6 +35,9 @@ class MYZT_Settings {
 			'gold_override'   => '',
 			'silver_override' => '',
 			'security_email'  => '',
+			'login_slug'      => '',
+			'gsc_verify'      => '',
+			'bing_verify'     => '',
 		);
 	}
 
@@ -106,6 +109,22 @@ class MYZT_Settings {
 				case 'gold_override':
 				case 'silver_override':
 					$out[ $k ] = '' === trim( (string) $val ) ? '' : (string) max( 0, (float) $val );
+					break;
+				case 'login_slug':
+					$val       = sanitize_title( $val );
+					$reserved  = array( 'login', 'admin', 'wp-admin', 'wp-login', 'dashboard', 'wp-login-php' );
+					$out[ $k ] = ( strlen( $val ) >= 6 && ! in_array( $val, $reserved, true ) && ! get_page_by_path( $val ) ) ? $val : '';
+					if ( '' !== trim( (string) $val ) && '' === $out[ $k ] ) {
+						add_settings_error( self::OPTION, 'login_slug', __( 'Login address not saved: use at least 6 letters/numbers that are not a page name or "admin"/"login".', 'myzakattool' ) );
+					}
+					break;
+				case 'gsc_verify':
+				case 'bing_verify':
+					// Accept either the bare code or the whole <meta> tag pasted from the console.
+					if ( preg_match( '/content=["\']([^"\']+)["\']/', (string) $val, $m ) ) {
+						$val = $m[1];
+					}
+					$out[ $k ] = preg_replace( '/[^A-Za-z0-9_\-]/', '', (string) $val );
 					break;
 				default:
 					$out[ $k ] = sanitize_text_field( $val );
@@ -202,6 +221,17 @@ class MYZT_Settings {
 					self::input( 'seo_enabled', __( 'Built-in SEO (meta, Open Graph, schema)', 'myzakattool' ), 'checkbox', __( 'Switches itself off automatically when Rank Math, Yoast or All in One SEO is active (the schema for calculators stays).', 'myzakattool' ) );
 					?>
 				</table>
+
+				<h2><?php esc_html_e( 'Security and Search Console', 'myzakattool' ); ?></h2>
+				<p><?php echo esc_html__( 'Your login address:', 'myzakattool' ) . ' <code>' . esc_html( MYZT_Security::login_address() ) . '</code>'; ?> <strong><?php esc_html_e( 'Bookmark it.', 'myzakattool' ); ?></strong></p>
+				<table class="form-table" role="presentation">
+					<?php
+					self::input( 'login_slug', __( 'Secret login address', 'myzakattool' ), 'text', sprintf( /* translators: %s: site URL */ __( 'Example: zakat-team-77 makes the login page %s/zakat-team-77/. The old wp-login.php and wp-admin then show "not found" to visitors. Leave empty to keep the normal login. Forgot it? Add define( \'MYZT_NO_LOGIN_SLUG\', true ); to wp-config.php.', 'myzakattool' ), untrailingslashit( home_url() ) ) );
+					self::input( 'gsc_verify', __( 'Google Search Console code', 'myzakattool' ), 'text', __( 'Search Console → Add property → URL prefix → HTML tag. Paste the tag or just its content code here, save, then press Verify there.', 'myzakattool' ) );
+					self::input( 'bing_verify', __( 'Bing Webmaster code', 'myzakattool' ), 'text', __( 'Optional. Bing can also import the site straight from Search Console.', 'myzakattool' ) );
+					?>
+				</table>
+				<p class="description"><?php esc_html_e( 'Always on: 5 failed logins lock that IP for 15 minutes, generic login errors, no username discovery, XML-RPC off, security headers.', 'myzakattool' ); ?></p>
 
 				<h2><?php esc_html_e( 'Google AdSense', 'myzakattool' ); ?></h2>
 				<table class="form-table" role="presentation">
