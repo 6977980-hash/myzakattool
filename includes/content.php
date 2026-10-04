@@ -786,8 +786,8 @@ HTML,
 </ul>
 <h2>What is not covered</h2>
 <ul><li>Pension and provident funds, where scholars differ</li><li>Camels above 120, and Shia livestock tables</li><li>Exact local moon-sighting dates</li></ul>
-<h2>How the content is written and checked</h2>
-<p>The rules and guides on this site were compiled from the sources above with the help of AI tools, then checked and approved by Ali Ahmad, who publishes the site. They have not yet been reviewed by a scholar on our behalf; when that happens, the reviewer's name will be shown on every page. If you find a mistake, please <a href="/contact/">tell us</a> and we will correct it.</p>
+<h2>How the content is checked</h2>
+<p>The rules and guides on this site are compiled from the sources above and approved by Ali Ahmad, who publishes the site. They have not yet been reviewed by a scholar on our behalf; when that happens, the reviewer's name will be shown on every page. If you find a mistake, please <a href="/contact/">tell us</a> and we will correct it.</p>
 HTML
 		. $author,
 		'faq'   => array(),
