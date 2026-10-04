@@ -18,6 +18,7 @@ class MYZT_Frontend {
 		add_shortcode( 'zakat_gold_rate', array( __CLASS__, 'gold_rate' ) );
 		add_shortcode( 'zakat_nisab', array( __CLASS__, 'nisab' ) );
 		add_shortcode( 'zakat_fitrana', array( __CLASS__, 'fitrana' ) );
+		add_shortcode( 'zakat_fidya', array( __CLASS__, 'fidya' ) );
 		add_shortcode( 'zakat_khums', array( __CLASS__, 'khums' ) );
 		add_shortcode( 'myzt_faq', array( __CLASS__, 'faq' ) );
 		add_shortcode( 'myzt_author', array( __CLASS__, 'author' ) );
@@ -26,6 +27,7 @@ class MYZT_Frontend {
 		add_shortcode( 'myzt_trust', array( __CLASS__, 'trust' ) );
 		add_shortcode( 'myzt_year', array( __CLASS__, 'year' ) );
 		add_shortcode( 'myzt_rate', array( __CLASS__, 'rate_inline' ) );
+		add_shortcode( 'myzt_reviewed', array( __CLASS__, 'reviewed' ) );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_assets' ) );
 		add_action( 'wp_footer', array( __CLASS__, 'late_enqueue' ), 1 );
 	}
@@ -202,6 +204,31 @@ class MYZT_Frontend {
 
 	public static function fitrana() {
 		return self::widget( 'fitrana', array() );
+	}
+
+	/** [myzt_reviewed rates="1"]: "Rules last reviewed" date and, optionally, a dated snapshot of the rates used. */
+	public static function reviewed( $atts ) {
+		$a    = shortcode_atts( array( 'rates' => '0' ), $atts, 'myzt_reviewed' );
+		$s    = MYZT_Settings::get();
+		$date = strtotime( $s['rules_reviewed'] . ' 12:00:00' );
+		$who  = $s['author_name'] . ( $s['reviewer'] ? ' and ' . $s['reviewer'] : '' );
+		$h    = '<p class="myzt-reviewed" style="font-size:13px;color:#5d736e;border-top:1px solid #dfe9e6;padding-top:8px">';
+		if ( $date ) {
+			$h .= 'Rules last reviewed: <time datetime="' . esc_attr( gmdate( 'Y-m-d', $date ) ) . '">' . esc_html( wp_date( 'j F Y', $date ) ) . '</time> by ' . esc_html( $who ) . '. ';
+		}
+		$r = MYZT_Rates::payload();
+		if ( '1' === $a['rates'] && $r['goldUsdOz'] && $r['updated'] ) {
+			$pkr = isset( $r['fx']['pkr'] ) ? (float) $r['fx']['pkr'] : 0;
+			$h  .= 'Rates on this page: gold $' . esc_html( number_format( $r['goldUsdOz'], 2 ) ) . '/oz, silver $' . esc_html( number_format( $r['silverUsdOz'], 2 ) ) . '/oz' .
+				( $pkr ? ', 1 USD = ' . esc_html( number_format( $pkr, 2 ) ) . ' PKR' : '' ) .
+				', updated <time datetime="' . esc_attr( gmdate( 'c', $r['updated'] ) ) . '">' . esc_html( wp_date( 'j M Y, H:i T', $r['updated'] ) ) . '</time>' .
+				( $r['source'] ? ' (' . esc_html( $r['source'] ) . ')' : '' ) . '.';
+		}
+		return $h . '</p>';
+	}
+
+	public static function fidya() {
+		return self::widget( 'fidya', array() );
 	}
 
 	public static function khums() {

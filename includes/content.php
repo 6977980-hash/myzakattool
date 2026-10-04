@@ -54,7 +54,7 @@ HTML
 			array( 'q' => 'How much is zakat on 1 lakh rupees?', 'a' => 'If your total zakatable wealth is above the nisab, zakat on Rs 1,00,000 is Rs 2,500 (2.5%).' ),
 			array( 'q' => 'Is zakat due on gold jewellery that is worn?', 'a' => "In the Hanafi madhab and according to the Saudi Permanent Committee (followed by many Ahl-e-Hadith scholars), yes. In the Shafi'i, Maliki and Hanbali madhabs, permissible jewellery that is worn is exempt." ),
 			array( 'q' => 'Which nisab should I use, gold or silver?', 'a' => 'Hanafi scholars such as Darul Uloom Deoband use the silver nisab for cash and mixed assets because it is better for the poor. If you own only gold, the gold nisab of 87.48 g (7.5 tola) applies.' ),
-			array( 'q' => 'Kya bank ki 1 Ramazan wali katauti ke baad dobara zakat deni hogi?', 'a' => 'Apni poori zakat calculate karen aur jo raqam bank pehle kaat chuka hai use minus kar len. Tafseel ke liye apne aalim se poochen.' ),
+			array( 'q' => 'Kya bank ki 1 Ramazan wali katauti ke baad dobara zakat deni hogi?', 'a' => 'Apni poori zakat calculate karen aur jo raqam bank pehle kaat chuka hai use minus kar len. Calculator mein "Already paid" par tap kar ke bank ki katauti likhen, baqi raqam khud nikal aayegi. Tafseel ke liye apne aalim se poochen.' ),
 			array( 'q' => 'Does this calculator give a fatwa?', 'a' => 'No. It gives an estimate based on published rulings of each school, with sources. Please confirm with a qualified scholar.' ),
 		),
 	);
@@ -318,6 +318,7 @@ HTML
 <li><a href="/zakat-on-gold-calculator/">Zakat on gold calculator</a> (tola, gram, karat)</li>
 <li><a href="/business-zakat-calculator/">Business zakat calculator</a> (stock, receivables, suppliers)</li>
 <li><a href="/fitrana-calculator/">Fitrana calculator</a></li>
+<li><a href="/fidya-kaffara-calculator/">Fidya and kaffara calculator</a></li>
 <li><a href="/khums-calculator/">Khums calculator</a></li>
 <li><a href="/nisab/">Nisab today</a> and <a href="/gold-rate-today/">gold rate today</a></li>
 </ul>
@@ -327,7 +328,7 @@ HTML
 <li><strong>Only gold or jewellery:</strong> the <a href="/zakat-on-gold-calculator/">zakat on gold calculator</a> takes tola, gram or ounce and the karat (24K, 22K, 21K, 18K).</li>
 <li><strong>A shopkeeper or trader:</strong> the <a href="/business-zakat-calculator/">business zakat calculator</a> values stock at selling price, adds money customers owe you and subtracts supplier bills.</li>
 <li><strong>In Pakistan, with a savings account:</strong> the <a href="/zakat-calculator-pakistan/">Pakistan calculator</a> handles committees (BC), prize bonds and the bank's 1 Ramadan deduction.</li>
-<li><strong>Before Eid:</strong> the <a href="/fitrana-calculator/">fitrana calculator</a> works out sadaqat al-fitr for every person in the house.</li>
+<li><strong>Before Eid:</strong> the <a href="/fitrana-calculator/">fitrana calculator</a> works out sadaqat al-fitr for every person in the house, and the <a href="/fidya-kaffara-calculator/">fidya and kaffara calculator</a> covers missed or broken fasts.</li>
 <li><strong>Fiqh-e-Jafaria:</strong> the <a href="/khums-calculator/">khums calculator</a> for the yearly surplus, next to the <a href="/shia-zakat-calculator/">Shia zakat calculator</a>.</li>
 </ul>
 <p>Every tool runs in your browser, so nothing you enter is sent to us, and each one can produce a short PDF of your own figures for your records.</p>
@@ -454,12 +455,44 @@ HTML
 <p>Before the Eid prayer, so that the poor can celebrate Eid. Paying it during Ramadan is allowed and makes it easier to reach people in need.</p>
 <h2>Which item to choose</h2>
 <p>You may pay the value of any of the four items. Those who can afford it are encouraged to pay by the more expensive items (dates or raisins), as this gives more to the poor.</p>
+<p>Missed fasts you cannot make up, or a fast broken on purpose? Use the <a href="/fidya-kaffara-calculator/">fidya and kaffara calculator</a>.</p>
 [myzt_faq]
 HTML
 		. $author . '[myzt_related slugs="who-can-receive-zakat,zakat-calculator-pakistan,khums-calculator,home"]',
 		'faq'   => array(
 			array( 'q' => 'Fitrana kis par wajib hai?', 'a' => 'Har us Muslim par jo Eid ki subah apni zaroorat se zyada maal ka malik ho; wo apni aur apne chhote bachon ki taraf se ada karta hai.' ),
 			array( 'q' => 'Can fitrana be paid in money?', 'a' => 'Yes, in the Hanafi madhab paying the value in money is allowed and common.' ),
+		),
+	);
+
+	$p['fidya-kaffara-calculator'] = array(
+		'title' => 'Fidya and Kaffara Calculator',
+		'seo'   => 'Fidya and Kaffara Calculator {year}: Roza Fidya in Rupees',
+		'desc'  => 'Work out fidya for fasts you cannot make up and kaffara for a fast broken on purpose: number of fasts times the daily amount, with the Hanafi rules explained.',
+		'nav'   => 'Fidya & Kaffara',
+		'blurb' => 'roza fidya',
+		'hub'   => 'calculators',
+		'llms'  => true,
+		'content' => <<<'HTML'
+[myzt_answer q="How much is fidya for one fast?"]In the Hanafi madhab the fidya for one missed fast is the same as one fitrana: half a sa' of wheat (about 2 kg) or its value, given to a poor person. Kaffara for a fast broken on purpose is fasting 60 days in a row, or, for someone who cannot, feeding 60 poor people, which is 60 times that amount.[/myzt_answer]
+[zakat_fidya]
+<h2>Fidya: who pays it</h2>
+<p>Fidya is for a person who cannot fast and has no hope of fasting later, such as someone very old or with a long-term illness. They pay one fidya for each fast. Someone who missed fasts because of travel, a short illness, pregnancy or breastfeeding makes the fasts up later (qada) and does not pay fidya instead. If a person who could have made up their fasts dies without doing so, and left a will (wasiyyat), the fidya is paid from up to one third of what they left.</p>
+<h2>Kaffara: when it is due</h2>
+<p>In Hanafi fiqh kaffara is due when an adult deliberately breaks a Ramadan fast by eating, drinking or marital relations without a valid excuse. The kaffara is to fast 60 days in a row. Only a person who truly cannot do that may feed 60 poor people (two meals each) or give each of them the amount of one fitrana. Several fasts broken in the same Ramadan need one kaffara in the Hanafi view, as long as the first kaffara has not been paid yet. Each broken fast is also made up with one qada fast.</p>
+<h2>Other schools</h2>
+<p>In the Shafi'i, Maliki and Hanbali schools the fidya and each kaffara meal are one mudd of the local staple food (about 0.6 kg), which is less than the Hanafi half sa'. The Shafi'i and Hanbali schools require kaffara only for breaking the fast with marital relations; eating or drinking deliberately needs qada and repentance. Use the amount your own scholars announce.</p>
+<h2>How much in rupees?</h2>
+<p>Each Ramadan, the Council of Islamic Ideology and major madrasas announce fitrana and fidya amounts for wheat, barley, dates and raisins. Enter that amount above, or the price of about 2 kg of flour where you live. Pay by the more expensive items if you can afford it.</p>
+<p>Also see the <a href="/fitrana-calculator/">fitrana calculator</a> and <a href="/who-can-receive-zakat/">who can receive zakat</a>; fidya and kaffara go to the same poor and needy people.</p>
+[myzt_faq]
+HTML
+		. $author . '[myzt_related slugs="fitrana-calculator,who-can-receive-zakat,calculators,home"]',
+		'faq'   => array(
+			array( 'q' => 'Roze ka fidya kitna hai?', 'a' => 'Hanafi fiqh mein aik roze ka fidya aik fitrane ke barabar hai: aadha sa\' gandum (taqreeban 2 kg) ya uski qeemat.' ),
+			array( 'q' => 'What is the kaffara for breaking a fast?', 'a' => 'Fasting 60 days in a row. Only someone who cannot do that may feed 60 poor people instead.' ),
+			array( 'q' => 'Can a young healthy person pay fidya instead of fasting?', 'a' => 'No. Fidya is only for those who can never make up the fasts. Others must make them up.' ),
+			array( 'q' => 'Can fidya be given to one person?', 'a' => 'Yes, the fidya for several fasts may be given to one poor person. For kaffara by feeding, Hanafi scholars allow feeding one poor person on 60 days, but not giving one person 60 days\' amount on one day.' ),
 		),
 	);
 
@@ -505,6 +538,7 @@ HTML
 		'content' => <<<'HTML'
 [myzt_answer q="What is the nisab today?"]The silver nisab (612.36 g) is about [myzt_rate type="nisab-silver" currency="PKR"] and the gold nisab (87.48 g) is about [myzt_rate type="nisab-gold" currency="PKR"] today. Choose your currency below.[/myzt_answer]
 [zakat_nisab]
+[myzt_reviewed rates="1"]
 <h2>Which nisab applies to you?</h2>
 <ul>
 <li><strong>Only gold:</strong> the gold nisab, 87.48 g (7.5 tola) of pure gold.</li>
@@ -532,6 +566,7 @@ HTML
 		'content' => <<<'HTML'
 [myzt_answer q="Gold rate today:"]1 tola of 24K gold is about [myzt_rate type="gold-tola" currency="PKR"] and 1 gram about [myzt_rate type="gold-gram" currency="PKR"] at the international rate. Silver is about [myzt_rate type="silver-tola" currency="PKR"] per tola.[/myzt_answer]
 [zakat_gold_rate]
+[myzt_reviewed rates="1"]
 <h2>About these rates</h2>
 <p>These are international spot prices, refreshed every hour and converted with daily exchange rates. Jewellers' prices include making charges and local premiums, so the price you pay in a shop is higher. For zakat, the value of the pure gold is what counts.</p>
 <p>1 tola = 11.664 g · 1 troy ounce = 31.103 g · 22K gold is 91.7% pure, 21K is 87.5%, 18K is 75%.</p>
@@ -587,6 +622,7 @@ HTML,
 		'llms'  => true,
 		'content' => <<<'HTML'
 <p>This page explains every rule the calculator uses and where it comes from. If you think something is wrong, please <a href="mailto:contact@myzakattool.com">tell us</a>.</p>
+[myzt_reviewed]
 <h2>Common to all Sunni schools</h2>
 <ul>
 <li>Rate: 2.5% of zakatable wealth after a lunar year (hawl).</li>

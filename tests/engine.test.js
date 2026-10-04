@@ -115,3 +115,20 @@ test('country defaults', () => {
 	assert.equal(E.countryDefaults('ID').madhab, 'shafii');
 	assert.equal(E.countryDefaults('XX').currency, 'USD');
 });
+
+test('zakat already paid (bank deduction) reduces what is left to pay', () => {
+	const input = { money: { bank: 800000, savingsCerts: 200000 }, liabilities: { bankDeducted: 20000 } };
+	const r = E.calculate('hanafi', input, prices);
+	assert.equal(round(r.zakat), 25000);
+	assert.equal(r.paid, 20000);
+	assert.equal(round(r.payable), 5000);
+	// Paid more than owed: nothing left, never negative.
+	const over = E.calculate('hanafi', { money: { bank: 400000 }, liabilities: { paidAlready: 50000 } }, prices);
+	assert.equal(over.payable, 0);
+	assert.equal(over.paid, over.zakat);
+	// Ja'fari: zakat 0, so nothing is payable.
+	assert.equal(E.calculate('jafari', input, prices).payable, 0);
+	// Family total sums what is left to pay.
+	assert.equal(round(E.family([r, E.calculate('hanafi', { money: { bank: 400000 } }, prices)])), 15000);
+	assert.equal(E.parseText('2 lakh behbood').savingsCerts, 200000);
+});

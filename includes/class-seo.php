@@ -308,7 +308,7 @@ class MYZT_SEO {
 				}
 			}
 
-			if ( $post && preg_match( '/\[(zakat_calculator|zakat_fitrana|zakat_khums)/', $post->post_content ) ) {
+			if ( $post && preg_match( '/\[(zakat_calculator|zakat_fitrana|zakat_fidya|zakat_khums)/', $post->post_content ) ) {
 				$graph[] = array(
 					'@type'               => 'WebApplication',
 					'@id'                 => $url . '#app',
