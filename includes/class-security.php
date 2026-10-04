@@ -20,6 +20,7 @@ class MYZT_Security {
 
 	const MAX_FAILS = 5;
 	const LOCK_MIN  = 15;
+	const MAX_IP    = 20; // all usernames together, from one IP
 
 	private static $is_login = false;
 
@@ -33,7 +34,11 @@ class MYZT_Security {
 		add_filter( 'login_errors', array( __CLASS__, 'login_error' ) );
 		add_action( 'template_redirect', array( __CLASS__, 'block_author_scan' ), 0 );
 		add_filter( 'rest_endpoints', array( __CLASS__, 'rest_users' ) );
-		add_filter( 'authenticate', array( __CLASS__, 'check_lock' ), 30, 1 );
+		// Themes print "by <username>" linking to /author/<login>/: show the site author's name and link to About instead.
+		add_filter( 'author_link', array( __CLASS__, 'author_link' ) );
+		add_filter( 'the_author', array( __CLASS__, 'author_name' ) );
+		add_filter( 'get_the_author_display_name', array( __CLASS__, 'author_name' ) );
+		add_filter( 'authenticate', array( __CLASS__, 'check_lock' ), 30, 2 );
 		add_action( 'wp_login_failed', array( __CLASS__, 'login_failed' ) );
 		add_action( 'wp_login', array( __CLASS__, 'login_ok' ) );
 
@@ -121,26 +126,75 @@ class MYZT_Security {
 
 	/* ---------- login attempt limit ---------- */
 
-	private static function ip_key() {
-		$ip = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '0';
-		return 'myzt_fail_' . md5( $ip );
+	/** Cloudflare's published edge ranges (cloudflare.com/ips). Behind them the visitor's IP is in CF-Connecting-IP. */
+	const CF_RANGES = array(
+		'173.245.48.0/20', '103.21.244.0/22', '103.22.200.0/22', '103.31.4.0/22', '141.101.64.0/18', '108.162.192.0/18',
+		'190.93.240.0/20', '188.114.96.0/20', '197.234.240.0/22', '198.41.128.0/17', '162.158.0.0/15', '104.16.0.0/13',
+		'104.24.0.0/14', '172.64.0.0/13', '131.0.72.0/22',
+		'2400:cb00::/32', '2606:4700::/32', '2803:f800::/32', '2405:b500::/32', '2405:8100::/32', '2a06:98c0::/29', '2c0f:f248::/32',
+	);
+
+	private static function in_range( $ip, $cidr ) {
+		list( $net, $bits ) = explode( '/', $cidr );
+		$a = @inet_pton( $ip ); // phpcs:ignore WordPress.PHP.NoSilencedErrors
+		$b = @inet_pton( $net ); // phpcs:ignore WordPress.PHP.NoSilencedErrors
+		if ( false === $a || false === $b || strlen( $a ) !== strlen( $b ) ) {
+			return false;
+		}
+		$bits  = (int) $bits;
+		$bytes = intdiv( $bits, 8 );
+		if ( substr( $a, 0, $bytes ) !== substr( $b, 0, $bytes ) ) {
+			return false;
+		}
+		$rest = $bits % 8;
+		if ( ! $rest ) {
+			return true;
+		}
+		$mask = chr( ( 0xff << ( 8 - $rest ) ) & 0xff );
+		return ( $a[ $bytes ] & $mask ) === ( $b[ $bytes ] & $mask );
 	}
 
-	public static function check_lock( $user ) {
-		$n = (int) get_transient( self::ip_key() );
-		if ( $n >= self::MAX_FAILS ) {
+	private static function client_ip() {
+		$ip = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '0';
+		if ( ! empty( $_SERVER['HTTP_CF_CONNECTING_IP'] ) ) {
+			foreach ( self::CF_RANGES as $r ) {
+				if ( self::in_range( $ip, $r ) ) {
+					return sanitize_text_field( wp_unslash( $_SERVER['HTTP_CF_CONNECTING_IP'] ) );
+				}
+			}
+		}
+		return $ip;
+	}
+
+	/** Failures are counted per IP and username, so one attacker cannot lock everyone out of every account. */
+	private static function ip_key( $username ) {
+		return 'myzt_fail_' . md5( self::client_ip() . '|' . strtolower( (string) $username ) );
+	}
+
+	public static function check_lock( $user, $username = '' ) {
+		if ( '' === (string) $username ) {
+			return $user;
+		}
+		$n  = (int) get_transient( self::ip_key( $username ) );
+		$ip = (int) get_transient( self::ip_key( '*' ) );
+		if ( $n >= self::MAX_FAILS || $ip >= self::MAX_IP ) {
 			return new WP_Error( 'myzt_locked', sprintf( 'Too many failed logins. Try again in %d minutes.', self::LOCK_MIN ) );
 		}
 		return $user;
 	}
 
-	public static function login_failed() {
-		$k = self::ip_key();
+	public static function login_failed( $username = '' ) {
+		$all = self::ip_key( '*' );
+		set_transient( $all, (int) get_transient( $all ) + 1, self::LOCK_MIN * MINUTE_IN_SECONDS );
+		$k = self::ip_key( $username );
 		set_transient( $k, (int) get_transient( $k ) + 1, self::LOCK_MIN * MINUTE_IN_SECONDS );
 	}
 
-	public static function login_ok() {
-		delete_transient( self::ip_key() );
+	public static function login_ok( $user_login = '' ) {
+		delete_transient( self::ip_key( $user_login ) );
+		if ( isset( $_POST['log'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			delete_transient( self::ip_key( wp_unslash( $_POST['log'] ) ) ); // phpcs:ignore
+		}
 	}
 
 	public static function login_error( $msg ) {
@@ -157,6 +211,18 @@ class MYZT_Security {
 			wp_safe_redirect( home_url( '/' ), 301 );
 			exit;
 		}
+	}
+
+	public static function author_link() {
+		return MYZT_Frontend::page_url( 'about' );
+	}
+
+	public static function author_name( $name ) {
+		if ( is_admin() ) {
+			return $name;
+		}
+		$n = (string) MYZT_Settings::get( 'author_name' );
+		return '' !== $n ? $n : $name;
 	}
 
 	public static function rest_users( $endpoints ) {

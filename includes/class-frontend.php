@@ -11,7 +11,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class MYZT_Frontend {
 
-	private static $needs_assets = false;
+	private static $needs_js = false;
+
+	// 52.5 and 7.5 tola of 11.6638038 g, exactly as engine.js computes them.
+	const NISAB_SILVER_G = 612.34969950;
+	const NISAB_GOLD_G   = 87.47852850;
 
 	public static function init() {
 		add_shortcode( 'zakat_calculator', array( __CLASS__, 'calculator' ) );
@@ -39,9 +43,13 @@ class MYZT_Frontend {
 		$v   = MYZAKATTOOL_VERSION;
 		$url = MYZAKATTOOL_URL . 'assets/';
 		wp_register_style( 'myzt', $url . 'css/app.css', array(), $v );
-		wp_register_script( 'myzt-engine', $url . 'js/engine.js', array(), $v, true );
-		wp_register_script( 'myzt-pdf', $url . 'js/pdf.js', array(), $v, true );
-		wp_register_script( 'myzt-app', $url . 'js/app.js', array( 'myzt-engine', 'myzt-pdf' ), $v, true );
+		$foot = array(
+			'in_footer' => true,
+			'strategy'  => 'defer',
+		);
+		wp_register_script( 'myzt-engine', $url . 'js/engine.js', array(), $v, $foot );
+		wp_register_script( 'myzt-pdf', $url . 'js/pdf.js', array(), $v, $foot );
+		wp_register_script( 'myzt-app', $url . 'js/app.js', array( 'myzt-engine', 'myzt-pdf' ), $v, $foot );
 
 		// Load the stylesheet in <head> on our pages to avoid a flash of unstyled content.
 		if ( is_singular() ) {
@@ -53,12 +61,12 @@ class MYZT_Frontend {
 	}
 
 	private static function enqueue() {
-		self::$needs_assets = true;
 		wp_enqueue_style( 'myzt' );
 	}
 
 	public static function late_enqueue() {
-		if ( ! self::$needs_assets ) {
+		// Content blocks (FAQ, author, answer box...) only need the stylesheet; the scripts are for widgets.
+		if ( ! self::$needs_js ) {
 			return;
 		}
 		wp_enqueue_script( 'myzt-app' );
@@ -112,6 +120,7 @@ class MYZT_Frontend {
 
 	private static function widget( $name, $atts, $inner = '' ) {
 		self::enqueue();
+		self::$needs_js = true;
 		$data = '';
 		foreach ( $atts as $k => $v ) {
 			if ( '' !== $v && null !== $v ) {
@@ -147,8 +156,23 @@ class MYZT_Frontend {
 		);
 	}
 
+	/** Same look as money() in app.js: lakh grouping and Rs for South Asian currencies. */
 	private static function money( $v, $cur ) {
-		return $cur . ' ' . number_format( round( $v ) );
+		$n = number_format( round( $v ) );
+		if ( in_array( $cur, array( 'PKR', 'INR', 'BDT', 'NPR', 'LKR' ), true ) ) {
+			$d    = (string) abs( round( $v ) );
+			$last = substr( $d, -3 );
+			$rest = substr( $d, 0, -3 );
+			$n    = ( '' !== $rest ? preg_replace( '/\B(?=(\d{2})+(?!\d))/', ',', $rest ) . ',' : '' ) . $last;
+		}
+		$sym = array(
+			'PKR' => 'Rs ',
+			'INR' => '₹',
+			'USD' => '$',
+			'GBP' => '£',
+			'EUR' => '€',
+		);
+		return ( isset( $sym[ $cur ] ) ? $sym[ $cur ] : $cur . ' ' ) . $n;
 	}
 
 	public static function gold_rate( $atts ) {
@@ -175,8 +199,8 @@ class MYZT_Frontend {
 		$in  = '';
 		if ( $p ) {
 			$in = '<div class="myzt-card"><table class="myzt-table"><thead><tr><th>Nisab</th><th>Weight</th><th>Value</th></tr></thead><tbody>' .
-				'<tr><td>Silver</td><td>612.36 g · 52.5 tola</td><td class="z">' . esc_html( self::money( $p['silver'] * 612.36, $cur ) ) . '</td></tr>' .
-				'<tr><td>Gold</td><td>87.48 g · 7.5 tola</td><td class="z">' . esc_html( self::money( $p['gold'] * 87.48, $cur ) ) . '</td></tr>' .
+				'<tr><td>Silver</td><td>612.36 g · 52.5 tola</td><td class="z">' . esc_html( self::money( $p['silver'] * self::NISAB_SILVER_G, $cur ) ) . '</td></tr>' .
+				'<tr><td>Gold</td><td>87.48 g · 7.5 tola</td><td class="z">' . esc_html( self::money( $p['gold'] * self::NISAB_GOLD_G, $cur ) ) . '</td></tr>' .
 				'</tbody></table><p class="myzt-small">Updated ' . esc_html( wp_date( 'j M Y, H:i', $p['updated'] ) ) . ' · international spot rate</p></div>';
 		}
 		return self::widget( 'nisab', array( 'currency' => $cur ), $in );
@@ -196,8 +220,8 @@ class MYZT_Frontend {
 			'gold22-tola'  => $p['gold'] * 22 / 24 * 11.6638038,
 			'silver-tola'  => $p['silver'] * 11.6638038,
 			'silver-gram'  => $p['silver'],
-			'nisab-silver' => $p['silver'] * 612.36,
-			'nisab-gold'   => $p['gold'] * 87.48,
+			'nisab-silver' => $p['silver'] * self::NISAB_SILVER_G,
+			'nisab-gold'   => $p['gold'] * self::NISAB_GOLD_G,
 			'gold-tola-zakat'   => $p['gold'] * 11.6638038 * 0.025,
 			'gold22-tola-zakat' => $p['gold'] * 22 / 24 * 11.6638038 * 0.025,
 		);
@@ -242,7 +266,7 @@ class MYZT_Frontend {
 	public static function embed_code( $atts ) {
 		$a    = shortcode_atts( array( 'currency' => 'PKR' ), $atts, 'myzt_embed_code' );
 		$cur  = strtoupper( preg_replace( '/[^A-Za-z]/', '', $a['currency'] ) );
-		$src  = MYZAKATTOOL_URL . 'assets/js/embed.js';
+		$src  = MYZAKATTOOL_URL . 'assets/js/embed.js?ver=' . MYZAKATTOOL_VERSION;
 		$code = '<div data-myzt-embed data-currency="' . $cur . '"></div>' . "\n" .
 			'<script src="' . $src . '" async></script>' . "\n" .
 			'<p style="font-size:12px">Nisab by <a href="' . home_url( '/nisab/' ) . '">My Zakat Tool</a></p>';
@@ -271,7 +295,7 @@ class MYZT_Frontend {
 			return '';
 		}
 		self::enqueue();
-		$h = '<div class="myzt myzt-faq">';
+		$h = '<h2 class="myzt-faq-h">Frequently asked questions</h2><div class="myzt myzt-faq">';
 		foreach ( $faq as $item ) {
 			$h .= '<details><summary>' . esc_html( $item['q'] ) . '</summary><p>' . wp_kses_post( $item['a'] ) . '</p></details>';
 		}
@@ -299,7 +323,7 @@ class MYZT_Frontend {
 		$initials = strtoupper( substr( $s['author_name'], 0, 1 ) );
 		$name     = $s['author_url'] ? '<a href="' . esc_url( $s['author_url'] ) . '" rel="author noopener" target="_blank">' . esc_html( $s['author_name'] ) . '</a>' : esc_html( $s['author_name'] );
 		$review   = $s['reviewer'] ? ' · <b>Reviewed by</b> ' . esc_html( $s['reviewer'] ) : '';
-		return '<div class="myzt myzt-author"><span class="av" aria-hidden="true">' . esc_html( $initials ) . '</span><div><b>Written by</b> ' . $name . $review .
+		return '<div class="myzt myzt-author"><span class="av" aria-hidden="true">' . esc_html( $initials ) . '</span><div><b>By</b> ' . $name . $review .
 			' · Updated ' . esc_html( $modified ) . ' · <a href="' . esc_url( self::page_url( 'methodology' ) ) . '">How we calculate</a> · <a href="mailto:' . esc_attr( $s['contact_email'] ) . '">' . esc_html( $s['contact_email'] ) . '</a></div></div>';
 	}
 

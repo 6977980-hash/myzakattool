@@ -24,6 +24,7 @@ class MYZT_SEO {
 		add_filter( 'wp_sitemaps_taxonomies', array( __CLASS__, 'sitemap_taxonomies' ) );
 		add_filter( 'wp_sitemaps_posts_query_args', array( __CLASS__, 'sitemap_exclude_noindex' ), 10, 2 );
 		add_filter( 'wp_robots', array( __CLASS__, 'robots_meta' ) );
+		add_action( 'template_redirect', array( __CLASS__, 'redirects' ), 1 );
 		add_filter( 'the_content', array( __CLASS__, 'breadcrumb' ), 5 );
 		remove_action( 'wp_head', 'wp_generator' );
 		remove_action( 'wp_head', 'wp_shortlink_wp_head' );
@@ -325,10 +326,7 @@ class MYZT_SEO {
 						'price'         => '0',
 						'priceCurrency' => 'USD',
 					),
-					'author'              => array(
-						'@type' => 'Person',
-						'name'  => $s['author_name'],
-					),
+					'author'              => $full ? array( '@id' => $per_id ) : array( '@type' => 'Person', 'name' => $s['author_name'] ),
 				);
 			}
 		}
@@ -341,7 +339,7 @@ class MYZT_SEO {
 				'@context' => 'https://schema.org',
 				'@graph'   => $graph,
 			),
-			JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+			JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG
 		) . "</script>\n";
 	}
 
@@ -385,10 +383,26 @@ class MYZT_SEO {
 		return $html . '</nav>' . $content;
 	}
 
+	/* ---------- redirects ---------- */
+
+	/** /page/N/ on the front page and the Guides category archive duplicate real pages: send them there. */
+	public static function redirects() {
+		if ( is_front_page() && max( (int) get_query_var( 'paged' ), (int) get_query_var( 'page' ) ) > 1 ) {
+			wp_safe_redirect( home_url( '/' ), 301 );
+			exit;
+		}
+		if ( is_category( 'guides' ) && ! is_paged() ) {
+			wp_safe_redirect( MYZT_Frontend::page_url( 'guides' ), 301 );
+			exit;
+		}
+	}
+
 	/* ---------- robots ---------- */
 
 	public static function robots_meta( $robots ) {
-		if ( is_search() || is_404() || is_attachment() || is_author() || is_date() || is_tag() || ( is_paged() && ! is_singular() ) ) {
+		$flagged = is_singular() && get_post_meta( get_queried_object_id(), '_myzt_noindex', true );
+		$paged   = is_paged() || ( is_front_page() && max( (int) get_query_var( 'paged' ), (int) get_query_var( 'page' ) ) > 1 );
+		if ( $flagged || is_search() || is_404() || is_attachment() || is_author() || is_date() || is_tag() || is_category() || $paged ) {
 			$robots['noindex'] = true;
 			$robots['follow']  = true;
 			unset( $robots['max-image-preview'] );
@@ -427,7 +441,7 @@ class MYZT_SEO {
 	}
 
 	public static function sitemap_taxonomies( $tax ) {
-		unset( $tax['post_tag'], $tax['post_format'] );
+		unset( $tax['post_tag'], $tax['post_format'], $tax['category'] );
 		return $tax;
 	}
 
@@ -483,6 +497,13 @@ class MYZT_SEO {
 		$s    = MYZT_Settings::get();
 
 		switch ( $file ) {
+			case 'apple-touch-icon.png':
+			case 'apple-touch-icon-precomposed.png':
+				status_header( 200 );
+				header( 'Content-Type: image/png' );
+				header( 'Cache-Control: public, max-age=604800' );
+				readfile( MYZAKATTOOL_DIR . 'assets/img/apple-touch-icon.png' ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+				exit;
 			case 'ads.txt':
 				if ( empty( $s['ads_client'] ) ) {
 					return;
@@ -548,6 +569,13 @@ class MYZT_SEO {
 			$url  = 'home' === $slug ? home_url( '/' ) : MYZT_Frontend::page_url( $slug );
 			$out .= '- [' . $p['nav'] . '](' . $url . '): ' . self::fill( $p['desc'] ) . "\n";
 		}
+		$out .= "\n## Guides\n\n";
+		foreach ( MYZT_Installer::pages() as $slug => $p ) {
+			if ( ! empty( $p['is_post'] ) ) {
+				$out .= '- [' . $p['title'] . '](' . MYZT_Frontend::page_url( $slug ) . '): ' . self::fill( $p['desc'] ) . "\n";
+			}
+		}
+		$out .= "\n## About\n\n- [About](" . MYZT_Frontend::page_url( 'about' ) . "): who runs the site and how to contact us.\n- [Disclaimer](" . MYZT_Frontend::page_url( 'disclaimer' ) . "): the results are estimates, not a fatwa.\n";
 		return $out;
 	}
 }

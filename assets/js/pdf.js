@@ -141,7 +141,7 @@
 					}
 					space(10);
 					doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5); color(mute);
-					var f = doc.splitTextToSize('Formula: (cash + bank + gold and silver value + business stock + money owed to you + other zakatable assets) - debts allowed in this madhab = zakatable wealth. If zakatable wealth is at least the nisab, zakat = 2.5% of it.', W - 2 * M - 4);
+					var f = doc.splitTextToSize('Formula: cash, bank, business stock, money owed to you and other zakatable assets are added to the value of gold and silver. Whether worn jewellery counts, and whether gold, silver and cash are pooled or checked against their own nisab, follows this madhab\'s rule. Debts are deducted only where this madhab allows it. If the zakatable wealth reaches the nisab, zakat = 2.5% of it.', W - 2 * M - 4);
 					doc.text(f, M + 2, y); y += f.length * 3.8 + 4;
 				}
 			});
