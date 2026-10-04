@@ -19,6 +19,9 @@ class MYZT_Frontend {
 		add_shortcode( 'zakat_nisab', array( __CLASS__, 'nisab' ) );
 		add_shortcode( 'zakat_fitrana', array( __CLASS__, 'fitrana' ) );
 		add_shortcode( 'zakat_fidya', array( __CLASS__, 'fidya' ) );
+		add_shortcode( 'zakat_hawl', array( __CLASS__, 'hawl' ) );
+		add_shortcode( 'zakat_ushr', array( __CLASS__, 'ushr' ) );
+		add_shortcode( 'myzt_embed_code', array( __CLASS__, 'embed_code' ) );
 		add_shortcode( 'zakat_khums', array( __CLASS__, 'khums' ) );
 		add_shortcode( 'myzt_faq', array( __CLASS__, 'faq' ) );
 		add_shortcode( 'myzt_author', array( __CLASS__, 'author' ) );
@@ -225,6 +228,28 @@ class MYZT_Frontend {
 				( $r['source'] ? ' (' . esc_html( $r['source'] ) . ')' : '' ) . '.';
 		}
 		return $h . '</p>';
+	}
+
+	public static function hawl() {
+		return self::widget( 'hawl', array() );
+	}
+
+	public static function ushr() {
+		return self::widget( 'ushr', array() );
+	}
+
+	/** [myzt_embed_code currency="PKR"]: live preview of the embeddable widget plus the code to copy. */
+	public static function embed_code( $atts ) {
+		$a    = shortcode_atts( array( 'currency' => 'PKR' ), $atts, 'myzt_embed_code' );
+		$cur  = strtoupper( preg_replace( '/[^A-Za-z]/', '', $a['currency'] ) );
+		$src  = MYZAKATTOOL_URL . 'assets/js/embed.js';
+		$code = '<div data-myzt-embed data-currency="' . $cur . '"></div>' . "\n" .
+			'<script src="' . $src . '" async></script>' . "\n" .
+			'<p style="font-size:12px">Nisab by <a href="' . home_url( '/nisab/' ) . '">My Zakat Tool</a></p>';
+		self::enqueue();
+		return '<div class="myzt myzt-embed-demo">' . $code . '<p><label for="myzt-embed-code"><strong>Copy this code:</strong></label></p>' .
+			'<textarea id="myzt-embed-code" readonly rows="4" style="width:100%;font:13px monospace;padding:10px;border:1px solid #dfe9e6;border-radius:8px" onclick="this.select()">' . esc_textarea( $code ) . '</textarea>' .
+			'<p class="myzt-small">Change <code>data-currency="' . esc_html( $cur ) . '"</code> to USD, GBP, SAR, AED, INR, BDT or any of about 50 currencies.</p></div>';
 	}
 
 	public static function fidya() {
