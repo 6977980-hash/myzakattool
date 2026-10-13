@@ -15,6 +15,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class MYZT_SEO {
 
+	// Google Search Console HTML-tag code for https://myzakattool.com/ (given by the owner 2026-10-13).
+	const GSC_CODE = 'G3VYSygi1lX3a2fm-xfAx6C-ifdkTHCCnTHvt0W6KtE';
+
 	public static function init() {
 		add_action( 'init', array( __CLASS__, 'virtual_files' ), 0 );
 		add_filter( 'robots_txt', array( __CLASS__, 'robots_txt' ), 20, 2 );
@@ -109,12 +112,16 @@ class MYZT_SEO {
 	}
 
 	public static function head() {
-		if ( is_front_page() ) {
-			foreach ( array( 'gsc_verify' => 'google-site-verification', 'bing_verify' => 'msvalidate.01' ) as $k => $name ) {
-				$code = MYZT_Settings::get( $k );
-				if ( $code ) {
-					echo '<meta name="' . esc_attr( $name ) . '" content="' . esc_attr( $code ) . '">' . "\n";
-				}
+		// Verification tags go on every front-end page; the GSC code falls back to the owner's property code
+		// so verification works even before the settings field is filled in.
+		$fallback = array( 'gsc_verify' => self::GSC_CODE, 'bing_verify' => '' );
+		foreach ( array( 'gsc_verify' => 'google-site-verification', 'bing_verify' => 'msvalidate.01' ) as $k => $name ) {
+			$code = MYZT_Settings::get( $k );
+			if ( ! $code ) {
+				$code = $fallback[ $k ];
+			}
+			if ( $code ) {
+				echo '<meta name="' . esc_attr( $name ) . '" content="' . esc_attr( $code ) . '">' . "\n";
 			}
 		}
 		$post_id = is_singular() ? get_queried_object_id() : 0;
