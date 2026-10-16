@@ -123,8 +123,27 @@ test('T18 same input across all six madhabs', () => {
 test('T21 invalid values reaching the engine', () => {
 	check('hanafi', { money: { cash: -500000, bank: 600000 } }, 600000 * 0.025); // negatives count as 0
 	check('hanafi', { money: { cash: 'abc' } }, 0);
-	// METHOD/FIX-009: karat 0 is treated as 24K today; update when invalid karat becomes an error.
-	check('hanafi', { goldKept: { weight: 10, unit: 'tola', karat: 0 } }, 10 * TOLA * goldG * 0.025);
+	// FIX-009: an invalid karat (0 or above 24) counts as no gold; a missing karat still means 24K.
+	check('hanafi', { goldKept: { weight: 10, unit: 'tola', karat: 0 } }, 0);
+	check('hanafi', { goldKept: { weight: 10, unit: 'tola', karat: 30 } }, 0);
+	check('hanafi', { goldKept: { weight: 10, unit: 'tola' } }, 10 * TOLA * goldG * 0.025);
+});
+
+test('T21 typed input is read exactly or rejected, never changed (FIX-006)', () => {
+	const ok = (v, n) => assert.deepEqual(E.parseAmount(v), { value: n, ok: true }, JSON.stringify(v));
+	const bad = (v, why) => assert.deepEqual(E.parseAmount(v), { value: 0, ok: false, error: why }, JSON.stringify(v));
+	ok('', 0); ok('250000', 250000); ok('2,50,000', 250000); ok('250,000.50', 250000.5); ok('Rs 5000', 5000); ok('5000 PKR', 5000);
+	ok('۵۰۰۰۰', 50000); ok('٥٠٠٠٠', 50000); ok('١٢٫٥', 12.5); ok('.5', 0.5); ok(7, 7);
+	bad('-5000', 'negative'); bad('−5000', 'negative'); bad(-1, 'negative');
+	bad('abc', 'invalid'); bad('1e6', 'invalid'); bad('1.234,56', 'invalid'); bad('12,5', 'invalid'); bad('1.2.3', 'invalid'); bad('.', 'invalid');
+	// The quick-fill parser reads Urdu digits too.
+	assert.equal(E.parseText('۵ لاکھ cash ۲ lakh bank').bank, 200000);
+});
+
+test('Silver fineness (FIX-008)', () => {
+	check('hanafi', { silverKept: { weight: 1000, unit: 'gram', fineness: 925 } }, 925 * silverG * 0.025);
+	check('hanafi', { silverKept: { weight: 1000, unit: 'gram', fineness: 999 } }, 1000 * silverG * 0.025);
+	check('hanafi', { silverKept: { weight: 1000, unit: 'gram' } }, 1000 * silverG * 0.025);
 });
 
 test('T22 Hanbali with gold only uses the gold nisab by weight', () => {
@@ -138,6 +157,21 @@ test('Side tools: fitrana, fidya, kaffara, khums, family', () => {
 	assert.equal(E.kaffara(3, 300), 54000);
 	assert.deepEqual(E.khums({ savings: 100000, unusedItems: 20000, tradeStock: 0, debts: 50000 }), { surplus: 70000, khums: 14000, sahmImam: 7000, sahmSadat: 7000 });
 	assert.equal(E.family([{ payable: 100 }, { payable: 50.5 }]), 150.5);
+});
+
+test('Missed years: a nisab per year, falling back to the common one (FIX-015)', () => {
+	const r = E.missedZakat([200000, 200000], [250000, 0], false, 150000);
+	assert.deepEqual(r.rows.map((x) => x.zakat), [0, 5000]);
+	assert.deepEqual(r.rows.map((x) => x.nisab), [250000, 150000]);
+});
+
+test('Receivables timing note for Hanafi and Maliki only (FIX-017)', () => {
+	const input = { money: { receivables: 1000000 } };
+	assert.ok(E.calculate('hanafi', input, P).notes.includes('receivables_hanafi'));
+	assert.ok(E.calculate('maliki', input, P).notes.includes('receivables_maliki'));
+	assert.ok(!E.calculate('shafii', input, P).notes.some((n) => n.startsWith('receivables_')));
+	// The amount is still counted this year.
+	check('hanafi', input, 1000000 * 0.025);
 });
 
 test('Ushr rates and crop nisab', () => {

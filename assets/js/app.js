@@ -69,13 +69,13 @@
 			discLink: 'Disclaimer', resetConfirm: 'Clear all entries?', savedLocal: 'Saved on this device only.',
 			shareText: 'My zakat estimate', calTitle: 'Zakat due (one lunar year)',
 			persons: 'Number of people', item: 'Pay as', perPerson: 'Amount per person', fitranaTotal: 'Total fitrana',
-			fd_fasts: 'Fasts you cannot make up (fidya)', fd_broken: 'Kaffaras due (fasts broken on purpose)', fd_perDay: 'Amount for one poor person, one day', fd_fidya: 'Fidya', fd_kaffara: 'Kaffara (feeding 60 poor people each)', fd_total: 'Total to pay',
+			fd_fasts: 'Fasts you cannot make up (fidya)', fd_broken: 'How many kaffaras are due (not the number of fasts broken)', fd_perDay: 'Amount for one poor person, one day', fd_fidya: 'Fidya', fd_kaffara: 'Kaffara (feeding 60 poor people each)', fd_total: 'Total to pay',
 			fd_hFasts: 'Only for illness or old age with no hope of fasting later. Otherwise make the fasts up.', fd_hBroken: 'Hanafi: several fasts broken in the same Ramadan need one kaffara. Kaffara by feeding is only for someone who cannot fast 60 days in a row.',
 			wheat: 'Wheat / flour', barley: 'Barley', dates: 'Dates', raisins: 'Raisins',
 			h_start: 'Date your wealth first reached the nisab (or your usual zakat date)', h_next: 'Your next zakat dates', h_left: 'days left',
 			h_ics: 'Add next 5 zakat dates to my calendar', h_note: 'Dates move about 11 days earlier each year (lunar year). They may differ by a day with moon sighting.',
 			h_missed: 'Missed years', h_missedN: 'How many years of zakat were not paid?', h_wealthY: 'Zakatable wealth on zakat date, year', h_sub: 'Count earlier unpaid zakat as a debt (Hanafi)',
-			h_nisabNow: 'Nisab used (today\'s silver nisab, edit if needed)', h_missedTotal: 'Zakat owed for missed years', h_yearsSince: 'Lunar years since this date',
+			h_nisabNow: 'Nisab used (today\'s value, edit if needed)', h_missedTotal: 'Zakat owed for missed years', h_yearsSince: 'Lunar years since this date',
 			u_crops: 'Crops (ushr)', u_animals: 'Livestock', u_madhab: 'Madhab', u_hanafi: 'Hanafi', u_others: "Shafi'i, Maliki, Hanbali, Ahl-e-Hadith", u_jafari: "Ja'fari (Sistani)",
 			u_jafariNote: "Ayatollah Sistani: the minimum is higher (about 847 kg), and zakat on crops applies only to wheat, barley, dates and raisins.",
 			u_notDueJ: 'Below the minimum of about 847 kg: no zakat on this crop (Ayatollah Sistani).',
@@ -91,6 +91,21 @@
 			k_savings: 'Savings from this year\'s income', k_unused: 'Items bought from income, still unused', k_stock: 'Trade stock (from income)', k_debts: 'Debts of this year',
 			k_total: 'Khums (20%)', k_surplus: 'Surplus', k_imam: 'Sahm-e-Imam (10%)', k_sadat: 'Sahm-e-Sadat (10%)',
 			perGram: 'per gram', perTola: 'per tola', perOz: 'per ounce', purity: 'Purity',
+			err_negative: 'Amounts cannot be negative. Enter debts under Debts / Bills. This value is not counted.',
+			err_invalid: 'Please type a plain number, for example 250000 or 2,50,000. This value is not counted.',
+			fineness: 'Fineness', fine999: 'Pure (999)', fine925: 'Sterling (925)', fine900: '900',
+			c_toPay: 'Still to pay',
+			fileBad: 'This file could not be opened. Please choose a data file saved from this calculator.',
+			fileCur: 'This file was saved in %s, which is not available here. Its amounts are shown in %t: please check them.',
+			fileOk: 'Data file opened.',
+			f_noPreset: 'Enter the fitrana amount announced for your area this year.',
+			f_fallback: 'Last announced amounts shown. Replace them with this year\'s amount for your area.',
+			h_oldest: 'Year 1 is the oldest unpaid year.', h_nisabY: 'Nisab that year (optional)',
+			h_basis: 'Nisab standard for missed years', h_nisabNote: 'Hanafi uses the silver nisab; Shafi\'i and some others use gold. If you know the nisab of an earlier year, enter it for that year.',
+			a_madhabNote: 'Maliki fiqh also counts animals that are fed or used for work. Ja\'fari (Ayatollah Sistani) rulings differ in some tables. This tool follows the Hanafi, Shafi\'i and Hanbali tables: please check with a scholar of your madhab.',
+			h_receivables: 'Counted now. Hanafi and Maliki scholars allow paying zakat on a cash loan when it is repaid: if you choose that, enter it on the next line instead.',
+			n_receivables_hanafi: 'Hanafi: you may instead pay zakat on money owed to you when you receive it, for every year it was owed.',
+			n_receivables_maliki: 'Maliki: for a cash loan, zakat is paid once when it is received. To follow that, move it to the doubtful line. Trade debts of a merchant are counted every year.',
 		},
 		ur: {
 			madhab: 'مسلک', currency: 'کرنسی', unit: 'وزن کی اکائی', change: 'تبدیل کریں', done: 'ٹھیک ہے',
@@ -146,13 +161,13 @@
 			discLink: 'ڈسکلیمر', resetConfirm: 'سب خانے صاف کر دیں؟', savedLocal: 'صرف اسی ڈیوائس پر محفوظ۔',
 			shareText: 'میری زکوٰۃ کا اندازہ', calTitle: 'زکوٰۃ کی تاریخ (ایک قمری سال)',
 			persons: 'افراد کی تعداد', item: 'کس چیز سے', perPerson: 'فی فرد رقم', fitranaTotal: 'کل فطرانہ',
-			fd_fasts: 'روزے جن کی قضا ممکن نہیں (فدیہ)', fd_broken: 'کفارے (جان بوجھ کر توڑے گئے روزے)', fd_perDay: 'ایک مسکین کا ایک دن کا کھانا', fd_fidya: 'فدیہ', fd_kaffara: 'کفارہ (ہر ایک کے لیے 60 مسکین)', fd_total: 'کل رقم',
+			fd_fasts: 'روزے جن کی قضا ممکن نہیں (فدیہ)', fd_broken: 'کتنے کفارے واجب ہیں (توڑے گئے روزوں کی تعداد نہیں)', fd_perDay: 'ایک مسکین کا ایک دن کا کھانا', fd_fidya: 'فدیہ', fd_kaffara: 'کفارہ (ہر ایک کے لیے 60 مسکین)', fd_total: 'کل رقم',
 			fd_hFasts: 'صرف بیماری یا بڑھاپے میں جب بعد میں روزہ رکھنے کی امید نہ ہو۔ ورنہ قضا رکھیں۔', fd_hBroken: 'حنفی: ایک رمضان کے کئی توڑے گئے روزوں کا ایک کفارہ کافی ہے۔ کھانا کھلانا صرف اس کے لیے ہے جو 60 مسلسل روزے نہ رکھ سکے۔',
 			wheat: 'گندم / آٹا', barley: 'جو', dates: 'کھجور', raisins: 'کشمش',
 			h_start: 'جس دن مال پہلی بار نصاب کو پہنچا (یا آپ کی زکوٰۃ کی تاریخ)', h_next: 'آپ کی اگلی زکوٰۃ کی تاریخیں', h_left: 'دن باقی',
 			h_ics: 'اگلی 5 تاریخیں کیلنڈر میں شامل کریں', h_note: 'قمری سال کی وجہ سے تاریخ ہر سال تقریباً 11 دن پہلے آتی ہے۔ چاند کے حساب سے ایک دن کا فرق ہو سکتا ہے۔',
 			h_missed: 'رہ جانے والے سال', h_missedN: 'کتنے سال کی زکوٰۃ ادا نہیں ہوئی؟', h_wealthY: 'زکوٰۃ کی تاریخ پر قابلِ زکوٰۃ مال، سال', h_sub: 'پچھلی ادا نہ کی گئی زکوٰۃ کو قرض شمار کریں (حنفی)',
-			h_nisabNow: 'نصاب (آج کا چاندی کا نصاب، چاہیں تو بدلیں)', h_missedTotal: 'رہ جانے والے سالوں کی زکوٰۃ', h_yearsSince: 'اس تاریخ سے گزرے قمری سال',
+			h_nisabNow: 'نصاب (آج کی قیمت، چاہیں تو بدلیں)', h_missedTotal: 'رہ جانے والے سالوں کی زکوٰۃ', h_yearsSince: 'اس تاریخ سے گزرے قمری سال',
 			u_crops: 'فصل (عشر)', u_animals: 'مویشی', u_madhab: 'مسلک', u_hanafi: 'حنفی', u_others: 'شافعی، مالکی، حنبلی، اہلِ حدیث', u_jafari: 'جعفری (سیستانی)',
 			u_jafariNote: 'آیت اللہ سیستانی: نصاب زیادہ ہے (تقریباً 847 کلو)، اور فصل کی زکوٰۃ صرف گندم، جو، کھجور اور کشمش پر ہے۔',
 			u_notDueJ: 'تقریباً 847 کلو سے کم: اس فصل پر زکوٰۃ نہیں (آیت اللہ سیستانی)۔',
@@ -168,6 +183,21 @@
 			k_savings: 'اس سال کی آمدنی سے بچت', k_unused: 'آمدنی سے خریدی غیر استعمال شدہ چیزیں', k_stock: 'تجارتی مال (آمدنی سے)', k_debts: 'اس سال کے قرض',
 			k_total: 'خمس (20%)', k_surplus: 'بچت', k_imam: 'سہمِ امام (10%)', k_sadat: 'سہمِ سادات (10%)',
 			perGram: 'فی گرام', perTola: 'فی تولہ', perOz: 'فی اونس', purity: 'خالصیت',
+			err_negative: 'رقم منفی نہیں ہو سکتی۔ قرض "قرض/بل" والے حصے میں لکھیں۔ یہ رقم شامل نہیں کی گئی۔',
+			err_invalid: 'صرف عدد لکھیں، مثلاً 250000 یا 2,50,000۔ یہ رقم شامل نہیں کی گئی۔',
+			fineness: 'خالصیت', fine999: 'خالص (999)', fine925: 'اسٹرلنگ (925)', fine900: '900',
+			c_toPay: 'ابھی ادا کرنی ہے',
+			fileBad: 'یہ فائل نہیں کھل سکی۔ اسی کیلکولیٹر سے محفوظ کی گئی ڈیٹا فائل منتخب کریں۔',
+			fileCur: 'یہ فائل %s میں محفوظ تھی جو یہاں دستیاب نہیں۔ رقمیں %t میں دکھائی گئی ہیں: براہ کرم چیک کر لیں۔',
+			fileOk: 'ڈیٹا فائل کھل گئی۔',
+			f_noPreset: 'اپنے علاقے کے لیے اس سال اعلان کردہ فطرانہ کی رقم لکھیں۔',
+			f_fallback: 'پچھلی اعلان کردہ رقم دکھائی گئی ہے۔ اپنے علاقے کی اس سال کی رقم لکھ دیں۔',
+			h_oldest: 'سال 1 سب سے پرانا سال ہے۔', h_nisabY: 'اس سال کا نصاب (اختیاری)',
+			h_basis: 'پچھلے سالوں کے لیے نصاب کا معیار', h_nisabNote: 'حنفی چاندی کا نصاب لیتے ہیں؛ شافعی اور بعض دوسرے سونے کا۔ کسی پچھلے سال کا نصاب معلوم ہو تو اس سال کے خانے میں لکھیں۔',
+			a_madhabNote: 'مالکی فقہ میں چارہ کھانے والے اور کام کے جانوروں پر بھی زکوٰۃ ہے۔ فقہ جعفری (آیت اللہ سیستانی) کے بعض جدول مختلف ہیں۔ یہ ٹول حنفی، شافعی اور حنبلی جدول پر ہے: اپنے مسلک کے عالم سے تصدیق کریں۔',
+			h_receivables: 'ابھی شامل ہے۔ حنفی اور مالکی علما نقد قرض کی زکوٰۃ وصولی پر دینے کی اجازت دیتے ہیں: ایسا کرنا ہو تو اسے اگلے خانے میں لکھیں۔',
+			n_receivables_hanafi: 'حنفی: چاہیں تو دوسروں سے لینے والی رقم کی زکوٰۃ وصول ہونے پر، گزرے ہر سال کی، ادا کر سکتے ہیں۔',
+			n_receivables_maliki: 'مالکی: نقد قرض کی زکوٰۃ وصول ہونے پر ایک بار دی جاتی ہے۔ اس کے لیے اسے مشکوک والے خانے میں لکھیں۔ تاجر کے تجارتی قرض ہر سال شامل ہیں۔',
 		},
 	};
 
@@ -182,7 +212,30 @@
 			return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
 		});
 	}
-	function num(v) { var n = parseFloat(String(v == null ? '' : v).replace(/[^0-9.]/g, '')); return isFinite(n) ? n : 0; }
+	/** Typed amount as a number; negative or unreadable input counts as 0 and is flagged by checkInput(). */
+	function num(v) { return E.parseAmount(v).value; }
+	/** Mark a number box invalid (aria-invalid plus an inline message) while it holds a negative or unreadable value. */
+	function checkInput(el) {
+		var r = E.parseAmount(el.value), box = el.closest('.myzt-field') || el.parentNode;
+		var msg = box.querySelector('.myzt-err');
+		if (r.ok) {
+			el.removeAttribute('aria-invalid');
+			if (msg) { msg.remove(); el.removeAttribute('aria-describedby'); }
+			return true;
+		}
+		el.setAttribute('aria-invalid', 'true');
+		if (!msg) {
+			msg = document.createElement('div');
+			msg.className = 'myzt-err';
+			msg.setAttribute('role', 'alert');
+			if (el.id) { msg.id = el.id + '-err'; el.setAttribute('aria-describedby', msg.id); }
+			box.appendChild(msg);
+		}
+		msg.textContent = t('err_' + r.error);
+		return false;
+	}
+	function isNumberBox(el) { return el && el.tagName === 'INPUT' && /^(decimal|numeric)$/.test(el.getAttribute('inputmode') || ''); }
+	document.addEventListener('input', function (e) { if (isNumberBox(e.target) && e.target.closest('.myzt')) checkInput(e.target); }, true);
 	function lakhLocale(cur) { return /^(PKR|INR|BDT|NPR|LKR)$/.test(cur) ? 'en-IN' : 'en-US'; }
 	function money(v, cur) {
 		try {
@@ -382,7 +435,9 @@
 	function Calculator(root) {
 		var opts = root.dataset;
 		var cd = E.countryDefaults(COUNTRY);
-		var UNITS = ['tola', 'gram', 'oz'], KARATS = [24, 22, 21, 18];
+		var UNITS = ['tola', 'gram', 'oz'], KARATS = [24, 22, 21, 18], FINENESS = [999, 925, 900];
+		// Worn jewellery is usually 22K; bars, coins and other kept gold are usually 24K (FIX-007).
+		function karatDefault(key) { return key === 'goldKept' ? 24 : 22; }
 
 		// own.gold / own.silver are stored per gram (perGram: true) so a unit switch does not change them.
 		function defaults() {
@@ -422,6 +477,7 @@
 								if (UNITS.indexOf(m.unit) >= 0) e.unit = m.unit;
 								else if (w) e.unit = s.unit;
 								if (KARATS.indexOf(+m.karat) >= 0) e.karat = +m.karat;
+								if (FINENESS.indexOf(+m.fineness) >= 0) e.fineness = +m.fineness;
 								np.metal[f[1]] = e;
 							}
 						});
@@ -464,7 +520,9 @@
 					if (f[0] === 'liab') liab[f[1]] = num(p.liab[f[1]]);
 					if (f[0] === 'metal') {
 						var m = p.metal[f[1]] || {};
-						metals[f[1]] = { weight: num(m.weight), unit: m.unit || st.unit, karat: f[1].indexOf('gold') === 0 ? (m.karat || 22) : 24 };
+						metals[f[1]] = f[1].indexOf('gold') === 0
+							? { weight: num(m.weight), unit: m.unit || st.unit, karat: m.karat || karatDefault(f[1]) }
+							: { weight: num(m.weight), unit: m.unit || st.unit, fineness: m.fineness || 999 };
 					}
 				});
 			});
@@ -483,13 +541,15 @@
 				var m = p.metal[key] || {};
 				var u = m.unit || st.unit;
 				var isGold = key.indexOf('gold') === 0;
-				var k = m.karat || 22;
+				var k = m.karat || karatDefault(key);
 				var seg = ['tola', 'gram', 'oz'].map(function (x) {
 					return '<button type="button" data-metal-unit="' + key + '" data-v="' + x + '" aria-pressed="' + (u === x) + '">' + unitLabel(x) + '</button>';
 				}).join('');
 				var kseg = isGold ? '<span class="myzt-seg" role="group" aria-label="' + esc(t('karat')) + '">' + [24, 22, 21, 18].map(function (x) {
 					return '<button type="button" data-metal-karat="' + key + '" data-v="' + x + '" aria-pressed="' + (k === x) + '">' + x + 'K</button>';
-				}).join('') + '</span>' : '';
+				}).join('') + '</span>' : '<span class="myzt-seg" role="group" aria-label="' + esc(t('fineness')) + '">' + FINENESS.map(function (x) {
+					return '<button type="button" data-metal-fineness="' + key + '" data-v="' + x + '" aria-pressed="' + ((m.fineness || 999) === x) + '">' + esc(t('fine' + x)) + '</button>';
+				}).join('') + '</span>';
 				return '<div class="myzt-field"><label for="' + id + '">' + esc(t('f_' + key)) + help + '</label><div class="myzt-row">' +
 					'<input class="myzt-inp" id="' + id + '" inputmode="decimal" autocomplete="off" data-metal="' + key + '" value="' + esc(m.weight || '') + '" placeholder="0">' +
 					'<span class="myzt-seg" role="group" aria-label="' + esc(t('unit')) + '">' + seg + '</span>' + kseg + '</div></div>';
@@ -628,15 +688,18 @@
 
 		function compareHtml(pr) {
 			var input = personInput(st.persons[st.active]);
-			var rows = E.compare(input, pr).map(function (r) {
+			var all = E.compare(input, pr);
+			// With zakat already paid, also show what is left to pay, so the table matches the main result (FIX-010).
+			var paid = all.some(function (r) { return r.paidEntered > 0; });
+			var rows = all.map(function (r) {
 				var m = E.MADHABS[r.madhab];
 				var nb = r.khums ? t('basisCoins') : (m.cashNisab === 'lower' ? t('lower') : t(r.nisabBasis === 'gold' ? 'basisGold' : 'basisSilver'));
 				var ref = CFG.urls && CFG.urls.methodology ? '<a href="' + esc(CFG.urls.methodology) + '#' + r.madhab + '">' + esc(m.ref.split(',')[0]) + '</a>' : esc(m.ref.split(',')[0]);
 				return '<tr class="' + (r.madhab === st.madhab ? 'sel' : '') + '"><td>' + esc(r.name) + '</td><td>' + esc(m.jewellery ? t('included') : r.notes.indexOf('shafii_excess_jewellery') >= 0 ? t('includedAbove') : t('exempt')) + '</td><td>' + esc(m.debts ? t('yes') : t('no')) + '</td><td>' + esc(nb) + '</td>' +
-					'<td class="z">' + money(r.zakat, st.currency) + (r.khums ? ' · ' + esc(t('seeKhums')) : '') + '</td><td>' + ref + '</td></tr>';
+					'<td class="z">' + money(r.zakat, st.currency) + (r.khums ? ' · ' + esc(t('seeKhums')) : '') + '</td>' + (paid ? '<td class="z">' + money(r.payable, st.currency) + '</td>' : '') + '<td>' + ref + '</td></tr>';
 			}).join('');
 			return '<div class="myzt-card myzt-cmp"><div class="myzt-cmp-h"><b>' + esc(t('cmpTitle')) + '</b><span class="myzt-small">' + esc(t('cmpSub')) + '</span></div>' +
-				'<div class="myzt-scroll"><table class="myzt-table"><thead><tr><th>' + esc(t('c_madhab')) + '</th><th>' + esc(t('c_jewellery')) + '</th><th>' + esc(t('c_debts')) + '</th><th>' + esc(t('c_nisab')) + '</th><th>' + esc(t('c_zakat')) + '</th><th>' + esc(t('c_ref')) + '</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>';
+				'<div class="myzt-scroll"><table class="myzt-table"><thead><tr><th>' + esc(t('c_madhab')) + '</th><th>' + esc(t('c_jewellery')) + '</th><th>' + esc(t('c_debts')) + '</th><th>' + esc(t('c_nisab')) + '</th><th>' + esc(t('c_zakat')) + '</th>' + (paid ? '<th>' + esc(t('c_toPay')) + '</th>' : '') + '<th>' + esc(t('c_ref')) + '</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>';
 		}
 
 		var stickyEl = null;
@@ -672,7 +735,8 @@
 			else if (el.dataset.liab) p.liab[el.dataset.liab] = num(el.value);
 			else if (el.dataset.metal) {
 				var me = p.metal[el.dataset.metal] = p.metal[el.dataset.metal] || {};
-				me.weight = el.value.replace(/[^0-9.]/g, '');
+				var pw = E.parseAmount(el.value);
+				me.weight = pw.ok && pw.value ? String(pw.value) : '';
 				// Fix the unit on first entry, so a later change of the default unit does not turn 10 tola into 10 g.
 				if (!me.unit) me.unit = st.unit;
 			}
@@ -694,6 +758,7 @@
 
 		root.addEventListener('focusout', function (e) {
 			var el = e.target;
+			if (el.getAttribute('aria-invalid') === 'true') return;
 			if (el.dataset.money || el.dataset.liab) el.value = plain(num(el.value), st.currency);
 			else if (el.dataset.own) el.value = plain(round2(st.own[el.dataset.own] * unitGrams(st.unit)), st.currency);
 		});
@@ -714,21 +779,25 @@
 			} else if (el.dataset.act === 'own') {
 				st.own.on = el.checked; persist(); render();
 			} else if (el.hasAttribute('data-loadfile') && el.files[0]) {
-				var fr = new FileReader();
+				var fr = new FileReader(), input = el;
+				// A malformed or incompatible file gets a message instead of being ignored (FIX-012).
 				fr.onload = function () {
+					var d = null, prev = st;
+					try { d = JSON.parse(fr.result); } catch (err) {}
+					if (!d || d.v !== 1 || !Array.isArray(d.persons) || !d.persons.length) { ui.msg = t('fileBad'); render(); return; }
 					try {
-						var d = JSON.parse(fr.result);
-						if (d && d.v === 1 && Array.isArray(d.persons)) {
-							var prev = st;
-							try {
-								st = sanitize(d); st.active = 0;
-								if (currencies().indexOf(st.currency) < 0) st.currency = prev.currency;
-								render(); persist();
-							} catch (err2) { st = prev; render(); }
+						st = sanitize(d); st.active = 0;
+						ui.msg = t('fileOk');
+						if (currencies().indexOf(st.currency) < 0) {
+							ui.msg = t('fileCur').replace('%s', st.currency).replace('%t', prev.currency);
+							st.currency = prev.currency;
 						}
-					} catch (err) {}
+						render(); persist();
+					} catch (err2) { st = prev; ui.msg = t('fileBad'); render(); }
 				};
+				fr.onerror = function () { ui.msg = t('fileBad'); render(); };
 				fr.readAsText(el.files[0]);
+				input.value = '';
 			}
 		});
 
@@ -744,7 +813,7 @@
 					p.tiles[k] = true;
 					// Worn jewellery only when the text says so; otherwise bars, coins and kept gold.
 					var key = k + (/zevar|zewar|zaiwar|jewell?ery|jewelry|زیور/i.test(text) ? 'Worn' : 'Kept');
-					p.metal[key] = { weight: String(r[k].weight), unit: r[k].unit, karat: r[k].karat || (k === 'gold' ? 22 : 24) };
+					p.metal[key] = k === 'gold' ? { weight: String(r[k].weight), unit: r[k].unit, karat: r[k].karat || karatDefault(key) } : { weight: String(r[k].weight), unit: r[k].unit };
 				} else if (k === 'debts') { p.tiles.debts = true; p.liab.debts = r[k]; }
 				else {
 					var tileOf = { cash: 'cash', bank: 'bank', stock: 'business', committee: 'committee', shares: 'shares', crypto: 'shares', plot: 'plot', receivables: 'receivables', prizeBonds: 'cash', savingsCerts: 'cash' }[k];
@@ -761,6 +830,7 @@
 			var p = st.persons[st.active], d = b.dataset;
 			if (d.tile) { p.tiles[d.tile] = !p.tiles[d.tile]; ui.msg = ''; persist(); render(); return; }
 			if (d.metalUnit) { p.metal[d.metalUnit] = p.metal[d.metalUnit] || {}; p.metal[d.metalUnit].unit = d.v; persist(); render(); return; }
+			if (d.metalFineness) { p.metal[d.metalFineness] = p.metal[d.metalFineness] || {}; p.metal[d.metalFineness].fineness = +d.v; persist(); render(); return; }
 			if (d.metalKarat) { p.metal[d.metalKarat] = p.metal[d.metalKarat] || {}; p.metal[d.metalKarat].karat = +d.v; persist(); render(); return; }
 			if (d.person) { st.active = +d.person; ui.why = {}; persist(); render(); return; }
 			if (d.nisab) { st.nisabBasis = d.nisab; persist(); render(); return; }
@@ -895,6 +965,12 @@
 		freshRates(render);
 	}
 
+	/** Where the per-person amount comes from, or a clear prompt to enter it when there is no preset (FIX-013). */
+	function presetNote(F, cur, has) {
+		if (!has) return '<div class="myzt-note">' + esc(t('f_noPreset')) + '</div>';
+		return (F.fallback ? '<div class="myzt-note">' + esc(t('f_fallback')) + '</div>' : '') + (F.note ? '<p class="myzt-small">' + esc(F.note) + '</p>' : '');
+	}
+
 	function Fitrana(root) {
 		var F = CFG.fitrana || {};
 		var cur = pickCurrency(root);
@@ -910,7 +986,7 @@
 				}).join('') + '</span></div>' +
 				'<div class="myzt-field"><label for="myzt-fa">' + esc(t('perPerson')) + ' (' + cur + ')</label><input class="myzt-inp" id="myzt-fa" inputmode="decimal" data-f="amount" value="' + esc(plain(st.amount, cur)) + '"></div>' +
 				'<div class="myzt-due">' + esc(t('fitranaTotal')) + '</div><div class="myzt-amt" data-out>' + money(E.fitrana(st.persons, st.amount), cur) + '</div>' +
-				(F.note ? '<p class="myzt-small">' + esc(F.note) + '</p>' : '') + '<div class="myzt-disc">' + esc(t('disc')) + '</div></div>';
+				presetNote(F, cur, preset()) + '<div class="myzt-disc">' + esc(t('disc')) + '</div></div>';
 		}
 		root.addEventListener('input', function (e) {
 			var f = e.target.dataset.f;
@@ -952,7 +1028,7 @@
 				}).join('') + '</span></div>' +
 				'<div class="myzt-field"><label for="myzt-da">' + esc(t('fd_perDay')) + ' (' + cur + ')</label><input class="myzt-inp" id="myzt-da" inputmode="decimal" data-f="amount" value="' + esc(plain(st.amount, cur)) + '"></div>' +
 				'<div data-out>' + out() + '</div>' +
-				(F.note ? '<p class="myzt-small">' + esc(F.note) + '</p>' : '') + '<div class="myzt-disc">' + esc(t('disc')) + '</div></div>';
+				presetNote(F, cur, preset()) + '<div class="myzt-disc">' + esc(t('disc')) + '</div></div>';
 		}
 		root.addEventListener('input', function (e) {
 			var f = e.target.dataset.f;
@@ -1021,8 +1097,12 @@
 		var KEY = 'myzt_hawl';
 		var cur = pickCurrency(root);
 		var st = load(KEY, null) || { start: '', missed: 0, wealth: [], sub: true, nisab: 0 };
+		if (!Array.isArray(st.wealth)) st.wealth = [];
+		if (!Array.isArray(st.nisabY)) st.nisabY = [];
+		// Default nisab standard follows the visitor's madhab: gold where that school uses gold for cash (FIX-015).
+		if (st.basis !== 'gold' && st.basis !== 'silver') st.basis = E.MADHABS[E.countryDefaults(COUNTRY).madhab].cashNisab === 'gold' ? 'gold' : 'silver';
 		var today = new Date().toISOString().slice(0, 10);
-		function nisabNow() { var pr = pricesFor(cur); return pr ? E.nisabValues(pr).silver : 0; }
+		function nisabNow() { var pr = pricesFor(cur); return pr ? E.nisabValues(pr)[st.basis] : 0; }
 		function out() {
 			var h = '';
 			if (st.start) {
@@ -1041,25 +1121,29 @@
 		function missedOut() {
 			var n = Math.min(15, Math.max(0, Math.floor(st.missed)));
 			var nis = st.nisab || nisabNow();
-			var r = E.missedZakat(st.wealth.slice(0, n), nis, st.sub);
+			var r = E.missedZakat(st.wealth.slice(0, n), st.nisabY.slice(0, n), st.sub, nis);
 			return r.rows.map(function (row, i) {
-				return '<div class="myzt-line"><span>' + (i + 1) + '</span><span>' + money(row.zakat, cur) + '</span></div>';
+				return '<div class="myzt-line"><span>' + (i + 1) + (i === 0 ? ' <span class="myzt-small">(' + esc(t('h_oldest')) + ')</span>' : '') + '</span><span>' + money(row.zakat, cur) + '</span></div>';
 			}).join('') + '<div class="myzt-due" style="margin-top:8px">' + esc(t('h_missedTotal')) + '</div><div class="myzt-amt">' + money(r.total, cur) + '</div>';
 		}
 		function render() {
 			var n = Math.min(15, Math.max(0, Math.floor(st.missed)));
 			var rows = '';
 			for (var i = 0; i < n; i++) {
-				rows += '<div class="myzt-field"><label for="myzt-hw' + i + '">' + esc(t('h_wealthY')) + ' ' + (i + 1) + '</label><input class="myzt-inp" id="myzt-hw' + i + '" inputmode="decimal" data-w="' + i + '" value="' + esc(plain(st.wealth[i] || 0, cur)) + '"></div>';
+				rows += '<div class="myzt-field"><label for="myzt-hw' + i + '">' + esc(t('h_wealthY')) + ' ' + (i + 1) + '</label><input class="myzt-inp" id="myzt-hw' + i + '" inputmode="decimal" data-w="' + i + '" value="' + esc(plain(st.wealth[i] || 0, cur)) + '"></div>' +
+					'<div class="myzt-field"><label for="myzt-hny' + i + '" class="myzt-small">' + esc(t('h_nisabY')) + '</label><input class="myzt-inp" id="myzt-hny' + i + '" inputmode="decimal" data-ny="' + i + '" value="' + esc(plain(st.nisabY[i] || 0, cur)) + '" placeholder="' + esc(plain(st.nisab || nisabNow(), cur)) + '"></div>';
 			}
 			root.innerHTML = '<div class="myzt-card myzt-mini">' +
 				'<div class="myzt-field"><label for="myzt-hs">' + esc(t('h_start')) + '</label><input class="myzt-inp" type="date" id="myzt-hs" data-h="start" max="' + today + '" value="' + esc(st.start) + '"></div>' +
 				'<div data-out>' + out() + '</div>' +
 				'<div class="myzt-sec"><h4>' + esc(t('h_missed')) + '</h4>' + curSelect(cur) +
 				'<div class="myzt-field"><label for="myzt-hm">' + esc(t('h_missedN')) + '</label><input class="myzt-inp" id="myzt-hm" inputmode="numeric" data-h="missed" value="' + (n || '') + '" placeholder="0"></div>' +
+				'<div class="myzt-field"><label>' + esc(t('h_basis')) + '</label><span class="myzt-seg" role="group" aria-label="' + esc(t('h_basis')) + '">' + ['silver', 'gold'].map(function (b) {
+					return '<button type="button" data-hbasis="' + b + '" aria-pressed="' + (st.basis === b) + '">' + esc(t(b === 'gold' ? 'basisGold' : 'basisSilver')) + '</button>';
+				}).join('') + '</span><span class="myzt-help">' + esc(t('h_nisabNote')) + '</span></div>' +
 				'<div class="myzt-field"><label for="myzt-hn">' + esc(t('h_nisabNow')) + '</label><input class="myzt-inp" id="myzt-hn" inputmode="decimal" data-h="nisab" value="' + esc(plain(st.nisab || nisabNow(), cur)) + '"></div>' +
 				'<label class="myzt-small"><input type="checkbox" data-h="sub"' + (st.sub ? ' checked' : '') + '> ' + esc(t('h_sub')) + '</label>' +
-				rows + '<div data-missed>' + (n ? missedOut() : '') + '</div></div>' +
+				(n ? '<p class="myzt-small">' + esc(t('h_oldest')) + '</p>' : '') + rows + '<div data-missed>' + (n ? missedOut() : '') + '</div></div>' +
 				'<div class="myzt-disc">' + esc(t('disc')) + '</div></div>';
 		}
 		root.addEventListener('change', function (e) {
@@ -1072,12 +1156,15 @@
 		root.addEventListener('input', function (e) {
 			var el = e.target;
 			if (el.dataset.w !== undefined) st.wealth[+el.dataset.w] = num(el.value);
+			else if (el.dataset.ny !== undefined) st.nisabY[+el.dataset.ny] = num(el.value);
 			else if (el.dataset.h === 'nisab') st.nisab = num(el.value);
 			else return;
 			save(KEY, st);
 			root.querySelector('[data-missed]').innerHTML = missedOut();
 		});
 		root.addEventListener('click', function (e) {
+			var hb = e.target.closest('[data-hbasis]');
+			if (hb) { st.basis = hb.dataset.hbasis; st.nisab = 0; save(KEY, st); render(); return; }
 			if (e.target.closest('[data-act="ics"]') && st.start) icsFile('zakat-dates.ics', t('calTitle'), zakatDates(st.start, 5, today));
 		});
 		render();
@@ -1125,7 +1212,7 @@
 			} else {
 				h += ['sheep', 'cows', 'camels'].map(function (k) {
 					return '<div class="myzt-field"><label for="myzt-a' + k + '">' + esc(t('a_' + k)) + '</label><input class="myzt-inp" id="myzt-a' + k + '" inputmode="numeric" data-n="' + k + '" value="' + (st[k] || '') + '" placeholder="0"></div>';
-				}).join('') + '<div data-out>' + animalsOut() + '</div><p class="myzt-small">' + esc(t('a_note')) + '</p>';
+				}).join('') + '<div data-out>' + animalsOut() + '</div><p class="myzt-small">' + esc(t('a_note')) + '</p><p class="myzt-note">' + esc(t('a_madhabNote')) + '</p>';
 			}
 			root.innerHTML = h + curSelect(cur) + '<div class="myzt-disc">' + esc(t('disc')) + '</div></div>';
 		}

@@ -94,14 +94,38 @@ class MYZT_Frontend {
 				'methodology' => self::page_url( 'methodology' ),
 				'khums'       => self::page_url( 'khums-calculator' ),
 			),
-			'fitrana'    => array(
-				'currency' => $s['fitrana_currency'],
-				'wheat'    => $s['fitrana_wheat'],
-				'barley'   => $s['fitrana_barley'],
-				'dates'    => $s['fitrana_dates'],
-				'raisins'  => $s['fitrana_raisins'],
-				'note'     => $s['fitrana_note'],
-			),
+			'fitrana'    => self::fitrana_config( $s ),
+		);
+	}
+
+	/**
+	 * Fitrana amounts for the fitrana and fidya tools. The owner's amounts from Settings win;
+	 * while they are all empty, the last nationally announced Pakistani amounts are used and labelled
+	 * as such, so the tools never start at 0 (audit FIX-013).
+	 */
+	public static function fitrana_config( $s ) {
+		$items = array( 'wheat', 'barley', 'dates', 'raisins' );
+		$own   = false;
+		foreach ( $items as $i ) {
+			if ( '' !== (string) $s[ 'fitrana_' . $i ] ) {
+				$own = true;
+			}
+		}
+		if ( $own ) {
+			$out = array( 'currency' => $s['fitrana_currency'], 'note' => $s['fitrana_note'], 'fallback' => false );
+			foreach ( $items as $i ) {
+				$out[ $i ] = $s[ 'fitrana_' . $i ];
+			}
+			return $out;
+		}
+		return array(
+			'currency' => 'PKR',
+			'wheat'    => '300',
+			'barley'   => '1100',
+			'dates'    => '1600',
+			'raisins'  => '3800',
+			'note'     => 'Minimum amounts per person announced by the Council of Islamic Ideology, Pakistan, for Ramadan 1447 (February 2026). Amounts for Ramadan 2027 are added when announced. Pay according to prices in your area; those who can afford it may pay by dates or raisins.',
+			'fallback' => true,
 		);
 	}
 
