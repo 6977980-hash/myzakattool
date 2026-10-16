@@ -250,15 +250,17 @@ class MYZT_Frontend {
 		return self::widget( 'fitrana', array() );
 	}
 
-	/** [myzt_reviewed rates="1"]: "Rules last reviewed" date and, optionally, a dated snapshot of the rates used. */
+	/** [myzt_reviewed rates="1"]: "Rules last checked" date and, optionally, a dated snapshot of the rates used. */
 	public static function reviewed( $atts ) {
 		$a    = shortcode_atts( array( 'rates' => '0' ), $atts, 'myzt_reviewed' );
 		$s    = MYZT_Settings::get();
 		$date = strtotime( $s['rules_reviewed'] . ' 12:00:00' );
-		$who  = $s['author_name'] . ( $s['reviewer'] ? ' and ' . $s['reviewer'] : '' );
+		$who  = $s['author_name'] . ( $s['reviewer'] ? ', reviewed by ' . $s['reviewer'] : '' );
 		$h    = '<p class="myzt-reviewed" style="font-size:13px;color:#5d736e;border-top:1px solid #dfe9e6;padding-top:8px">';
 		if ( $date ) {
-			$h .= 'Rules last reviewed: <time datetime="' . esc_attr( gmdate( 'Y-m-d', $date ) ) . '">' . esc_html( wp_date( 'j F Y', $date ) ) . '</time> by ' . esc_html( $who ) . '. ';
+			// FIX-048: without a named scholar, make clear the check was the site owner's, not a scholar review.
+			$h .= 'Rules last checked: <time datetime="' . esc_attr( gmdate( 'Y-m-d', $date ) ) . '">' . esc_html( wp_date( 'j F Y', $date ) ) . '</time> by ' . esc_html( $who ) .
+				( $s['reviewer'] ? '. ' : ' (site owner; not a scholar review). ' );
 		}
 		$r = MYZT_Rates::payload();
 		if ( '1' === $a['rates'] && $r['goldUsdOz'] && $r['updated'] ) {
@@ -353,7 +355,7 @@ class MYZT_Frontend {
 	public static function trust() {
 		self::enqueue();
 		$s     = MYZT_Settings::get();
-		$items = array( '✓ Sources cited for every madhab', '✓ Your data stays on your device', '✓ Live gold &amp; silver rates' );
+		$items = array( '✓ Sources listed for each madhab', '✓ Your data stays on your device', '✓ Live gold &amp; silver rates' );
 		if ( $s['reviewer'] ) {
 			$items[] = '✓ Reviewed by ' . esc_html( $s['reviewer'] );
 		}

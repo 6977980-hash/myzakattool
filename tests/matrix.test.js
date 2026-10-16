@@ -174,6 +174,26 @@ test('Receivables timing note for Hanafi and Maliki only (FIX-017)', () => {
 	check('hanafi', input, 1000000 * 0.025);
 });
 
+test('Hanafi alloy note only when full weight would reach the gold nisab (FIX-018)', () => {
+	const g22 = { goldWorn: { weight: 7.5, unit: 'tola', karat: 22 } };
+	const r = E.calculate('hanafi', g22, P);
+	assert.equal(r.zakat, 0); // result unchanged until a ruling
+	assert.ok(r.notes.includes('hanafi_alloy'));
+	assert.ok(!E.calculate('hanafi', { goldWorn: { weight: 7, unit: 'tola', karat: 22 } }, P).notes.includes('hanafi_alloy'));
+	assert.ok(!E.calculate('hanafi', { goldWorn: { weight: 7.5, unit: 'tola', karat: 24 } }, P).notes.includes('hanafi_alloy'));
+	assert.ok(!E.calculate('hanafi', { goldWorn: { weight: 7.5, unit: 'tola', karat: 12 } }, P).notes.includes('hanafi_alloy'));
+	assert.ok(!E.calculate('hanafi', { ...g22, money: { cash: 1 } }, P).notes.includes('hanafi_alloy'));
+	assert.ok(!E.calculate('shafii', { goldKept: g22.goldWorn }, P).notes.includes('hanafi_alloy'));
+});
+
+test('Maliki debt note whenever a debt is entered (FIX-021)', () => {
+	const input = { money: { cash: 1000000 }, liabilities: { debts: 100000 } };
+	assert.ok(E.calculate('maliki', input, P).notes.includes('maliki_debts'));
+	assert.ok(!E.calculate('maliki', { money: { cash: 1000000 } }, P).notes.includes('maliki_debts'));
+	assert.ok(!E.calculate('hanafi', input, P).notes.includes('maliki_debts'));
+	check('maliki', input, 900000 * 0.025);
+});
+
 test('Ushr rates and crop nisab', () => {
 	assert.deepEqual(E.ushr('hanafi', 100, 100, 'rain'), { rate: 0.1, nisabKg: 0, due: true, kg: 10, value: 1000 });
 	assert.equal(E.ushr('shafii', 652, 100, 'irrigated').due, false);

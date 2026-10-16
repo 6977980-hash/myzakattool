@@ -20,6 +20,7 @@
 	var SILVER_NISAB_G = 52.5 * GRAMS_PER_TOLA;
 	var RATE = 0.025;
 	// Shafi'i: worn jewellery above the customary limit (200 mithqal) loses its exemption (MUIS, al-Majmu').
+	// 860 g is the figure we read in MUIS; 200 mithqal at 4.25 g is 850 g. Kept until verified (FIX-024).
 	var SHAFII_JEWELLERY_LIMIT_G = 860;
 
 	/**
@@ -93,6 +94,12 @@
 	function pureGoldGrams(item) {
 		if (!item) return 0;
 		return toGrams(item.weight, item.unit) * karatFactor(item.karat);
+	}
+
+	/** Gross grams of a gold entry that is mostly gold (above 12K), for the Hanafi predominance note. */
+	function grossGoldGrams(item) {
+		if (!item || karatFactor(item.karat) <= 0.5) return 0;
+		return toGrams(item.weight, item.unit);
 	}
 
 	function silverGrams(item) {
@@ -265,6 +272,12 @@
 			};
 		}
 
+		// Hanafi alloys (FIX-018): we count pure gold for the nisab. Some Hanafi muftis treat a piece that is
+		// mostly gold (above 12K) as wholly gold; say so when that view would change the result.
+		if (madhabKey === 'hanafi' && !result.due && money === 0 && silverV === 0 && goldV > 0 &&
+			grossGoldGrams(input.goldWorn) + grossGoldGrams(input.goldKept) >= GOLD_NISAB_G * (1 - 1e-9)) notes.push('hanafi_alloy');
+		// Maliki (FIX-021): a debt is first set against spare non-zakatable assets; we deduct it in full.
+		if (madhabKey === 'maliki' && debts > 0) notes.push('maliki_debts');
 		if (num(input.money && input.money.receivablesDoubtful)) notes.push('doubtful_receivables');
 		// Hanafi and Maliki texts allow paying zakat on a cash loan when it is repaid (FIX-017).
 		if ((madhabKey === 'hanafi' || madhabKey === 'maliki') && num(input.money && input.money.receivables)) notes.push('receivables_' + madhabKey);

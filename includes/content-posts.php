@@ -77,7 +77,7 @@ HTML
 			'nav'     => 'Zakat on jewellery',
 			'blurb'   => 'zevar par zakat',
 			'content' => <<<'HTML'
-[myzt_answer q="Is zakat due on jewellery?"]In the Hanafi madhab and according to the Saudi Permanent Committee (followed by Ahl-e-Hadith scholars), yes, even if it is worn. In the Shafi'i, Maliki and Hanbali madhabs permissible jewellery that is worn is exempt. According to Ayatollah Sistani it is exempt today.[/myzt_answer]
+[myzt_answer q="Is zakat due on jewellery?"]In the Hanafi madhab and according to the Saudi Permanent Committee (which our Ahl-e-Hadith calculator follows), yes, even if it is worn. In the Shafi'i, Maliki and Hanbali madhabs permissible jewellery that is worn is exempt. According to Ayatollah Sistani it is exempt today.[/myzt_answer]
 <p>Jewellery is where the schools differ most, and it is often the biggest item in a family's zakat. A woman with 10 tola of 22K gold could owe a large amount in one madhab and nothing in another. Below is what each school says, with the source we rely on, and then the practical questions: how to weigh it, what price to use and whose zakat it is.</p>
 <h2>Hanafi</h2>
 <p>Zakat is due on gold and silver jewellery whether it is worn every day or kept in a locker. Darul Uloom Deoband: "Zakah is wajib on them though they are used daily" (Fatwa 2310/H=713/th=1431). The Hanafi view rests on hadith such as the woman whose daughter wore gold bangles, whom the Prophet ﷺ asked whether she paid their zakat (Abu Dawud 1563).</p>
@@ -86,7 +86,7 @@ HTML
 <h2>Maliki and Hanbali</h2>
 <p>Permissible jewellery that is used or lent out is exempt (Irsyad Fatwa 38 for the Maliki school; <em>Akhsar al-Mukhtasarat</em> for the Hanbali). Jewellery bought to hold value or to trade is zakatable.</p>
 <h2>Ahl-e-Hadith</h2>
-<p>"The more correct view is that zakat on jewellery is obligatory if it reaches the nisab" (IslamQA 19901, citing the Permanent Committee). Most Ahl-e-Hadith scholars in Pakistan follow this view.</p>
+<p>"The more correct view is that zakat on jewellery is obligatory if it reaches the nisab" (IslamQA 19901, citing the Permanent Committee). Our Ahl-e-Hadith calculator follows this view; we have not found a Pakistani Ahl-e-Hadith fatwa on it, so check with your own scholar.</p>
 <h2>Shia (Sistani)</h2>
 <p>Women's gold and silver ornaments are not zakatable while gold and silver are not used as currency (Islamic Laws, ruling 1916). Khums may still apply to jewellery bought from income on which khums was not paid; see the <a href="/khums-calculator/">khums calculator</a>.</p>
 <h2>How to value your jewellery</h2>
@@ -126,7 +126,7 @@ HTML
 <p>Zakat is one fortieth (2.5%) of the value. 1 tola is 11.664 g. For 24K gold multiply today's tola rate by 0.025. For 22K gold first take 91.7% of the 24K price, because only the pure gold counts. The figures in the box above update with the international rate every hour.</p>
 <h2>Is zakat due on just 1 tola?</h2>
 <p><strong>If 1 tola of gold is all you own:</strong> no, in every Sunni school. It is below the gold nisab of 7.5 tola (87.48 g).</p>
-<p><strong>If you also have cash, savings, silver or business stock:</strong> in the Hanafi madhab you add everything together and compare the total with the silver nisab, which today is only about [myzt_rate type="nisab-silver" currency="PKR"]. Most families with any savings cross it, and then zakat is due on the 1 tola as well. Ahl-e-Hadith scholars also add gold to cash and use the lower nisab, so the result is similar. Hanbali scholars do the same for a gold coin or bar, but exempt the 1 tola if it is jewellery that is worn.</p>
+<p><strong>If you also have cash, savings, silver or business stock:</strong> in the Hanafi madhab you add everything together and compare the total with the silver nisab, which today is only about [myzt_rate type="nisab-silver" currency="PKR"]. Most families with any savings cross it, and then zakat is due on the 1 tola as well. Our Ahl-e-Hadith calculator, following the Permanent Committee, also adds gold to cash and uses the lower nisab, so the result is similar. Hanbali scholars do the same for a gold coin or bar, but exempt the 1 tola if it is jewellery that is worn.</p>
 <p><strong>In the Shafi'i madhab</strong> gold is not added to silver, and worn jewellery is exempt, so 1 tola alone or worn as jewellery carries no zakat.</p>
 <h2>Example 1: gold plus savings (Hanafi)</h2>
 <p>You have 1 tola of 22K gold and Rs 2,00,000 in the bank. Together they are above the silver nisab, so you pay 2.5% of the whole amount: Rs 5,000 on the cash plus about [myzt_rate type="gold22-tola-zakat" currency="PKR"] on the gold.</p>

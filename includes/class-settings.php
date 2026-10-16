@@ -276,7 +276,7 @@ class MYZT_Settings {
 					self::input( 'contact_email', __( 'Contact email', 'myzakattool' ), 'email' );
 					self::input( 'reviewer', __( 'Scholar reviewer (name, title)', 'myzakattool' ), 'text', __( 'Leave empty until a scholar has actually reviewed the rules. When filled, pages show "Reviewed by" and the schema adds reviewedBy.', 'myzakattool' ) );
 					self::input( 'security_email', __( 'security.txt email', 'myzakattool' ), 'email', __( 'Defaults to the contact email.', 'myzakattool' ) );
-					self::input( 'rules_reviewed', __( 'Rules last reviewed on', 'myzakattool' ), 'date', __( 'Shown as "Rules last reviewed" on the nisab, gold rate and methodology pages. Update it whenever you or a scholar check the rules again.', 'myzakattool' ) );
+					self::input( 'rules_reviewed', __( 'Rules last reviewed on', 'myzakattool' ), 'date', __( 'Shown as "Rules last checked" on the nisab, gold rate and methodology pages. Update it whenever you or a scholar check the rules again.', 'myzakattool' ) );
 					self::input( 'seo_enabled', __( 'Built-in SEO (meta, Open Graph, schema)', 'myzakattool' ), 'checkbox', __( 'Switches itself off automatically when Rank Math, Yoast or All in One SEO is active (the schema for calculators stays).', 'myzakattool' ) );
 					?>
 				</table>
