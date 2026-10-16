@@ -25,7 +25,7 @@ class MYZT_Installer {
 		add_action( 'wp_head', array( __CLASS__, 'logo_css' ), 20 );
 	}
 
-	/** Zakat season year: the year of the coming Ramadan (Ramadan falls in Feb-Mar in 2026-2030). */
+	/** Zakat season year: the year of the coming Ramadan (Ramadan starts in February in 2026-2027 and in January in 2028-2030, always before May). */
 	public static function season_year() {
 		$y = (int) gmdate( 'Y' );
 		return (int) gmdate( 'n' ) >= 5 ? $y + 1 : $y;

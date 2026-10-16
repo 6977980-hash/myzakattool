@@ -77,14 +77,6 @@ class MYZT_Frontend {
 	public static function config() {
 		$s     = MYZT_Settings::get();
 		$rates = MYZT_Rates::payload();
-		if ( (float) $s['gold_override'] > 0 ) {
-			$rates['goldUsdOz'] = (float) $s['gold_override'];
-			$rates['source']    = 'manual';
-			$rates['updated']   = time();
-		}
-		if ( (float) $s['silver_override'] > 0 ) {
-			$rates['silverUsdOz'] = (float) $s['silver_override'];
-		}
 		$country = '';
 		if ( ! empty( $_SERVER['HTTP_CF_IPCOUNTRY'] ) ) {
 			$country = strtoupper( substr( sanitize_text_field( wp_unslash( $_SERVER['HTTP_CF_IPCOUNTRY'] ) ), 0, 2 ) );
@@ -153,6 +145,7 @@ class MYZT_Frontend {
 			'gold'    => $r['goldUsdOz'] * $fx / 31.1034768,
 			'silver'  => $r['silverUsdOz'] * $fx / 31.1034768,
 			'updated' => $r['updated'],
+			'label'   => 'manual' === $r['source'] ? 'manual rate set by the site owner' : 'international spot rate',
 		);
 	}
 
@@ -187,7 +180,7 @@ class MYZT_Frontend {
 				$rows .= '<tr><td>' . $k . 'K</td><td>' . esc_html( self::money( $g, $cur ) ) . '</td><td>' . esc_html( self::money( $g * 11.6638038, $cur ) ) . '</td><td>' . esc_html( self::money( $g * 31.1034768, $cur ) ) . '</td></tr>';
 			}
 			$rows .= '<tr><td>Silver</td><td>' . esc_html( self::money( $p['silver'], $cur ) ) . '</td><td>' . esc_html( self::money( $p['silver'] * 11.6638038, $cur ) ) . '</td><td>' . esc_html( self::money( $p['silver'] * 31.1034768, $cur ) ) . '</td></tr>';
-			$in = '<div class="myzt-card"><div class="myzt-scroll"><table class="myzt-table"><thead><tr><th>Purity</th><th>per gram</th><th>per tola</th><th>per ounce</th></tr></thead><tbody>' . $rows . '</tbody></table></div><p class="myzt-small">Updated ' . esc_html( wp_date( 'j M Y, H:i', $p['updated'] ) ) . ' · international spot rate</p></div>';
+			$in = '<div class="myzt-card"><div class="myzt-scroll"><table class="myzt-table"><thead><tr><th>Purity</th><th>per gram</th><th>per tola</th><th>per ounce</th></tr></thead><tbody>' . $rows . '</tbody></table></div><p class="myzt-small">Updated ' . esc_html( wp_date( 'j M Y, H:i', $p['updated'] ) ) . ' · ' . esc_html( $p['label'] ) . '</p></div>';
 		}
 		return self::widget( 'goldrate', array( 'currency' => $cur ), $in );
 	}
@@ -201,7 +194,7 @@ class MYZT_Frontend {
 			$in = '<div class="myzt-card"><table class="myzt-table"><thead><tr><th>Nisab</th><th>Weight</th><th>Value</th></tr></thead><tbody>' .
 				'<tr><td>Silver</td><td>612.36 g · 52.5 tola</td><td class="z">' . esc_html( self::money( $p['silver'] * self::NISAB_SILVER_G, $cur ) ) . '</td></tr>' .
 				'<tr><td>Gold</td><td>87.48 g · 7.5 tola</td><td class="z">' . esc_html( self::money( $p['gold'] * self::NISAB_GOLD_G, $cur ) ) . '</td></tr>' .
-				'</tbody></table><p class="myzt-small">Updated ' . esc_html( wp_date( 'j M Y, H:i', $p['updated'] ) ) . ' · international spot rate</p></div>';
+				'</tbody></table><p class="myzt-small">Updated ' . esc_html( wp_date( 'j M Y, H:i', $p['updated'] ) ) . ' · ' . esc_html( $p['label'] ) . '</p></div>';
 		}
 		return self::widget( 'nisab', array( 'currency' => $cur ), $in );
 	}

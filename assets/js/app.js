@@ -16,7 +16,7 @@
 	var T = {
 		en: {
 			madhab: 'Madhab', currency: 'Currency', unit: 'Weight unit', change: 'Change', done: 'Done',
-			gold24: 'Gold 24K', silver: 'Silver', nisab: 'Nisab', per: '/', updated: 'updated', ago: 'ago',
+			gold24: 'Gold 24K', silver: 'Silver', nisab: 'Nisab', per: '/', updated: 'updated', ago: 'ago', manualRate: 'manual rate set by the site owner', fxRates: 'currency rates',
 			ownRate: 'Use my own local rate', ownGold: 'Gold 24K price per', ownSilver: 'Silver price per',
 			rateMissing: 'Live rate not available right now. Please enter your local rate.',
 			ownNeedBoth: 'Enter both the gold and the silver rate to use your own rate. Until then the live rate is used.',
@@ -94,7 +94,7 @@
 		},
 		ur: {
 			madhab: 'مسلک', currency: 'کرنسی', unit: 'وزن کی اکائی', change: 'تبدیل کریں', done: 'ٹھیک ہے',
-			gold24: 'سونا 24 قیراط', silver: 'چاندی', nisab: 'نصاب', per: '/', updated: 'اپڈیٹ', ago: 'پہلے',
+			gold24: 'سونا 24 قیراط', silver: 'چاندی', nisab: 'نصاب', per: '/', updated: 'اپڈیٹ', ago: 'پہلے', manualRate: 'سائٹ کے مالک کا دستی ریٹ', fxRates: 'کرنسی ریٹ',
 			ownRate: 'اپنا مقامی ریٹ لکھیں', ownGold: 'سونا 24 قیراط فی', ownSilver: 'چاندی فی',
 			rateMissing: 'ابھی لائیو ریٹ دستیاب نہیں۔ براہ کرم اپنا مقامی ریٹ لکھیں۔',
 			ownNeedBoth: 'اپنا ریٹ استعمال کرنے کے لیے سونے اور چاندی دونوں کا ریٹ لکھیں۔ تب تک لائیو ریٹ استعمال ہوگا۔',
@@ -205,6 +205,13 @@
 		var h = Math.round(m / 60);
 		if (h < 48) return h + ' h ' + t('ago');
 		return Math.round(h / 24) + ' d ' + t('ago');
+	}
+	/* "updated 20 min ago", plus a manual-rate label and the FX age when currency rates lag. */
+	function stamp() {
+		var s = t('updated') + ' ' + ago(RATES.updated);
+		if (RATES.source === 'manual') s += ' · ' + t('manualRate');
+		if (RATES.fxUpdated && Date.now() / 1000 - RATES.fxUpdated > 6 * 3600) s += ' · ' + t('fxRates') + ' ' + ago(RATES.fxUpdated);
+		return s;
 	}
 	function load(k, d) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } }
 	function save(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
@@ -337,7 +344,9 @@
 	function freshRates(cb) {
 		if (!CFG.restUrl) return;
 		if (RATES.updated && Date.now() / 1000 - RATES.updated < 2 * 3600) return;
-		fetch(CFG.restUrl, { credentials: 'omit' }).then(function (r) { return r.json(); }).then(function (d) {
+		// A 15-minute bucket keeps any in-between cache from serving an old copy.
+		var url = CFG.restUrl + (CFG.restUrl.indexOf('?') < 0 ? '?' : '&') + 'b=' + Math.floor(Date.now() / 900000);
+		fetch(url, { credentials: 'omit' }).then(function (r) { return r.json(); }).then(function (d) {
 			if (d && d.goldUsdOz && (!RATES.updated || d.updated > RATES.updated)) { RATES = d; cb(); }
 		}).catch(function () {});
 	}
@@ -512,7 +521,7 @@
 				html += '<div class="myzt-rates"><span>' + esc(t('gold24')) + ': <strong>' + money(pr.gold * g, st.currency) + '</strong>/' + unitLabel(st.unit) + '</span>' +
 					'<span>' + esc(t('silver')) + ': <strong>' + money(pr.silver * g, st.currency) + '</strong>/' + unitLabel(st.unit) + '</span>' +
 					'<span>' + esc(t('nisab')) + ': <strong>' + money(nv.silver, st.currency) + '</strong> (' + esc(t('silver')) + ') · <strong>' + money(nv.gold, st.currency) + '</strong> (' + esc(t('l_gold')) + ')</span>' +
-					(own ? '' : '<span>' + esc(t('updated')) + ' ' + esc(ago(RATES.updated)) + '</span>') + '</div>';
+					(own ? '' : '<span>' + esc(stamp()) + '</span>') + '</div>';
 			} else {
 				html += '<div class="myzt-note">' + esc(t('rateMissing')) + '</div>';
 			}
@@ -857,7 +866,7 @@
 				return '<tr><td>' + k + 'K</td><td>' + money(g, cur) + '</td><td>' + money(g * E.GRAMS_PER_TOLA, cur) + '</td><td>' + money(g * E.GRAMS_PER_OZ, cur) + '</td></tr>';
 			}).join('') + '<tr><td>' + esc(t('silver')) + '</td><td>' + money(pr.silver, cur) + '</td><td>' + money(pr.silver * E.GRAMS_PER_TOLA, cur) + '</td><td>' + money(pr.silver * E.GRAMS_PER_OZ, cur) + '</td></tr>';
 			root.innerHTML = '<div class="myzt-card">' + curSelect(cur) + '<div class="myzt-scroll"><table class="myzt-table"><thead><tr><th>' + esc(t('purity')) + '</th><th>' + esc(t('perGram')) + '</th><th>' + esc(t('perTola')) + '</th><th>' + esc(t('perOz')) + '</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
-				'<p class="myzt-small">' + esc(t('updated')) + ' ' + esc(ago(RATES.updated)) + ' · international spot rate</p></div>';
+				'<p class="myzt-small">' + esc(stamp()) + (RATES.source === 'manual' ? '' : ' · international spot rate') + '</p></div>';
 		}
 		root.addEventListener('change', function (e) { if (e.target.dataset.cur !== undefined) { cur = e.target.value; render(); } });
 		render();
@@ -873,7 +882,7 @@
 			root.innerHTML = '<div class="myzt-card">' + curSelect(cur) + '<div class="myzt-scroll"><table class="myzt-table"><thead><tr><th>' + esc(t('nisab')) + '</th><th>Weight</th><th>' + esc(t('c_zakat')) + ' ' + esc(t('nisab')) + '</th></tr></thead><tbody>' +
 				'<tr><td>' + esc(t('silver')) + '</td><td>612.36 g · 52.5 tola</td><td class="z">' + money(nv.silver, cur) + '</td></tr>' +
 				'<tr><td>' + esc(t('l_gold')) + '</td><td>87.48 g · 7.5 tola</td><td class="z">' + money(nv.gold, cur) + '</td></tr></tbody></table></div>' +
-				'<p class="myzt-small">' + esc(t('updated')) + ' ' + esc(ago(RATES.updated)) + ' · international spot rate</p></div>';
+				'<p class="myzt-small">' + esc(stamp()) + (RATES.source === 'manual' ? '' : ' · international spot rate') + '</p></div>';
 		}
 		root.addEventListener('change', function (e) { if (e.target.dataset.cur !== undefined) { cur = e.target.value; render(); } });
 		render();

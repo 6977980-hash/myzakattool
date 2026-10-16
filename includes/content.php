@@ -305,7 +305,7 @@ HTML,
 HTML
 		. $author . '[myzt_related slugs="hanafi-zakat-calculator,shafi-zakat-calculator,zakat-on-jewellery,methodology"]',
 		'faq'   => array(
-			array( 'q' => 'Which madhab gives the highest zakat?', 'a' => 'Usually the Hanafi madhab, because it counts worn jewellery and uses the lower silver nisab.' ),
+			array( 'q' => 'Which madhab gives the highest zakat?', 'a' => 'Usually the Hanafi and Ahl-e-Hadith calculations, because both count worn jewellery and use the lower silver nisab for cash. Ahl-e-Hadith is often the highest of all, because debts are not subtracted.' ),
 			array( 'q' => 'Can I choose the madhab with the lowest zakat?', 'a' => 'Scholars advise following the school you normally follow, not picking the easiest view for each question.' ),
 		),
 	);
@@ -458,7 +458,7 @@ HTML
 <li><strong>Counted:</strong> stock and raw materials for sale (at sale value), cash and bank balances of the business, good receivables.</li>
 <li><strong>Not counted:</strong> shop, machinery, vehicles and furniture used to run the business.</li>
 <li><strong>Doubtful debts:</strong> not counted now; pay zakat on them when they are received.</li>
-<li><strong>Supplier bills:</strong> subtracted in Hanafi, Maliki, Hanbali and Ahl-e-Hadith calculations, not in the Shafi'i one.</li>
+<li><strong>Supplier bills:</strong> subtracted in the Hanafi, Maliki and Hanbali calculations, not in the Shafi'i or Ahl-e-Hadith ones.</li>
 </ul>
 <h2>Keep your records year to year</h2>
 <p>Use <em>Save data file</em> to keep your figures on your own device and open them next year. Nothing is stored on our server.</p>
@@ -860,7 +860,7 @@ HTML,
 		'nav'   => 'Privacy',
 		'blurb' => 'your data',
 		'content' => <<<'HTML'
-<p>Last updated: [myzt_year]. This policy explains what information this website handles.</p>
+<p>Last updated: 16 October 2026. This policy explains what information this website handles.</p>
 <h2>Calculator entries stay on your device</h2>
 <p>Everything you type into the calculators is processed in your own browser. It is not sent to our server. If you use <em>Save data file</em>, the file is saved on your device. A draft may be kept in your browser's local storage so your entries are still there when you return; you can remove it with <em>Clear all</em>.</p>
 <h2>PDF reports</h2>
