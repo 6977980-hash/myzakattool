@@ -1,4 +1,4 @@
-// Run: node --test tests/
+// Run: node --test tests/engine.test.js (or npm run test:js for every engine test)
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const E = require('../assets/js/engine.js');

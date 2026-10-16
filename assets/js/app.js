@@ -341,14 +341,20 @@
 	}
 
 	/* Refresh rates in the background if the cached page carried old ones. */
+	/* One request per page: every widget waits on it and redraws if newer rates came back. */
+	var freshReq = null;
 	function freshRates(cb) {
 		if (!CFG.restUrl) return;
-		if (RATES.updated && Date.now() / 1000 - RATES.updated < 2 * 3600) return;
-		// A 15-minute bucket keeps any in-between cache from serving an old copy.
-		var url = CFG.restUrl + (CFG.restUrl.indexOf('?') < 0 ? '?' : '&') + 'b=' + Math.floor(Date.now() / 900000);
-		fetch(url, { credentials: 'omit' }).then(function (r) { return r.json(); }).then(function (d) {
-			if (d && d.goldUsdOz && (!RATES.updated || d.updated > RATES.updated)) { RATES = d; cb(); }
-		}).catch(function () {});
+		if (!freshReq) {
+			if (RATES.updated && Date.now() / 1000 - RATES.updated < 2 * 3600) return;
+			// A 15-minute bucket keeps any in-between cache from serving an old copy.
+			var url = CFG.restUrl + (CFG.restUrl.indexOf('?') < 0 ? '?' : '&') + 'b=' + Math.floor(Date.now() / 900000);
+			freshReq = fetch(url, { credentials: 'omit' }).then(function (r) { return r.json(); }).then(function (d) {
+				if (d && d.goldUsdOz && (!RATES.updated || d.updated > RATES.updated)) { RATES = d; return true; }
+				return false;
+			}).catch(function () { return false; });
+		}
+		freshReq.then(function (changed) { if (changed) cb(); });
 	}
 
 	/* ---------- field definitions ---------- */

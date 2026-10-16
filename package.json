@@ -1,0 +1,15 @@
+{
+  "name": "myzakattool",
+  "private": true,
+  "description": "Tests for the My Zakat Tool WordPress plugin. Not needed on the server.",
+  "license": "GPL-2.0-or-later",
+  "scripts": {
+    "test": "npm run test:php && npm run test:js && npm run test:ui",
+    "test:php": "sh tests/php-lint.sh",
+    "test:js": "node --check assets/js/engine.js && node --check assets/js/app.js && node --check assets/js/pdf.js && node --check assets/js/embed.js && node --test tests/engine.test.js tests/matrix.test.js tests/version.test.js",
+    "test:ui": "node --test tests/ui/smoke.test.js"
+  },
+  "devDependencies": {
+    "playwright": "1.56.1"
+  }
+}
