@@ -34,6 +34,7 @@ class MYZT_Settings {
 			'fitrana_note'    => '',
 			'gold_override'   => '',
 			'silver_override' => '',
+			'override_at'     => '',
 			'security_email'  => '',
 			'login_slug'      => '',
 			'rules_reviewed'  => '2026-10-04',
@@ -120,6 +121,8 @@ class MYZT_Settings {
 						add_settings_error( self::OPTION, 'login_slug', __( 'Login address not saved: use at least 6 letters/numbers that are not a page name or "admin"/"login".', 'myzakattool' ) );
 					}
 					break;
+				case 'override_at':
+					break; // Set below from the override fields, never from the form.
 				case 'rules_reviewed':
 					$out[ $k ] = preg_match( '/^\d{4}-\d{2}-\d{2}$/', (string) $val ) ? $val : $d[ $k ];
 					break;
@@ -134,6 +137,15 @@ class MYZT_Settings {
 				default:
 					$out[ $k ] = sanitize_text_field( $val );
 			}
+		}
+		// Remember when the emergency override was set, so pages show its real age.
+		$old = self::get();
+		if ( '' === $out['gold_override'] && '' === $out['silver_override'] ) {
+			$out['override_at'] = '';
+		} elseif ( $out['gold_override'] !== $old['gold_override'] || $out['silver_override'] !== $old['silver_override'] || ! $old['override_at'] ) {
+			$out['override_at'] = (string) time();
+		} else {
+			$out['override_at'] = $old['override_at'];
 		}
 		return $out;
 	}
