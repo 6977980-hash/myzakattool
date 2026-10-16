@@ -105,6 +105,9 @@
 			a_madhabNote: 'Maliki fiqh also counts animals that are fed or used for work. Ja\'fari (Ayatollah Sistani) rulings differ in some tables. This tool follows the Hanafi, Shafi\'i and Hanbali tables: please check with a scholar of your madhab.',
 			h_receivables: 'Counted now. Hanafi and Maliki scholars allow paying zakat on a cash loan when it is repaid: if you choose that, enter it on the next line instead.',
 			n_receivables_hanafi: 'Hanafi: you may instead pay zakat on money owed to you when you receive it, for every year it was owed.',
+			n_hanafi_alloy: 'Counted by pure gold, this is below the nisab. Some Hanafi muftis count jewellery that is mostly gold (such as 22K) by its full weight; on that view zakat would be due. Ask your mufti which view to follow.',
+			n_maliki_debts: 'Maliki: a debt is first set against things you own but do not need (a spare plot or car, for example); only the rest reduces zakat. We deduct the whole debt.',
+			fd_madhabNote: 'Amount per day: Hanafi fiqh uses one fitrana (half a sa\' of wheat or its value). The Shafi\'i, Maliki and Hanbali schools use one mudd of food (about 0.6 kg), which is less.',
 			n_receivables_maliki: 'Maliki: for a cash loan, zakat is paid once when it is received. To follow that, move it to the doubtful line. Trade debts of a merchant are counted every year.',
 		},
 		ur: {
@@ -196,6 +199,9 @@
 			h_basis: 'پچھلے سالوں کے لیے نصاب کا معیار', h_nisabNote: 'حنفی چاندی کا نصاب لیتے ہیں؛ شافعی اور بعض دوسرے سونے کا۔ کسی پچھلے سال کا نصاب معلوم ہو تو اس سال کے خانے میں لکھیں۔',
 			a_madhabNote: 'مالکی فقہ میں چارہ کھانے والے اور کام کے جانوروں پر بھی زکوٰۃ ہے۔ فقہ جعفری (آیت اللہ سیستانی) کے بعض جدول مختلف ہیں۔ یہ ٹول حنفی، شافعی اور حنبلی جدول پر ہے: اپنے مسلک کے عالم سے تصدیق کریں۔',
 			h_receivables: 'ابھی شامل ہے۔ حنفی اور مالکی علما نقد قرض کی زکوٰۃ وصولی پر دینے کی اجازت دیتے ہیں: ایسا کرنا ہو تو اسے اگلے خانے میں لکھیں۔',
+			n_hanafi_alloy: 'خالص سونے کے حساب سے یہ نصاب سے کم ہے۔ بعض حنفی مفتی صاحبان زیادہ تر سونے والے زیور (جیسے 22 قیراط) کو پورے وزن سے گنتے ہیں؛ اس رائے پر زکوٰۃ واجب ہوگی۔ اپنے مفتی صاحب سے پوچھیں۔',
+			n_maliki_debts: 'مالکی: قرض پہلے ان چیزوں سے پورا سمجھا جاتا ہے جو آپ کی ضرورت سے زائد ہوں (مثلاً فالتو پلاٹ یا گاڑی)؛ صرف باقی قرض زکوٰۃ کم کرتا ہے۔ ہم پورا قرض منہا کرتے ہیں۔',
+			fd_madhabNote: 'روزانہ رقم: حنفی فقہ میں ایک فطرانہ (آدھا صاع گندم یا اس کی قیمت)۔ شافعی، مالکی اور حنبلی مسالک میں ایک مُد کھانا (تقریباً 0.6 کلو)، جو کم ہے۔',
 			n_receivables_hanafi: 'حنفی: چاہیں تو دوسروں سے لینے والی رقم کی زکوٰۃ وصول ہونے پر، گزرے ہر سال کی، ادا کر سکتے ہیں۔',
 			n_receivables_maliki: 'مالکی: نقد قرض کی زکوٰۃ وصول ہونے پر ایک بار دی جاتی ہے۔ اس کے لیے اسے مشکوک والے خانے میں لکھیں۔ تاجر کے تجارتی قرض ہر سال شامل ہیں۔',
 		},
@@ -1028,6 +1034,7 @@
 				}).join('') + '</span></div>' +
 				'<div class="myzt-field"><label for="myzt-da">' + esc(t('fd_perDay')) + ' (' + cur + ')</label><input class="myzt-inp" id="myzt-da" inputmode="decimal" data-f="amount" value="' + esc(plain(st.amount, cur)) + '"></div>' +
 				'<div data-out>' + out() + '</div>' +
+				'<div class="myzt-note">' + esc(t('fd_madhabNote')) + '</div>' +
 				presetNote(F, cur, preset()) + '<div class="myzt-disc">' + esc(t('disc')) + '</div></div>';
 		}
 		root.addEventListener('input', function (e) {

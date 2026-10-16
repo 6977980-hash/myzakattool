@@ -235,3 +235,18 @@ test('fitrana shows the preset and its source, or asks for an amount (FIX-013)',
 	assert.match(await none.page.locator('.myzt-fitrana .myzt-note').textContent(), /Enter the fitrana amount/);
 	await none.ctx.close();
 });
+
+// Phase 4 (audit FIX-018, 021, 025): disclosures only, results unchanged.
+test('Hanafi 7.5 tola of 22K jewellery: zero, with the predominance note (FIX-018)', async () => {
+	const { page, ctx } = await open();
+	await enter(page, 'gold', { kind: 'metal', key: 'goldWorn' }, 7.5);
+	assert.equal(await amount(page), 0);
+	assert.match(await calc(page).textContent(), /Some Hanafi muftis count jewellery that is mostly gold/);
+	await ctx.close();
+});
+
+test('fidya says which madhab the daily amount follows (FIX-025)', async () => {
+	const { page, ctx } = await open();
+	assert.match(await page.locator('.myzt-fidya').textContent(), /one mudd of food/);
+	await ctx.close();
+});
