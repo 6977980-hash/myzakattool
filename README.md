@@ -56,8 +56,12 @@ If Rank Math, Yoast, AIOSEO or SEOPress is activated, the plugin turns off its o
 
 ## Tests
 
-```
-node --test tests/engine.test.js
-```
+Every pull request runs `.github/workflows/ci.yml`, and a red check should block the merge (main goes live on the next Hostinger deploy):
 
-The engine (`assets/js/engine.js`) holds every madhab rule with its source; the tests pin the results for a fixed sample across all six madhabs.
+| Check | Command | What it covers |
+|---|---|---|
+| PHP lint (7.4, 8.3) | `npm run test:php` | `php -l` on every PHP file, on the oldest and newest supported PHP |
+| Engine tests and matrix | `npm run test:js` | `node --check` on the scripts, the engine unit tests, the independent 50-case matrix (`tests/matrix.test.js`, expected values worked out by hand formulas) and the version check |
+| Browser smoke tests | `npm install && npx playwright install chromium && npm run test:ui` | `tests/ui/fixture.html` (the same markup and `window.MYZT` config the shortcodes print) in Chromium: every widget boots without a JS error, Hanafi and Ahl-e-Hadith results, already-paid, stale rates refreshed from the REST API, saved draft, no sideways scroll on a phone |
+
+Tests marked `todo` are known issues from the 16 Oct 2026 audit (Phase 3); they report but do not fail CI until the fix lands. When a madhab rule changes on purpose, update the expected value in `tests/matrix.test.js` in the same pull request. `tests/` and `package.json` are not used by WordPress; `tests/.htaccess` keeps the test files from being served.

@@ -1,0 +1,66 @@
+# Test gate (audit FIX-061). main deploys straight to the live site through Hostinger Git,
+# so every pull request must pass these checks before it is merged.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  php:
+    name: PHP lint (${{ matrix.php }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['7.4', '8.3']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          tools: none
+      - run: sh tests/php-lint.sh
+
+  js:
+    name: Engine tests and matrix
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm run test:js
+
+  ui:
+    name: Browser smoke tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:ui
+
+  # One stable name to mark as required in the branch rule.
+  all:
+    name: All checks
+    if: always()
+    needs: [php, js, ui]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail if any check failed
+        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') || contains(needs.*.result, 'skipped')
+        run: exit 1
+      - run: echo "All checks passed"

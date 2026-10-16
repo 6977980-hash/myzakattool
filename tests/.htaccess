@@ -1,0 +1,2 @@
+# Test files are for CI only; never serve them from the live site.
+Require all denied
