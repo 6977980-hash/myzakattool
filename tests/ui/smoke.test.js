@@ -149,18 +149,89 @@ test('phone width: no sideways scroll', async () => {
 	await ctx.close();
 });
 
-// Known issues the audit assigns to Phase 3. Marked todo so they report without failing CI;
-// the Phase 3 PR removes the todo flag when it fixes them.
-test('a negative amount is flagged, not silently made positive (FIX-006)', { todo: 'Phase 3, FIX-006' }, async () => {
+// Phase 3 (audit FIX-006 to FIX-017).
+test('a negative amount is flagged, not silently made positive (FIX-006)', async () => {
 	const { page, ctx } = await open();
-	await enter(page, 'cash', { kind: 'money', key: 'cash' }, -500000);
-	assert.equal(await calc(page).locator('input[data-money="cash"]').getAttribute('aria-invalid'), 'true');
+	await enter(page, 'cash', { kind: 'money', key: 'cash' }, 1000000);
+	await enter(page, 'bank', { kind: 'money', key: 'bank' }, -500000);
+	const box = calc(page).locator('input[data-money="bank"]');
+	assert.equal(await box.getAttribute('aria-invalid'), 'true');
+	assert.match(await calc(page).locator('.myzt-err').textContent(), /cannot be negative/);
+	assert.equal(await amount(page), 25000, 'the negative value is not counted');
+	await box.blur();
+	assert.equal(await box.inputValue(), '-500000', 'the typed text stays visible');
+	await box.fill('500000');
+	assert.equal(await box.getAttribute('aria-invalid'), null);
+	assert.equal(await calc(page).locator('.myzt-err').count(), 0);
+	assert.equal(await amount(page), 37500);
 	await ctx.close();
 });
 
-test('kept gold bars and coins default to 24K (FIX-007)', { todo: 'Phase 3, FIX-007' }, async () => {
+test('unreadable input is flagged; Urdu digits and lakh commas are read (T21)', async () => {
+	const { page, ctx } = await open();
+	const box = calc(page).locator('input[data-money="cash"]');
+	for (const v of ['abc', '1e6', '1.234,56']) {
+		await enter(page, 'cash', { kind: 'money', key: 'cash' }, v);
+		assert.equal(await box.getAttribute('aria-invalid'), 'true', v);
+		assert.equal(await amount(page), 0, v);
+	}
+	await enter(page, 'cash', { kind: 'money', key: 'cash' }, '۱۰۰۰۰۰۰');
+	assert.equal(await box.getAttribute('aria-invalid'), null);
+	assert.equal(await amount(page), 25000);
+	await enter(page, 'cash', { kind: 'money', key: 'cash' }, '10,00,000');
+	assert.equal(await amount(page), 25000);
+	await ctx.close();
+});
+
+test('kept gold bars and coins default to 24K, worn jewellery to 22K (FIX-007)', async () => {
 	const { page, ctx } = await open();
 	await enter(page, 'gold', { kind: 'metal', key: 'goldKept' }, 10);
 	assert.equal(await calc(page).locator('[data-metal-karat="goldKept"][aria-pressed="true"]').getAttribute('data-v'), '24');
+	assert.equal(await calc(page).locator('[data-metal-karat="goldWorn"][aria-pressed="true"]').getAttribute('data-v'), '22');
 	await ctx.close();
+});
+
+test('silver has a fineness choice (FIX-008)', async () => {
+	const { page, ctx } = await open();
+	await enter(page, 'silver', { kind: 'metal', key: 'silverKept' }, 100);
+	const pure = await amount(page);
+	await calc(page).locator('[data-metal-fineness="silverKept"][data-v="925"]').click();
+	const sterling = await amount(page);
+	assert.ok(pure > 0 && Math.abs(sterling - pure * 0.925) <= 1, `${sterling} is 92.5% of ${pure}`);
+	await ctx.close();
+});
+
+test('the comparison shows what is still to pay when zakat was already paid (FIX-010)', async () => {
+	const { page, ctx } = await open();
+	await enter(page, 'cash', { kind: 'money', key: 'cash' }, 1000000);
+	await enter(page, 'paid', { kind: 'liab', key: 'bankDeducted' }, 10000);
+	await calc(page).locator('[data-act="compare"]').click();
+	const head = await page.locator('.myzt-cmp thead').textContent();
+	assert.match(head, /Still to pay/);
+	const hanafi = await page.locator('.myzt-cmp tbody tr').first().locator('td.z').allTextContents();
+	assert.deepEqual(hanafi.map(digits), [25000, 15000]);
+	await ctx.close();
+});
+
+test('a broken data file shows a message (FIX-012)', async () => {
+	const { page, ctx } = await open();
+	await calc(page).locator('input[data-loadfile]').setInputFiles({ name: 'x.json', mimeType: 'application/json', buffer: Buffer.from('not json') });
+	await page.waitForSelector('.myzt-calculator [role="status"]');
+	assert.match(await calc(page).locator('[role="status"]').textContent(), /could not be opened/);
+	await ctx.close();
+});
+
+test('fitrana shows the preset and its source, or asks for an amount (FIX-013)', async () => {
+	const withPreset = await open({ cfg: { fitrana: { currency: 'PKR', wheat: '300', barley: '1100', dates: '1600', raisins: '3800', note: 'Council of Islamic Ideology, 1447', fallback: true } } });
+	const f = withPreset.page.locator('.myzt-fitrana');
+	assert.equal(await f.locator('input[data-f="amount"]').inputValue(), '300');
+	assert.match(await f.textContent(), /Council of Islamic Ideology/);
+	assert.match(await f.textContent(), /Last announced amounts/);
+	await f.locator('[data-item="dates"]').click();
+	assert.equal(await f.locator('input[data-f="amount"]').inputValue(), '1,600');
+	await withPreset.ctx.close();
+
+	const none = await open({ cfg: { fitrana: { currency: 'PKR', wheat: '', barley: '', dates: '', raisins: '', note: '' } } });
+	assert.match(await none.page.locator('.myzt-fitrana .myzt-note').textContent(), /Enter the fitrana amount/);
+	await none.ctx.close();
 });

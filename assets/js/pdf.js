@@ -90,16 +90,18 @@
 			y += 8;
 
 			// Summary box.
-			var total = 0, anyDue = false;
+			var total = 0, anyDue = false, allKhums = true;
 			var paidAll = 0;
-			data.persons.forEach(function (p) { total += p.result.payable; paidAll += p.result.paid || 0; anyDue = anyDue || p.result.due; });
+			data.persons.forEach(function (p) { total += p.result.payable; paidAll += p.result.paid || 0; anyDue = anyDue || p.result.due; allKhums = allKhums && !!p.result.khums; });
 			doc.setDrawColor(teal[0], teal[1], teal[2]);
 			doc.setFillColor(230, 244, 241);
 			doc.setLineWidth(0.5);
 			doc.roundedRect(M, y, W - 2 * M, 24, 3, 3, 'FD');
 			text((paidAll ? 'Zakat still to pay' : 'Total zakat') + (data.persons.length > 1 ? ' (family)' : ''), M + 6, y + 8, 10, false, mute);
 			text(fmt(total, cur), M + 6, y + 18, 20, true, teal);
-			text(anyDue ? 'Above nisab: zakat is due' : 'Below nisab: zakat is not due', W - M - 6, y + 14, 10, true, anyDue ? [30, 122, 60] : mute, 'right');
+			// Ja'fari: no zakat on these assets at all, so "below nisab" would be wrong (FIX-011).
+			var status = anyDue ? 'Above nisab: zakat is due' : allKhums ? 'No zakat on these assets (Sistani): see khums' : 'Below nisab: zakat is not due';
+			text(status, W - M - 6, y + 14, 10, true, anyDue ? [30, 122, 60] : mute, 'right');
 			y += 32;
 
 			data.persons.forEach(function (p) {
@@ -112,9 +114,10 @@
 				['goldWorn', 'goldKept', 'silverWorn', 'silverKept'].forEach(function (k) {
 					var m = inp[k];
 					if (!m || !m.weight) return;
-					var price = k.indexOf('gold') === 0 ? data.prices.gold * (m.karat || 24) / 24 : data.prices.silver;
+					var gold = k.indexOf('gold') === 0, fine = m.fineness && m.fineness < 999 ? m.fineness : 0;
+					var price = gold ? data.prices.gold * (m.karat || 24) / 24 : data.prices.silver * (fine ? fine / 1000 : 1);
 					var grams = m.unit === 'tola' ? m.weight * 11.6638038 : m.unit === 'oz' ? m.weight * 31.1034768 : m.weight;
-					var desc = m.weight + ' ' + (m.unit === 'gram' ? 'g' : m.unit) + (k.indexOf('gold') === 0 ? ' ' + m.karat + 'K' : '');
+					var desc = m.weight + ' ' + (m.unit === 'gram' ? 'g' : m.unit) + (gold ? ' ' + (m.karat || 24) + 'K' : fine ? ' ' + fine : '');
 					row(LABELS[k] + ' (' + desc + ')', fmt(grams * price, cur));
 				});
 				Object.keys(liab).forEach(function (k) { if (liab[k] && !PAID[k]) row(LABELS[k] || k, fmt(-liab[k], cur)); });

@@ -313,7 +313,7 @@ class MYZT_Settings {
 					self::input( 'fitrana_barley', __( 'Per person: barley', 'myzakattool' ), 'number' );
 					self::input( 'fitrana_dates', __( 'Per person: dates', 'myzakattool' ), 'number' );
 					self::input( 'fitrana_raisins', __( 'Per person: raisins', 'myzakattool' ), 'number' );
-					self::input( 'fitrana_note', __( 'Note under the calculator', 'myzakattool' ), 'text', __( 'For example who announced the amounts and when.', 'myzakattool' ) );
+					self::input( 'fitrana_note', __( 'Note under the calculator', 'myzakattool' ), 'text', __( 'For example who announced the amounts and when. While all four amounts are empty, the tools show the Council of Islamic Ideology amounts for Ramadan 1447 (2026): wheat 300, barley 1,100, dates 1,600, raisins 3,800 PKR.', 'myzakattool' ) );
 					?>
 				</table>
 

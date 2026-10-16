@@ -75,9 +75,18 @@
 		return w;
 	}
 
+	/** Missing karat means pure gold; a karat outside 1-24 is invalid and counts as nothing (FIX-009). */
 	function karatFactor(k) {
-		var n = num(k);
-		return n > 0 && n <= 24 ? n / 24 : 1;
+		if (k == null || k === '') return 1;
+		var n = typeof k === 'number' ? k : parseFloat(k);
+		return n > 0 && n <= 24 ? n / 24 : 0;
+	}
+
+	/** Silver fineness in parts per thousand (999, 925, 900); missing or 999 and above means pure (FIX-008). */
+	function finenessFactor(f) {
+		var n = typeof f === 'number' ? f : parseFloat(f);
+		if (!(n > 0) || n >= 999) return 1;
+		return n / 1000;
 	}
 
 	/** Pure-gold grams for a metal entry {weight, unit, karat}. */
@@ -88,7 +97,33 @@
 
 	function silverGrams(item) {
 		if (!item) return 0;
-		return toGrams(item.weight, item.unit);
+		return toGrams(item.weight, item.unit) * finenessFactor(item.fineness);
+	}
+
+	var EASTERN_DIGITS = /[\u0660-\u0669\u06f0-\u06f9]/g;
+	/** Urdu/Persian and Arabic-Indic digits to 0-9. */
+	function westernDigits(s) {
+		return String(s).replace(EASTERN_DIGITS, function (c) { var x = c.charCodeAt(0); return String(x >= 0x6f0 ? x - 0x6f0 : x - 0x660); });
+	}
+
+	/**
+	 * Read an amount typed by a visitor (FIX-006). Returns { value, ok, error }.
+	 * Accepts 250000, 2,50,000, 250,000.50, Urdu/Arabic digits and a leading currency sign or code.
+	 * Rejects negatives ('negative') and anything else that is not a plain number ('invalid'),
+	 * such as 1e6, 1.234,56 or abc, so nothing is silently turned into a different value.
+	 */
+	function parseAmount(v) {
+		if (typeof v === 'number') return isFinite(v) && v >= 0 ? { value: v, ok: true } : { value: 0, ok: false, error: isFinite(v) ? 'negative' : 'invalid' };
+		var s = westernDigits(v == null ? '' : v).replace(/\u066b/g, '.').replace(/\u066c/g, ',').replace(/[\s\u00a0\u2009\u202f]/g, '');
+		// A currency sign or code before or after the number ("Rs 5000", "5000 PKR").
+		s = s.replace(/^(?:rs\.?|pkr|inr|usd|gbp|eur|aed|sar|[$\u00a3\u20ac\u20b9\u20a8])/i, '').replace(/(?:rs|pkr|inr|usd|gbp|eur|aed|sar)$/i, '');
+		if (s === '') return { value: 0, ok: true };
+		if (/^[-\u2212\u2013]/.test(s)) return { value: 0, ok: false, error: 'negative' };
+		// Digits with grouping commas and one optional decimal point. A comma after the point (1.234,56)
+		// or a single comma before 1-2 digits (12,5) is a decimal comma, which we would misread.
+		if (!/^(?:\d[\d,]*)?(?:\.\d*)?$/.test(s) || !/\d/.test(s) || /^,|,$|,,|\.\d*,/.test(s) || /^\d+,\d{1,2}$/.test(s)) return { value: 0, ok: false, error: 'invalid' };
+		var n = parseFloat(s.replace(/,/g, ''));
+		return isFinite(n) ? { value: n, ok: true } : { value: 0, ok: false, error: 'invalid' };
 	}
 
 	/**
@@ -231,6 +266,8 @@
 		}
 
 		if (num(input.money && input.money.receivablesDoubtful)) notes.push('doubtful_receivables');
+		// Hanafi and Maliki texts allow paying zakat on a cash loan when it is repaid (FIX-017).
+		if ((madhabKey === 'hanafi' || madhabKey === 'maliki') && num(input.money && input.money.receivables)) notes.push('receivables_' + madhabKey);
 
 		applyPaid(result, input);
 		result.madhab = madhabKey;
@@ -302,16 +339,18 @@
 
 	/**
 	 * Zakat for past years that were not paid. wealth: zakatable wealth on each missed zakat date, oldest first.
+	 * nisabValue: one nisab for every year, or a list (one per year; an empty or 0 entry uses fallbackNisab).
 	 * subtractUnpaid: treat earlier unpaid zakat as a debt that reduces later years (Hanafi view).
 	 */
-	function missedZakat(wealth, nisabValue, subtractUnpaid) {
+	function missedZakat(wealth, nisabValue, subtractUnpaid, fallbackNisab) {
 		var owed = 0, rows = [];
 		for (var i = 0; i < wealth.length; i++) {
 			var w = num(wealth[i]);
+			var nis = Array.isArray(nisabValue) ? (num(nisabValue[i]) || num(fallbackNisab)) : num(nisabValue);
 			var base = subtractUnpaid ? Math.max(0, w - owed) : w;
-			var z = base > 0 && base >= num(nisabValue) * (1 - 1e-9) ? base * RATE : 0;
+			var z = base > 0 && base >= nis * (1 - 1e-9) ? base * RATE : 0;
 			owed += z;
-			rows.push({ wealth: w, base: base, zakat: z });
+			rows.push({ wealth: w, base: base, zakat: z, nisab: nis });
 		}
 		return { rows: rows, total: owed };
 	}
@@ -462,7 +501,7 @@
 	function parseText(text) {
 		var out = {};
 		if (!text) return out;
-		var parts = String(text).toLowerCase()
+		var parts = westernDigits(text).toLowerCase()
 			.replace(/(\d),(\d)/g, '$1$2')
 			.replace(/\b(?:rs|pkr|inr)\.?\s*(?=\d)/g, '')
 			.replace(/(\d)([a-z])/g, '$1 $2')
@@ -556,7 +595,7 @@
 		GRAMS_PER_TOLA: GRAMS_PER_TOLA, GRAMS_PER_OZ: GRAMS_PER_OZ,
 		GOLD_NISAB_G: GOLD_NISAB_G, SILVER_NISAB_G: SILVER_NISAB_G, RATE: RATE,
 		MADHABS: MADHABS, MADHAB_ORDER: MADHAB_ORDER, COUNTRIES: COUNTRIES,
-		toGrams: toGrams, perGram: perGram, nisabValues: nisabValues,
+		toGrams: toGrams, perGram: perGram, karatFactor: karatFactor, finenessFactor: finenessFactor, parseAmount: parseAmount, nisabValues: nisabValues,
 		calculate: calculate, compare: compare, family: family, fitrana: fitrana, fidya: fidya, kaffara: kaffara, khums: khums,
 		hawlDates: hawlDates, hawlYearsBetween: hawlYearsBetween, missedZakat: missedZakat, ushr: ushr, livestock: livestock, WASQ5_KG: WASQ5_KG, SISTANI_CROP_KG: SISTANI_CROP_KG,
 		parseText: parseText, countryDefaults: countryDefaults,
