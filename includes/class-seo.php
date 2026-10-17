@@ -413,7 +413,7 @@ class MYZT_SEO {
 				}
 			}
 
-			if ( $post && preg_match( '/\[(zakat_calculator|zakat_fitrana|zakat_fidya|zakat_khums|zakat_hawl|zakat_ushr|zakat_mehr|zakat_diyat)/', $post->post_content ) ) {
+			if ( $post && preg_match( '/\[(zakat_calculator|zakat_fitrana|zakat_fidya|zakat_khums|zakat_hawl|zakat_ushr|zakat_mehr|zakat_diyat|zakat_wirasat)/', $post->post_content ) ) {
 				$graph[] = array(
 					'@type'               => 'WebApplication',
 					'@id'                 => $url . '#app',
