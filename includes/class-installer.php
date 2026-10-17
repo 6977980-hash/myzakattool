@@ -76,6 +76,8 @@ class MYZT_Installer {
 			update_option( 'myzt_installed', time() );
 		}
 		update_option( 'myzt_version', MYZAKATTOOL_VERSION );
+		// Menu and footer changes show on every page, so the page cache starts fresh.
+		do_action( 'litespeed_purge_all' );
 		MYZT_Rates::ensure_schedule();
 		if ( ! MYZT_Rates::get() ) {
 			MYZT_Rates::refresh();
@@ -140,11 +142,12 @@ class MYZT_Installer {
 			if ( $existing ) {
 				$ids[ $slug ] = $existing->ID;
 				self::refresh( $existing, $def );
+				self::visibility( $existing, $def );
 				continue;
 			}
 			$postarr = array(
 				'post_type'      => $type,
-				'post_status'    => 'publish',
+				'post_status'    => empty( $def['hidden'] ) ? 'publish' : 'draft',
 				'post_title'     => $def['title'],
 				'post_name'      => $slug,
 				'post_content'   => $def['content'],
@@ -173,6 +176,20 @@ class MYZT_Installer {
 			update_option( 'wp_page_for_privacy_policy', $ids['privacy-policy'] );
 		}
 		return $created;
+	}
+
+	/**
+	 * A page marked 'hidden' is kept as a draft (off the site, the menu and the sitemap) until the
+	 * flag is removed; then the draft the plugin made is published again. Drafts the owner made stay drafts.
+	 */
+	private static function visibility( $post, $def ) {
+		if ( ! empty( $def['hidden'] ) && 'publish' === $post->post_status && get_post_meta( $post->ID, '_myzt_managed', true ) ) {
+			wp_update_post( array( 'ID' => $post->ID, 'post_status' => 'draft' ) );
+			update_post_meta( $post->ID, '_myzt_hidden', 1 );
+		} elseif ( empty( $def['hidden'] ) && 'draft' === $post->post_status && get_post_meta( $post->ID, '_myzt_hidden', true ) ) {
+			wp_update_post( array( 'ID' => $post->ID, 'post_status' => 'publish' ) );
+			delete_post_meta( $post->ID, '_myzt_hidden' );
+		}
 	}
 
 	/**
@@ -342,7 +359,15 @@ class MYZT_Installer {
 		$items = wp_get_nav_menu_items( $menu->term_id );
 		$items = is_array( $items ) ? $items : array();
 		$in    = array();
+		$defs  = self::pages();
 		foreach ( $items as $it ) {
+			// Hidden pages come off the menu; they are added again once published.
+			$slug = 'page' === $it->object ? get_post_field( 'post_name', (int) $it->object_id ) : '';
+			if ( $slug && ! empty( $defs[ $slug ]['hidden'] ) ) {
+				wp_delete_post( (int) $it->ID, true );
+				$done = array_values( array_diff( $done, array( $slug ) ) );
+				continue;
+			}
 			$in[ (int) $it->object_id ] = (int) $it->ID;
 		}
 		$calc   = get_page_by_path( 'calculators' );
@@ -358,7 +383,7 @@ class MYZT_Installer {
 			'zakat-calculator-urdu'    => array( 'اردو', 0 ),
 		);
 		foreach ( $add as $slug => $item ) {
-			if ( in_array( $slug, $done, true ) ) {
+			if ( in_array( $slug, $done, true ) || ! empty( $defs[ $slug ]['hidden'] ) ) {
 				continue;
 			}
 			$p = get_page_by_path( $slug );
@@ -419,7 +444,7 @@ class MYZT_Installer {
 			}
 		}
 		// Every tool linked from every page, so the newer ones are not orphaned (audit FIX-044).
-		$tools = array( 'calculators' => 'All calculators', 'fitrana-calculator' => 'Fitrana', 'fidya-kaffara-calculator' => 'Fidya & kaffara', 'zakat-date-calculator' => 'Zakat date', 'ushr-calculator' => 'Ushr & livestock', 'khums-calculator' => 'Khums', 'haq-mehr-calculator' => 'Haq mehr', 'diyat-calculator' => 'Diyat', 'wirasat-calculator' => 'Wirasat (inheritance)', 'free-zakat-widget' => 'Free nisab widget' );
+		$tools = array( 'calculators' => 'All calculators', 'fitrana-calculator' => 'Fitrana', 'fidya-kaffara-calculator' => 'Fidya & kaffara', 'zakat-date-calculator' => 'Zakat date', 'ushr-calculator' => 'Ushr & livestock', 'khums-calculator' => 'Khums', 'haq-mehr-calculator' => 'Haq mehr', 'diyat-calculator' => 'Diyat', 'free-zakat-widget' => 'Free nisab widget' );
 		$tl    = array();
 		foreach ( $tools as $slug => $label ) {
 			if ( get_page_by_path( $slug ) ) {
