@@ -1,0 +1,23 @@
+# My Zakat Tool plugin folder (audit FIX-050, FIX-056).
+# Hostinger runs LiteSpeed, which reads these Apache rules.
+
+# Development files (README, package.json, CI config, scripts) are not for visitors.
+# tests/ has its own .htaccess. Same "Require" rule that already returns 403 there.
+<FilesMatch "\.(md|json|lock|sh|yml|yaml)$">
+	Require all denied
+</FilesMatch>
+
+# CSS and JS are loaded with ?ver=<plugin version>, so a new release gets a new URL:
+# browsers may keep them for a year. Images keep a shorter lifetime because their URLs do not change.
+<IfModule mod_headers.c>
+	<FilesMatch "\.(css|js)$">
+		Header set Cache-Control "public, max-age=31536000, immutable"
+	</FilesMatch>
+	<FilesMatch "\.(png|svg|ico|webp|jpg)$">
+		Header set Cache-Control "public, max-age=2592000"
+	</FilesMatch>
+	# Other sites paste embed.js with a fixed ?ver, so fixes must still reach them.
+	<Files "embed.js">
+		Header set Cache-Control "public, max-age=86400"
+	</Files>
+</IfModule>

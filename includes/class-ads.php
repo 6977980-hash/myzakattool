@@ -24,7 +24,8 @@ class MYZT_Ads {
 
 	public static function enabled() {
 		$s = MYZT_Settings::get();
-		return ! empty( $s['ads_enabled'] ) && ! empty( $s['ads_client'] );
+		// Ads stay off until Google's consent message is set up, as the privacy policy promises (audit FIX-058).
+		return ! empty( $s['ads_enabled'] ) && ! empty( $s['ads_client'] ) && ! empty( $s['ads_cmp'] );
 	}
 
 	public static function shortcode( $atts ) {

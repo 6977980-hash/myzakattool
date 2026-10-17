@@ -49,6 +49,8 @@ async function open(opts = {}) {
 	if (opts.cfg) await page.addInitScript((c) => { window.__MYZT_TEST = c; }, opts.cfg);
 	await page.goto(base);
 	await page.waitForSelector('.myzt-calculator .myzt-res');
+	// Widgets start one task after another (FIX-049): wait until every one has drawn.
+	await page.waitForFunction(() => [...document.querySelectorAll('.myzt[data-widget]')].every((e) => e.children.length));
 	return { page, ctx, errors, restHits };
 }
 
@@ -257,5 +259,84 @@ test('Urdu page config (lang: ur) renders the calculator in Urdu, right to left'
 	assert.equal(await calc(page).getAttribute('dir'), 'rtl');
 	assert.match(await calc(page).textContent(), /زکوٰۃ/);
 	assert.deepEqual(errors, []);
+	await ctx.close();
+});
+
+// Phase 7 (audit FIX-049 to FIX-057): performance, accessibility and privacy.
+test('pdf.js is not loaded with the page, only when a report is made (FIX-049)', async () => {
+	const { page, ctx, errors } = await open();
+	assert.equal(await page.evaluate(() => !!window.MYZT_PDF), false, 'not loaded up front');
+	await enter(page, 'cash', { kind: 'money', key: 'cash' }, 1000000);
+	await calc(page).locator('[data-act="pdf"]').click();
+	await calc(page).locator('[data-pdfname]').fill('علی احمد');
+	const [dl] = await Promise.all([page.waitForEvent('download'), calc(page).locator('[data-act="makepdf"]').click()]);
+	assert.match(dl.suggestedFilename(), /\.pdf$/);
+	assert.equal(await page.evaluate(() => !!window.MYZT_PDF), true);
+	assert.deepEqual(errors, []);
+	await ctx.close();
+});
+
+test('screen readers hear only the total, after typing stops (FIX-054)', async () => {
+	const { page, ctx } = await open();
+	assert.equal(await calc(page).locator('[aria-live]').count(), 0, 'the result box itself is not live');
+	const live = page.locator('.myzt-calculator + .myzt-sr[role="status"]');
+	assert.equal(await live.count(), 1);
+	assert.equal(await live.textContent(), '', 'silent on page load');
+	await enter(page, 'cash', { kind: 'money', key: 'cash' }, 1000000);
+	await page.waitForFunction(() => document.querySelector('.myzt-sr').textContent.length > 0);
+	assert.match(await live.textContent(), /^Your zakat \(Hanafi\): Rs\s25,000$/);
+	await ctx.close();
+});
+
+test('widget headings follow the page h1; checkboxes are 20 px; date inputs have one name (FIX-053)', async () => {
+	const { page, ctx } = await open();
+	await calc(page).locator('[data-tile="cash"]').click();
+	assert.equal(await page.locator('.myzt h4').count(), 0);
+	assert.ok(await calc(page).locator('h2.myzt-h').count() >= 1);
+	const box = await calc(page).locator('input[type="checkbox"]').first().boundingBox();
+	assert.ok(box.width >= 20 && box.height >= 20, 'checkbox at least 20 px');
+	assert.ok(await page.locator('#myzt-hs').getAttribute('aria-label'));
+	assert.ok(await page.locator('#myzt-kd').getAttribute('aria-label'));
+	await ctx.close();
+});
+
+test('the Urdu toggle sets lang="ur" and translates units and madhab names (FIX-055)', async () => {
+	const { page, ctx, errors } = await open();
+	await calc(page).locator('[data-act="lang"]').click();
+	assert.equal(await calc(page).getAttribute('lang'), 'ur');
+	assert.equal(await calc(page).getAttribute('dir'), 'rtl');
+	const text = await calc(page).locator('.myzt-ctx').textContent();
+	assert.match(text, /حنفی/);
+	assert.match(text, /تولہ/);
+	assert.doesNotMatch(text, /Hanafi|tola/);
+	await calc(page).locator('[data-act="lang"]').click();
+	assert.equal(await calc(page).getAttribute('lang'), 'en');
+	assert.deepEqual(errors, []);
+	await ctx.close();
+});
+
+test('Clear all leaves no draft; Delete saved data removes every saved key (FIX-057)', async () => {
+	const { page, ctx } = await open();
+	page.on('dialog', (d) => d.accept());
+	await enter(page, 'cash', { kind: 'money', key: 'cash' }, 1000000);
+	await page.evaluate(() => localStorage.setItem('myzt_khums_date', '2026-03-01'));
+	assert.ok(await page.evaluate(() => localStorage.getItem('myzt_draft_v1')));
+	await calc(page).locator('[data-act="reset"]').click();
+	assert.equal(await page.evaluate(() => localStorage.getItem('myzt_draft_v1')), null, 'no empty draft left');
+	await enter(page, 'cash', { kind: 'money', key: 'cash' }, 5000);
+	await calc(page).locator('[data-act="forget"]').click();
+	const left = await page.evaluate(() => Object.keys(localStorage).filter((k) => k.indexOf('myzt_') === 0));
+	assert.deepEqual(left, []);
+	assert.equal(await amount(page), 0);
+	await ctx.close();
+});
+
+test('a draft untouched for 13 months is dropped (FIX-057)', async () => {
+	const { page, ctx } = await open();
+	await enter(page, 'cash', { kind: 'money', key: 'cash' }, 1000000);
+	await page.evaluate(() => localStorage.setItem('myzt_draft_v1_at', String(Date.now() - 400 * 864e5)));
+	await page.reload();
+	await page.waitForSelector('.myzt-calculator .myzt-res');
+	assert.equal(await amount(page), 0);
 	await ctx.close();
 });

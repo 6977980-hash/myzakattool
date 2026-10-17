@@ -34,9 +34,40 @@
 		return loading;
 	}
 
-	/** Standard PDF fonts cover Latin-1 only: drop accents and replace anything else. */
+	/*
+	 * Urdu letters spelled out in Roman Urdu, so an Urdu name such as "علی" prints as "Ali" instead of
+	 * vanishing: the standard PDF fonts have no Urdu glyphs (FIX-055). Short vowels are not written in
+	 * Urdu, so the spelling is approximate; vowel marks, where present, are dropped.
+	 */
+	var UR = {
+		'ا': 'a', 'آ': 'aa', 'أ': 'a', 'إ': 'i', 'ب': 'b', 'پ': 'p', 'ت': 't', 'ٹ': 't', 'ث': 's', 'ج': 'j', 'چ': 'ch', 'ح': 'h', 'خ': 'kh',
+		'د': 'd', 'ڈ': 'd', 'ذ': 'z', 'ر': 'r', 'ڑ': 'r', 'ز': 'z', 'ژ': 'zh', 'س': 's', 'ش': 'sh', 'ص': 's', 'ض': 'z', 'ط': 't', 'ظ': 'z',
+		'ع': '', 'غ': 'gh', 'ف': 'f', 'ق': 'q', 'ک': 'k', 'ك': 'k', 'گ': 'g', 'ل': 'l', 'م': 'm', 'ن': 'n', 'ں': 'n', 'و': 'o', 'ؤ': 'o',
+		'ہ': 'h', 'ۂ': 'h', 'ھ': 'h', 'ة': 'h', 'ۃ': 'h', 'ی': 'i', 'ي': 'i', 'ى': 'a', 'ئ': 'i', 'ے': 'e', 'ۓ': 'e', 'ء': '',
+		'،': ',', '۔': '.', '؟': '?', '٫': '.', '٬': ',',
+	};
+	function roman(s) {
+		if (!/[\u0600-\u06ff]/.test(s)) return s;
+		s = s.replace(/[\u064b-\u065f\u0670]/g, '').replace(/[\u0660-\u0669\u06f0-\u06f9]/g, function (d) {
+			return String(d.charCodeAt(0) & 15);
+		});
+		return s.replace(/[\u0600-\u06ff]+/g, function (w) {
+			var r = '';
+			for (var i = 0; i < w.length; i++) {
+				var c = w.charAt(i), first = i === 0, last = i === w.length - 1;
+				if (first && c === 'ع') { r += 'a'; if (w.charAt(1) === 'ا') i++; }
+				else if (first && c === 'و') r += 'w'; // wasim
+				else if (first && c === 'ی') r += 'y'; // yusuf
+				else if (last && i > 0 && (c === 'ہ' || c === 'ة' || c === 'ۃ')) r += 'a'; // fatima, aisha
+				else r += UR[c] != null ? UR[c] : '';
+			}
+			return r.charAt(0).toUpperCase() + r.slice(1);
+		});
+	}
+
+	/** Standard PDF fonts cover Latin-1 only: spell out Urdu, drop accents and replace anything else. */
 	function latin(s) {
-		return String(s).normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[\u02bb\u02bc\u2018\u2019]/g, "'").replace(/[^\x20-\x7e\xa0-\xff]/g, '');
+		return roman(String(s)).normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[\u02bb\u02bc\u2018\u2019]/g, "'").replace(/[^\x20-\x7e\xa0-\xff]/g, '');
 	}
 
 	function fmt(v, cur) {

@@ -411,7 +411,7 @@ class MYZT_Installer {
 			$tl[] = '<a href="' . esc_url( MYZT_Frontend::page_url( 'zakat-calculator-urdu' ) ) . '" lang="ur" hreflang="ur">اردو</a>';
 		}
 		if ( $out ) {
-			echo '<nav class="myzt-footer-links" aria-label="Site information" style="text-align:center;font-size:13px;padding:14px 16px;line-height:2">' . ( $tl ? implode( ' · ', $tl ) . '<br>' : '' ) . implode( ' · ', $out ) . '<br><span style="color:#6b7f7a">Estimates only, not a fatwa. © ' . esc_html( gmdate( 'Y' ) ) . ' My Zakat Tool</span></nav>'; // phpcs:ignore
+			echo '<nav class="myzt-footer-links" aria-label="Site information" style="text-align:center;font-size:13px;padding:14px 16px;line-height:2">' . ( $tl ? implode( ' · ', $tl ) . '<br>' : '' ) . implode( ' · ', $out ) . '<br><span style="color:#556a65">Estimates only, not a fatwa. © ' . esc_html( gmdate( 'Y' ) ) . ' My Zakat Tool</span></nav>'; // phpcs:ignore
 		}
 	}
 }

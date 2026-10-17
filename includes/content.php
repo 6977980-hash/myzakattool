@@ -934,6 +934,7 @@ HTML,
 </ul>
 <h2>Changes</h2>
 <ul>
+<li><strong>17 October 2026 (accessibility and privacy):</strong> the calculator now works fully in Urdu (Urdu madhab names, units and an Urdu font), screen readers hear only the zakat total once you stop typing, and a <em>Delete saved data</em> button removes everything the calculators kept in your browser. Urdu names in the PDF report are spelled in Roman letters. No calculation result changed.</li>
 <li><strong>17 October 2026 (Urdu):</strong> added Urdu pages for the <a href="/zakat-calculator-urdu/">zakat calculator</a>, <a href="/nisab-urdu/">nisab</a>, <a href="/zakat-on-gold-urdu/">zakat on gold</a> and <a href="/fitrana-calculator-urdu/">fitrana</a>, with worked examples on several English pages. They use the same rules as the English pages; no calculation result changed.</li>
 <li><strong>17 October 2026:</strong> the silver nisab is now shown everywhere as 612.35 g, the figure the calculator uses (52.5 tola of 11.6638 g); results did not change.</li>
 <li><strong>16 October 2026:</strong> listed the open questions above; added notes in the calculator for Hanafi gold jewellery, Maliki debts and fidya by madhab; marked rules without a specific source as our reading. No calculation result changed.</li>
@@ -1033,13 +1034,13 @@ HTML,
 		'content' => <<<'HTML'
 <p>Last updated: 16 October 2026. This policy explains what information this website handles.</p>
 <h2>Calculator entries stay on your device</h2>
-<p>Everything you type into the calculators is processed in your own browser. It is not sent to our server. If you use <em>Save data file</em>, the file is saved on your device. A draft may be kept in your browser's local storage so your entries are still there when you return; you can remove it with <em>Clear all</em>.</p>
+<p>Everything you type into the calculators is processed in your own browser. It is not sent to our server. If you use <em>Save data file</em>, the file is saved on your device. A draft may be kept in your browser's local storage so your entries are still there when you return. It is removed automatically after 13 months without use. <em>Clear all</em> removes the draft, and <em>Delete saved data</em> removes everything the calculators saved in your browser (amounts, family members, language choice and reminder dates).</p>
 <h2>PDF reports</h2>
 <p>PDF reports are created in your browser and downloaded directly. We never receive them.</p>
 <h2>Server logs</h2>
 <p>Like every website, our hosting provider records technical logs (IP address, browser, pages requested, time) for security and to keep the site running. These are kept for a limited time.</p>
 <h2>Cookies, analytics and advertising</h2>
-<p>We may use privacy-friendly analytics to count visits. If advertising is enabled, Google may use cookies to show ads, including personalised ads where you have agreed. You can manage Google ad personalisation at <a href="https://adssettings.google.com" rel="noopener nofollow" target="_blank">adssettings.google.com</a>. Visitors in the EEA and UK are asked for consent before such cookies are used.</p>
+<p>We may use privacy-friendly analytics to count visits. If advertising is enabled, Google may use cookies to show ads, including personalised ads where you have agreed. You can manage Google ad personalisation at <a href="https://adssettings.google.com" rel="noopener nofollow" target="_blank">adssettings.google.com</a>. Advertising is currently switched off. It will only be switched on after Google's consent message is set up, so that visitors in the EEA, UK and Switzerland are asked for consent before such cookies are used.</p>
 <h2>Email</h2>
 <p>If you email us, we use your email only to reply.</p>
 <h2>Children</h2>
