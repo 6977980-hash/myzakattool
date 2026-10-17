@@ -1203,6 +1203,37 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
   }
   function landTotal(q, ft) { return '(' + r2(q).toLocaleString('en-IN') + (ft ? ' فٹ)' : ' مرلے)'); }
   function tola(x) { return (Math.round(x * 100) / 100) + ' تولہ'; }
+  // Gold and silver are divided by weight; today's value is only a guide. On the site the frame is given
+  // the rates endpoint (?rates=, same site only) and uses the same cached international rates as the zakat calculator.
+  var TOLA_G = 11.6638038, OZ_G = 31.1034768, RATES = null;
+  (function () {
+    var q = (location.search.match(/[?&]rates=([^&]+)/) || [])[1], u;
+    try { u = q && new URL(decodeURIComponent(q), location.href); } catch (e) { u = null; }
+    if (!u || u.origin !== location.origin || !window.fetch) return;
+    fetch(u.href).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+      if (!d || !(d.goldUsdOz > 0) || !d.fx || !(d.fx.pkr > 0)) return;
+      RATES = d;
+      if (cur && !stale) calc();
+    }).catch(function () {});
+  })();
+  function metalRs(metal, tolas) {
+    if (!RATES) return 0;
+    var usdOz = metal === 'gold' ? RATES.goldUsdOz : RATES.silverUsdOz;
+    return usdOz > 0 ? tolas * TOLA_G / OZ_G * usdOz * RATES.fx.pkr : 0;
+  }
+  function metalOut(metal, tolas) {
+    var g = Math.round(tolas * TOLA_G * 100) / 100, v = metalRs(metal, tolas);
+    return { metal: metal, t: tola(tolas), sub: g.toLocaleString('en-IN') + ' گرام' + (v ? ' · اندازاً ' + rs(v) : '') };
+  }
+  function rateNote() {
+    var e = estate();
+    if (!RATES || (e.gold == null && e.silver == null)) return '';
+    var d = new Date((RATES.updated || 0) * 1000), when = RATES.updated ? d.getDate() + ' ' + ['جنوری', 'فروری', 'مارچ', 'اپریل', 'مئی', 'جون', 'جولائی', 'اگست', 'ستمبر', 'اکتوبر', 'نومبر', 'دسمبر'][d.getMonth()] + ' ' + d.getFullYear() : '';
+    var per = [];
+    if (e.gold != null) per.push('سونا ' + rs(metalRs('gold', 1)) + ' فی تولہ');
+    if (e.silver != null && RATES.silverUsdOz > 0) per.push('چاندی ' + rs(metalRs('silver', 1)) + ' فی تولہ');
+    return '<p class="hint">سونے اور چاندی کی تقسیم وزن (تولہ، گرام) میں ہے؛ قیمت صرف اندازے کے لیے ہے۔ عالمی ریٹ (24 قیراط)' + (when ? '، ' + when : '') + ': ' + per.join('، ') + '۔ بازار کا مقامی ریٹ اور کھوٹ اس سے مختلف ہو سکتے ہیں۔</p>';
+  }
   function estate() {
     var a = st.assets, e = {};
     if (a.cash.on) { var cash = num(a.cash.amount) - num(st.debts); e.cash = Math.max(0, cash); e.short = cash < 0; }
@@ -1292,8 +1323,8 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
       out.push({ land: true, t: landText(q, e.ft), sub: landTotal(q, e.ft) });
     }
     if (e.cash != null) out.push(rs(e.cash * v));
-    if (e.gold != null) out.push('سونا ' + tola(e.gold * v));
-    if (e.silver != null) out.push('چاندی ' + tola(e.silver * v));
+    if (e.gold != null) out.push(metalOut('gold', e.gold * v));
+    if (e.silver != null) out.push(metalOut('silver', e.silver * v));
     return out;
   }
   function heir(r, p) { return r.shares[p.id] && r.shares[p.id].f.n > 0; }
@@ -1317,7 +1348,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
     var amt = has ? '' : '<div class="amt">' + (isTri ? '<div class="nos">حصہ نہیں بنتا</div>' : '') + '<span class="pc">' + esc(noWhy(r, p, true)) + '</span></div>';
     if (has) {
       // A triangle has no room for the fraction inside, so it sits just under the point-down base.
-      amt = '<div class="amt">' + (isTri ? '<div class="fr" style="font-family:var(--num);font-weight:700;font-size:17px;direction:ltr">' + frac(s.f) + '</div>' : '') + gets(r, p.id).map(function (g) { return g.land ? '<span class="lnd">' + esc(g.t) + '</span>' : esc(g); }).join('<br>') + '<br><span class="pc">' + pct(s.f) + '</span>' + (p.status === 'after' ? '<br><span class="after">' + esc(statusText('after')) + ': یہ حصہ ان کی اپنی وراثت میں جائے گا</span>' : '') + '</div>';
+      amt = '<div class="amt">' + (isTri ? '<div class="fr" style="font-family:var(--num);font-weight:700;font-size:17px;direction:ltr">' + frac(s.f) + '</div>' : '') + gets(r, p.id).map(function (g) { return g.land ? '<span class="lnd">' + esc(g.t) + '</span>' : g.metal ? esc((g.metal === 'gold' ? 'سونا ' : 'چاندی ') + g.t) : esc(g); }).join('<br>') + '<br><span class="pc">' + pct(s.f) + '</span>' + (p.status === 'after' ? '<br><span class="after">' + esc(statusText('after')) + ': یہ حصہ ان کی اپنی وراثت میں جائے گا</span>' : '') + '</div>';
     }
     return '<div class="node ' + (cls || '') + ' ' + shape + '" data-node="' + p.id + '"><div class="shape">' + body + '</div>' + amt + '</div>';
   }
@@ -1400,8 +1431,8 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
     var e = estate(), c = [];
     if (e.land != null) c.push('رقبہ (کنال، مرلہ' + (e.ft ? '، فٹ' : '') + ')');
     if (e.cash != null) c.push('رقم');
-    if (e.gold != null) c.push('سونا');
-    if (e.silver != null) c.push('چاندی');
+    if (e.gold != null) c.push('سونا (تولہ، گرام)');
+    if (e.silver != null) c.push('چاندی (تولہ، گرام)');
     return c;
   }
   function table(r) {
@@ -1409,9 +1440,9 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
     var h = '<h2 class="sub">ہر وارث کا حصہ</h2><div class="tbl"><table><thead><tr><th>رشتہ دار</th><th>شرعی حصہ</th>' + cols().map(function (c) { return '<th>' + c + '</th>'; }).join('') + '<th>فیصد</th><th>وجہ</th></tr></thead><tbody>';
     rows.forEach(function (p) {
       var s = r.shares[p.id];
-      h += '<tr><td><b>' + esc(label(p)) + '</b>' + (p.name ? ' <span class="hint">' + esc(rel(p)) + '</span>' : '') + '</td><td class="f">' + frac(s.f) + '</td>' + gets(r, p.id).map(function (g) { return g.land ? '<td><b>' + esc(g.t) + '</b><br><span class="hint">' + esc(g.sub) + '</span></td>' : '<td>' + esc(g.replace(/^(سونا|چاندی) /, '')) + '</td>'; }).join('') + '<td class="hint">' + pct(s.f) + '</td><td class="why">' + esc(whyText(r, p)) + '</td></tr>';
+      h += '<tr><td><b>' + esc(label(p)) + '</b>' + (p.name ? ' <span class="hint">' + esc(rel(p)) + '</span>' : '') + '</td><td class="f">' + frac(s.f) + '</td>' + gets(r, p.id).map(function (g) { return g.land || g.metal ? '<td><b>' + esc(g.t) + '</b><br><span class="hint">' + esc(g.sub) + '</span></td>' : '<td>' + esc(g) + '</td>'; }).join('') + '<td class="hint">' + pct(s.f) + '</td><td class="why">' + esc(whyText(r, p)) + '</td></tr>';
     });
-    h += '</tbody></table></div>';
+    h += '</tbody></table></div>' + rateNote();
     if (estate().short) h += '<p class="err">قرض نقد رقم سے زیادہ ہے۔ باقی قرض زمین یا سونے کی قیمت سے ادا ہوگا؛ یہ کٹوتی اس حساب میں شامل نہیں، اس لیے زمین اور سونے کے حصے قرض سے پہلے کے ہیں۔</p>';
     return h;
   }

@@ -373,7 +373,8 @@ class MYZT_Frontend {
 	 */
 	public static function wirasat( $atts ) {
 		$a   = shortcode_atts( array( 'madhab' => '' ), $atts, 'zakat_wirasat' );
-		$src = add_query_arg( array_filter( array( 'ver' => MYZAKATTOOL_VERSION, 'madhab' => sanitize_key( $a['madhab'] ) ) ), MYZAKATTOOL_URL . 'assets/wirasat/app.html' );
+		// rates: the frame shows each heir's gold and silver at today's cached rate (same site only).
+		$src = add_query_arg( array_filter( array( 'ver' => MYZAKATTOOL_VERSION, 'madhab' => sanitize_key( $a['madhab'] ), 'rates' => rawurlencode( rest_url( 'myzakattool/v1/rates' ) ) ) ), MYZAKATTOOL_URL . 'assets/wirasat/app.html' );
 		self::enqueue();
 		wp_enqueue_script( 'myzt-wirasat-frame', MYZAKATTOOL_URL . 'assets/js/wirasat-frame.js', array(), MYZAKATTOOL_VERSION, array( 'in_footer' => true ) );
 		return '<div class="myzt myzt-wirasat alignwide"><iframe class="myzt-wirasat-frame" src="' . esc_url( $src ) . '" title="وراثت کیلکولیٹر اور شجرہ" loading="lazy" scrolling="no"></iframe></div>';
