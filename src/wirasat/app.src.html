@@ -1,0 +1,776 @@
+<title>Wirasat Shajra Prototype</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gulzar&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap">
+<style>
+/* Layout: one page register. Every question (tarka, mutawaffi, walid, walida, spouse, aulad, others, maslak)
+   sits in its own numbered card, then a summary and one "hisab lagayen" button; results, shajra and the PDF report come after. */
+:root {
+  --bg: #eef3f1; --surface: #ffffff; --ink: #15302a; --muted: #566a64; --line: #d3dfdb;
+  --accent: #0f766e; --accent-soft: #e2f2ee; --warn: #8f3a2c; --warn-soft: #fbece8; --amber: #8a6418;
+  --display: 'Gulzar', 'Noto Nastaliq Urdu', serif;
+  --body: 'Noto Naskh Arabic', 'Segoe UI', Tahoma, sans-serif;
+  --num: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0e1614; --surface: #15201d; --ink: #e3ede9; --muted: #9fb2ac; --line: #2b3b36;
+  --accent: #46b8a8; --accent-soft: #17312c; --warn: #ec9a88; --warn-soft: #3a211c; --amber: #e0b45a; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0e1614; --surface: #15201d; --ink: #e3ede9; --muted: #9fb2ac; --line: #2b3b36;
+  --accent: #46b8a8; --accent-soft: #17312c; --warn: #ec9a88; --warn-soft: #3a211c; --amber: #e0b45a; color-scheme: dark }
+[hidden] { display: none !important; }
+.sec > *, #result { min-width: 0; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.8; }
+.wrap { max-width: 1100px; margin: 0 auto; padding-block: 20px 48px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 16px; }
+header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 16px; border-bottom: 2px solid var(--ink); padding-bottom: 8px; }
+h1 { font-family: var(--display); font-weight: 400; font-size: 34px; margin: 0; line-height: 1.6; text-wrap: balance; }
+.tag { font-size: 13px; color: var(--amber); border: 1px solid currentColor; border-radius: 99px; padding: 0 10px; }
+.form { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 480px), 1fr)); gap: 16px; align-items: start; }
+.sec { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: grid; gap: 12px; min-width: 0; }
+.sec.wide { grid-column: 1 / -1; }
+.sec h2 { font-family: var(--display); font-weight: 400; font-size: 22px; margin: 0; line-height: 1.6; display: flex; gap: 10px; align-items: baseline; }
+.sec h2 .no { font-family: var(--num); font-size: 13px; color: var(--surface); background: var(--accent); border-radius: 99px; min-width: 24px; height: 24px; display: inline-grid; place-content: center; }
+.hint { color: var(--muted); font-size: 13px; margin: 0; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+button, input, select { font: inherit; color: var(--ink); }
+.chip { min-height: 42px; padding: 0 14px; border-radius: 99px; border: 1px solid var(--line); background: var(--surface); cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.card { text-align: start; border: 1.5px solid var(--line); border-radius: 10px; background: var(--surface); padding: 10px 12px; cursor: pointer; display: grid; gap: 2px; min-height: 64px; }
+.card b { font-size: 16px; }
+.card span { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+.card[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent); }
+.chip:focus-visible, .card:focus-visible, .step button:focus-visible, input:focus-visible, select:focus-visible, .go:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px 16px; }
+label.f { display: grid; gap: 2px; font-size: 13px; color: var(--muted); }
+input.in, select.in { min-height: 42px; border: 1px solid var(--line); border-radius: 8px; padding: 0 10px; background: var(--surface); width: 100%; box-sizing: border-box; }
+input.num { direction: ltr; text-align: right; font-variant-numeric: tabular-nums; }
+.assets { display: grid; gap: 10px; }
+.asset { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: end; border-top: 1px dashed var(--line); padding-top: 10px; }
+.asset b { flex-basis: 100%; font-weight: 600; }
+.asset label.f { flex: 1 1 110px; }
+.row { border-top: 1px solid var(--line); padding-block: 8px; display: grid; gap: 8px; }
+.row:first-child { border-top: 0; padding-top: 0; }
+.rh { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.rh .lab { font-weight: 600; }
+.rh .lab small { display: block; font-weight: 400; color: var(--muted); font-size: 12.5px; }
+.step { display: inline-flex; align-items: center; gap: 4px; direction: ltr; }
+.step button { width: 42px; height: 40px; border-radius: 99px; border: 1px solid var(--line); background: var(--surface); font-size: 20px; color: var(--accent); cursor: pointer; }
+.step output { width: 30px; text-align: center; font-family: var(--num); font-size: 18px; font-weight: 700; }
+.people { display: grid; gap: 6px; padding-inline-start: 12px; border-inline-start: 3px solid var(--accent-soft); }
+.p { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; }
+.p .idx { font-size: 12.5px; color: var(--muted); min-width: 52px; }
+.p input.in { flex: 1 1 130px; width: auto; }
+.p select.in { flex: 1 1 210px; width: auto; }
+.kids { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; background: var(--warn-soft); border-radius: 8px; padding: 6px 10px; font-size: 13px; flex-basis: 100%; }
+.group { font-family: var(--display); font-size: 17px; color: var(--muted); padding-top: 6px; }
+details.more > summary { cursor: pointer; font-weight: 600; min-height: 36px; display: flex; align-items: center; }
+details.more[open] > summary { margin-bottom: 6px; }
+.sum { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.sum div { display: flex; justify-content: space-between; gap: 10px; padding: 8px 12px; border-bottom: 1px solid var(--line); font-size: 14px; }
+.sum div span { color: var(--muted); }
+.go { justify-self: start; min-height: 50px; padding: 0 26px; border-radius: 10px; border: 0; background: var(--accent); color: var(--surface); font-size: 17px; font-weight: 700; cursor: pointer; }
+.go.ghost { background: var(--surface); color: var(--accent); border: 1.5px solid var(--accent); min-height: 44px; font-size: 15px; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+#result.stale > :not(.banner) { opacity: .35; }
+.tabs { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.banner { background: var(--warn-soft); color: var(--warn); border-radius: 8px; padding: 8px 12px; font-size: 14px; }
+.treebox { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+.tree { position: relative; display: grid; gap: 34px; padding: 22px 18px 26px; min-width: max-content; }
+.tree svg.links { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+.tree svg path { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+.tree svg path.dbl { stroke-width: 5; }
+.tree svg path.dbl2 { stroke: var(--surface); stroke-width: 1.6; }
+.trow { display: flex; justify-content: center; align-items: flex-start; gap: 14px; }
+.trow.start { justify-content: flex-start; }
+.thead { text-align: center; display: grid; gap: 6px; }
+.tree h3 { margin: 0; font-family: var(--display); font-weight: 400; font-size: 26px; }
+.blanks { display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 4px 22px; font-size: 15px; }
+.blanks.one { flex-wrap: nowrap; white-space: nowrap; gap: 4px 14px; }
+.blanks.one .ln { min-width: 84px; }
+.blanks.one h3 { font-size: 22px; }
+.legend { margin: 0; text-align: center; font-size: 12px; color: var(--ink); }
+.report .legend { display: none; }
+/* Credit line only on the printed/PDF shajra, top left corner. */
+.devby { display: none; }
+.report .devby { display: block; justify-self: end; font-size: 12px; font-style: italic; color: var(--ink); }
+.blanks .ln { display: inline-block; min-width: 120px; border-bottom: 1.5px dashed var(--ink); text-align: center; font-family: var(--display); font-size: 18px; line-height: 1.4; }
+.node { position: relative; z-index: 1; width: 132px; display: grid; justify-items: center; gap: 2px; text-align: center; }
+.shape { width: 132px; min-height: 72px; display: grid; place-content: center; box-sizing: border-box; background: var(--surface); border: 2px solid var(--ink); border-radius: 8px; padding: 4px 8px; }
+.shape .nm { font-family: var(--display); font-size: 23px; line-height: 1.3; font-weight: 700; overflow-wrap: anywhere; }
+.shape .nm.sm { font-size: 18px; }
+.shape .nm.xs { font-size: 15px; }
+.nos { font-weight: 700; font-size: 13px; }
+.node.tri .shape .nm { font-size: 18px; }
+.node.tri .shape .nm.sm { font-size: 14px; }
+.node.tri .shape .nm.xs { font-size: 12px; }
+.node .amt .pc { display: inline-block; max-width: 140px; }
+.shape .rl { font-size: 12.5px; color: var(--ink); line-height: 1.4; }
+.shape .fr { font-family: var(--num); font-weight: 700; color: var(--ink); direction: ltr; font-size: 17px; }
+.node.self .shape { background: var(--surface); border: 5px double var(--ink); }
+.node.via .shape { background: transparent; border: 1.5px dashed var(--ink); }
+.node.leaf .shape { border-radius: 0 50px 0 50px; }
+.node.tri .shape { border: 0; background: none; position: relative; height: 80px; width: 140px; padding-top: 34px; }
+.node.tri { width: 140px; }
+.node.tri .shape .rl { display: inline; }
+.node.tri .shape svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.node.tri .shape svg polygon { fill: var(--surface); stroke: var(--ink); stroke-width: 2; }
+.node.tri .shape > div { position: relative; }
+.node.self.tri .shape { border: 0; background: none; }
+.node.self.tri .shape svg polygon { stroke-width: 4; }
+.node.via.tri .shape svg polygon { stroke-dasharray: 5 4; }
+.node.tl, .node.tl .shape { width: 164px; }
+.node.tl .shape { height: 100px; padding-top: 36px; }
+.node.tl .shape > div { border: 2px solid var(--ink); border-radius: 0 26px 0 26px; background: var(--surface); padding: 0 12px; justify-self: center; }
+.amt { font-size: 12.5px; line-height: 1.7; font-variant-numeric: tabular-nums; }
+.amt .after { font-style: italic; }
+.amt .pc { color: var(--muted); font-size: 11.5px; }
+.amt .lnd { font-weight: 600; }
+.tbl { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: 14px; }
+th, td { border-bottom: 1px solid var(--line); padding: 6px 8px; text-align: start; vertical-align: top; white-space: nowrap; }
+td.why { white-space: normal; min-width: 220px; color: var(--muted); font-size: 13px; }
+th { font-weight: 600; color: var(--muted); font-size: 13px; }
+td.f { font-family: var(--num); direction: ltr; text-align: right; color: var(--accent); font-weight: 700; }
+.none li { margin-bottom: 4px; }
+.none .why { color: var(--warn); }
+.notes { margin: 0; padding-inline-start: 18px; color: var(--muted); font-size: 13.5px; }
+.err { color: var(--warn); font-weight: 600; }
+.foot { color: var(--muted); font-size: 12.5px; text-align: center; }
+h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin: 14px 0 0; }
+/* PDF report: always light, fixed A4 width, rendered off screen only while the PDF is made. */
+.report { --bg: #ffffff; --surface: #ffffff; --ink: #000; --muted: #444; --line: #bbb; --accent: #000; --accent-soft: #fff; --warn: #000; --warn-soft: #fff; --amber: #000;
+  position: fixed; left: -12000px; top: 0; width: 794px; box-sizing: border-box; padding: 34px 38px; background: #fff; color: #111; direction: rtl; font-family: var(--body); font-size: 14px; line-height: 1.8; }
+.report .rhd { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #111; padding-bottom: 8px; }
+.report .rhd h1 { font-size: 30px; }
+.report .box { border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; margin-top: 14px; }
+.report .treebox { border: 0; background: #fff; overflow: visible; }
+.report.wide { width: max-content; min-width: 794px; }
+.report .credit { text-align: center; font-size: 15px; border-top: 1px solid #000; padding-top: 8px; margin-top: 6px; }
+.report .rp1 .tree { padding: 10px; }
+.report td.why { min-width: 0; }
+.report .small { font-size: 11px; color: #666; margin-top: 18px; border-top: 1px solid #ccc; padding-top: 8px; line-height: 1.7; }
+@media (prefers-reduced-motion: no-preference) { .chip, .card, .step button { transition: background-color .15s, color .15s; } }
+</style>
+
+<div class="wrap" dir="rtl" lang="ur">
+  <header>
+    <h1>وراثت کیلکولیٹر اور شجرہ</h1>
+    <span class="tag">پیش نظارہ: سائٹ پر یہی کیلکولیٹر چلتا ہے</span>
+  </header>
+
+  <div class="form">
+    <section class="sec" aria-labelledby="h-a">
+      <h2 id="h-a"><span class="no">1</span>ترکہ (اثاثے)</h2>
+      <p class="hint">جو چیز چھوڑی ہے اسے چنیں، ایک یا زیادہ۔</p>
+      <div class="chips" id="assetPick"></div>
+      <div class="assets" id="assets"></div>
+    </section>
+
+    <section class="sec" aria-labelledby="h-d">
+      <h2 id="h-d"><span class="no">2</span><span class="mw">متوفی</span></h2>
+      <div class="cards" id="sex"></div>
+      <label class="f" for="dname">نام<input class="in" id="dname" maxlength="60" placeholder="مثلاً محمد اسلم"></label>
+    </section>
+
+    <section class="sec" aria-labelledby="h-f">
+      <h2 id="h-f"><span class="no">3</span>والد</h2>
+      <div id="father"></div>
+    </section>
+
+    <section class="sec" aria-labelledby="h-mo">
+      <h2 id="h-mo"><span class="no">4</span>والدہ</h2>
+      <div id="mother"></div>
+    </section>
+
+    <section class="sec" aria-labelledby="h-s">
+      <h2 id="h-s"><span class="no">5</span><span id="spouseTitle">بیویاں</span></h2>
+      <div id="spouse"></div>
+    </section>
+
+    <section class="sec" aria-labelledby="h-c">
+      <h2 id="h-c"><span class="no">6</span>اولاد</h2>
+      <p class="hint">ہر بیٹے اور بیٹی کا حال چنیں۔ جو <span class="mw">متوفی</span> سے پہلے فوت ہوا اس کی اولاد پوچھی جائے گی، کیونکہ اس کا حصہ اس کی اولاد کو جاتا ہے۔</p>
+      <div id="children"></div>
+    </section>
+
+    <section class="sec wide" aria-labelledby="h-o">
+      <h2 id="h-o"><span class="no">7</span>دیگر رشتہ دار</h2>
+      <details class="more" id="moreBox">
+        <summary>دادا دادی، نانی، بہن بھائی، چچا: صرف تب ضروری جب اوپر والے وارث کم ہوں</summary>
+        <div id="others"></div>
+      </details>
+    </section>
+
+    <section class="sec wide" aria-labelledby="h-m">
+      <h2 id="h-m"><span class="no">8</span>مسلک</h2>
+      <div class="chips" id="madhab"></div>
+      <p class="hint">پاکستانی قانون (عائلی قوانین 1961، دفعہ 4) کا نتیجہ بھی ساتھ دکھایا جائے گا جب وہ فقہ سے مختلف ہو۔</p>
+    </section>
+
+    <section class="sec wide" aria-labelledby="h-v">
+      <h2 id="h-v"><span class="no">9</span>تفصیلات کا جائزہ</h2>
+      <div class="sum" id="summary"></div>
+      <div class="actions"><button type="button" class="go" id="go">وراثت کا حساب لگائیں</button><span class="hint" id="goHint"></span></div>
+    </section>
+  </div>
+
+  <section class="sec" aria-labelledby="h-r" aria-live="polite" id="resultSec" hidden>
+    <h2 id="h-r">نتیجہ اور شجرہ</h2>
+    <div id="result"></div>
+  </section>
+
+  <p class="foot">یہ فتویٰ یا قانونی مشورہ نہیں۔ حساب ہماری سائٹ کے انجن سے، ہر مسلک کے شائع شدہ اصولوں پر۔ تقسیم سے پہلے مفتی صاحب سے تصدیق کریں۔ <button class="chip" id="reset" type="button">مثال والا خاندان لوڈ کریں</button> <button class="chip" id="clear" type="button">سب خالی کریں</button></p>
+  <div class="report" id="report" aria-hidden="true"></div>
+  <div class="report wide" id="report1" aria-hidden="true"></div>
+</div>
+
+<script>/*ENGINE*/</script>
+<script>
+(function () {
+  var W = window.MYZT_WIRASAT;
+  var U = /*UR*/;
+  var MADHABS = [['hanafi', 'حنفی'], ['shafii', 'شافعی'], ['maliki', 'مالکی'], ['hanbali', 'حنبلی'], ['ahlehadith', 'اہلِ حدیث'], ['jafari', 'فقہ جعفری']];
+  var ASSETS = [['cash', 'نقد / بینک'], ['land', 'زمین / مکان'], ['gold', 'سونا'], ['silver', 'چاندی']];
+  // Rows for section 7: rel, label, max, sub-label.
+  var OTHERS = [
+    ['g', 'دادا دادی، نانی'], ['dada', 'دادا', 1], ['dadi', 'دادی', 1], ['nani', 'نانی', 1],
+    ['g', 'بہن بھائی'], ['brother', 'سگے بھائی', 9], ['sister', 'سگی بہنیں', 9], ['pbrother', 'باپ شریک بھائی', 9], ['psister', 'باپ شریک بہنیں', 9], ['mbrother', 'ماں شریک بھائی', 9], ['msister', 'ماں شریک بہنیں', 9],
+    ['g', 'دیگر'], ['chacha', 'چچا / تایا', 9]
+  ];
+  var KIDS = { son: ['grandson', 'granddaughter', 'بیٹے', 'بیٹیاں'], daughter: ['grandson', 'granddaughter', 'بیٹے', 'بیٹیاں'], brother: ['nephew', 'niece', 'بیٹے', 'بیٹیاں'], sister: ['nephew', 'niece', 'بیٹے', 'بیٹیاں'], pbrother: ['nephew', 'niece', 'بیٹے', 'بیٹیاں'], psister: ['nephew', 'niece', 'بیٹے', 'بیٹیاں'], chacha: ['cousin', null, 'بیٹے', ''] };
+  var SHORT = { husband: 'شوہر', wife: 'بیوی', father: 'والد', mother: 'والدہ', son: 'بیٹا', daughter: 'بیٹی', dada: 'دادا', dadi: 'دادی', nani: 'نانی', brother: 'سگا بھائی', sister: 'سگی بہن', pbrother: 'باپ شریک بھائی', psister: 'باپ شریک بہن', mbrother: 'ماں شریک بھائی', msister: 'ماں شریک بہن', chacha: 'چچا', cousin: 'چچا زاد', grandson: 'پوتا', granddaughter: 'پوتی', nephew: 'بھتیجا', niece: 'بھتیجی' };
+  var KEY = 'wirasat-proto-v3';
+  var FT = 272; // square feet in one marla (land record), 20 marla = 1 kanal
+  var WHY = { father: 'والد: اولاد ہو تو چھٹا حصہ؛ صرف بیٹیاں ہوں تو چھٹا اور بچا ہوا بھی؛ اولاد نہ ہو تو عصبہ' };
+
+  // Sample = the family from the screenshots, so both calculators can be compared side by side.
+  function sample() {
+    return {
+      madhab: 'hanafi', sex: 'm', name: '', view: 'law', shown: false,
+      assets: { cash: { on: true, amount: '50000' }, land: { on: true, kanal: '60', marla: '2', foot: '' }, gold: { on: false, tola: '' }, silver: { on: false, tola: '' } },
+      debts: '',
+      people: [
+        { id: 'p1', rel: 'father', name: '', status: 'alive' },
+        { id: 'p2', rel: 'mother', name: '', status: 'alive' },
+        { id: 'p3', rel: 'wife', name: '', status: 'alive' },
+        { id: 'p4', rel: 'son', name: '', status: 'alive' },
+        { id: 'p5', rel: 'son', name: '', status: 'alive' },
+        { id: 'p6', rel: 'son', name: '', status: 'before' },
+        { id: 'p7', rel: 'grandson', name: '', status: 'alive', parent: 'p6' },
+        { id: 'p8', rel: 'granddaughter', name: '', status: 'alive', parent: 'p6' },
+        { id: 'p9', rel: 'daughter', name: '', status: 'alive' },
+        { id: 'p10', rel: 'daughter', name: '', status: 'alive' }
+      ],
+      seq: 10
+    };
+  }
+  function blank() {
+    return { madhab: 'hanafi', sex: 'm', name: '', view: 'law', shown: false,
+      assets: { cash: { on: true, amount: '' }, land: { on: false, kanal: '', marla: '', foot: '' }, gold: { on: false, tola: '' }, silver: { on: false, tola: '' } },
+      debts: '', people: [{ id: 'p1', rel: 'father', name: '', status: 'before' }, { id: 'p2', rel: 'mother', name: '', status: 'before' }], seq: 2 };
+  }
+  var st;
+  try { st = JSON.parse(localStorage.getItem(KEY)); } catch (e) { st = null; }
+  if (!st || !st.people) st = sample();
+  var stale = false;
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} }
+
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function num(v) { var n = parseFloat(String(v || '').replace(/[^0-9.]/g, '')); return isFinite(n) ? n : 0; }
+  function rs(n) { return 'Rs ' + Math.round(n).toLocaleString('en-IN'); }
+  function $(id) { return document.getElementById(id); }
+  function of(rel) { return st.people.filter(function (p) { return p.rel === rel && !p.parent; }); }
+  function kidsOf(id) { return st.people.filter(function (p) { return p.parent === id; }); }
+  function byId(id) { return st.people.filter(function (q) { return q.id === id; })[0]; }
+  function newId() { st.seq = (st.seq || 0) + 1; return 'p' + st.seq; }
+  function removeTree(id) {
+    var gone = [id];
+    for (var i = 0; i < gone.length; i++) st.people.forEach(function (p) { if (p.parent === gone[i] && gone.indexOf(p.id) < 0) gone.push(p.id); });
+    st.people = st.people.filter(function (p) { return gone.indexOf(p.id) < 0; });
+  }
+  // "متوفی" for a man, "متوفیہ" for a woman, used in every step once the sex is chosen.
+  function MW() { return st.sex === 'f' ? 'متوفیہ' : 'متوفی'; }
+  function dname() { return st.name || (st.sex === 'f' ? 'متوفیہ' : 'متوفی'); }
+  function statusText(s) { return s === 'before' ? dname() + ' کی وفات سے پہلے فوت' : s === 'after' ? dname() + ' کی وفات کے بعد فوت' : 'زندہ'; }
+  // "بیٹا 2" when there are several of one relation and no name was typed.
+  // Display name of a relation: a sister's children are بھانجا / بھانجی, a brother's بھتیجا / بھتیجی.
+  function rel(p) {
+    var par = p.parent ? byId(p.parent) : null;
+    if (par && /sister$/.test(par.rel)) return p.rel === 'nephew' ? 'بھانجا' : p.rel === 'niece' ? 'بھانجی' : SHORT[p.rel];
+    if (par && par.rel === 'daughter') return p.rel === 'grandson' ? 'نواسا' : p.rel === 'granddaughter' ? 'نواسی' : SHORT[p.rel];
+    return SHORT[p.rel];
+  }
+  function label(p) {
+    if (p.name) return p.name;
+    var same = st.people.filter(function (q) { return q.rel === p.rel && q.parent === p.parent; });
+    var parent = p.parent ? byId(p.parent) : null;
+    var base = rel(p) + (same.length > 1 ? ' ' + (same.indexOf(p) + 1) : '');
+    return parent ? base + ' (' + label(parent) + (['granddaughter', 'niece'].indexOf(p.rel) >= 0 ? ' کی)' : ' کا)') : base;
+  }
+  function changed() {
+    save();
+    if (st.shown) { stale = true; $('result').classList.add('stale'); staleBanner(); }
+    summary();
+  }
+
+  /* ---------- form ---------- */
+  function chips(el, opts, cur, onPick) {
+    el.innerHTML = opts.map(function (o) { return '<button type="button" class="chip" data-v="' + o[0] + '" aria-pressed="' + (cur(o[0]) ? 'true' : 'false') + '">' + esc(o[1]) + '</button>'; }).join('');
+    el.onclick = function (e) { var b = e.target.closest('[data-v]'); if (b) onPick(b.dataset.v); };
+  }
+  function cards(el, opts, cur, onPick) {
+    el.innerHTML = opts.map(function (o) { return '<button type="button" class="card" data-v="' + o[0] + '" aria-pressed="' + (cur(o[0]) ? 'true' : 'false') + '"><b>' + esc(o[1]) + '</b><span>' + esc(o[2]) + '</span></button>'; }).join('');
+    el.onclick = function (e) { var b = e.target.closest('[data-v]'); if (b) onPick(b.dataset.v); };
+  }
+  function renderTop() {
+    chips($('madhab'), MADHABS, function (v) { return st.madhab === v; }, function (v) { st.madhab = v; renderTop(); changed(); });
+    cards($('sex'), [['m', 'مرد', 'زندہ بیویوں کے بارے میں پوچھا جائے گا'], ['f', 'عورت', 'زندہ شوہر کے بارے میں پوچھا جائے گا']], function (v) { return st.sex === v; }, function (v) {
+      if (st.sex === v) return;
+      st.sex = v;
+      st.people.filter(function (p) { return p.rel === 'husband' || p.rel === 'wife'; }).forEach(function (p) { removeTree(p.id); });
+      renderTop(); renderPeople(); changed();
+    });
+    $('dname').value = st.name || '';
+    chips($('assetPick'), ASSETS, function (v) { return st.assets[v].on; }, function (v) { st.assets[v].on = !st.assets[v].on; renderTop(); changed(); });
+    var a = st.assets, h = '';
+    function inp(k, sub, lab) { return '<label class="f" for="a-' + k + '-' + sub + '">' + lab + '<input class="in num" inputmode="decimal" id="a-' + k + '-' + sub + '" data-a="' + k + '" data-k="' + sub + '" value="' + esc(a[k][sub]) + '" placeholder="0"></label>'; }
+    if (a.cash.on) h += '<div class="asset"><b>نقد / بینک</b>' + inp('cash', 'amount', 'رقم (پاکستانی روپے)') + '<label class="f" for="a-debts">قرض اور کفن دفن (روپے)<input class="in num" inputmode="decimal" id="a-debts" data-debts value="' + esc(st.debts) + '" placeholder="0"></label></div>';
+    if (a.land.on) h += '<div class="asset"><b>زمین / مکان</b>' + inp('land', 'kanal', 'کنال') + inp('land', 'marla', 'مرلہ') + inp('land', 'foot', 'فٹ (مربع)') + '<p class="hint" style="flex-basis:100%">1 کنال = 20 مرلے، 1 مرلہ = 272 فٹ۔ فٹ لکھیں تو حصے فٹ تک نکلیں گے، ورنہ مرلوں میں۔</p>' + '</div>';
+    if (a.gold.on) h += '<div class="asset"><b>سونا</b>' + inp('gold', 'tola', 'تولہ') + '</div>';
+    if (a.silver.on) h += '<div class="asset"><b>چاندی</b>' + inp('silver', 'tola', 'تولہ') + '</div>';
+    $('assets').innerHTML = h || '<p class="hint">کوئی چیز نہیں چنی۔ حصے پھر بھی کسر اور فیصد میں نظر آئیں گے۔</p>';
+    [].forEach.call(document.querySelectorAll('.mw'), function (el) { el.textContent = MW(); });
+    $('spouseTitle').textContent = st.sex === 'f' ? 'شوہر' : 'بیویاں';
+  }
+  $('dname').addEventListener('input', function (e) { st.name = e.target.value.slice(0, 60); changed(); });
+  $('assets').addEventListener('input', function (e) {
+    var t = e.target;
+    if (t.dataset.a) st.assets[t.dataset.a][t.dataset.k] = t.value;
+    else if (t.dataset.debts !== undefined) st.debts = t.value;
+    changed();
+  });
+
+  function nameInput(p, ph) { return '<input class="in" maxlength="40" data-name="' + p.id + '" value="' + esc(p.name) + '" placeholder="' + esc(ph || 'نام (اختیاری)') + '" aria-label="' + esc(label(p) + ' کا نام') + '">'; }
+  function statusSelect(p) {
+    return '<select class="in" data-status="' + p.id + '" aria-label="' + esc(label(p) + ' کا حال') + '">' + ['alive', 'before', 'after'].map(function (s) { return '<option value="' + s + '"' + (p.status === s ? ' selected' : '') + '>' + esc(statusText(s)) + '</option>'; }).join('') + '</select>';
+  }
+  function kidsBlock(p) {
+    var kids = KIDS[p.rel];
+    if (!kids || p.status !== 'before') return '';
+    var k = kidsOf(p.id), nb = k.filter(function (q) { return q.rel === kids[0]; }).length, ng = kids[1] ? k.filter(function (q) { return q.rel === kids[1]; }).length : 0;
+    var h = '<div class="kids"><span>' + esc(label(p) + ' کی زندہ اولاد؟') + '</span><span>' + kids[2] + ' ' + stepper('k-' + p.id + '-' + kids[0], nb) + '</span>' +
+      (kids[1] ? '<span>' + kids[3] + ' ' + stepper('k-' + p.id + '-' + kids[1], ng) + '</span>' : '') + '</div>';
+    k.forEach(function (q) { h += '<div class="p" style="flex-basis:100%;padding-inline-start:18px"><span class="idx">' + esc(rel(q)) + '</span>' + nameInput(q) + '</div>'; });
+    return h;
+  }
+  function personRow(p) {
+    return '<div class="p"><span class="idx">' + esc(SHORT[p.rel] + ' ' + (of(p.rel).indexOf(p) + 1)) + '</span>' + nameInput(p) + statusSelect(p) + kidsBlock(p) + '</div>';
+  }
+  function stepper(key, n) {
+    return '<span class="step"><button type="button" data-step="' + key + '" data-d="-1" aria-label="کم کریں">−</button><output>' + n + '</output><button type="button" data-step="' + key + '" data-d="1" aria-label="زیادہ کریں">+</button></span>';
+  }
+  function countRow(rel, lab, max, sub) {
+    var list = of(rel);
+    var h = '<div class="row"><div class="rh"><span class="lab">' + esc(lab) + (sub ? '<small>' + esc(sub) + '</small>' : '') + '</span>' + stepper('r-' + rel + '-' + max, list.length) + '</div>';
+    if (list.length) h += '<div class="people">' + list.map(personRow).join('') + '</div>';
+    return h + '</div>';
+  }
+  // Father and mother: one person each, picked by card like the patwari's first questions.
+  function parentBox(rel) {
+    var p = of(rel)[0];
+    if (!p) { p = { id: newId(), rel: rel, name: '', status: 'before' }; st.people.push(p); }
+    var w = rel === 'father' ? 'والد' : 'والدہ';
+    var h = '<div class="cards" data-parent="' + p.id + '">' +
+      [['alive', 'زندہ', w + ' کو ان کا شرعی حصہ دیا جائے گا'], ['before', MW() + ' سے پہلے فوت', 'وارث نہیں، حصہ نہیں جائے گا'], ['after', MW() + ' کے بعد فوت', 'حصہ ملے گا، پھر ان کی اپنی وراثت ہوگی']].map(function (o) {
+        return '<button type="button" class="card" data-v="' + o[0] + '" aria-pressed="' + (p.status === o[0] ? 'true' : 'false') + '"><b>' + esc(o[1]) + '</b><span>' + esc(o[2]) + '</span></button>';
+      }).join('') + '</div>';
+    return h + '<div style="margin-top:10px">' + nameInput(p, w + ' کا نام (اختیاری)') + '</div>';
+  }
+  function renderPeople() {
+    $('father').innerHTML = parentBox('father');
+    $('mother').innerHTML = parentBox('mother');
+    $('spouse').innerHTML = st.sex === 'f' ? countRow('husband', 'شوہر', 1, 'زندہ ہوں یا متوفیہ کے بعد فوت ہوئے ہوں') : countRow('wife', 'بیویاں', 4, 'نکاح میں تھیں (وفات سے پہلے طلاق یا فوت ہونے والی شامل نہ کریں)');
+    $('children').innerHTML = countRow('son', 'بیٹے', 12, 'عصبہ کے طور پر حصہ لیتے ہیں') + countRow('daughter', 'بیٹیاں', 12, 'شرعی حصہ یا بیٹے کے ساتھ عصبہ');
+    var h = '', any = false;
+    OTHERS.forEach(function (r) {
+      if (r[0] === 'g') { h += '<div class="group">' + r[1] + '</div>'; return; }
+      if (of(r[0]).length) any = true;
+      h += countRow(r[0], r[1], r[2]);
+    });
+    $('others').innerHTML = h;
+    if (any) $('moreBox').open = true;
+  }
+  var form = document.querySelector('.form');
+  form.addEventListener('click', function (e) {
+    var c = e.target.closest('[data-parent] [data-v]');
+    if (c) {
+      var p = byId(c.closest('[data-parent]').dataset.parent);
+      p.status = c.dataset.v;
+      renderPeople(); changed();
+      var again = document.querySelector('[data-parent="' + p.id + '"] [data-v="' + p.status + '"]'); if (again) again.focus();
+      return;
+    }
+    var b = e.target.closest('[data-step]');
+    if (!b) return;
+    var key = b.dataset.step, d = +b.dataset.d, m;
+    if ((m = /^r-(\w+)-(\d+)$/.exec(key))) {
+      var rel = m[1], max = +m[2], list = of(rel);
+      if (d > 0 && list.length < max) st.people.push({ id: newId(), rel: rel, name: '', status: 'alive' });
+      if (d < 0 && list.length) removeTree(list[list.length - 1].id);
+    } else if ((m = /^k-(\w+)-(\w+)$/.exec(key))) {
+      var pid = m[1], krel = m[2], ks = kidsOf(pid).filter(function (q) { return q.rel === krel; });
+      if (d > 0 && ks.length < 12) st.people.push({ id: newId(), rel: krel, name: '', status: 'alive', parent: pid });
+      if (d < 0 && ks.length) removeTree(ks[ks.length - 1].id);
+    }
+    renderPeople(); changed();
+    var again2 = document.querySelector('[data-step="' + key + '"][data-d="' + d + '"]');
+    if (again2) again2.focus();
+  });
+  form.addEventListener('input', function (e) {
+    var id = e.target.dataset.name;
+    if (!id) return;
+    var p = byId(id);
+    if (p) { p.name = e.target.value.slice(0, 40); changed(); }
+  });
+  form.addEventListener('change', function (e) {
+    var id = e.target.dataset.status;
+    if (!id) return;
+    var p = byId(id);
+    if (!p) return;
+    p.status = e.target.value;
+    if (p.status !== 'before') kidsOf(p.id).forEach(function (q) { removeTree(q.id); });
+    renderPeople(); changed();
+    var again = document.querySelector('[data-status="' + id + '"]'); if (again) again.focus();
+  });
+
+  /* ---------- summary (their step 9, on the same page) ---------- */
+  function cnt(rel) {
+    var l = of(rel), a = l.filter(function (p) { return p.status !== 'before'; }).length, b = l.length - a;
+    return l.length ? a + (b ? ' (+' + b + ' پہلے فوت)' : '') : '0';
+  }
+  function assetLine() {
+    var a = st.assets, out = [];
+    if (a.cash.on) out.push(['رقم', rs(num(a.cash.amount)) + (num(st.debts) ? ' − قرض ' + rs(num(st.debts)) : '')]);
+    if (a.land.on) out.push(['جائیداد', [num(a.land.kanal) + ' کنال', num(a.land.marla) + ' مرلہ', num(a.land.foot) ? num(a.land.foot) + ' فٹ' : ''].filter(Boolean).join(' ')]);
+    if (a.gold.on) out.push(['سونا', num(a.gold.tola) + ' تولہ']);
+    if (a.silver.on) out.push(['چاندی', num(a.silver.tola) + ' تولہ']);
+    return out;
+  }
+  function summaryRows() {
+    var f = of('father')[0], m = of('mother')[0];
+    var rows = assetLine().concat([
+      [MW(), dname() + ' (' + (st.sex === 'f' ? 'عورت' : 'مرد') + ')'],
+      ['والد', f ? statusText(f.status) : '—'], ['والدہ', m ? statusText(m.status) : '—'],
+      st.sex === 'f' ? ['شوہر', cnt('husband')] : ['بیویاں', cnt('wife')],
+      ['بیٹے', cnt('son')], ['بیٹیاں', cnt('daughter')],
+      ['پوتے پوتیاں / نواسے نواسیاں', String(st.people.filter(function (p) { return p.rel === 'grandson' || p.rel === 'granddaughter'; }).length)]
+    ]);
+    var others = OTHERS.filter(function (r) { return r[0] !== 'g' && of(r[0]).length; }).map(function (r) { return r[1] + ' ' + of(r[0]).length; });
+    if (others.length) rows.push(['دیگر', others.join('، ')]);
+    rows.push(['مسلک', MADHABS.filter(function (x) { return x[0] === st.madhab; })[0][1]]);
+    return rows;
+  }
+  function summary() {
+    $('summary').innerHTML = summaryRows().map(function (r) { return '<div><span>' + esc(r[0]) + '</span><b>' + esc(r[1]) + '</b></div>'; }).join('');
+    $('go').textContent = st.shown ? 'دوبارہ حساب لگائیں' : 'وراثت کا حساب لگائیں';
+  }
+
+  /* ---------- calculation ---------- */
+  function frac(f) { return f.d === 1 ? String(f.n) : f.n + '/' + f.d; }
+  function pct(f) { return (100 * f.n / f.d).toFixed(2).replace(/\.00$/, '') + '%'; }
+  function r2(x) { return Math.round(x * 100) / 100; }
+  function landText(q, ft) {
+    if (ft) {
+      var k = Math.floor(q / (20 * FT) + 1e-9), rem = q - k * 20 * FT, m = Math.floor(rem / FT + 1e-9), f = r2(rem - m * FT);
+      return k + ' کنال ' + m + ' مرلہ ' + f + ' فٹ';
+    }
+    var k2 = Math.floor(q / 20 + 1e-9);
+    return k2 + ' کنال ' + r2(q - k2 * 20) + ' مرلہ';
+  }
+  function landTotal(q, ft) { return '(' + r2(q).toLocaleString('en-IN') + (ft ? ' فٹ)' : ' مرلے)'); }
+  function tola(x) { return (Math.round(x * 100) / 100) + ' تولہ'; }
+  function estate() {
+    var a = st.assets, e = {};
+    if (a.cash.on) { var cash = num(a.cash.amount) - num(st.debts); e.cash = Math.max(0, cash); e.short = cash < 0; }
+    // Whole raqba in marlas, or in feet when feet were given; each heir's share is taken from that total.
+    if (a.land.on) { var marlas = num(a.land.kanal) * 20 + num(a.land.marla); e.ft = num(a.land.foot) > 0; e.land = e.ft ? marlas * FT + num(a.land.foot) : marlas; }
+    if (a.gold.on) e.gold = num(a.gold.tola);
+    if (a.silver.on) e.silver = num(a.silver.tola);
+    return e;
+  }
+  function run(sec4) {
+    var persons = st.people.map(function (p) { return { id: p.id, rel: p.rel, status: p.status, parent: p.parent, name: p.name }; });
+    var errs = W.validate(persons, st.sex);
+    if (errs.length) return { errs: errs };
+    return W.calculate(persons, { madhab: st.madhab, deceasedSex: st.sex, sec4: sec4 && st.madhab !== 'jafari' });
+  }
+  function same(a, b) {
+    return Object.keys(a.shares).every(function (k) { var x = a.shares[k].f, y = b.shares[k].f; return x.n * y.d === y.n * x.d; });
+  }
+  function staleBanner() {
+    var el = $('result'), b = el.querySelector('.banner.stale-note');
+    if (!b) { el.insertAdjacentHTML('afterbegin', '<div class="banner stale-note">آپ نے معلومات بدلی ہیں۔ نیا نتیجہ دیکھنے کے لیے اوپر "دوبارہ حساب لگائیں" دبائیں۔</div>'); }
+  }
+
+  var cur = null; // last result shown, used by the PDF report
+  function calc() {
+    var el = $('result');
+    $('resultSec').hidden = false;
+    el.classList.remove('stale'); stale = false;
+    var heirs = st.people.filter(function (p) { return p.status !== 'before' || kidsOf(p.id).length; });
+    if (!heirs.length) { el.innerHTML = '<p class="err">کوئی زندہ وارث نہیں چنا۔ اوپر کم از کم ایک وارث زندہ یا "بعد میں فوت" چنیں۔</p>'; cur = null; return; }
+    var fiqh = run(false), law = run(true);
+    if (fiqh.errs) { el.innerHTML = '<p class="err">' + esc(fiqh.errs.map(function (e) { return e.code; }).join('، ')) + '</p>'; cur = null; return; }
+    var differs = st.madhab !== 'jafari' && !same(fiqh, law);
+    var view = differs && st.view === 'law' ? 'law' : 'fiqh';
+    var r = view === 'law' ? law : fiqh;
+    cur = { r: r, view: view, differs: differs };
+    var h = '';
+    if (differs) {
+      h += '<div class="banner">پہلے فوت ہونے والے بیٹے یا بیٹی کی اولاد کی وجہ سے فقہ اور پاکستانی قانون (عائلی قوانین 1961، دفعہ 4) کا نتیجہ مختلف ہے۔ پٹواری اور عدالت قانون والا حصہ لکھتے ہیں۔</div>' +
+        '<div class="tabs" id="view"><button type="button" class="chip" data-v="law" aria-pressed="' + (view === 'law') + '">پاکستانی قانون (پٹواری)</button><button type="button" class="chip" data-v="fiqh" aria-pressed="' + (view === 'fiqh') + '">فقہ ' + esc(madhabName()) + '</button></div>';
+    }
+    h += '<p class="hint">صرف وہ وارث شجرے میں ہیں جنہیں حصہ ملا۔ چھوٹی اسکرین پر شجرہ دائیں بائیں سرکائیں۔</p>' + tree(r, 'tree') + table(r) + noShare(r) + notes(r) +
+      '<div class="actions" style="margin-top:14px"><button type="button" class="go" id="pdf">پی ڈی ایف رپورٹ ڈاؤن لوڈ کریں</button><span class="hint" id="pdfMsg"></span></div>';
+    el.innerHTML = h;
+    var v = $('view');
+    if (v) v.onclick = function (e) { var b = e.target.closest('[data-v]'); if (b && !stale) { st.view = b.dataset.v; save(); calc(); } };
+    $('pdf').onclick = makePdf;
+    requestAnimationFrame(function () {
+      var t = $('tree'); drawLinks(t);
+      // On a phone the tree is wider than the screen: start the scroll at the deceased's column, not the edge.
+      var tb = t.parentNode, extra = tb.scrollWidth - tb.clientWidth;
+      if (extra > 0) { tb.scrollLeft = -extra / 2; if (tb.scrollLeft === 0) tb.scrollLeft = extra / 2; }
+    });
+  }
+  function madhabName() { return MADHABS.filter(function (m) { return m[0] === st.madhab; })[0][1]; }
+  $('go').addEventListener('click', function () {
+    st.shown = true; save(); calc(); summary();
+    $('resultSec').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+  });
+
+  function gets(r, id) {
+    var e = estate(), f = r.shares[id].f, out = [];
+    var v = f.n / f.d;
+    if (e.land != null) {
+      var lf = r.landShares && r.landShares[id] ? r.landShares[id] : f;
+      var q = e.land * lf.n / lf.d;
+      out.push({ land: true, t: landText(q, e.ft), sub: landTotal(q, e.ft) });
+    }
+    if (e.cash != null) out.push(rs(e.cash * v));
+    if (e.gold != null) out.push('سونا ' + tola(e.gold * v));
+    if (e.silver != null) out.push('چاندی ' + tola(e.silver * v));
+    return out;
+  }
+  function heir(r, p) { return r.shares[p.id] && r.shares[p.id].f.n > 0; }
+
+  var TRI = '<svg viewBox="0 0 132 72" preserveAspectRatio="none" aria-hidden="true"><polygon points="66,2 130,70 2,70"></polygon></svg>';
+  // A woman whose wirasat it is: a daughter of her parents (triangle), and a wife too (leaf inside) when a husband is entered.
+  function selfNode() {
+    var inner = '<div class="nm">' + esc(dname()) + '</div><div class="rl" style="font-weight:700;color:var(--ink)">' + (st.sex === 'f' ? 'متوفیہ حال' : 'متوفی حال') + '</div>';
+    if (st.sex !== 'f') return '<div class="node self" data-node="self"><div class="shape">' + inner + '</div></div>';
+    return '<div class="node self tri' + (of('husband').length ? ' tl' : '') + '" data-node="self"><div class="shape">' + TRI + '<div>' + inner + '</div></div></div>';
+  }
+  function node(r, p, cls) {
+    var s = r.shares[p.id], has = s && s.f.n > 0;
+    // Daughters and sisters are triangles, wives are leaves; a woman who is both (the mother when her own mother, nani, is drawn) gets both.
+    var shape = ['daughter', 'granddaughter', 'niece', 'sister', 'psister', 'msister'].indexOf(p.rel) >= 0 ? 'tri' : ['wife', 'mother', 'dadi', 'nani'].indexOf(p.rel) >= 0 ? 'leaf' : '';
+    if (p.rel === 'mother' && of('nani').length) shape = 'tri tl';
+    var isTri = shape.indexOf('tri') === 0;
+    var nmLen = (p.name || rel(p)).length, nmCls = nmLen > 14 ? ' xs' : nmLen > 8 ? ' sm' : '';
+    var inner = '<div class="nm' + nmCls + '">' + esc(p.name || rel(p)) + '</div><div class="rl">' + esc(((p.name ? rel(p) : label(p).replace(rel(p), '').trim()) + ' (' + ST[p.status || 'alive'] + ')').trim()) + '</div>' + (has ? (isTri ? '' : '<div class="fr">' + frac(s.f) + '</div>') : (isTri ? '' : '<div class="nos">حصہ نہیں بنتا</div>'));
+    var body = isTri ? TRI + '<div>' + inner + '</div>' : inner;
+    var amt = has ? '' : '<div class="amt">' + (isTri ? '<div class="nos">حصہ نہیں بنتا</div>' : '') + '<span class="pc">' + esc(noWhy(r, p, true)) + '</span></div>';
+    if (has) {
+      // A triangle has no room for the fraction inside, so it sits just under the point-down base.
+      amt = '<div class="amt">' + (isTri ? '<div class="fr" style="font-family:var(--num);font-weight:700;font-size:17px;direction:ltr">' + frac(s.f) + '</div>' : '') + gets(r, p.id).map(function (g) { return g.land ? '<span class="lnd">' + esc(g.t) + '</span>' : esc(g); }).join('<br>') + '<br><span class="pc">' + pct(s.f) + '</span>' + (p.status === 'after' ? '<br><span class="after">' + esc(statusText('after')) + ': یہ حصہ ان کی اپنی وراثت میں جائے گا</span>' : '') + '</div>';
+    }
+    return '<div class="node ' + (cls || '') + ' ' + shape + '" data-node="' + p.id + '"><div class="shape">' + body + '</div>' + amt + '</div>';
+  }
+  // Only heirs who get a share are drawn; a parent who died first stays as a dashed link when their children inherit.
+  function tree(r, id) {
+    var P = st.people;
+    // Everyone the user entered is drawn; those without a share say so in their box.
+    // Every box without a share is dashed, whether the person died first or is excluded by a nearer heir.
+    var via = function (p) { return !heir(r, p); };
+    var pick = function (rels) { return P.filter(function (p) { return !p.parent && rels.indexOf(p.rel) >= 0; }); };
+    var gp = pick(['dada', 'dadi', 'nani']);
+    var top = pick(['father', 'mother']);
+    var sibs = pick(['brother', 'sister', 'pbrother', 'psister', 'mbrother', 'msister', 'chacha']);
+    var sp = pick(['husband', 'wife']);
+    var ch = pick(['son', 'daughter']);
+    var low = P.filter(function (p) { return p.parent; });
+    function nodes(list) { return list.map(function (p) { return node(r, p, via(p) ? 'via' : ''); }).join(''); }
+    var h = '<div class="treebox"><div class="tree" id="' + id + '"><svg class="links" aria-hidden="true"></svg>' + treeHead();
+    if (gp.length) h += '<div class="trow">' + nodes(gp) + '</div>';
+    if (top.length) h += '<div class="trow">' + nodes(top) + '</div>';
+    // The deceased starts the row on the right, then the spouse, then brothers and sisters.
+    h += '<div class="trow' + (sibs.length ? ' start' : '') + '">' + selfNode() + nodes(sp) + nodes(sibs) + '</div>';
+    if (ch.length) h += '<div class="trow">' + nodes(ch) + '</div>';
+    if (low.length) h += '<div class="trow">' + nodes(low) + '</div>';
+    return h + '<p class="legend">— — ڈیش والے خانے: جن کا حصہ نہیں بنتا (وجہ خانے کے نیچے)</p></div></div>';
+  }
+  // Patwari style heading; ولدیت، قوم، موضع، تحصیل، ضلع are left blank to be written by hand on the print.
+  function treeHead() {
+    var ln = '<span class="ln">&nbsp;</span>';
+    var fa = of('father')[0]; // walidiyat comes from the father's name entered in the form
+    return '<div class="thead"><div class="devby" dir="ltr">Developed and managed by Ali Ahmad from Depalpur</div><div class="blanks one"><h3>شجرہ نسب وارثان ' + (st.sex === 'f' ? 'متوفیہ' : 'متوفی') + '</h3>' +
+      '<span>نام: <span class="ln">' + (st.name ? esc(st.name) : '&nbsp;') + '</span></span><span>ولدیت: ' + (fa && fa.name ? '<span class="ln">' + esc(fa.name) + '</span>' : ln) + '</span><span>قوم: ' + ln + '</span>' +
+      '<span>موضع: ' + ln + '</span><span>تحصیل: ' + ln + '</span><span>ضلع: ' + ln + '</span></div>' +
+      '<div class="blanks"><span>انتقال نمبر: ' + ln + '</span></div></div>';
+  }
+  function drawLinks(t) {
+    var svg = t && t.querySelector('svg.links');
+    if (!svg) return;
+    var box = t.getBoundingClientRect(), paths = [];
+    function pt(id) { var nd = t.querySelector('[data-node="' + id + '"]'), n = nd && nd.querySelector('.shape'); if (!n) return null; var b = n.getBoundingClientRect(); return { x: b.left + b.width / 2 - box.left, top: b.top - box.top, bot: nd.getBoundingClientRect().bottom - box.top + 4, l: b.left - box.left, r: b.right - box.left, mid: b.top + b.height / 2 - box.top }; }
+    function elbow(a, b) { var y = b.top - 16; paths.push('<path d="M' + a.x + ' ' + a.bot + ' V' + y + ' H' + b.x + ' V' + b.top + '"></path>'); }
+    var self = pt('self');
+    st.people.forEach(function (p) {
+      var me = pt(p.id);
+      if (!me) return;
+      if (p.parent) { var par = pt(p.parent); if (par) elbow(par, me); return; }
+      if (p.rel === 'son' || p.rel === 'daughter') elbow(self, me);
+      else if (p.rel === 'father' || p.rel === 'mother') {
+        // Father and mother as a couple: double line between them, one line down to the deceased.
+        var fa = of('father')[0], mo = of('mother')[0], F = fa && pt(fa.id), M = mo && pt(mo.id);
+        if (F && M) {
+          if (p.rel === 'mother') return;
+          var a1 = Math.min(F.r, M.r), a2 = Math.max(F.l, M.l), mx = (a1 + a2) / 2;
+          paths.push('<path class="dbl" d="M' + a1 + ' ' + F.mid + ' H' + a2 + '"></path><path class="dbl2" d="M' + a1 + ' ' + F.mid + ' H' + a2 + '"></path>');
+          paths.push('<path d="M' + mx + ' ' + F.mid + ' V' + (self.top - 16) + ' H' + self.x + ' V' + self.top + '"></path>');
+        } else elbow(me, self);
+      }
+      else if (p.rel === 'wife' || p.rel === 'husband') {
+        var x1 = Math.min(self.r, me.r), x2 = Math.max(self.l, me.l);
+        paths.push('<path class="dbl" d="M' + x1 + ' ' + self.mid + ' H' + x2 + '"></path><path class="dbl2" d="M' + x1 + ' ' + self.mid + ' H' + x2 + '"></path>');
+      } else if (['dada', 'dadi', 'nani'].indexOf(p.rel) >= 0) {
+        // Grandparents hang above their own child: dada and dadi over the father, nani over the mother.
+        var kid = of(p.rel === 'nani' ? 'mother' : 'father')[0], K = kid && pt(kid.id);
+        if (K) elbow(me, K);
+      } else {
+        var y = self.top - 16; paths.push('<path d="M' + self.x + ' ' + self.top + ' V' + y + ' H' + me.x + ' V' + me.top + '"></path>');
+      }
+    });
+    svg.innerHTML = paths.join('');
+  }
+  window.addEventListener('resize', function () { requestAnimationFrame(function () { drawLinks($('tree')); }); });
+
+  function whyText(r, p) {
+    var s = r.shares[p.id], w = WHY[s.why] || U['why_' + s.why] || '';
+    if (p.parent && cur && cur.view === 'law') w = 'دفعہ 4: ' + label(byId(p.parent)) + ' کا حصہ ان کی اولاد میں، بیٹے کا بیٹی سے دگنا';
+    if (p.status === 'after') w += (w ? '۔ ' : '') + statusText('after') + '، اس لیے یہ حصہ ان کی اپنی وراثت میں تقسیم ہوگا';
+    return w;
+  }
+  function cols() {
+    var e = estate(), c = [];
+    if (e.land != null) c.push('رقبہ (کنال، مرلہ' + (e.ft ? '، فٹ' : '') + ')');
+    if (e.cash != null) c.push('رقم');
+    if (e.gold != null) c.push('سونا');
+    if (e.silver != null) c.push('چاندی');
+    return c;
+  }
+  function table(r) {
+    var rows = st.people.filter(function (p) { return heir(r, p); });
+    var h = '<h2 class="sub">ہر وارث کا حصہ</h2><div class="tbl"><table><thead><tr><th>رشتہ دار</th><th>شرعی حصہ</th>' + cols().map(function (c) { return '<th>' + c + '</th>'; }).join('') + '<th>فیصد</th><th>وجہ</th></tr></thead><tbody>';
+    rows.forEach(function (p) {
+      var s = r.shares[p.id];
+      h += '<tr><td><b>' + esc(label(p)) + '</b>' + (p.name ? ' <span class="hint">' + esc(rel(p)) + '</span>' : '') + '</td><td class="f">' + frac(s.f) + '</td>' + gets(r, p.id).map(function (g) { return g.land ? '<td><b>' + esc(g.t) + '</b><br><span class="hint">' + esc(g.sub) + '</span></td>' : '<td>' + esc(g.replace(/^(سونا|چاندی) /, '')) + '</td>'; }).join('') + '<td class="hint">' + pct(s.f) + '</td><td class="why">' + esc(whyText(r, p)) + '</td></tr>';
+    });
+    h += '</tbody></table></div>';
+    if (estate().short) h += '<p class="err">قرض نقد رقم سے زیادہ ہے۔ باقی قرض زمین یا سونے کی قیمت سے ادا ہوگا؛ یہ کٹوتی اس حساب میں شامل نہیں، اس لیے زمین اور سونے کے حصے قرض سے پہلے کے ہیں۔</p>';
+    return h;
+  }
+  function noWhy(r, p, short) {
+    var s = r.shares[p.id], par = p.parent ? byId(p.parent) : null;
+    // Children of a brother or sister who died first: s.4 representation covers only a son's or daughter's children.
+    if (par && SIBS.indexOf(par.rel) >= 0 && par.status === 'before') {
+      var sis = /sister$/.test(par.rel);
+      if (short) return (sis ? 'والدہ' : 'والد') + ' ' + MW() + ' سے پہلے فوت؛ بہن بھائی کی اولاد کو دفعہ 4 کا حصہ نہیں ملتا';
+      return label(par) + ' ' + MW() + ' سے پہلے ' + (sis ? 'فوت ہوئیں' : 'فوت ہوئے') + '، اس لیے ان کا کوئی حصہ نہیں بنا جو اولاد کو جاتا۔ قانون (دفعہ 4) صرف بیٹے یا بیٹی کی اولاد کو ان کا حصہ دیتا ہے، بہن بھائی کی اولاد کو نہیں۔' +
+        (sis ? ' بھانجا بھانجی ذوی الارحام ہیں، جو حصہ داروں یا عصبہ کی موجودگی میں وارث نہیں۔' : (s && s.blocked === 'higherAsaba' ? ' بھتیجے سے قریبی عصبہ موجود ہے۔' : ''));
+    }
+    if (p.status === 'before' && kidsOf(p.id).some(function (k) { return heir(r, k); })) return statusText('before') + '؛ ان کا حصہ ان کی اولاد کو گیا';
+    if (p.status === 'before') return statusText('before') + '، اس لیے وارث نہیں';
+    return (s && s.blocked ? U['b_' + s.blocked] : '') || 'قریبی وارثوں کی موجودگی میں قانون کے مطابق وارث نہیں';
+  }
+  // Status written in every box of the shajra, as the user entered it.
+  var ST = { alive: 'زندہ', before: 'پہلے فوت شدہ', after: 'بعد میں فوت شدہ' };
+  var SIBS = ['brother', 'sister', 'pbrother', 'psister', 'mbrother', 'msister'];
+  function noShare(r) {
+    var list = st.people.filter(function (p) { return !heir(r, p); });
+    if (!list.length) return '';
+    return '<h2 class="sub">جن کا حصہ نہیں بنتا (قانون کے مطابق وارث نہیں)</h2><ul class="none">' + list.map(function (p) {
+      var why = noWhy(r, p);
+      return '<li><b>' + esc(label(p)) + '</b>: <span class="why">' + esc(why) + '</span></li>';
+    }).join('') + '</ul>';
+  }
+  function notes(r) {
+    var n = (r.notes || []).map(function (k) { return U['n_' + k]; }).filter(Boolean);
+    return n.length ? '<ul class="notes">' + n.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>' : '';
+  }
+
+  /* ---------- PDF report: user's data first, our note small at the bottom ---------- */
+  var libs = null;
+  function loadLibs() {
+    if (libs) return libs;
+    function one(src) { return new Promise(function (res, rej) { var s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = function () { libs = null; rej(new Error('load')); }; document.head.appendChild(s); }); }
+    libs = Promise.all([one('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'), one('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js')]);
+    return libs;
+  }
+  function reportHtml() {
+    var r = cur.r, d = new Date();
+    var date = d.getDate() + ' ' + ['جنوری', 'فروری', 'مارچ', 'اپریل', 'مئی', 'جون', 'جولائی', 'اگست', 'ستمبر', 'اکتوبر', 'نومبر', 'دسمبر'][d.getMonth()] + ' ' + d.getFullYear();
+    var basis = cur.view === 'law' ? 'پاکستانی قانون (عائلی قوانین 1961، دفعہ 4) اور فقہ ' + madhabName() : 'فقہ ' + madhabName();
+    var assets = assetLine().map(function (a) { return '<div><span class="hint">' + esc(a[0]) + '</span><br><b>' + esc(a[1]) + '</b></div>'; }).join('');
+    var heirsLine = st.people.filter(function (p) { return p.status !== 'before' || kidsOf(p.id).length; }).map(function (p) { return esc(label(p)) + (p.status === 'before' ? ' (پہلے فوت)' : p.status === 'after' ? ' (بعد میں فوت)' : ''); }).join('، ');
+    $('report1').innerHTML = '<div id="rp1">' + tree(r, 'rtree') + '</div>';
+    return '<div id="rp2"><div class="rhd"><div><h1>وراثت کی رپورٹ</h1><div class="hint">' + esc(dname()) + ' کی وراثت · ' + esc(basis) + '</div></div><div class="hint" style="text-align:left">رپورٹ کی تاریخ<br><b style="color:#111">' + date + '</b></div></div>' +
+      '<div class="box" style="display:flex;gap:40px;flex-wrap:wrap">' + (assets || '<div class="hint">ترکہ درج نہیں کیا، صرف حصے</div>') + '</div>' +
+      '<div class="box"><span class="hint">وارثین</span><br>' + heirsLine + '</div>' +
+      table(r) + noShare(r) + notes(r) +
+      '<div class="small">یہ رپورٹ myzakattool.com کے وراثت کیلکولیٹر سے بنی ہے۔ یہ فتویٰ، قانونی مشورہ یا سرکاری دستاویز نہیں۔ تقسیم سے پہلے کسی مستند مفتی اور ریونیو / قانونی ماہر سے تصدیق کریں۔</div></div>';
+  }
+  function makePdf() {
+    if (!cur || stale) return;
+    var btn = $('pdf'), msg = $('pdfMsg');
+    btn.disabled = true; msg.textContent = 'رپورٹ بن رہی ہے…';
+    var rep = $('report');
+    rep.innerHTML = reportHtml();
+    drawLinks($('rtree'));
+    var fail = function (text) { btn.disabled = false; msg.textContent = text; };
+    Promise.all([loadLibs(), document.fonts ? document.fonts.ready : null, window.claude ? window.claude.use('downloads') : null]).then(function (res) {
+      var dl = res[2];
+      var p1 = $('rp1'), p2 = $('rp2');
+      var shot = function (el) { return window.html2canvas(el, { scale: 2, backgroundColor: '#ffffff', windowWidth: Math.max(794, el.scrollWidth + 40) }); };
+      return Promise.all([shot(p1), shot(p2)]).then(function (cv) {
+        var jsPDF = window.jspdf.jsPDF, doc = new jsPDF({ unit: 'pt', format: 'a4' });
+        var pw = doc.internal.pageSize.getWidth(), ph = doc.internal.pageSize.getHeight(), m = 24;
+        // Page 1: the whole shajra in the top 60%, shrunk to fit (bottom 40% left blank for the patwari's report and witnesses) when there are many heirs (never enlarged past print size).
+        var c1 = cv[0], k = Math.min((pw - 2 * m) / c1.width, (ph * 0.6 - m) / c1.height, (pw - 2 * m) / (794 * 2));
+        doc.addImage(c1.toDataURL('image/jpeg', 0.95), 'JPEG', (pw - c1.width * k) / 2, m, c1.width * k, c1.height * k);
+        // Following pages: report details, table and notes, sliced page by page.
+        // Following pages keep a margin on every side.
+        var canvas = cv[1], M = 36, cw = pw - 2 * M, pageH = Math.floor(canvas.width * (ph - 2 * M) / cw), y = 0;
+        while (y < canvas.height) {
+          var h = Math.min(pageH, canvas.height - y), part = document.createElement('canvas');
+          part.width = canvas.width; part.height = h;
+          var g = part.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, part.width, h); g.drawImage(canvas, 0, y, canvas.width, h, 0, 0, canvas.width, h);
+          doc.addPage();
+          doc.addImage(part.toDataURL('image/jpeg', 0.92), 'JPEG', M, M, cw, h * cw / canvas.width);
+          y += h;
+        }
+        var blob = doc.output('blob'), name = 'wirasat-report-' + (st.name || 'mutawaffi').replace(/[^\w؀-ۿ]+/g, '-') + '.pdf';
+        if (dl) return dl.save({ filename: name, data: blob }).then(function () { fail('رپورٹ محفوظ ہو گئی۔'); }, function (e) { fail(e && e.code === 'declined' ? 'ڈاؤن لوڈ منسوخ ہوا۔' : 'یہاں ڈاؤن لوڈ نہیں ہو سکا۔'); });
+        var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove();
+        fail('رپورٹ ڈاؤن لوڈ ہو گئی۔');
+      });
+    }).catch(function () { fail('رپورٹ نہیں بن سکی۔ انٹرنیٹ چیک کر کے دوبارہ کوشش کریں۔'); }).then(function () { rep.innerHTML = ''; $('report1').innerHTML = ''; });
+  }
+
+  $('reset').addEventListener('click', function () { st = sample(); save(); renderTop(); renderPeople(); summary(); $('resultSec').hidden = true; cur = null; });
+  $('clear').addEventListener('click', function () { st = blank(); save(); renderTop(); renderPeople(); summary(); $('resultSec').hidden = true; cur = null; });
+  renderTop(); renderPeople(); summary();
+  if (st.shown) calc();
+})();
+</script>
