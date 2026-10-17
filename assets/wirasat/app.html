@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
+<script>try{if(localStorage.getItem("myzt_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
 <title>وراثت کیلکولیٹر اور شجرہ</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gulzar&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap">
@@ -84,6 +85,8 @@ details.more[open] > summary { margin-bottom: 6px; }
 .tabs { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 .banner { background: var(--warn-soft); color: var(--warn); border-radius: 8px; padding: 8px 12px; font-size: 14px; }
 .treebox { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+.treebox.fit { overflow-x: hidden; }
+.fitbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 12px; }
 .tree { position: relative; display: grid; gap: 34px; padding: 22px 18px 26px; min-width: max-content; }
 .tree svg.links { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
 .tree svg path { fill: none; stroke: var(--ink); stroke-width: 1.5; }
@@ -1103,7 +1106,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
       var p = byId(c.closest('[data-parent]').dataset.parent);
       p.status = c.dataset.v;
       renderPeople(); changed();
-      var again = document.querySelector('[data-parent="' + p.id + '"] [data-v="' + p.status + '"]'); if (again) again.focus();
+      var again = document.querySelector('[data-parent="' + p.id + '"] [data-v="' + p.status + '"]'); if (again) again.focus({ preventScroll: true });
       return;
     }
     var b = e.target.closest('[data-step]');
@@ -1120,7 +1123,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
     }
     renderPeople(); changed();
     var again2 = document.querySelector('[data-step="' + key + '"][data-d="' + d + '"]');
-    if (again2) again2.focus();
+    if (again2) again2.focus({ preventScroll: true });
   });
   form.addEventListener('input', function (e) {
     var id = e.target.dataset.name;
@@ -1136,7 +1139,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
     p.status = e.target.value;
     if (p.status !== 'before') kidsOf(p.id).forEach(function (q) { removeTree(q.id); });
     renderPeople(); changed();
-    var again = document.querySelector('[data-status="' + id + '"]'); if (again) again.focus();
+    var again = document.querySelector('[data-status="' + id + '"]'); if (again) again.focus({ preventScroll: true });
   });
 
   /* ---------- summary (their step 9, on the same page) ---------- */
@@ -1226,23 +1229,43 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
       h += '<div class="banner">پہلے فوت ہونے والے بیٹے یا بیٹی کی اولاد کی وجہ سے فقہ اور پاکستانی قانون (عائلی قوانین 1961، دفعہ 4) کا نتیجہ مختلف ہے۔ پٹواری اور عدالت قانون والا حصہ لکھتے ہیں۔</div>' +
         '<div class="tabs" id="view"><button type="button" class="chip" data-v="law" aria-pressed="' + (view === 'law') + '">پاکستانی قانون (پٹواری)</button><button type="button" class="chip" data-v="fiqh" aria-pressed="' + (view === 'fiqh') + '">فقہ ' + esc(madhabName()) + '</button></div>';
     }
-    h += '<p class="hint">صرف وہ وارث شجرے میں ہیں جنہیں حصہ ملا۔ چھوٹی اسکرین پر شجرہ دائیں بائیں سرکائیں۔</p>' + tree(r, 'tree') + table(r) + noShare(r) + notes(r) +
+    h += '<div class="fitbar"><span class="hint">پورا شجرہ اسکرین میں سما دیا گیا ہے۔ نام چھوٹے لگیں تو بڑا کر کے دیکھیں۔</span><button type="button" class="chip" id="zoom" aria-pressed="false">شجرہ بڑا کریں</button></div>' + tree(r, 'tree') + table(r) + noShare(r) + notes(r) +
       '<div class="actions" style="margin-top:14px"><button type="button" class="go" id="pdf">پی ڈی ایف رپورٹ ڈاؤن لوڈ کریں</button><span class="hint" id="pdfMsg"></span></div>';
     el.innerHTML = h;
     var v = $('view');
     if (v) v.onclick = function (e) { var b = e.target.closest('[data-v]'); if (b && !stale) { st.view = b.dataset.v; save(); calc(); } };
     $('pdf').onclick = makePdf;
-    requestAnimationFrame(function () {
-      var t = $('tree'); drawLinks(t);
-      // On a phone the tree is wider than the screen: start the scroll at the deceased's column, not the edge.
-      var tb = t.parentNode, extra = tb.scrollWidth - tb.clientWidth;
-      if (extra > 0) { tb.scrollLeft = -extra / 2; if (tb.scrollLeft === 0) tb.scrollLeft = extra / 2; }
-    });
+    $('zoom').onclick = function () { big = !big; fitTree(); };
+    requestAnimationFrame(fitTree);
+  }
+  // The whole shajra fits the screen width (shrunk with CSS zoom) so it can be read without scrolling.
+  // "شجرہ بڑا کریں" shows it at full size instead, scrolled to the deceased's column.
+  var big = false;
+  function fitTree() {
+    var t = $('tree'), z = $('zoom');
+    if (!t) return;
+    var tb = t.parentNode;
+    t.style.zoom = '';
+    drawLinks(t);
+    var room = tb.clientWidth - 2, w = t.offsetWidth, k = Math.min(1, room / w);
+    if (z) { z.hidden = k >= 1; z.setAttribute('aria-pressed', String(big)); z.textContent = big ? 'پورا شجرہ دکھائیں' : 'شجرہ بڑا کریں'; }
+    tb.classList.toggle('fit', !big && k < 1);
+    if (!big && k < 1) { t.style.zoom = k; return; }
+    var extra = tb.scrollWidth - tb.clientWidth;
+    if (extra > 0) { tb.scrollLeft = -extra / 2; if (tb.scrollLeft === 0) tb.scrollLeft = extra / 2; }
+  }
+  // Brings the shajra into view. In the site's frame the page around it does the scrolling.
+  function reveal(el) {
+    if (window.parent !== window) {
+      window.parent.postMessage({ myztWirasatHeight: Math.ceil(document.documentElement.getBoundingClientRect().height), myztWirasatScroll: Math.max(0, el.getBoundingClientRect().top + window.scrollY - 12) }, '*');
+      return;
+    }
+    el.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
   }
   function madhabName() { return MADHABS.filter(function (m) { return m[0] === st.madhab; })[0][1]; }
   $('go').addEventListener('click', function () {
     st.shown = true; save(); calc(); summary();
-    $('resultSec').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    requestAnimationFrame(function () { var t = $('tree'); reveal(t ? t.parentNode : $('resultSec')); });
   });
 
   function gets(r, id) {
@@ -1350,7 +1373,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
     });
     svg.innerHTML = paths.join('');
   }
-  window.addEventListener('resize', function () { requestAnimationFrame(function () { drawLinks($('tree')); }); });
+  window.addEventListener('resize', function () { requestAnimationFrame(fitTree); });
 
   function whyText(r, p) {
     var s = r.shares[p.id], w = WHY[s.why] || U['why_' + s.why] || '';
@@ -1477,5 +1500,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
   function send() { var h = Math.ceil(document.documentElement.getBoundingClientRect().height); if (h !== last) { last = h; window.parent.postMessage({ myztWirasatHeight: h }, '*'); } }
   if (window.ResizeObserver) new ResizeObserver(send).observe(document.documentElement);
   window.addEventListener('load', send); send();
+  window.addEventListener('message', function (e) { if (e.source === window.parent && e.data && e.data.myztWirasatPing) { last = 0; send(); } });
+  window.addEventListener('storage', function (e) { if (e.key === 'myzt_theme') document.documentElement.setAttribute('data-theme', e.newValue === 'dark' ? 'dark' : 'light'); });
 })();
 </script>
