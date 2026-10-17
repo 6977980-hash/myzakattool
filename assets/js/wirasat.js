@@ -354,7 +354,12 @@
 	function finish(r, fards, asaba, persons, H, map, spouses) {
 		var total = sum(fards.map(function (x) { return x.f; }));
 		var scale = ONE;
-		if (cmp(total, ONE) > 0) { scale = div(ONE, total); r.awl = true; }
+		if (cmp(total, ONE) > 0) {
+			scale = div(ONE, total); r.awl = true;
+			// The mas'ala's base and what it rose to, e.g. 24 to 27, for the note under the table.
+			var lcm = fards.reduce(function (m, x) { return m / gcd(m, x.f.d) * x.f.d; }, 1);
+			r.awlFrom = { from: lcm, to: total.n * lcm / total.d };
+		}
 		fards.forEach(function (x) {
 			var f = mul(x.f, scale);
 			if (x.units) give21(r, x.units, f, x.why, x.ref || REFS[x.why]);

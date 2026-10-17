@@ -30,6 +30,7 @@ h1 { font-family: var(--display); font-weight: 400; font-size: 34px; margin: 0; 
 .sec h2 { font-family: var(--display); font-weight: 400; font-size: 22px; margin: 0; line-height: 1.6; display: flex; gap: 10px; align-items: baseline; }
 .sec h2 .no { font-family: var(--num); font-size: 13px; color: var(--surface); background: var(--accent); border-radius: 99px; min-width: 24px; height: 24px; display: inline-grid; place-content: center; }
 .hint { color: var(--muted); font-size: 13px; margin: 0; }
+.note-box { margin: 10px 0 0; padding: 8px 12px; border-inline-start: 3px solid var(--accent); background: var(--accent-soft); border-radius: 6px; line-height: 1.9; color: var(--ink, inherit); }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
 button, input, select { font: inherit; color: var(--ink); }
 .chip { min-height: 42px; padding: 0 14px; border-radius: 99px; border: 1px solid var(--line); background: var(--surface); cursor: pointer; }
@@ -725,6 +726,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
   function whyText(r, p) {
     var s = r.shares[p.id], w = WHY[s.why] || U['why_' + s.why] || '';
     if (p.parent && cur && cur.view === 'law') w = 'دفعہ 4: ' + label(byId(p.parent)) + ' کا حصہ ان کی اولاد میں، بیٹے کا بیٹی سے دگنا';
+    if (s.why === 'wife' && wives(r).length > 1) w = 'بیوی: ' + NUM[wives(r).length] + ' بیویاں ' + (cut(r) ? 'ایک آٹھواں' : 'ایک چوتھائی') + ' حصہ آپس میں برابر بانٹتی ہیں، دوگنا نہیں ہوتا';
     if (p.status === 'after') w += (w ? '۔ ' : '') + statusText('after') + '، اس لیے یہ حصہ ان کی اپنی وراثت میں تقسیم ہوگا';
     return w;
   }
@@ -743,9 +745,39 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
       var s = r.shares[p.id];
       h += '<tr><td><b>' + esc(label(p)) + '</b>' + (p.name ? ' <span class="hint">' + esc(rel(p)) + '</span>' : '') + '</td><td class="f">' + frac(s.f) + '</td>' + gets(r, p.id).map(function (g) { return g.land || g.metal ? '<td><b>' + esc(g.t) + '</b><br><span class="hint">' + esc(g.sub) + '</span></td>' : '<td>' + esc(g) + '</td>'; }).join('') + '<td class="hint">' + pct(s.f) + '</td><td class="why">' + esc(whyText(r, p)) + '</td></tr>';
     });
-    h += '</tbody></table></div>' + rateNote();
+    h += '</tbody></table></div>' + wivesNote(r) + awlNote(r) + rateNote();
     if (estate().short) h += '<p class="err">قرض نقد رقم سے زیادہ ہے۔ باقی قرض زمین یا سونے کی قیمت سے ادا ہوگا؛ یہ کٹوتی اس حساب میں شامل نہیں، اس لیے زمین اور سونے کے حصے قرض سے پہلے کے ہیں۔</p>';
     return h;
+  }
+  var NUM = { 2: 'دو', 3: 'تین', 4: 'چار' }, ALL = { 2: 'دونوں', 3: 'تینوں', 4: 'چاروں' };
+  function wives(r) { return st.people.filter(function (p) { return r.shares[p.id] && r.shares[p.id].why === 'wife' && r.shares[p.id].f.n > 0; }); }
+  // Wives' fixed share before 'awl: an eighth with children (or grandchildren), else a quarter.
+  function cut(r) {
+    var t = wives(r).reduce(function (a, p) { return a + r.shares[p.id].f.n / r.shares[p.id].f.d; }, 0);
+    if (r.awlFrom) t = t * r.awlFrom.to / r.awlFrom.from;
+    return Math.abs(t - 0.125) < 1e-9;
+  }
+  function addF(list) {
+    return list.reduce(function (a, f) { var n = a.n * f.d + f.n * a.d, d = a.d * f.d, g = gcdN(n, d); return { n: n / g, d: d / g }; }, { n: 0, d: 1 });
+  }
+  function gcdN(a, b) { while (b) { var t = a % b; a = b; b = t; } return a; }
+  // Two or more wives share one eighth (or quarter); it is not multiplied. Shows the joint share, also after 'awl.
+  function wivesNote(r) {
+    var w = wives(r);
+    if (w.length < 2) return '';
+    var all = addF(w.map(function (p) { return r.shares[p.id].f; })), each = r.shares[w[0].id].f, k = NUM[w.length] || w.length, all2 = ALL[w.length] || 'سب';
+    var t = '<b>' + k + ' بیویاں:</b> بیویوں کا مقررہ حصہ بیویوں کی تعداد سے نہیں بڑھتا۔ ' + k + ' بیویاں مل کر ' + (cut(r) ? 'ایک آٹھواں (1/8)' : 'ایک چوتھائی (1/4)') + ' حصہ لیتی ہیں اور آپس میں برابر بانٹتی ہیں۔ ';
+    if (r.awlFrom) {
+      var on = all.n * r.awlFrom.to / all.d;
+      t += 'عول کے بعد ' + all2 + ' کا مجموعی حصہ ' + frac(all) + (all.d !== r.awlFrom.to ? ' (' + on + '/' + r.awlFrom.to + ')' : '') + ' ہے، یعنی ' + pct(all) + '؛ ہر بیوی کو ' + frac(each) + ' (' + pct(each) + ')۔';
+    } else {
+      t += all2 + ' کا مجموعی حصہ ' + frac(all) + ' (' + pct(all) + ') ہے؛ ہر بیوی کو ' + frac(each) + ' (' + pct(each) + ')۔';
+    }
+    return '<p class="hint note-box">' + t + '</p>';
+  }
+  function awlNote(r) {
+    if (!r.awlFrom) return '';
+    return '<p class="hint note-box"><b>عول:</b> مقررہ حصے ترکے سے زیادہ ہو گئے۔ مسئلہ ' + r.awlFrom.from + ' سے بنا تھا مگر حصوں کا مجموعہ ' + r.awlFrom.to + ' ہوا، اس لیے مسئلہ ' + r.awlFrom.from + ' سے بڑھا کر ' + r.awlFrom.to + ' کیا گیا اور ہر حصے دار کا حصہ اسی نسبت سے کم ہوا۔</p>';
   }
   function noWhy(r, p, short) {
     var s = r.shares[p.id], par = p.parent ? byId(p.parent) : null;
