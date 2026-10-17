@@ -697,7 +697,7 @@ class MYZT_SEO {
 		$out   = '# ' . get_bloginfo( 'name' ) . "\n\n> " . get_bloginfo( 'description' ) . "\n\n";
 		$out  .= "Free zakat calculator that calculates zakat according to each school of thought (Hanafi, Shafi'i, Maliki, Hanbali, Ahl-e-Hadith, Shia Ja'fari) with live international gold and silver rates in 50 currencies. Rules are cited from published fatwas. Not a fatwa.\n\n## Main pages\n\n";
 		foreach ( MYZT_Installer::pages() as $slug => $p ) {
-			if ( empty( $p['llms'] ) ) {
+			if ( empty( $p['llms'] ) || ! empty( $p['hidden'] ) ) {
 				continue;
 			}
 			$url  = 'home' === $slug ? home_url( '/' ) : MYZT_Frontend::page_url( $slug );
