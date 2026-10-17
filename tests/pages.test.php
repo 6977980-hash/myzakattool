@@ -32,7 +32,7 @@ function words( $html ) {
 }
 
 // Footer links every tool on every page (MYZT_Installer::footer_links).
-$footer = array( 'calculators', 'fitrana-calculator', 'fidya-kaffara-calculator', 'zakat-date-calculator', 'ushr-calculator', 'khums-calculator', 'haq-mehr-calculator', 'diyat-calculator', 'free-zakat-widget', 'zakat-calculator-urdu' );
+$footer = array( 'calculators', 'fitrana-calculator', 'fidya-kaffara-calculator', 'zakat-date-calculator', 'ushr-calculator', 'khums-calculator', 'haq-mehr-calculator', 'diyat-calculator', 'wirasat-calculator', 'free-zakat-widget', 'zakat-calculator-urdu' );
 $inbound = array();
 
 foreach ( $pages as $slug => $p ) {
@@ -83,7 +83,7 @@ foreach ( array( 'contact' => 300, 'about' => 400, 'khums-calculator' => 450, 'b
 }
 
 // FIX-044: each newer tool has at least 8 linking pages (content and related blocks, plus the footer).
-foreach ( array( 'free-zakat-widget', 'fidya-kaffara-calculator', 'ushr-calculator', 'zakat-date-calculator', 'haq-mehr-calculator', 'diyat-calculator' ) as $tool ) {
+foreach ( array( 'free-zakat-widget', 'fidya-kaffara-calculator', 'ushr-calculator', 'zakat-date-calculator', 'haq-mehr-calculator', 'diyat-calculator', 'wirasat-calculator' ) as $tool ) {
 	$n = isset( $inbound[ $tool ] ) ? count( $inbound[ $tool ] ) : 0;
 	check( $n >= 4, "$tool has $n linking pages in content" );
 	check( in_array( $tool, $footer, true ), "$tool is in the footer" );

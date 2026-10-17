@@ -12,6 +12,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 class MYZT_Frontend {
 
 	private static $needs_js = false;
+	private static $needs_wirasat = false;
+
+	// Gulzar (SIL Open Font License) for the Urdu family tree; loaded only on the inheritance pages.
+	const GULZAR_CSS = 'https://fonts.googleapis.com/css2?family=Gulzar&display=swap';
 
 	// 52.5 and 7.5 tola of 11.6638038 g, exactly as engine.js computes them (shown as 612.35 g and 87.48 g).
 	const NISAB_SILVER_G = 612.34969950;
@@ -29,6 +33,7 @@ class MYZT_Frontend {
 		add_shortcode( 'zakat_khums', array( __CLASS__, 'khums' ) );
 		add_shortcode( 'zakat_mehr', array( __CLASS__, 'mehr' ) );
 		add_shortcode( 'zakat_diyat', array( __CLASS__, 'diyat' ) );
+		add_shortcode( 'zakat_wirasat', array( __CLASS__, 'wirasat' ) );
 		add_shortcode( 'myzt_faq', array( __CLASS__, 'faq' ) );
 		add_shortcode( 'myzt_author', array( __CLASS__, 'author' ) );
 		add_shortcode( 'myzt_answer', array( __CLASS__, 'answer' ) );
@@ -75,12 +80,18 @@ class MYZT_Frontend {
 		wp_register_script( 'myzt-engine', $url . 'js/engine.js', array(), $v, $foot );
 		// pdf.js is fetched by app.js only when a report is made, so it costs nothing on page load (audit FIX-049).
 		wp_register_script( 'myzt-app', $url . 'js/app.js', array( 'myzt-engine' ), $v, $foot );
+		wp_register_script( 'myzt-wirasat', $url . 'js/wirasat.js', array(), $v, $foot );
+		wp_register_script( 'myzt-wirasat-ui', $url . 'js/wirasat-ui.js', array( 'myzt-wirasat', 'myzt-app' ), $v, $foot );
+		wp_register_style( 'myzt-gulzar', self::GULZAR_CSS, array(), null ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 
 		// Load the stylesheet in <head> on our pages to avoid a flash of unstyled content.
 		if ( is_singular() ) {
 			$post = get_post();
 			if ( $post && preg_match( '/\[(zakat_|myzt_)/', $post->post_content ) ) {
 				wp_enqueue_style( 'myzt' );
+			}
+			if ( $post && false !== strpos( $post->post_content, '[zakat_wirasat' ) ) {
+				wp_enqueue_style( 'myzt-gulzar' );
 			}
 		}
 	}
@@ -95,6 +106,9 @@ class MYZT_Frontend {
 			return;
 		}
 		wp_enqueue_script( 'myzt-app' );
+		if ( self::$needs_wirasat ) {
+			wp_enqueue_script( 'myzt-wirasat-ui' );
+		}
 		wp_add_inline_script( 'myzt-engine', 'window.MYZT=' . wp_json_encode( self::config() ) . ';', 'before' );
 	}
 
@@ -362,6 +376,14 @@ class MYZT_Frontend {
 		$in = '<div class="myzt-card"><p>Diyat notified for ' . esc_html( self::DIYAT_FY ) . ': <strong>' . esc_html( self::money( self::DIYAT_PKR, 'PKR' ) ) . '</strong></p>' .
 			( $p ? '<p>30,630 g of silver at today\'s rate: <strong>' . esc_html( self::money( self::DIYAT_SILVER_G * $p['silver'], 'PKR' ) ) . '</strong> (updated ' . esc_html( wp_date( 'j M Y, H:i', $p['updated'] ) ) . ')</p>' : '' ) . '</div>';
 		return self::widget( 'diyat', array(), $in );
+	}
+
+	/** [zakat_wirasat madhab=""]: inheritance calculator with the family tree. The form needs JavaScript. */
+	public static function wirasat( $atts ) {
+		$a = shortcode_atts( array( 'madhab' => '' ), $atts, 'zakat_wirasat' );
+		self::$needs_wirasat = true;
+		wp_enqueue_style( 'myzt-gulzar' );
+		return self::widget( 'wirasat', array( 'madhab' => sanitize_key( $a['madhab'] ) ) );
 	}
 
 	/** [myzt_mehr type="fatimi|minimum" currency="PKR"] and [myzt_diyat type="notified|live"]: one number inside text. */
