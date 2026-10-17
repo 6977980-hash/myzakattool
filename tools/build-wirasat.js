@@ -25,7 +25,7 @@ function base() {
 
 // Site changes, each must match exactly once so a source edit cannot silently drop one.
 const SITE = [
-	['<title>Wirasat Shajra Prototype</title>', '<!doctype html>\n<html lang="ur" dir="rtl" data-theme="light">\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<meta name="robots" content="noindex">\n<title>وراثت کیلکولیٹر اور شجرہ</title>'],
+	['<title>Wirasat Shajra Prototype</title>', '<!doctype html>\n<html lang="ur" dir="rtl" data-theme="light">\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<meta name="robots" content="noindex">\n<script>try{if(localStorage.getItem("myzt_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>\n<title>وراثت کیلکولیٹر اور شجرہ</title>'],
 	// The WordPress page has its own heading, and the frame sits on the page's white background.
 	['[hidden] { display: none !important; }', '[hidden] { display: none !important; }\n.wrap > header { display: none; }\nhtml, body { margin: 0; background: transparent !important; }\n.wrap { padding-block: 4px 8px !important; }'],
 	["var KEY = 'wirasat-proto-v3';", "var KEY = 'myzt_wirasat_v2'; // myzt_ prefix: \"Delete saved data\" on the site removes it"],
@@ -33,7 +33,8 @@ const SITE = [
 	["one('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'), one('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js')", "one('../vendor/html2canvas.min.js?ver=1.4.1'), one('../vendor/jspdf.umd.min.js?ver=4.2.1')"],
 ];
 
-// Tells the page around the frame how tall the calculator is, so there is no inner scrollbar.
+// Tells the page around the frame how tall the calculator is, so there is no inner scrollbar,
+// and follows the site's dark / light button (MYZT_Theme_Mode), which saves myzt_theme.
 const RESIZE = `<script>
 (function () {
   if (window.parent === window) return;
@@ -41,6 +42,8 @@ const RESIZE = `<script>
   function send() { var h = Math.ceil(document.documentElement.getBoundingClientRect().height); if (h !== last) { last = h; window.parent.postMessage({ myztWirasatHeight: h }, '*'); } }
   if (window.ResizeObserver) new ResizeObserver(send).observe(document.documentElement);
   window.addEventListener('load', send); send();
+  window.addEventListener('message', function (e) { if (e.source === window.parent && e.data && e.data.myztWirasatPing) { last = 0; send(); } });
+  window.addEventListener('storage', function (e) { if (e.key === 'myzt_theme') document.documentElement.setAttribute('data-theme', e.newValue === 'dark' ? 'dark' : 'light'); });
 })();
 </script>
 `;

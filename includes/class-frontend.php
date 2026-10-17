@@ -369,15 +369,14 @@ class MYZT_Frontend {
 	 * [zakat_wirasat madhab=""]: the Urdu inheritance calculator with the shajra and PDF report.
 	 * It is a page of its own (assets/wirasat/app.html, built from src/wirasat/ by tools/build-wirasat.js)
 	 * shown in a frame, so the theme's styles cannot change the shajra. The frame grows to the
-	 * calculator's height, which the page reports with postMessage.
+	 * calculator's height, which the page reports with postMessage (assets/js/wirasat-frame.js).
 	 */
 	public static function wirasat( $atts ) {
 		$a   = shortcode_atts( array( 'madhab' => '' ), $atts, 'zakat_wirasat' );
 		$src = add_query_arg( array_filter( array( 'ver' => MYZAKATTOOL_VERSION, 'madhab' => sanitize_key( $a['madhab'] ) ) ), MYZAKATTOOL_URL . 'assets/wirasat/app.html' );
 		self::enqueue();
-		$js = "(function(){var f=document.currentScript.previousElementSibling;addEventListener('message',function(e){if(e.source===f.contentWindow&&e.data&&e.data.myztWirasatHeight>0){f.style.height=Math.min(e.data.myztWirasatHeight,20000)+'px';}});})();";
-		return '<div class="myzt myzt-wirasat alignwide"><iframe class="myzt-wirasat-frame" src="' . esc_url( $src ) . '" title="وراثت کیلکولیٹر اور شجرہ" loading="lazy"></iframe>' .
-			'<script>' . $js . '</script></div>'; // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
+		wp_enqueue_script( 'myzt-wirasat-frame', MYZAKATTOOL_URL . 'assets/js/wirasat-frame.js', array(), MYZAKATTOOL_VERSION, array( 'in_footer' => true ) );
+		return '<div class="myzt myzt-wirasat alignwide"><iframe class="myzt-wirasat-frame" src="' . esc_url( $src ) . '" title="وراثت کیلکولیٹر اور شجرہ" loading="lazy"></iframe></div>';
 	}
 
 	/** [myzt_mehr type="fatimi|minimum" currency="PKR"] and [myzt_diyat type="notified|live"]: one number inside text. */
