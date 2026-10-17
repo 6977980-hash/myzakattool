@@ -66,7 +66,7 @@ async function enter(page, tile, field, value) {
 
 test('every widget boots without a JavaScript error', async () => {
 	const { page, ctx, errors } = await open();
-	for (const w of ['calculator', 'goldrate', 'nisab', 'fitrana', 'fidya', 'khums', 'hawl', 'ushr']) {
+	for (const w of ['calculator', 'goldrate', 'nisab', 'fitrana', 'fidya', 'khums', 'hawl', 'ushr', 'mehr', 'diyat']) {
 		const html = await page.locator(`.myzt[data-widget="${w}"]`).innerHTML();
 		assert.ok(html.length > 200, `${w} rendered`);
 		assert.equal(await page.locator(`.myzt[data-widget="${w}"]`).getAttribute('data-ready'), '1', `${w} ready`);
@@ -338,5 +338,32 @@ test('a draft untouched for 13 months is dropped (FIX-057)', async () => {
 	await page.reload();
 	await page.waitForSelector('.myzt-calculator .myzt-res');
 	assert.equal(await amount(page), 0);
+	await ctx.close();
+});
+
+test('haq mehr: Mehr-e-Fatimi from the silver rate, own mehr checked against the minimum', async () => {
+	const { page, ctx, errors } = await open();
+	const m = page.locator('.myzt-mehr');
+	// silver 57.116001 USD/oz x 277.33821319 PKR / 31.1034768 g = Rs 509.28/g; x 1530.9 g = Rs 779,660.
+	const perG = 57.116001 * 277.33821319 / 31.1034768;
+	const fatimi = digits(await m.locator('tbody tr').nth(1).locator('td.z').textContent());
+	assert.ok(Math.abs(fatimi - Math.round(1530.9 * perG)) <= 1, 'fatimi ' + fatimi);
+	await m.locator('input[data-m="mine"]').fill('10000');
+	assert.match(await m.locator('[data-mine]').textContent(), /less than the Hanafi minimum/);
+	await m.locator('input[data-m="mine"]').fill('1000000');
+	assert.doesNotMatch(await m.locator('[data-mine]').textContent(), /less than/);
+	await m.locator('input[data-m="qty"]').fill('5');
+	assert.equal(digits(await m.locator('[data-metal-out] .myzt-amt').textContent()), Math.round(5 * 11.6638038 * 4166.100098 * 277.33821319 / 31.1034768));
+	assert.deepEqual(errors, []);
+	await ctx.close();
+});
+
+test('diyat: notified amount and live silver value in rupees', async () => {
+	const { page, ctx } = await open();
+	const d = page.locator('.myzt-diyat');
+	assert.equal(digits(await d.locator('.myzt-amt').textContent()), 19352390);
+	const live = digits(await d.locator('.myzt-line b').first().textContent());
+	assert.equal(live, Math.round(30630 * 57.116001 * 277.33821319 / 31.1034768));
+	assert.equal(await d.locator('tbody tr').count(), 4);
 	await ctx.close();
 });

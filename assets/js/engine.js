@@ -430,6 +430,52 @@
 		return { surplus: surplus, khums: surplus * 0.2, sahmImam: surplus * 0.1, sahmSadat: surplus * 0.1 };
 	}
 
+	/* ---------- Haq mehr and diyat (both fixed in silver) ---------- */
+
+	// One shar'i dirham = 3.0618 g of silver, the figure used by Indo-Pak muftis
+	// (10 dirham = 2 tola 7.5 masha = 30.618 g; 500 dirham = 131.25 tola = 1530.9 g).
+	var DIRHAM_G = 3.0618;
+	// Each view lists the dirhams and who holds it. The first one is the default.
+	var MEHR = {
+		minimum: [
+			{ id: 'min10', dirham: 10, by: 'Hanafi: 10 dirham (al-Hidayah; Muftionline, fatwa 26854)' },
+			{ id: 'min34', grams: 34, by: 'Maulana Ashraf Ali Thanwi and Mufti Rasheed Ahmad Ludhianvi: about 34 g' },
+		],
+		fatimi: [
+			{ id: 'f500', dirham: 500, by: '500 dirham: Mufti Muhammad Shafi, Mufti Mahmood, Mufti Nizamuddin' },
+			{ id: 'f480', dirham: 480, by: '480 dirham: view reported in Hanafi fatwas (Darul Uloom Trinidad)' },
+			{ id: 'f400', dirham: 400, by: '400 dirham: Ibn al-Humam' },
+		],
+	};
+	function mehrGrams(view) { return view.grams || view.dirham * DIRHAM_G; }
+
+	/**
+	 * Where an agreed mehr stands against the minimum and Mehr-e-Fatimi.
+	 * amount: agreed mehr in money; silverPerGram: price of 1 g of pure silver in the same currency.
+	 */
+	function mehrCheck(amount, silverPerGram) {
+		var a = num(amount), s = num(silverPerGram);
+		if (!s) return { grams: 0, tola: 0, ofFatimi: 0, belowMin: false };
+		var g = a / s;
+		return {
+			grams: g,
+			tola: g / GRAMS_PER_TOLA,
+			ofFatimi: g / mehrGrams(MEHR.fatimi[0]),
+			belowMin: a > 0 && g < mehrGrams(MEHR.minimum[0]),
+		};
+	}
+
+	// Pakistan Penal Code s. 323: diyat is the value of 30,630 g of silver, notified yearly by the Finance Division.
+	var DIYAT_SILVER_G = 30630;
+	function diyatValue(silverPerGram) { return DIYAT_SILVER_G * num(silverPerGram); }
+	// Amounts notified by the Finance Division for each fiscal year (1 July to 30 June), newest first.
+	var DIYAT_NOTIFIED = [
+		{ fy: '2026-27', pkr: 19352390, src: 'Dawn, 29 July 2026' },
+		{ fy: '2025-26', pkr: 9828670, src: 'Dawn, 29 July 2026' },
+		{ fy: '2024-25', pkr: 8103955, src: 'Finance Division notification, 2 October 2024' },
+		{ fy: '2023-24', pkr: 6757902, src: 'Finance Division circular, 4 September 2023' },
+	];
+
 	/* ---------- Roman Urdu / English free-text parser ---------- */
 
 	var MULT = [
@@ -610,6 +656,7 @@
 		MADHABS: MADHABS, MADHAB_ORDER: MADHAB_ORDER, COUNTRIES: COUNTRIES,
 		toGrams: toGrams, perGram: perGram, karatFactor: karatFactor, finenessFactor: finenessFactor, parseAmount: parseAmount, nisabValues: nisabValues,
 		calculate: calculate, compare: compare, family: family, fitrana: fitrana, fidya: fidya, kaffara: kaffara, khums: khums,
+		DIRHAM_G: DIRHAM_G, MEHR: MEHR, mehrGrams: mehrGrams, mehrCheck: mehrCheck, DIYAT_SILVER_G: DIYAT_SILVER_G, DIYAT_NOTIFIED: DIYAT_NOTIFIED, diyatValue: diyatValue,
 		hawlDates: hawlDates, hawlYearsBetween: hawlYearsBetween, missedZakat: missedZakat, ushr: ushr, livestock: livestock, WASQ5_KG: WASQ5_KG, SISTANI_CROP_KG: SISTANI_CROP_KG,
 		parseText: parseText, countryDefaults: countryDefaults,
 	};
