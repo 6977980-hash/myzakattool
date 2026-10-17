@@ -2,7 +2,7 @@
  * My Zakat Tool: calculation engine.
  *
  * Pure functions, no DOM. Runs in the browser (window.MYZT_ENGINE) and in Node (tests).
- * Rules and citations: see the Methodology page and fiqh-rules notes.
+ * Rules and citations: see the Methodology page (/methodology/); it is the reference, not internal notes.
  */
 (function (root, factory) {
 	if (typeof module === 'object' && module.exports) {
@@ -15,7 +15,7 @@
 
 	var GRAMS_PER_TOLA = 11.6638038;
 	var GRAMS_PER_OZ = 31.1034768;
-	// 7.5 tola (87.48 g) and 52.5 tola (612.36 g); defined from the tola so tola inputs match exactly.
+	// 7.5 tola (87.4785 g, shown 87.48 g) and 52.5 tola (612.3497 g, shown 612.35 g), with 1 tola = 11.6638038 g.
 	var GOLD_NISAB_G = 7.5 * GRAMS_PER_TOLA;
 	var SILVER_NISAB_G = 52.5 * GRAMS_PER_TOLA;
 	var RATE = 0.025;

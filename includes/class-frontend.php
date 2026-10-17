@@ -13,7 +13,7 @@ class MYZT_Frontend {
 
 	private static $needs_js = false;
 
-	// 52.5 and 7.5 tola of 11.6638038 g, exactly as engine.js computes them.
+	// 52.5 and 7.5 tola of 11.6638038 g, exactly as engine.js computes them (shown as 612.35 g and 87.48 g).
 	const NISAB_SILVER_G = 612.34969950;
 	const NISAB_GOLD_G   = 87.47852850;
 
@@ -216,7 +216,7 @@ class MYZT_Frontend {
 		$in  = '';
 		if ( $p ) {
 			$in = '<div class="myzt-card"><table class="myzt-table"><thead><tr><th>Nisab</th><th>Weight</th><th>Value</th></tr></thead><tbody>' .
-				'<tr><td>Silver</td><td>612.36 g · 52.5 tola</td><td class="z">' . esc_html( self::money( $p['silver'] * self::NISAB_SILVER_G, $cur ) ) . '</td></tr>' .
+				'<tr><td>Silver</td><td>612.35 g · 52.5 tola</td><td class="z">' . esc_html( self::money( $p['silver'] * self::NISAB_SILVER_G, $cur ) ) . '</td></tr>' .
 				'<tr><td>Gold</td><td>87.48 g · 7.5 tola</td><td class="z">' . esc_html( self::money( $p['gold'] * self::NISAB_GOLD_G, $cur ) ) . '</td></tr>' .
 				'</tbody></table><p class="myzt-small">Updated ' . esc_html( wp_date( 'j M Y, H:i', $p['updated'] ) ) . ' · ' . esc_html( $p['label'] ) . '</p></div>';
 		}

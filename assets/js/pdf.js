@@ -136,7 +136,7 @@
 						row(name + (l.included ? '' : '  (not counted in this madhab)'), fmt(l.value, cur), false, l.included ? ink : mute);
 					});
 					row('Zakatable wealth', fmt(r.zakatable, cur), true);
-					row('Nisab used (' + (r.nisabBasis === 'gold' ? 'gold 87.48 g' : 'silver 612.36 g') + ')', fmt(r.nisab, cur));
+					row('Nisab used (' + (r.nisabBasis === 'gold' ? 'gold 87.48 g' : 'silver 612.35 g') + ')', fmt(r.nisab, cur));
 					row(r.due ? 'Zakatable wealth x 2.5% = Zakat' : 'Below nisab, so zakat', fmt(r.zakat, cur), true, r.paid ? ink : teal);
 					if (r.paid) {
 						row('Already paid / deducted by bank', fmt(-r.paid, cur));

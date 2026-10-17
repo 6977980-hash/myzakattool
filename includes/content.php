@@ -26,7 +26,7 @@ function myzt_content_pages() {
 <p>Calculate your zakat in seconds with today's gold and silver rate built in. Choose your madhab (Hanafi, Shafi'i, Maliki, Hanbali, Ahl-e-Hadith or Shia Ja'fari) and see exactly how it is worked out, with the sources behind each madhab's main rules.</p>
 [myzt_trust]
 [zakat_calculator compare="open"]
-[myzt_answer q="How much is zakat?"]Zakat is 2.5% (one fortieth) of your zakatable wealth once it has been at or above the nisab for one lunar year (Hanafi scholars look at the start and end of the year; the Shafi'i and Hanbali schools require it throughout). The nisab is the value of 87.48 g of gold or 612.36 g of silver; today that is about [myzt_rate type="nisab-silver" currency="PKR"] (silver) or [myzt_rate type="nisab-gold" currency="PKR"] (gold).[/myzt_answer]
+[myzt_answer q="How much is zakat?"]Zakat is 2.5% (one fortieth) of your zakatable wealth once it has been at or above the nisab for one lunar year (Hanafi scholars look at the start and end of the year; the Shafi'i and Hanbali schools require it throughout). The nisab is the value of 87.48 g of gold or 612.35 g of silver; today that is about [myzt_rate type="nisab-silver" currency="PKR"] (silver) or [myzt_rate type="nisab-gold" currency="PKR"] (gold).[/myzt_answer]
 <h2>How to calculate zakat, step by step</h2>
 <ol>
 <li><strong>Add up what you own:</strong> cash at home, bank balances, gold and silver, business stock, shares, crypto, committee (BC) payments and money others owe you.</li>
@@ -104,7 +104,7 @@ HTML
 			'nav'   => 'Hanafi',
 			'blurb' => 'Deobandi & Barelvi',
 			'intro' => '<p>This calculator follows the Hanafi madhab, the school followed by most Muslims in Pakistan, India, Bangladesh, Afghanistan and Turkey. The rules below are taken from Darul Uloom Deoband fatwas; Barelvi scholars follow the same Hanafi fiqh.</p>',
-			'answer' => 'In Hanafi fiqh zakat is 2.5% of all cash, gold, silver and trade goods after subtracting debts due now, if the total reaches the silver nisab of 612.36 g (52.5 tola). Gold jewellery is counted even if it is worn daily.',
+			'answer' => 'In Hanafi fiqh zakat is 2.5% of all cash, gold, silver and trade goods after subtracting debts due now, if the total reaches the silver nisab of 612.35 g (52.5 tola). Gold jewellery is counted even if it is worn daily.',
 			'body'  => <<<'HTML'
 <h2>Hanafi zakat rules used in this calculator</h2>
 <ul>
@@ -317,6 +317,7 @@ HTML
 		'desc'  => 'All free zakat tools in one place: gold, business, Pakistan, fitrana, fidya and kaffara, zakat date tracker, ushr and livestock, khums, nisab and gold rate.',
 		'nav'   => 'Calculators',
 		'blurb' => 'all tools',
+		'llms'  => true,
 		'content' => <<<'HTML'
 <p>All tools use today's international gold and silver rates and work in 50 currencies.</p>
 <ul>
@@ -369,7 +370,7 @@ HTML
 <h2>What to include in Pakistan</h2>
 <ul>
 <li><strong>Committee (BC):</strong> the amount you have paid in so far is your money and is zakatable. Once you receive the committee, count what is left of it.</li>
-<li><strong>Prize bonds and savings certificates (NSC, Behbood, DSC):</strong> count the amount you invested, in the "Savings certificates" field. If zakat was deducted from them, enter it under "Already paid". See <a href="/zakat-on-savings-certificates/">zakat on savings certificates</a>.</li>
+<li><strong>Prize bonds and savings certificates (NSC, Behbood, DSC):</strong> enter savings certificates at the amount you invested in the "Savings certificates" field, and prize bonds at their face value in the "Prize bonds" field. If zakat was deducted from them, enter it under "Already paid". See <a href="/zakat-on-savings-certificates/">zakat on savings certificates</a>.</li>
 <li><strong>Plots:</strong> a plot bought to sell is trade goods; count its market value. A house or plot for your own use has no zakat.</li>
 <li><strong>Gold:</strong> local jewellery is usually 21K or 22K; choose the karat so only the pure gold is counted.</li>
 </ul>
@@ -601,6 +602,7 @@ HTML
 		'desc'  => 'Add a free, live nisab and gold rate box to your mosque, madrasa or blog website. Copy one line of code; it updates every hour in your currency.',
 		'nav'   => 'Free widget',
 		'blurb' => 'for mosques & blogs',
+		'llms'  => true,
 		'hub'   => 'calculators',
 		'content' => <<<'HTML'
 <p>Mosques, madrasas, Islamic centres and bloggers can show today's nisab and gold rate on their own website for free. The box below updates every hour from international gold and silver prices, in the currency you choose. No sign-up, no ads, no tracking.</p>
@@ -614,7 +616,7 @@ HTML
 </ol>
 <h2>Good to know</h2>
 <ul>
-<li>The silver nisab is 52.5 tola (612.36 g) and the gold nisab 7.5 tola (87.48 g). Hanafi scholars use the silver nisab for cash.</li>
+<li>The silver nisab is 52.5 tola (612.35 g) and the gold nisab 7.5 tola (87.48 g). Hanafi scholars use the silver nisab for cash.</li>
 <li>Prices are international spot rates; local jewellers' prices are a little higher.</li>
 <li>The box is an estimate for guidance, not a fatwa; see our <a href="/disclaimer/">disclaimer</a>.</li>
 </ul>
@@ -659,19 +661,19 @@ HTML
 	$p['nisab'] = array(
 		'title' => 'Nisab Today: Gold and Silver Nisab for Zakat',
 		'seo'   => 'Zakat Nisab {year} Today: Gold & Silver Nisab Value',
-		'desc'  => 'Today\'s zakat nisab in your currency: silver 612.36 g (52.5 tola) and gold 87.48 g (7.5 tola), from live international rates. Which nisab to use by madhab.',
+		'desc'  => 'Today\'s zakat nisab in your currency: silver 612.35 g (52.5 tola) and gold 87.48 g (7.5 tola), from live international rates. Which nisab to use by madhab.',
 		'nav'   => 'Nisab Today',
 		'blurb' => 'in your currency',
 		'llms'  => true,
 		'content' => <<<'HTML'
-[myzt_answer q="What is the nisab today?"]The silver nisab (612.36 g) is about [myzt_rate type="nisab-silver" currency="PKR"] and the gold nisab (87.48 g) is about [myzt_rate type="nisab-gold" currency="PKR"] today. Choose your currency below.[/myzt_answer]
+[myzt_answer q="What is the nisab today?"]The silver nisab (612.35 g) is about [myzt_rate type="nisab-silver" currency="PKR"] and the gold nisab (87.48 g) is about [myzt_rate type="nisab-gold" currency="PKR"] today. Choose your currency below.[/myzt_answer]
 [zakat_nisab]
 [myzt_reviewed rates="1"]
 <p>Own only a little gold? See <a href="/zakat-on-1-tola-gold/">how much zakat is due on 1 tola of gold</a> and <a href="/zakat-on-1-lakh-rupees/">on 1 lakh rupees</a>. Run a mosque or blog website? Show this nisab on it with our <a href="/free-zakat-widget/">free nisab widget</a>.</p>
 <h2>Which nisab applies to you?</h2>
 <ul>
 <li><strong>Only gold:</strong> the gold nisab, 87.48 g (7.5 tola) of pure gold.</li>
-<li><strong>Only silver:</strong> the silver nisab, 612.36 g (52.5 tola).</li>
+<li><strong>Only silver:</strong> the silver nisab, 612.35 g (52.5 tola).</li>
 <li><strong>Cash or a mix:</strong> Hanafi scholars use the silver nisab; Hanbali and Ahl-e-Hadith use whichever is lower (silver today); Shafi'i authorities in Malaysia and Singapore use gold.</li>
 <li><strong>Shia (Sistani):</strong> 69.12 g of gold or 483.84 g of silver in coins used as currency.</li>
 </ul>
@@ -680,7 +682,7 @@ HTML
 HTML
 		. $author . '[myzt_related slugs="gold-rate-today,home,zakat-on-gold-calculator,madhab-comparison"]',
 		'faq'   => array(
-			array( 'q' => 'Nisab kitna hai?', 'a' => 'Chandi ka nisab 52.5 tola (612.36 gram) aur sone ka 7.5 tola (87.48 gram). Upar aaj ki qeemat aap ki currency mein di gayi hai.' ),
+			array( 'q' => 'Nisab kitna hai?', 'a' => 'Chandi ka nisab 52.5 tola (612.35 gram) aur sone ka 7.5 tola (87.48 gram). Upar aaj ki qeemat aap ki currency mein di gayi hai.' ),
 			array( 'q' => 'Why is the silver nisab so much lower than gold?', 'a' => 'Both weights were fixed in the time of the Prophet ﷺ when they had similar value. Silver has become much cheaper relative to gold, so the silver nisab is now far lower.' ),
 		),
 	);
@@ -698,7 +700,7 @@ HTML
 [myzt_reviewed rates="1"]
 <h2>About these rates</h2>
 <p>These are international spot prices, refreshed every hour and converted with daily exchange rates. Jewellers' prices include making charges and local premiums, so the price you pay in a shop is higher. For zakat, the value of the pure gold is what counts.</p>
-<p>1 tola = 11.664 g · 1 troy ounce = 31.103 g · 22K gold is 91.7% pure, 21K is 87.5%, 18K is 75%.</p>
+<p>1 tola = 11.6638 g (often rounded to 11.664 g) · 1 troy ounce = 31.103 g · 22K gold is 91.7% pure, 21K is 87.5%, 18K is 75%.</p>
 <p>Use these rates directly in the <a href="/zakat-on-gold-calculator/">zakat on gold calculator</a>, or see <a href="/zakat-on-1-tola-gold/">zakat on 1 tola gold</a> worked out at today's rate.</p>
 [myzt_faq]
 HTML
@@ -755,7 +757,7 @@ HTML,
 <h2>Common to all Sunni schools</h2>
 <ul>
 <li>Rate: 2.5% of zakatable wealth after a lunar year (hawl).</li>
-<li>Gold nisab 87.48 g (7.5 tola); silver nisab 612.36 g (52.5 tola), the figures used in Pakistan and India. Some bodies, including several in Malaysia and Singapore, use 85 g of gold and 595 g of silver (20 and 200 mithqal at 4.25 g). With 85 g the gold nisab is about 2.8% lower. We use the tola figures for every Sunni school; you can enter your own local rate if your scholars use the other one.</li>
+<li>Gold nisab 87.48 g (7.5 tola); silver nisab 612.35 g (52.5 tola), the figures used in Pakistan and India. We take 1 tola as 11.6638 g (often rounded to 11.664 g) and round the nisab weights to two decimals; charts that multiply the rounded 11.664 g get a silver nisab 0.01 g higher, a difference of less than 0.002%. Some bodies, including several in Malaysia and Singapore, use 85 g of gold and 595 g of silver (20 and 200 mithqal at 4.25 g). With 85 g the gold nisab is about 2.8% lower. We use the tola figures for every Sunni school; you can enter your own local rate if your scholars use the other one.</li>
 <li>Gold is counted by its pure content: weight × karat ÷ 24, for both the nisab and the value. See the Hanafi note below on jewellery that is mostly gold.</li>
 <li>Cash, bank balances, business stock at sale value, good receivables and plots bought for resale are counted. Committee (ROSCA) payments, prize bonds, shares and crypto are counted at their amount or market value as <em>our reading</em> of the general rule on money and trade goods; we do not yet cite a specific fatwa for each.</li>
 <li>Long loans and 12-month instalments: only the instalments due in the coming year are subtracted, where the madhab subtracts debts (<em>our reading</em> of contemporary Hanafi practice).</li>
@@ -801,6 +803,7 @@ HTML,
 </ul>
 <h2>Changes</h2>
 <ul>
+<li><strong>17 October 2026:</strong> the silver nisab is now shown everywhere as 612.35 g, the figure the calculator uses (52.5 tola of 11.6638 g); results did not change.</li>
 <li><strong>16 October 2026:</strong> listed the open questions above; added notes in the calculator for Hanafi gold jewellery, Maliki debts and fidya by madhab; marked rules without a specific source as our reading. No calculation result changed.</li>
 </ul>
 <h2>How the content is checked</h2>
@@ -816,6 +819,7 @@ HTML
 		'desc'  => 'Contact My Zakat Tool to report an error in a rule or calculation, suggest a feature or ask about the site. Email contact@myzakattool.com.',
 		'nav'   => 'Contact',
 		'blurb' => 'email us',
+		'llms'  => true,
 		'content' => <<<'HTML'
 <p>We read every message. The fastest way to reach us is email:</p>
 <p><strong><a href="mailto:contact@myzakattool.com">contact@myzakattool.com</a></strong></p>
