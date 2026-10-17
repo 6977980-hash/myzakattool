@@ -151,6 +151,7 @@
 .myzt-wadd .myzt-btn[disabled]{opacity:.45;cursor:not-allowed}
 .myzt-wp{background:#fff;border:1px solid var(--z-line);border-radius:10px;padding:8px 10px;margin:6px 0}
 .myzt-wp-h{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:14px}
+.myzt-wkids{margin-top:8px;padding:8px;border-radius:6px;background:var(--z-warn);display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .myzt-wp-f{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;align-items:flex-end}
 .myzt-wp-f>.myzt-inp,.myzt-wp-f>.myzt-sel{flex:1 1 180px;width:auto}
 .myzt-wi{display:flex;flex-direction:column;flex:1 1 120px;font-size:12.5px;color:var(--z-mute);gap:2px}

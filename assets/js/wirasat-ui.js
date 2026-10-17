@@ -25,6 +25,7 @@
 			step3: '3. Relatives', step3h: 'Add every relative, alive or not. Mark who died before and who died after.',
 			g_spouse: 'Husband or wife', g_parents: 'Parents', g_children: 'Children', g_grand: 'Grandchildren', g_sib: 'Brothers and sisters', g_neph: 'Nephews and nieces', g_gp: 'Grandparents', g_unc: 'Uncles, aunts, cousins',
 			add: '+', remove: 'Remove', name: 'Name', parentOf: 'Child of',
+			kidsQ: 'Did %s leave children? Add them: depending on the madhab and section 4, the share may pass to them.', kidsHave: 'Children added', kidSon: 'Son', kidDaughter: 'Daughter',
 			r_husband: 'Husband', r_wife: 'Wife', r_father: 'Father', r_mother: 'Mother', r_dada: 'Dada (father\'s father)', r_dadi: 'Dadi (father\'s mother)', r_nana: 'Nana (mother\'s father)', r_nani: 'Nani (mother\'s mother)',
 			r_son: 'Son', r_daughter: 'Daughter', r_grandson: 'Grandson', r_granddaughter: 'Granddaughter',
 			r_brother: 'Brother (same parents)', r_sister: 'Sister (same parents)', r_pbrother: 'Half-brother (same father)', r_psister: 'Half-sister (same father)', r_mbrother: 'Half-brother (same mother)', r_msister: 'Half-sister (same mother)',
@@ -80,6 +81,7 @@
 			step3: '3۔ رشتہ دار', step3h: 'سب رشتہ دار شامل کریں، زندہ ہوں یا نہیں۔ بتائیں کون پہلے فوت ہوا اور کون بعد میں۔',
 			g_spouse: 'شوہر یا بیوی', g_parents: 'والدین', g_children: 'اولاد', g_grand: 'پوتے پوتیاں، نواسے نواسیاں', g_sib: 'بہن بھائی', g_neph: 'بھتیجے بھانجے', g_gp: 'دادا دادی، نانا نانی', g_unc: 'چچا، پھوپھی، ماموں، خالہ',
 			add: '+', remove: 'ہٹائیں', name: 'نام', parentOf: 'کس کی اولاد',
+			kidsQ: 'کیا %s کی اولاد ہے؟ انہیں شامل کریں: مسلک اور دفعہ 4 کے مطابق حصہ ان کو جا سکتا ہے۔', kidsHave: 'شامل اولاد', kidSon: 'بیٹا', kidDaughter: 'بیٹی',
 			r_husband: 'شوہر', r_wife: 'بیوی', r_father: 'والد', r_mother: 'والدہ', r_dada: 'دادا', r_dadi: 'دادی', r_nana: 'نانا', r_nani: 'نانی',
 			r_son: 'بیٹا', r_daughter: 'بیٹی', r_grandson: 'پوتا / نواسا', r_granddaughter: 'پوتی / نواسی',
 			r_brother: 'سگا بھائی', r_sister: 'سگی بہن', r_pbrother: 'علاتی بھائی (باپ شریک)', r_psister: 'علاتی بہن (باپ شریک)', r_mbrother: 'اخیافی بھائی (ماں شریک)', r_msister: 'اخیافی بہن (ماں شریک)',
@@ -252,6 +254,17 @@
 
 		/* ---- form ---- */
 
+		// Relations whose children can stand in for them when they died first.
+		var KIDS = { son: ['grandson', 'granddaughter'], daughter: ['grandson', 'granddaughter'], brother: ['nephew', 'niece'], sister: ['nephew', 'niece'], pbrother: ['nephew', 'niece'], psister: ['nephew', 'niece'], mbrother: ['nephew', 'niece'], msister: ['nephew', 'niece'], chacha: ['cousin'] };
+		function kidsPrompt(p) {
+			var kinds = KIDS[p.rel];
+			if (!kinds || p.status !== 'before') return '';
+			var kids = st.people.filter(function (q) { return q.parent === p.id; });
+			var who = p.name || relName(p, lang, st.people);
+			return '<div class="myzt-wkids"><span class="myzt-small">' + esc(t('kidsQ').replace('%s', who)) + '</span> ' +
+				kinds.map(function (k, i) { return '<button type="button" class="myzt-btn" data-addkid="' + k + '" data-for="' + esc(p.id) + '">+ ' + esc(t(i ? 'kidDaughter' : 'kidSon')) + '</button>'; }).join(' ') +
+				(kids.length ? '<span class="myzt-small"> ' + esc(t('kidsHave')) + ': ' + kids.map(function (q) { return esc(q.name || relName(q, lang, st.people)); }).join('، ') + '</span>' : '') + '</div>';
+		}
 		function personRow(p) {
 			var par = parentsFor(p.rel);
 			var name = p.name ? '' : '';
@@ -263,7 +276,7 @@
 				}).join('') + '</select>' +
 				(par.length ? '<select class="myzt-sel" data-pparent="' + esc(p.id) + '" aria-label="' + esc(t('parentOf')) + '"><option value="">' + esc(t('parentOf')) + '…</option>' + par.map(function (q, i) {
 					return '<option value="' + esc(q.id) + '"' + (p.parent === q.id ? ' selected' : '') + '>' + esc((q.name || relName(q, lang, st.people) + ' ' + (i + 1))) + '</option>';
-				}).join('') + '</select>' : '') + '</div></div>';
+				}).join('') + '</select>' : '') + '</div>' + kidsPrompt(p) + '</div>';
 		}
 
 		function itemRow(it, i) {
@@ -824,6 +837,14 @@
 				persist(); render();
 				var inp = root.querySelector('[data-pname="' + p.id + '"]');
 				if (inp) inp.focus();
+				return;
+			}
+			if ((b = e.target.closest('[data-addkid]'))) {
+				var kid = { id: newId(), rel: b.dataset.addkid, status: 'alive', name: '', parent: b.dataset.for };
+				st.people.push(kid);
+				persist(); render();
+				var ki = root.querySelector('[data-pname="' + kid.id + '"]');
+				if (ki) ki.focus();
 				return;
 			}
 			if ((b = e.target.closest('[data-del]'))) { removePerson(b.dataset.del); persist(); render(); return; }
