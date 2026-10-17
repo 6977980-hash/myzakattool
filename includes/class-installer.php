@@ -35,7 +35,8 @@ class MYZT_Installer {
 	public static function pages() {
 		if ( null === self::$pages ) {
 			require_once MYZAKATTOOL_DIR . 'includes/content.php';
-			self::$pages = myzt_content_pages();
+			require_once MYZAKATTOOL_DIR . 'includes/content-urdu.php';
+			self::$pages = array_merge( myzt_content_pages(), myzt_content_urdu() );
 			foreach ( myzt_content_posts() as $slug => $post ) {
 				$post['hub']           = 'guides';
 				$post['is_post']       = true;
@@ -59,6 +60,7 @@ class MYZT_Installer {
 		}
 		self::create_pages();
 		self::menu();
+		self::menu_additions();
 		self::logo();
 		self::root_favicon();
 		if ( $first ) {
@@ -311,6 +313,58 @@ class MYZT_Installer {
 	}
 
 	/** [myzt_guides]: list of guide posts. */
+	/**
+	 * Adds pages that came after the menu was first built (audit FIX-044) to the plugin's "Main Menu".
+	 * Each one is added only once, so an item the owner removes stays removed.
+	 */
+	private static function menu_additions() {
+		$menu = wp_get_nav_menu_object( 'Main Menu' );
+		if ( ! $menu ) {
+			return;
+		}
+		$done  = (array) get_option( 'myzt_menu_added', array() );
+		$items = wp_get_nav_menu_items( $menu->term_id );
+		$items = is_array( $items ) ? $items : array();
+		$in    = array();
+		foreach ( $items as $it ) {
+			$in[ (int) $it->object_id ] = (int) $it->ID;
+		}
+		$calc   = get_page_by_path( 'calculators' );
+		$parent = $calc && isset( $in[ $calc->ID ] ) ? $in[ $calc->ID ] : 0;
+		$add    = array(
+			'fidya-kaffara-calculator' => array( 'Fidya & Kaffara', $parent ),
+			'zakat-date-calculator'    => array( 'Zakat Date', $parent ),
+			'ushr-calculator'          => array( 'Ushr & Livestock', $parent ),
+			'free-zakat-widget'        => array( 'Free Nisab Widget', $parent ),
+			'zakat-calculator-urdu'    => array( 'اردو', 0 ),
+		);
+		foreach ( $add as $slug => $item ) {
+			if ( in_array( $slug, $done, true ) ) {
+				continue;
+			}
+			$p = get_page_by_path( $slug );
+			if ( ! $p ) {
+				continue;
+			}
+			if ( ! isset( $in[ $p->ID ] ) ) {
+				wp_update_nav_menu_item(
+					$menu->term_id,
+					0,
+					array(
+						'menu-item-title'     => $item[0],
+						'menu-item-object'    => 'page',
+						'menu-item-object-id' => $p->ID,
+						'menu-item-type'      => 'post_type',
+						'menu-item-status'    => 'publish',
+						'menu-item-parent-id' => $item[1],
+					)
+				);
+			}
+			$done[] = $slug;
+		}
+		update_option( 'myzt_menu_added', $done, false );
+	}
+
 	public static function guides_list() {
 		$q = new WP_Query(
 			array(
@@ -345,8 +399,19 @@ class MYZT_Installer {
 				$out[] = '<a href="' . esc_url( MYZT_Frontend::page_url( $slug ) ) . '">' . esc_html( $label ) . '</a>';
 			}
 		}
+		// Every tool linked from every page, so the newer ones are not orphaned (audit FIX-044).
+		$tools = array( 'calculators' => 'All calculators', 'fitrana-calculator' => 'Fitrana', 'fidya-kaffara-calculator' => 'Fidya & kaffara', 'zakat-date-calculator' => 'Zakat date', 'ushr-calculator' => 'Ushr & livestock', 'khums-calculator' => 'Khums', 'free-zakat-widget' => 'Free nisab widget' );
+		$tl    = array();
+		foreach ( $tools as $slug => $label ) {
+			if ( get_page_by_path( $slug ) ) {
+				$tl[] = '<a href="' . esc_url( MYZT_Frontend::page_url( $slug ) ) . '">' . esc_html( $label ) . '</a>';
+			}
+		}
+		if ( get_page_by_path( 'zakat-calculator-urdu' ) ) {
+			$tl[] = '<a href="' . esc_url( MYZT_Frontend::page_url( 'zakat-calculator-urdu' ) ) . '" lang="ur" hreflang="ur">اردو</a>';
+		}
 		if ( $out ) {
-			echo '<nav class="myzt-footer-links" aria-label="Site information" style="text-align:center;font-size:13px;padding:14px 16px;line-height:2">' . implode( ' · ', $out ) . '<br><span style="color:#6b7f7a">Estimates only, not a fatwa. © ' . esc_html( gmdate( 'Y' ) ) . ' My Zakat Tool</span></nav>'; // phpcs:ignore
+			echo '<nav class="myzt-footer-links" aria-label="Site information" style="text-align:center;font-size:13px;padding:14px 16px;line-height:2">' . ( $tl ? implode( ' · ', $tl ) . '<br>' : '' ) . implode( ' · ', $out ) . '<br><span style="color:#6b7f7a">Estimates only, not a fatwa. © ' . esc_html( gmdate( 'Y' ) ) . ' My Zakat Tool</span></nav>'; // phpcs:ignore
 		}
 	}
 }

@@ -81,7 +81,7 @@ class MYZT_Frontend {
 		if ( ! empty( $_SERVER['HTTP_CF_IPCOUNTRY'] ) ) {
 			$country = strtoupper( substr( sanitize_text_field( wp_unslash( $_SERVER['HTTP_CF_IPCOUNTRY'] ) ), 0, 2 ) );
 		}
-		return array(
+		$out = array(
 			'rates'      => $rates,
 			'country'    => $country,
 			'currencies' => MYZT_Rates::currencies(),
@@ -96,6 +96,10 @@ class MYZT_Frontend {
 			),
 			'fitrana'    => self::fitrana_config( $s ),
 		);
+		if ( MYZT_SEO::is_ur() ) {
+			$out['lang'] = 'ur'; // Urdu pages always open the widgets in Urdu.
+		}
+		return $out;
 	}
 
 	/**
@@ -145,7 +149,7 @@ class MYZT_Frontend {
 		}
 		$wide = 'calculator' === $name ? ' alignwide' : '';
 		return '<div class="myzt myzt-' . esc_attr( $name ) . $wide . '" data-widget="' . esc_attr( $name ) . '"' . $data . '>' . $inner .
-			'<noscript><p>' . esc_html__( 'Please enable JavaScript to use the calculator.', 'myzakattool' ) . '</p></noscript></div>';
+			'<noscript><p>' . ( MYZT_SEO::is_ur() ? 'کیلکولیٹر استعمال کرنے کے لیے براؤزر میں JavaScript آن کریں۔' : esc_html__( 'Please enable JavaScript to use the calculator.', 'myzakattool' ) ) . '</p></noscript></div>';
 	}
 
 	public static function calculator( $atts ) {
@@ -314,7 +318,7 @@ class MYZT_Frontend {
 			return '';
 		}
 		self::enqueue();
-		$h = '<h2 class="myzt-faq-h">Frequently asked questions</h2><div class="myzt myzt-faq">';
+		$h = '<h2 class="myzt-faq-h">' . ( MYZT_SEO::is_ur() ? 'اکثر پوچھے جانے والے سوالات' : 'Frequently asked questions' ) . '</h2><div class="myzt myzt-faq">';
 		foreach ( $faq as $item ) {
 			$h .= '<details><summary>' . esc_html( $item['q'] ) . '</summary><p>' . wp_kses_post( $item['a'] ) . '</p></details>';
 		}
@@ -341,23 +345,30 @@ class MYZT_Frontend {
 		$modified = $post ? get_the_modified_date( 'j F Y', $post ) : '';
 		$initials = strtoupper( substr( $s['author_name'], 0, 1 ) );
 		$name     = $s['author_url'] ? '<a href="' . esc_url( $s['author_url'] ) . '" rel="author noopener" target="_blank">' . esc_html( $s['author_name'] ) . '</a>' : esc_html( $s['author_name'] );
-		$review   = $s['reviewer'] ? ' · <b>Reviewed by</b> ' . esc_html( $s['reviewer'] ) : '';
-		return '<div class="myzt myzt-author"><span class="av" aria-hidden="true">' . esc_html( $initials ) . '</span><div><b>By</b> ' . $name . $review .
-			' · Updated ' . esc_html( $modified ) . ' · <a href="' . esc_url( self::page_url( 'methodology' ) ) . '">How we calculate</a> · <a href="mailto:' . esc_attr( $s['contact_email'] ) . '">' . esc_html( $s['contact_email'] ) . '</a></div></div>';
+		$ur       = MYZT_SEO::is_ur();
+		$l        = $ur
+			? array( 'by' => 'تحریر:', 'reviewed' => 'نظرِ ثانی:', 'updated' => 'تازہ ترین:', 'how' => 'ہم حساب کیسے کرتے ہیں' )
+			: array( 'by' => 'By', 'reviewed' => 'Reviewed by', 'updated' => 'Updated', 'how' => 'How we calculate' );
+		$review   = $s['reviewer'] ? ' · <b>' . $l['reviewed'] . '</b> ' . esc_html( $s['reviewer'] ) : '';
+		return '<div class="myzt myzt-author"' . ( $ur ? ' dir="rtl"' : '' ) . '><span class="av" aria-hidden="true">' . esc_html( $initials ) . '</span><div><b>' . $l['by'] . '</b> ' . $name . $review .
+			' · ' . $l['updated'] . ' <span dir="ltr">' . esc_html( $modified ) . '</span> · <a href="' . esc_url( self::page_url( 'methodology' ) ) . '">' . $l['how'] . '</a> · <a href="mailto:' . esc_attr( $s['contact_email'] ) . '">' . esc_html( $s['contact_email'] ) . '</a></div></div>';
 	}
 
 	public static function answer( $atts, $content = '' ) {
 		self::enqueue();
 		$a = shortcode_atts( array( 'q' => '' ), $atts, 'myzt_answer' );
-		return '<div class="myzt myzt-answer"><div class="k">Quick answer</div><p><b>' . esc_html( $a['q'] ) . '</b> ' . wp_kses_post( do_shortcode( $content ) ) . '</p></div>';
+		return '<div class="myzt myzt-answer"><div class="k">' . ( MYZT_SEO::is_ur() ? 'مختصر جواب' : 'Quick answer' ) . '</div><p><b>' . esc_html( $a['q'] ) . '</b> ' . wp_kses_post( do_shortcode( $content ) ) . '</p></div>';
 	}
 
 	public static function trust() {
 		self::enqueue();
 		$s     = MYZT_Settings::get();
-		$items = array( '✓ Sources listed for each madhab', '✓ Your data stays on your device', '✓ Live gold &amp; silver rates' );
+		$ur    = MYZT_SEO::is_ur();
+		$items = $ur
+			? array( '✓ ہر مسلک کے حوالے موجود', '✓ آپ کا ڈیٹا آپ کے آلے پر ہی رہتا ہے', '✓ سونے اور چاندی کے تازہ ریٹ' )
+			: array( '✓ Sources listed for each madhab', '✓ Your data stays on your device', '✓ Live gold &amp; silver rates' );
 		if ( $s['reviewer'] ) {
-			$items[] = '✓ Reviewed by ' . esc_html( $s['reviewer'] );
+			$items[] = ( $ur ? '✓ نظرِ ثانی: ' : '✓ Reviewed by ' ) . esc_html( $s['reviewer'] );
 		}
 		return '<ul class="myzt myzt-trust"><li>' . implode( '</li><li>', $items ) . '</li></ul>';
 	}

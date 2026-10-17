@@ -209,6 +209,7 @@
 
 	var lang = 'en';
 	try { lang = localStorage.getItem(LANG_KEY) || (document.documentElement.lang || '').slice(0, 2) || 'en'; } catch (e) {}
+	if (CFG.lang && T[CFG.lang]) lang = CFG.lang; // server-rendered Urdu pages (FIX-046)
 	if (!T[lang]) lang = 'en';
 	function t(k) { return (T[lang] && T[lang][k]) || T.en[k] || k; }
 

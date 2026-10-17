@@ -31,6 +31,8 @@ class MYZT_SEO {
 		add_filter( 'term_link', array( __CLASS__, 'guides_term_link' ), 10, 3 );
 		add_filter( 'oembed_response_data', array( __CLASS__, 'oembed_author' ), 10, 2 );
 		add_filter( 'the_content', array( __CLASS__, 'breadcrumb' ), 5 );
+		add_filter( 'the_content', array( __CLASS__, 'lang_switch' ), 4 );
+		add_filter( 'language_attributes', array( __CLASS__, 'html_lang' ), 20 );
 		remove_action( 'wp_head', 'wp_generator' );
 		remove_action( 'wp_head', 'wp_shortlink_wp_head' );
 
@@ -44,6 +46,89 @@ class MYZT_SEO {
 
 	private static function meta_on() {
 		return MYZT_Settings::get( 'seo_enabled' ) && ! self::other_seo_plugin();
+	}
+
+	/* ---------- languages (audit FIX-046) ---------- */
+
+	/** 'ur' for our Urdu pages, otherwise 'en'. */
+	public static function lang_of( $post_id ) {
+		if ( ! $post_id ) {
+			return 'en';
+		}
+		$pages = MYZT_Installer::pages();
+		$slug  = get_post_field( 'post_name', $post_id );
+		return isset( $pages[ $slug ]['lang'] ) && get_post_meta( $post_id, '_myzt_managed', true ) ? $pages[ $slug ]['lang'] : 'en';
+	}
+
+	/** True while rendering one of our Urdu pages. */
+	public static function is_ur() {
+		return is_singular() && 'ur' === self::lang_of( get_queried_object_id() );
+	}
+
+	/**
+	 * English and Urdu URLs of a page that exists in both languages: array( 'en' => url, 'ur' => url ),
+	 * or an empty array. Both pages must be published, so no hreflang points at a missing page.
+	 */
+	public static function alternates( $post_id ) {
+		static $cache = array();
+		if ( ! $post_id ) {
+			return array();
+		}
+		if ( isset( $cache[ $post_id ] ) ) {
+			return $cache[ $post_id ];
+		}
+		$pages = MYZT_Installer::pages();
+		$slug  = get_post_field( 'post_name', $post_id );
+		$en    = '';
+		$ur    = '';
+		if ( isset( $pages[ $slug ]['alt'] ) && 'ur' === self::lang_of( $post_id ) ) {
+			$en = $pages[ $slug ]['alt'];
+			$ur = $slug;
+		} elseif ( isset( $pages[ $slug ] ) && empty( $pages[ $slug ]['lang'] ) ) {
+			foreach ( $pages as $s => $def ) {
+				if ( isset( $def['alt'] ) && $def['alt'] === $slug ) {
+					$en = $slug;
+					$ur = $s;
+					break;
+				}
+			}
+		}
+		$out = array();
+		if ( $en && $ur ) {
+			$en_post = get_page_by_path( $en );
+			$ur_post = get_page_by_path( $ur );
+			if ( $en_post && $ur_post && 'publish' === $en_post->post_status && 'publish' === $ur_post->post_status ) {
+				$out = array(
+					'en' => (int) get_option( 'page_on_front' ) === (int) $en_post->ID ? home_url( '/' ) : get_permalink( $en_post ),
+					'ur' => get_permalink( $ur_post ),
+				);
+			}
+		}
+		$cache[ $post_id ] = $out;
+		return $out;
+	}
+
+	/** <html lang="ur"> on the Urdu pages. Direction stays with the content box, so the theme's menu is not mirrored. */
+	public static function html_lang( $output ) {
+		if ( self::is_ur() ) {
+			$output = preg_replace( '/lang="[^"]*"/', 'lang="ur"', $output );
+		}
+		return $output;
+	}
+
+	/** A link to the same page in the other language, above the content. */
+	public static function lang_switch( $content ) {
+		if ( ! is_singular() || ! in_the_loop() || ! is_main_query() ) {
+			return $content;
+		}
+		$alt = self::alternates( get_the_ID() );
+		if ( ! $alt ) {
+			return $content;
+		}
+		$link = self::is_ur()
+			? '<a href="' . esc_url( $alt['en'] ) . '" hreflang="en" lang="en">Read this page in English</a>'
+			: '<a href="' . esc_url( $alt['ur'] ) . '" hreflang="ur" lang="ur" dir="rtl">یہ صفحہ اردو میں پڑھیں</a>';
+		return '<p class="myzt-lang" style="font-size:14px;margin:0 0 12px">' . $link . '</p>' . $content;
 	}
 
 	/* ---------- titles and descriptions ---------- */
@@ -101,6 +186,10 @@ class MYZT_SEO {
 		if ( $post_id && (int) get_option( 'page_on_front' ) === (int) $post_id ) {
 			$slug = 'home';
 		}
+		$pages = MYZT_Installer::pages();
+		if ( $slug && isset( $pages[ $slug ]['alt'] ) ) {
+			$slug = $pages[ $slug ]['alt']; // Urdu pages share the English page's image.
+		}
 		if ( $slug && file_exists( MYZAKATTOOL_DIR . 'assets/img/og/' . $slug . '.jpg' ) ) {
 			return MYZAKATTOOL_URL . 'assets/img/og/' . $slug . '.jpg';
 		}
@@ -127,6 +216,12 @@ class MYZT_SEO {
 			}
 		}
 		$post_id = is_singular() ? get_queried_object_id() : 0;
+		$alt     = self::alternates( $post_id );
+		if ( $alt ) {
+			echo '<link rel="alternate" hreflang="en" href="' . esc_url( $alt['en'] ) . '">' . "\n";
+			echo '<link rel="alternate" hreflang="ur" href="' . esc_url( $alt['ur'] ) . '">' . "\n";
+			echo '<link rel="alternate" hreflang="x-default" href="' . esc_url( $alt['en'] ) . '">' . "\n";
+		}
 		if ( self::meta_on() ) {
 			$desc  = self::current_desc();
 			$title = wp_get_document_title();
@@ -140,7 +235,7 @@ class MYZT_SEO {
 				echo '<meta name="description" content="' . esc_attr( $desc ) . '">' . "\n";
 			}
 			$og = array(
-				'og:locale'       => str_replace( '-', '_', get_bloginfo( 'language' ) ),
+				'og:locale'       => self::is_ur() ? 'ur_PK' : str_replace( '-', '_', get_bloginfo( 'language' ) ),
 				'og:type'         => is_singular( 'post' ) ? 'article' : 'website',
 				'og:title'        => $title,
 				'og:description'  => $desc,
@@ -263,7 +358,7 @@ class MYZT_SEO {
 					'description'   => $desc,
 					'isPartOf'      => array( '@id' => $site_id ),
 					'breadcrumb'    => array( '@id' => $url . '#breadcrumb' ),
-					'inLanguage'    => get_bloginfo( 'language' ),
+					'inLanguage'    => 'ur' === self::lang_of( $post_id ) ? 'ur' : get_bloginfo( 'language' ),
 					'datePublished' => get_the_date( 'c', $post ),
 					'dateModified'  => get_the_modified_date( 'c', $post ),
 					'author'        => array( '@id' => $per_id ),
@@ -354,7 +449,7 @@ class MYZT_SEO {
 
 	/** Breadcrumb trail: Home > hub > page. Returns [[name, url], ...]. */
 	public static function crumbs( $post_id ) {
-		$home  = array( array( 'Home', home_url( '/' ) ) );
+		$home  = array( array( 'ur' === self::lang_of( $post_id ) ? 'ہوم' : 'Home', home_url( '/' ) ) );
 		if ( (int) get_option( 'page_on_front' ) === (int) $post_id ) {
 			return $home;
 		}
