@@ -6,3 +6,4 @@ find . -name '*.php' -not -path './node_modules/*' -not -path './.git/*' | sort 
 	php -l "$f" >/dev/null || { echo "Syntax error in $f"; php -l "$f"; exit 1; }
 done
 echo "PHP lint OK"
+php tests/pages.test.php

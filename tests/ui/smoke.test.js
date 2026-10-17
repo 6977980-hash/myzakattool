@@ -250,3 +250,12 @@ test('fidya says which madhab the daily amount follows (FIX-025)', async () => {
 	assert.match(await page.locator('.myzt-fidya').textContent(), /one mudd of food/);
 	await ctx.close();
 });
+
+// Phase 6 (audit FIX-046): server-rendered Urdu pages open the widgets in Urdu.
+test('Urdu page config (lang: ur) renders the calculator in Urdu, right to left', async () => {
+	const { page, ctx, errors } = await open({ cfg: { lang: 'ur' } });
+	assert.equal(await calc(page).getAttribute('dir'), 'rtl');
+	assert.match(await calc(page).textContent(), /زکوٰۃ/);
+	assert.deepEqual(errors, []);
+	await ctx.close();
+});
