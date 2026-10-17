@@ -241,6 +241,9 @@ class MYZT_Security {
 		if ( is_ssl() ) {
 			$h['Strict-Transport-Security'] = 'max-age=31536000';
 		}
+		// The site needs no plugins (<object>/<embed>) and never changes the base URL (audit FIX-059).
+		// This adds to the host's upgrade-insecure-requests policy; it does not restrict scripts or frames.
+		$h['Content-Security-Policy'] = "object-src 'none'; base-uri 'self'";
 		return $h;
 	}
 }

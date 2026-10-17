@@ -16,6 +16,10 @@
 	var T = {
 		en: {
 			madhab: 'Madhab', currency: 'Currency', unit: 'Weight unit', change: 'Change', done: 'Done',
+			u_tola: 'tola', u_gram: 'g', u_oz: 'oz', uo_tola: 'tola', uo_gram: 'gram', uo_oz: 'oz', mins: 'min', hours: 'h', days: 'd',
+			spotRate: 'international spot rate', weight: 'Weight', maund: 'maund', kg: 'kg', maund40: 'maund (40 kg)',
+			forget: 'Delete saved data', forgetConfirm: 'Delete everything the calculators saved in this browser (amounts, family members, language and reminder dates)?', forgotten: 'Saved data deleted from this browser.',
+			m_hanafi: 'Hanafi', m_shafii: 'Shafi\'i', m_maliki: 'Maliki', m_hanbali: 'Hanbali', m_ahlehadith: 'Ahl-e-Hadith', m_jafari: 'Shia (Ja\'fari)',
 			gold24: 'Gold 24K', silver: 'Silver', nisab: 'Nisab', per: '/', updated: 'updated', ago: 'ago', manualRate: 'manual rate set by the site owner', fxRates: 'currency rates',
 			ownRate: 'Use my own local rate', ownGold: 'Gold 24K price per', ownSilver: 'Silver price per',
 			rateMissing: 'Live rate not available right now. Please enter your local rate.',
@@ -112,6 +116,10 @@
 		},
 		ur: {
 			madhab: 'مسلک', currency: 'کرنسی', unit: 'وزن کی اکائی', change: 'تبدیل کریں', done: 'ٹھیک ہے',
+			u_tola: 'تولہ', u_gram: 'گرام', u_oz: 'اونس', uo_tola: 'تولہ', uo_gram: 'گرام', uo_oz: 'اونس', mins: 'منٹ', hours: 'گھنٹے', days: 'دن',
+			spotRate: 'بین الاقوامی اسپاٹ ریٹ', weight: 'وزن', maund: 'من', kg: 'کلو', maund40: 'من (40 کلو)',
+			forget: 'محفوظ ڈیٹا مٹائیں', forgetConfirm: 'کیلکولیٹرز نے اس براؤزر میں جو کچھ محفوظ کیا ہے (رقمیں، گھر کے افراد، زبان اور یاد دہانی کی تاریخیں) سب مٹا دیں؟', forgotten: 'محفوظ ڈیٹا اس براؤزر سے مٹا دیا گیا۔',
+			m_hanafi: 'حنفی', m_shafii: 'شافعی', m_maliki: 'مالکی', m_hanbali: 'حنبلی', m_ahlehadith: 'اہلِ حدیث', m_jafari: 'شیعہ (جعفری)',
 			gold24: 'سونا 24 قیراط', silver: 'چاندی', nisab: 'نصاب', per: '/', updated: 'اپڈیٹ', ago: 'پہلے', manualRate: 'سائٹ کے مالک کا دستی ریٹ', fxRates: 'کرنسی ریٹ',
 			ownRate: 'اپنا مقامی ریٹ لکھیں', ownGold: 'سونا 24 قیراط فی', ownSilver: 'چاندی فی',
 			rateMissing: 'ابھی لائیو ریٹ دستیاب نہیں۔ براہ کرم اپنا مقامی ریٹ لکھیں۔',
@@ -261,10 +269,10 @@
 	function ago(ts) {
 		if (!ts) return '';
 		var m = Math.max(1, Math.round((Date.now() / 1000 - ts) / 60));
-		if (m < 60) return m + ' min ' + t('ago');
+		if (m < 60) return m + ' ' + t('mins') + ' ' + t('ago');
 		var h = Math.round(m / 60);
-		if (h < 48) return h + ' h ' + t('ago');
-		return Math.round(h / 24) + ' d ' + t('ago');
+		if (h < 48) return h + ' ' + t('hours') + ' ' + t('ago');
+		return Math.round(h / 24) + ' ' + t('days') + ' ' + t('ago');
 	}
 	/* "updated 20 min ago", plus a manual-rate label and the FX age when currency rates lag. */
 	function stamp() {
@@ -275,7 +283,20 @@
 	}
 	function load(k, d) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } }
 	function save(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
-	function unitLabel(u) { return u === 'tola' ? 'tola' : u === 'oz' ? 'oz' : 'g'; }
+	function unitLabel(u) { return t(u === 'tola' ? 'u_tola' : u === 'oz' ? 'u_oz' : 'u_gram'); }
+	/* Madhab name in the page language; the engine's English name stays in the PDF (FIX-055). */
+	function mname(k) { return lang === 'en' ? E.MADHABS[k].name : t('m_' + k); }
+	/* Every key this site keeps in the browser starts with "myzt_" (draft, language, hawl, khums date). */
+	function forgetAll() {
+		try {
+			for (var i = localStorage.length - 1; i >= 0; i--) {
+				var k = localStorage.key(i);
+				if (k && k.indexOf('myzt_') === 0) localStorage.removeItem(k);
+			}
+		} catch (e) {}
+	}
+	/* Page language on a widget root: lang for screen readers and fonts, dir for layout (FIX-055). */
+	function setLang(el) { el.lang = lang; el.dir = lang === 'ur' ? 'rtl' : 'ltr'; }
 	function unitGrams(u) { return u === 'tola' ? E.GRAMS_PER_TOLA : u === 'oz' ? E.GRAMS_PER_OZ : 1; }
 	/** Calendar file with one all-day event per date and a reminder 3 days before. */
 	function icsFile(name, title, dates) {
@@ -364,6 +385,23 @@
 		document.body.appendChild(a);
 		a.click();
 		setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+	}
+
+	/* pdf.js is only fetched when someone makes a report, so page load skips it (FIX-049). */
+	var pdfReq = null;
+	function loadPdf() {
+		if (window.MYZT_PDF) return Promise.resolve(window.MYZT_PDF);
+		if (!pdfReq) {
+			pdfReq = new Promise(function (resolve, reject) {
+				var s = document.createElement('script');
+				s.src = CFG.pdfUrl;
+				s.async = true;
+				s.onload = function () { window.MYZT_PDF ? resolve(window.MYZT_PDF) : reject(new Error('pdf')); };
+				s.onerror = function () { pdfReq = null; reject(new Error('pdf')); };
+				document.head.appendChild(s);
+			});
+		}
+		return pdfReq;
 	}
 
 	var RATES = CFG.rates || {};
@@ -496,8 +534,12 @@
 			s.active = act >= 0 && act < s.persons.length ? act : 0;
 			return s;
 		}
-		function clearDraft() { try { localStorage.removeItem(DRAFT_KEY); } catch (e) {} }
+		function clearDraft() { try { localStorage.removeItem(DRAFT_KEY); localStorage.removeItem(DRAFT_KEY + '_at'); } catch (e) {} }
 
+		// A draft not touched for 13 months is dropped (last year's figures still help next Ramadan) (FIX-057).
+		var DRAFT_TTL = 396 * 864e5;
+		var savedAt = +load(DRAFT_KEY + '_at', 0);
+		if (savedAt && Date.now() - savedAt > DRAFT_TTL) clearDraft();
 		var st;
 		try { st = sanitize(load(DRAFT_KEY, null)); } catch (e) { st = defaults(); clearDraft(); }
 		if (opts.madhab && E.MADHABS[opts.madhab]) st.madhab = opts.madhab;
@@ -539,7 +581,7 @@
 			};
 		}
 
-		function persist() { save(DRAFT_KEY, st); }
+		function persist() { save(DRAFT_KEY, st); save(DRAFT_KEY + '_at', Date.now()); }
 
 		function field(kind, key, p) {
 			var id = 'myzt-' + key + '-' + st.active;
@@ -576,17 +618,17 @@
 
 			html += '<div class="myzt-grid"><div class="myzt-card">';
 			// Context bar.
-			html += '<div class="myzt-ctx"><div>' + flag(COUNTRY) + ' <b>' + esc(m.name) + '</b> · ' + esc(st.currency) + ' · ' + esc(unitLabel(st.unit)) + '</div>' +
+			html += '<div class="myzt-ctx"><div>' + flag(COUNTRY) + ' <b>' + esc(mname(st.madhab)) + '</b> · ' + esc(st.currency) + ' · ' + esc(unitLabel(st.unit)) + '</div>' +
 				'<div><button type="button" class="myzt-link" data-act="lang">' + (lang === 'en' ? 'اردو' : 'English') + '</button> · ' +
 				'<button type="button" class="myzt-link" data-act="ctx" aria-expanded="' + ui.ctx + '">' + esc(ui.ctx ? t('done') : t('change')) + '</button></div></div>';
 			if (ui.ctx) {
 				html += '<div class="myzt-ctxform">' +
 					'<div><label for="myzt-madhab">' + esc(t('madhab')) + '</label><select class="myzt-sel" id="myzt-madhab" data-set="madhab">' +
-					E.MADHAB_ORDER.map(function (k) { return '<option value="' + k + '"' + (k === st.madhab ? ' selected' : '') + '>' + esc(E.MADHABS[k].name) + '</option>'; }).join('') + '</select></div>' +
+					E.MADHAB_ORDER.map(function (k) { return '<option value="' + k + '"' + (k === st.madhab ? ' selected' : '') + '>' + esc(mname(k)) + '</option>'; }).join('') + '</select></div>' +
 					'<div><label for="myzt-cur">' + esc(t('currency')) + '</label><select class="myzt-sel" id="myzt-cur" data-set="currency">' +
 					currencies().map(function (c) { return '<option' + (c === st.currency ? ' selected' : '') + '>' + c + '</option>'; }).join('') + '</select></div>' +
 					'<div><label for="myzt-unit">' + esc(t('unit')) + '</label><select class="myzt-sel" id="myzt-unit" data-set="unit">' +
-					['tola', 'gram', 'oz'].map(function (u) { return '<option value="' + u + '"' + (u === st.unit ? ' selected' : '') + '>' + u + '</option>'; }).join('') + '</select></div></div>';
+					['tola', 'gram', 'oz'].map(function (u) { return '<option value="' + u + '"' + (u === st.unit ? ' selected' : '') + '>' + esc(t('uo_' + u)) + '</option>'; }).join('') + '</select></div></div>';
 			}
 			// Rates.
 			if (pr) {
@@ -623,7 +665,7 @@
 			// Fields of chosen tiles.
 			TILES.forEach(function (tile) {
 				if (!p.tiles[tile[0]]) return;
-				html += '<div class="myzt-sec"><h4>' + esc(t('t_' + tile[0])) + '</h4>' + tile[2].map(function (f) { return field(f[0], f[1], p); }).join('') + '</div>';
+				html += '<div class="myzt-sec"><h2 class="myzt-h">' + esc(t('t_' + tile[0])) + '</h2>' + tile[2].map(function (f) { return field(f[0], f[1], p); }).join('') + '</div>';
 			});
 			if (m.userNisab) {
 				var nb = st.nisabBasis || m.cashNisab;
@@ -634,7 +676,7 @@
 			html += '</div>';
 
 			// Result.
-			html += '<div class="myzt-card myzt-res" aria-live="polite">' + resultHtml(pr) + '</div></div>';
+			html += '<div class="myzt-card myzt-res">' + resultHtml(pr) + '</div></div>';
 
 			if (ui.compare && pr) html += compareHtml(pr);
 			keepFocus(root, function () { root.innerHTML = html; });
@@ -652,7 +694,7 @@
 			var all = results(pr);
 			var r = all[st.active];
 			var p = st.persons[st.active];
-			var html = '<div class="myzt-due">' + esc(st.persons.length > 1 ? t('zakatFor') + ' ' + (p.name || (st.active === 0 ? t('me') : '#' + (st.active + 1))) : t('yourZakat')) + ' (' + esc(r.name) + ')</div>' +
+			var html = '<div class="myzt-due">' + esc(st.persons.length > 1 ? t('zakatFor') + ' ' + (p.name || (st.active === 0 ? t('me') : '#' + (st.active + 1))) : t('yourZakat')) + ' (' + esc(mname(r.madhab)) + ')</div>' +
 				'<div class="myzt-amt">' + money(r.paid ? r.payable : r.zakat, st.currency) + '</div>' +
 				(r.paid ? '<div class="myzt-small">' + esc(t('toPay')) + ' · ' + esc(t('totalZakat')) + ' ' + money(r.zakat, st.currency) + '</div>' : '') +
 				'<div class="myzt-badge' + (r.due ? '' : ' no') + '">' + (r.due ? '✓ ' + esc(t('due')) : esc(t(r.khums ? 'khumsBadge' : 'notDue'))) + '</div>';
@@ -685,7 +727,8 @@
 				'<button type="button" class="myzt-btn" data-act="err">⚑ ' + esc(t('report')) + '</button>' +
 				'<button type="button" class="myzt-btn" data-act="savefile">' + esc(t('saveFile')) + '</button>' +
 				'<label class="myzt-btn" style="text-align:center">' + esc(t('loadFile')) + '<input type="file" accept="application/json,.json" data-loadfile hidden></label>' +
-				'<button type="button" class="myzt-btn wide" data-act="reset">' + esc(t('reset')) + '</button></div>';
+				'<button type="button" class="myzt-btn" data-act="reset">' + esc(t('reset')) + '</button>' +
+				'<button type="button" class="myzt-btn" data-act="forget">' + esc(t('forget')) + '</button></div>';
 			if (ui.pdf) {
 				html += '<div class="myzt-pdfname"><input class="myzt-inp" data-pdfname placeholder="' + esc(t('pdfName')) + '" aria-label="' + esc(t('pdfName')) + '"><button type="button" class="myzt-btn p" data-act="makepdf">' + esc(t('makePdf')) + '</button></div>';
 			}
@@ -702,7 +745,7 @@
 				var m = E.MADHABS[r.madhab];
 				var nb = r.khums ? t('basisCoins') : (m.cashNisab === 'lower' ? t('lower') : t(r.nisabBasis === 'gold' ? 'basisGold' : 'basisSilver'));
 				var ref = CFG.urls && CFG.urls.methodology ? '<a href="' + esc(CFG.urls.methodology) + '#' + r.madhab + '">' + esc(m.ref.split(',')[0]) + '</a>' : esc(m.ref.split(',')[0]);
-				return '<tr class="' + (r.madhab === st.madhab ? 'sel' : '') + '"><td>' + esc(r.name) + '</td><td>' + esc(m.jewellery ? t('included') : r.notes.indexOf('shafii_excess_jewellery') >= 0 ? t('includedAbove') : t('exempt')) + '</td><td>' + esc(m.debts ? t('yes') : t('no')) + '</td><td>' + esc(nb) + '</td>' +
+				return '<tr class="' + (r.madhab === st.madhab ? 'sel' : '') + '"><td>' + esc(mname(r.madhab)) + '</td><td>' + esc(m.jewellery ? t('included') : r.notes.indexOf('shafii_excess_jewellery') >= 0 ? t('includedAbove') : t('exempt')) + '</td><td>' + esc(m.debts ? t('yes') : t('no')) + '</td><td>' + esc(nb) + '</td>' +
 					'<td class="z">' + money(r.zakat, st.currency) + (r.khums ? ' · ' + esc(t('seeKhums')) : '') + '</td>' + (paid ? '<td class="z">' + money(r.payable, st.currency) + '</td>' : '') + '<td>' + ref + '</td></tr>';
 			}).join('');
 			return '<div class="myzt-card myzt-cmp"><div class="myzt-cmp-h"><b>' + esc(t('cmpTitle')) + '</b><span class="myzt-small">' + esc(t('cmpSub')) + '</span></div>' +
@@ -718,11 +761,34 @@
 				document.body.appendChild(stickyEl);
 				document.body.classList.add('myzt-has-sticky');
 			}
-			if (!pr) { stickyEl.hidden = true; return; }
+			setLang(stickyEl);
+			if (!pr) { stickyEl.hidden = true; announce(''); return; }
 			var all = results(pr);
 			var total = all.length > 1 ? E.family(all) : all[0].payable;
+			var text = (all.length > 1 ? t('family') : t('yourZakat')) + ' (' + mname(st.madhab) + '): ' + money(total, st.currency);
 			stickyEl.hidden = false;
-			stickyEl.innerHTML = '<span>' + esc(all.length > 1 ? t('family') : t('yourZakat')) + ' (' + esc(E.MADHABS[st.madhab].name) + ')</span><b>' + money(total, st.currency) + '</b>';
+			stickyEl.innerHTML = '<span>' + esc(all.length > 1 ? t('family') : t('yourZakat')) + ' (' + esc(mname(st.madhab)) + ')</span><b>' + money(total, st.currency) + '</b>';
+			announce(text);
+		}
+
+		/*
+		 * Screen readers hear only the total, once typing pauses, instead of the whole result
+		 * box on every keystroke (FIX-054). The live region sits outside root, so re-renders keep it.
+		 */
+		var live = document.createElement('div'), liveTimer = 0, lastSaid = null;
+		live.className = 'myzt-sr';
+		live.setAttribute('role', 'status');
+		live.setAttribute('aria-live', 'polite');
+		root.parentNode.insertBefore(live, root.nextSibling);
+		function announce(text) {
+			clearTimeout(liveTimer);
+			if (lastSaid === null) { lastSaid = text; return; } // nothing to say on first load
+			liveTimer = setTimeout(function () {
+				if (text === lastSaid) return;
+				lastSaid = text;
+				setLang(live);
+				live.textContent = text;
+			}, 900);
 		}
 
 		/* Update only the result side while typing, so the input keeps focus. */
@@ -844,7 +910,7 @@
 			if (d.why) { ui.why[d.why] = !ui.why[d.why]; updateResult(); return; }
 			switch (d.act) {
 				case 'ctx': ui.ctx = !ui.ctx; render(); break;
-				case 'lang': lang = lang === 'en' ? 'ur' : 'en'; try { localStorage.setItem(LANG_KEY, lang); } catch (x) {} root.dir = lang === 'ur' ? 'rtl' : 'ltr'; render(); break;
+				case 'lang': lang = lang === 'en' ? 'ur' : 'en'; try { localStorage.setItem(LANG_KEY, lang); } catch (x) {} setLang(root); render(); break;
 				case 'fill': fill(root.querySelector('[data-quick]').value); break;
 				case 'add': st.persons.push(newPerson('')); st.active = st.persons.length - 1; persist(); render(); break;
 				case 'rm': st.persons.splice(st.active, 1); st.active = 0; persist(); render(); break;
@@ -856,7 +922,11 @@
 				case 'err': reportError(); break;
 				case 'savefile': download('my-zakat-data.json', new Blob([JSON.stringify(st, null, 1)], { type: 'application/json' })); break;
 				case 'reset':
-					if (window.confirm(t('resetConfirm'))) { st.persons = [newPerson('')]; st.active = 0; ui.msg = ''; persist(); render(); }
+					// Clear all leaves nothing behind: the empty draft is removed, not saved (FIX-057).
+					if (window.confirm(t('resetConfirm'))) { st.persons = [newPerson('')]; st.active = 0; ui.msg = ''; clearDraft(); render(); }
+					break;
+				case 'forget':
+					if (window.confirm(t('forgetConfirm'))) { forgetAll(); st = defaults(); ui.msg = t('forgotten'); render(); }
 					break;
 			}
 		});
@@ -892,11 +962,12 @@
 
 		function makePdf(btn) {
 			var pr = prices();
-			if (!pr || !window.MYZT_PDF) return;
+			if (!pr) return;
 			btn.disabled = true;
 			btn.textContent = t('making');
 			var nameEl = root.querySelector('[data-pdfname]');
-			window.MYZT_PDF.build({
+			var done = function () { btn.disabled = false; btn.textContent = t('makePdf'); };
+			loadPdf().then(function (P) { return P.build({
 				name: nameEl ? nameEl.value.slice(0, 60) : '',
 				madhab: E.MADHABS[st.madhab].name, currency: st.currency, unit: st.unit,
 				prices: pr, nisab: E.nisabValues(pr), own: usingOwn(), source: RATES.source || '', updated: RATES.updated,
@@ -906,14 +977,10 @@
 				}),
 				money: function (v) { return money(v, st.currency); },
 				site: CFG.siteUrl || location.origin,
-			}).then(function () {
-				btn.disabled = false; btn.textContent = t('makePdf');
-			}, function () {
-				btn.disabled = false; btn.textContent = t('makePdf');
-			});
+			}); }).then(done, done);
 		}
 
-		root.dir = lang === 'ur' ? 'rtl' : 'ltr';
+		setLang(root);
 		try { render(); } catch (e) {
 			// A saved draft that still breaks the page: start again from the defaults.
 			st = defaults(); clearDraft(); render();
@@ -949,7 +1016,7 @@
 				return '<tr><td>' + k + 'K</td><td>' + money(g, cur) + '</td><td>' + money(g * E.GRAMS_PER_TOLA, cur) + '</td><td>' + money(g * E.GRAMS_PER_OZ, cur) + '</td></tr>';
 			}).join('') + '<tr><td>' + esc(t('silver')) + '</td><td>' + money(pr.silver, cur) + '</td><td>' + money(pr.silver * E.GRAMS_PER_TOLA, cur) + '</td><td>' + money(pr.silver * E.GRAMS_PER_OZ, cur) + '</td></tr>';
 			root.innerHTML = '<div class="myzt-card">' + curSelect(cur) + '<div class="myzt-scroll"><table class="myzt-table"><thead><tr><th>' + esc(t('purity')) + '</th><th>' + esc(t('perGram')) + '</th><th>' + esc(t('perTola')) + '</th><th>' + esc(t('perOz')) + '</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
-				'<p class="myzt-small">' + esc(stamp()) + (RATES.source === 'manual' ? '' : ' · international spot rate') + '</p></div>';
+				'<p class="myzt-small">' + esc(stamp()) + (RATES.source === 'manual' ? '' : ' · ' + t('spotRate')) + '</p></div>';
 		}
 		root.addEventListener('change', function (e) { if (e.target.dataset.cur !== undefined) { cur = e.target.value; render(); } });
 		render();
@@ -962,10 +1029,10 @@
 			var pr = pricesFor(cur);
 			if (!pr) return;
 			var nv = E.nisabValues(pr);
-			root.innerHTML = '<div class="myzt-card">' + curSelect(cur) + '<div class="myzt-scroll"><table class="myzt-table"><thead><tr><th>' + esc(t('nisab')) + '</th><th>Weight</th><th>' + esc(t('c_zakat')) + ' ' + esc(t('nisab')) + '</th></tr></thead><tbody>' +
-				'<tr><td>' + esc(t('silver')) + '</td><td>612.35 g · 52.5 tola</td><td class="z">' + money(nv.silver, cur) + '</td></tr>' +
-				'<tr><td>' + esc(t('l_gold')) + '</td><td>87.48 g · 7.5 tola</td><td class="z">' + money(nv.gold, cur) + '</td></tr></tbody></table></div>' +
-				'<p class="myzt-small">' + esc(stamp()) + (RATES.source === 'manual' ? '' : ' · international spot rate') + '</p></div>';
+			root.innerHTML = '<div class="myzt-card">' + curSelect(cur) + '<div class="myzt-scroll"><table class="myzt-table"><thead><tr><th>' + esc(t('nisab')) + '</th><th>' + esc(t('weight')) + '</th><th>' + esc(t('c_zakat')) + ' ' + esc(t('nisab')) + '</th></tr></thead><tbody>' +
+				'<tr><td>' + esc(t('silver')) + '</td><td>612.35 ' + unitLabel('gram') + ' · 52.5 ' + unitLabel('tola') + '</td><td class="z">' + money(nv.silver, cur) + '</td></tr>' +
+				'<tr><td>' + esc(t('l_gold')) + '</td><td>87.48 ' + unitLabel('gram') + ' · 7.5 ' + unitLabel('tola') + '</td><td class="z">' + money(nv.gold, cur) + '</td></tr></tbody></table></div>' +
+				'<p class="myzt-small">' + esc(stamp()) + (RATES.source === 'manual' ? '' : ' · ' + t('spotRate')) + '</p></div>';
 		}
 		root.addEventListener('change', function (e) { if (e.target.dataset.cur !== undefined) { cur = e.target.value; render(); } });
 		render();
@@ -1071,7 +1138,7 @@
 				return '<div class="myzt-field"><label for="myzt-k-' + f[0] + '">' + esc(t(f[1])) + '</label><input class="myzt-inp" id="myzt-k-' + f[0] + '" inputmode="decimal" data-k="' + f[0] + '" value="' + esc(plain(st[f[0]], cur)) + '"></div>';
 			}).join('') + '<div data-out>' + out() + '</div>' +
 				'<p class="myzt-small">' + esc(t('k_paid')) + '</p><p class="myzt-small">' + esc(t('k_where')) + '</p>' +
-				'<div class="myzt-field"><label for="myzt-kd">' + esc(t('k_date')) + '</label><div class="myzt-row"><input class="myzt-inp" type="date" id="myzt-kd" data-kdate value="' + esc(kdate) + '">' +
+				'<div class="myzt-field"><label for="myzt-kd">' + esc(t('k_date')) + '</label><div class="myzt-row"><input class="myzt-inp" type="date" id="myzt-kd" aria-label="' + esc(t('k_date')) + '" data-kdate value="' + esc(kdate) + '">' +
 				'<button type="button" class="myzt-btn" data-act="kics">📅 ' + esc(t('k_ics')) + '</button></div></div>' +
 				'<div class="myzt-disc">' + esc(t('disc')) + '</div></div>';
 		}
@@ -1142,9 +1209,9 @@
 					'<div class="myzt-field"><label for="myzt-hny' + i + '" class="myzt-small">' + esc(t('h_nisabY')) + '</label><input class="myzt-inp" id="myzt-hny' + i + '" inputmode="decimal" data-ny="' + i + '" value="' + esc(plain(st.nisabY[i] || 0, cur)) + '" placeholder="' + esc(plain(st.nisab || nisabNow(), cur)) + '"></div>';
 			}
 			root.innerHTML = '<div class="myzt-card myzt-mini">' +
-				'<div class="myzt-field"><label for="myzt-hs">' + esc(t('h_start')) + '</label><input class="myzt-inp" type="date" id="myzt-hs" data-h="start" max="' + today + '" value="' + esc(st.start) + '"></div>' +
+				'<div class="myzt-field"><label for="myzt-hs">' + esc(t('h_start')) + '</label><input class="myzt-inp" type="date" id="myzt-hs" aria-label="' + esc(t('h_start')) + '" data-h="start" max="' + today + '" value="' + esc(st.start) + '"></div>' +
 				'<div data-out>' + out() + '</div>' +
-				'<div class="myzt-sec"><h4>' + esc(t('h_missed')) + '</h4>' + curSelect(cur) +
+				'<div class="myzt-sec"><h2 class="myzt-h">' + esc(t('h_missed')) + '</h2>' + curSelect(cur) +
 				'<div class="myzt-field"><label for="myzt-hm">' + esc(t('h_missedN')) + '</label><input class="myzt-inp" id="myzt-hm" inputmode="numeric" data-h="missed" value="' + (n || '') + '" placeholder="0"></div>' +
 				'<div class="myzt-field"><label>' + esc(t('h_basis')) + '</label><span class="myzt-seg" role="group" aria-label="' + esc(t('h_basis')) + '">' + ['silver', 'gold'].map(function (b) {
 					return '<button type="button" data-hbasis="' + b + '" aria-pressed="' + (st.basis === b) + '">' + esc(t(b === 'gold' ? 'basisGold' : 'basisSilver')) + '</button>';
@@ -1190,7 +1257,7 @@
 			var r = E.ushr(st.madhab, kg(), perKg, st.water);
 			if (!r.due) return kg() ? '<div class="myzt-note">' + esc(t(st.madhab === 'jafari' ? 'u_notDueJ' : 'u_notDue')) + '</div>' : '';
 			var qty = st.unit === 'maund' ? r.kg / 40 : r.kg;
-			return '<div class="myzt-due">' + esc(t('u_due')) + '</div><div class="myzt-amt">' + (Math.round(qty * 100) / 100) + ' ' + (st.unit === 'maund' ? 'maund' : 'kg') + '</div>' +
+			return '<div class="myzt-due">' + esc(t('u_due')) + '</div><div class="myzt-amt">' + (Math.round(qty * 100) / 100) + ' ' + esc(t(st.unit === 'maund' ? 'maund' : 'kg')) + '</div>' +
 				(r.value ? '<div class="myzt-line"><span>' + esc(t('u_value')) + '</span><span><b>' + money(r.value, cur) + '</b></span></div>' : '');
 		}
 		function animalsOut() {
@@ -1213,8 +1280,8 @@
 				h += '<div class="myzt-field"><label>' + esc(t('u_madhab')) + '</label>' + seg('madhab', [['hanafi', 'u_hanafi'], ['shafii', 'u_others'], ['jafari', 'u_jafari']]) + '</div>' +
 					(st.madhab === 'jafari' ? '<p class="myzt-note">' + esc(t('u_jafariNote')) + '</p>' : '') +
 					'<div class="myzt-field"><label for="myzt-uq">' + esc(t('u_qty')) + '</label><div class="myzt-row"><input class="myzt-inp" id="myzt-uq" inputmode="decimal" data-n="qty" value="' + (st.qty || '') + '" placeholder="0">' +
-					'<span class="myzt-seg"><button type="button" data-u="unit" data-v="maund" aria-pressed="' + (st.unit === 'maund') + '">maund (40 kg)</button><button type="button" data-u="unit" data-v="kg" aria-pressed="' + (st.unit === 'kg') + '">kg</button></span></div></div>' +
-					'<div class="myzt-field"><label for="myzt-up">' + esc(t('u_price')) + ' ' + (st.unit === 'maund' ? 'maund' : 'kg') + ' (' + cur + ')</label><input class="myzt-inp" id="myzt-up" inputmode="decimal" data-n="price" value="' + esc(plain(st.price, cur)) + '"></div>' +
+					'<span class="myzt-seg"><button type="button" data-u="unit" data-v="maund" aria-pressed="' + (st.unit === 'maund') + '">' + esc(t('maund40')) + '</button><button type="button" data-u="unit" data-v="kg" aria-pressed="' + (st.unit === 'kg') + '">' + esc(t('kg')) + '</button></span></div></div>' +
+					'<div class="myzt-field"><label for="myzt-up">' + esc(t('u_price')) + ' ' + esc(t(st.unit === 'maund' ? 'maund' : 'kg')) + ' (' + cur + ')</label><input class="myzt-inp" id="myzt-up" inputmode="decimal" data-n="price" value="' + esc(plain(st.price, cur)) + '"></div>' +
 					'<div class="myzt-field"><label>' + esc(t('u_water')) + '</label>' + seg('water', [['rain', 'u_rain'], ['irrigated', 'u_irr']].concat(st.madhab === 'hanafi' ? [] : [['mixed', 'u_mixed']])) + '</div>' +
 					'<div data-out>' + cropsOut() + '</div><p class="myzt-small">' + esc(t('u_note')) + '</p>';
 			} else {
@@ -1238,12 +1305,24 @@
 		render();
 	}
 
+	/*
+	 * Each widget starts in its own task, so a page with several widgets never makes one long
+	 * main-thread block (mobile Total Blocking Time, FIX-049). The first one starts at once.
+	 */
 	function boot() {
 		var map = { calculator: Calculator, goldrate: GoldRate, nisab: Nisab, fitrana: Fitrana, fidya: Fidya, khums: Khums, hawl: Hawl, ushr: Ushr };
+		var queue = [];
 		document.querySelectorAll('.myzt[data-widget]').forEach(function (el) {
 			var fn = map[el.dataset.widget];
-			if (fn && !el.dataset.ready) { el.dataset.ready = '1'; fn(el); }
+			if (fn && !el.dataset.ready) { el.dataset.ready = '1'; queue.push([fn, el]); }
 		});
+		(function next() {
+			var w = queue.shift();
+			if (!w) return;
+			setLang(w[1]);
+			w[0](w[1]);
+			if (queue.length) setTimeout(next, 0);
+		})();
 	}
 	if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
 	else boot();

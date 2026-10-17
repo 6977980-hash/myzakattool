@@ -37,6 +37,27 @@ class MYZT_Frontend {
 		add_shortcode( 'myzt_reviewed', array( __CLASS__, 'reviewed' ) );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_assets' ) );
 		add_action( 'wp_footer', array( __CLASS__, 'late_enqueue' ), 1 );
+		add_action( 'init', array( __CLASS__, 'no_emoji' ) );
+		add_action( 'wp_head', array( __CLASS__, 'contrast_css' ), 99 );
+	}
+
+	/**
+	 * Every modern browser draws emoji itself. The WordPress emoji script re-scanned the calculator
+	 * after every re-render and swapped in hundreds of images on older systems (audit FIX-050).
+	 */
+	public static function no_emoji() {
+		remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+		remove_action( 'wp_print_styles', 'print_emoji_styles' );
+		remove_action( 'wp_enqueue_scripts', 'wp_enqueue_emoji_styles' );
+		remove_filter( 'the_content_feed', 'wp_staticize_emoji' );
+		remove_filter( 'comment_text_rss', 'wp_staticize_emoji' );
+		remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
+		add_filter( 'emoji_svg_url', '__return_false' );
+	}
+
+	/** The theme's active menu link (#1e73be on #f0f0f0) is 4.33:1; darken it to pass 4.5:1 (audit FIX-052). */
+	public static function contrast_css() {
+		echo '<style id="myzt-contrast">.main-navigation .main-nav ul li[class*="current-menu-"]>a,.main-navigation .main-nav ul li:hover>a,.main-navigation .main-nav ul li:focus>a{color:#1a65a8}</style>' . "\n";
 	}
 
 	public static function register_assets() {
@@ -48,8 +69,8 @@ class MYZT_Frontend {
 			'strategy'  => 'defer',
 		);
 		wp_register_script( 'myzt-engine', $url . 'js/engine.js', array(), $v, $foot );
-		wp_register_script( 'myzt-pdf', $url . 'js/pdf.js', array(), $v, $foot );
-		wp_register_script( 'myzt-app', $url . 'js/app.js', array( 'myzt-engine', 'myzt-pdf' ), $v, $foot );
+		// pdf.js is fetched by app.js only when a report is made, so it costs nothing on page load (audit FIX-049).
+		wp_register_script( 'myzt-app', $url . 'js/app.js', array( 'myzt-engine' ), $v, $foot );
 
 		// Load the stylesheet in <head> on our pages to avoid a flash of unstyled content.
 		if ( is_singular() ) {
@@ -87,6 +108,7 @@ class MYZT_Frontend {
 			'currencies' => MYZT_Rates::currencies(),
 			'restUrl'    => esc_url_raw( rest_url( 'myzakattool/v1/rates' ) ),
 			'jspdfUrl'   => MYZAKATTOOL_URL . 'assets/vendor/jspdf.umd.min.js?ver=4.2.1',
+			'pdfUrl'     => MYZAKATTOOL_URL . 'assets/js/pdf.js?ver=' . MYZAKATTOOL_VERSION,
 			'siteUrl'    => home_url( '/' ),
 			'email'      => $s['contact_email'],
 			'urls'       => array(

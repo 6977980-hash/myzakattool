@@ -26,6 +26,7 @@ class MYZT_Settings {
 			'ad_slot_article' => '',
 			'ad_slot_sidebar' => '',
 			'ads_label'       => 1,
+			'ads_cmp'         => 0,
 			'fitrana_currency' => 'PKR',
 			'fitrana_wheat'   => '',
 			'fitrana_barley'  => '',
@@ -83,6 +84,7 @@ class MYZT_Settings {
 				case 'seo_enabled':
 				case 'ads_enabled':
 				case 'ads_label':
+				case 'ads_cmp':
 					$out[ $k ] = empty( $val ) ? 0 : 1;
 					break;
 				case 'author_url':
@@ -301,6 +303,7 @@ class MYZT_Settings {
 					self::input( 'ad_slot_article', __( 'Slot ID: inside articles', 'myzakattool' ) );
 					self::input( 'ad_slot_sidebar', __( 'Slot ID: sidebar (desktop)', 'myzakattool' ), 'text', __( 'Place the shortcode [myzt_ad slot="sidebar"] in a sidebar widget.', 'myzakattool' ) );
 					self::input( 'ads_label', __( 'Show small "Advertisement" label', 'myzakattool' ), 'checkbox' );
+					self::input( 'ads_cmp', __( 'Consent message is published', 'myzakattool' ), 'checkbox', __( 'Tick only after AdSense > Privacy & messaging has a published European regulations (GDPR) message for the EEA, UK and Switzerland. Until this is ticked, no ads are shown, because the privacy policy promises that consent is asked first.', 'myzakattool' ) );
 					?>
 				</table>
 				<p class="description"><?php esc_html_e( 'In AdSense, keep Auto ads and anchor ads off: the calculator already has a sticky result bar at the bottom on mobile.', 'myzakattool' ); ?></p>
