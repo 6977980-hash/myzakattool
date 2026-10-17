@@ -376,7 +376,7 @@ class MYZT_Frontend {
 		$src = add_query_arg( array_filter( array( 'ver' => MYZAKATTOOL_VERSION, 'madhab' => sanitize_key( $a['madhab'] ) ) ), MYZAKATTOOL_URL . 'assets/wirasat/app.html' );
 		self::enqueue();
 		wp_enqueue_script( 'myzt-wirasat-frame', MYZAKATTOOL_URL . 'assets/js/wirasat-frame.js', array(), MYZAKATTOOL_VERSION, array( 'in_footer' => true ) );
-		return '<div class="myzt myzt-wirasat alignwide"><iframe class="myzt-wirasat-frame" src="' . esc_url( $src ) . '" title="وراثت کیلکولیٹر اور شجرہ" loading="lazy"></iframe></div>';
+		return '<div class="myzt myzt-wirasat alignwide"><iframe class="myzt-wirasat-frame" src="' . esc_url( $src ) . '" title="وراثت کیلکولیٹر اور شجرہ" loading="lazy" scrolling="no"></iframe></div>';
 	}
 
 	/** [myzt_mehr type="fatimi|minimum" currency="PKR"] and [myzt_diyat type="notified|live"]: one number inside text. */

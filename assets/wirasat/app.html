@@ -27,6 +27,8 @@
 [hidden] { display: none !important; }
 .wrap > header { display: none; }
 html, body { margin: 0; background: transparent !important; }
+/* The page around the frame does all vertical scrolling. A scrollbar here would flash on the left (RTL) and jerk the form each time a row is added before the frame grows. */
+html { overflow: hidden; }
 .wrap { padding-block: 4px 8px !important; }
 .sec > *, #result { min-width: 0; }
 body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.8; }
