@@ -127,3 +127,20 @@ test('adding family members does not move the page, and the frame follows dark m
 	assert.deepEqual(errors, []);
 	await ctx.close();
 });
+
+test('no scrollbar flashes inside the frame when a row is added (the form jerked sideways)', async () => {
+	const b = await chromium.launch({ ignoreDefaultArgs: ['--hide-scrollbars'] });
+	const page = await b.newPage({ viewport: { width: 1100, height: 800 } });
+	await page.route(/fonts\.(googleapis|gstatic)\.com/, (r) => r.abort());
+	await page.goto(base);
+	const f = await (await page.waitForSelector('iframe.myzt-wirasat-frame')).contentFrame();
+	await f.waitForSelector('#go');
+	await f.evaluate(() => { window.cw = []; const tick = () => { window.cw.push(document.documentElement.clientWidth); requestAnimationFrame(tick); }; tick(); });
+	for (let i = 0; i < 3; i++) {
+		await f.click('[data-step^="r-son"][data-d="1"]');
+		await page.waitForTimeout(250);
+	}
+	const [lo, hi] = await f.evaluate(() => [Math.min(...window.cw), Math.max(...window.cw)]);
+	assert.equal(lo, hi, 'frame width stayed ' + hi + 'px');
+	await b.close();
+});
