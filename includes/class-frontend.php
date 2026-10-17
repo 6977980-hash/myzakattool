@@ -27,6 +27,8 @@ class MYZT_Frontend {
 		add_shortcode( 'zakat_ushr', array( __CLASS__, 'ushr' ) );
 		add_shortcode( 'myzt_embed_code', array( __CLASS__, 'embed_code' ) );
 		add_shortcode( 'zakat_khums', array( __CLASS__, 'khums' ) );
+		add_shortcode( 'zakat_mehr', array( __CLASS__, 'mehr' ) );
+		add_shortcode( 'zakat_diyat', array( __CLASS__, 'diyat' ) );
 		add_shortcode( 'myzt_faq', array( __CLASS__, 'faq' ) );
 		add_shortcode( 'myzt_author', array( __CLASS__, 'author' ) );
 		add_shortcode( 'myzt_answer', array( __CLASS__, 'answer' ) );
@@ -34,6 +36,8 @@ class MYZT_Frontend {
 		add_shortcode( 'myzt_trust', array( __CLASS__, 'trust' ) );
 		add_shortcode( 'myzt_year', array( __CLASS__, 'year' ) );
 		add_shortcode( 'myzt_rate', array( __CLASS__, 'rate_inline' ) );
+		add_shortcode( 'myzt_mehr', array( __CLASS__, 'mehr_inline' ) );
+		add_shortcode( 'myzt_diyat', array( __CLASS__, 'diyat_inline' ) );
 		add_shortcode( 'myzt_reviewed', array( __CLASS__, 'reviewed' ) );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_assets' ) );
 		add_action( 'wp_footer', array( __CLASS__, 'late_enqueue' ), 1 );
@@ -327,6 +331,54 @@ class MYZT_Frontend {
 
 	public static function khums() {
 		return self::widget( 'khums', array() );
+	}
+
+	// Same figures as engine.js: 1 dirham = 3.0618 g; diyat = 30,630 g of silver (PPC s. 323).
+	const DIRHAM_G       = 3.0618;
+	const DIYAT_SILVER_G = 30630;
+	const DIYAT_FY       = '2026-27';
+	const DIYAT_PKR      = 19352390;
+
+	/** [zakat_mehr currency="PKR"]: minimum mehr and Mehr-e-Fatimi in today's money, server-rendered for search engines. */
+	public static function mehr( $atts ) {
+		$a   = shortcode_atts( array( 'currency' => 'PKR' ), $atts, 'zakat_mehr' );
+		$cur = strtoupper( preg_replace( '/[^A-Za-z]/', '', $a['currency'] ) );
+		$p   = self::prices_for( $cur );
+		$in  = '';
+		if ( $p ) {
+			$rows = '';
+			foreach ( array( 'Minimum mehr (Hanafi), 10 dirham' => 10, 'Mehr-e-Fatimi, 500 dirham' => 500 ) as $label => $d ) {
+				$g     = $d * self::DIRHAM_G;
+				$rows .= '<tr><td>' . esc_html( $label ) . '</td><td>' . esc_html( number_format( $g, 2 ) ) . ' g · ' . esc_html( number_format( $g / 11.6638038, 2 ) ) . ' tola</td><td class="z">' . esc_html( self::money( $g * $p['silver'], $cur ) ) . '</td></tr>';
+			}
+			$in = '<div class="myzt-card"><table class="myzt-table"><thead><tr><th>Mehr</th><th>Silver</th><th>Value today</th></tr></thead><tbody>' . $rows . '</tbody></table><p class="myzt-small">Updated ' . esc_html( wp_date( 'j M Y, H:i', $p['updated'] ) ) . ' · ' . esc_html( $p['label'] ) . '</p></div>';
+		}
+		return self::widget( 'mehr', array( 'currency' => $cur ), $in );
+	}
+
+	/** [zakat_diyat]: notified diyat and the live value of 30,630 g of silver, in rupees. */
+	public static function diyat() {
+		$p  = self::prices_for( 'PKR' );
+		$in = '<div class="myzt-card"><p>Diyat notified for ' . esc_html( self::DIYAT_FY ) . ': <strong>' . esc_html( self::money( self::DIYAT_PKR, 'PKR' ) ) . '</strong></p>' .
+			( $p ? '<p>30,630 g of silver at today\'s rate: <strong>' . esc_html( self::money( self::DIYAT_SILVER_G * $p['silver'], 'PKR' ) ) . '</strong> (updated ' . esc_html( wp_date( 'j M Y, H:i', $p['updated'] ) ) . ')</p>' : '' ) . '</div>';
+		return self::widget( 'diyat', array(), $in );
+	}
+
+	/** [myzt_mehr type="fatimi|minimum" currency="PKR"] and [myzt_diyat type="notified|live"]: one number inside text. */
+	public static function mehr_inline( $atts ) {
+		$a   = shortcode_atts( array( 'type' => 'fatimi', 'currency' => 'PKR' ), $atts, 'myzt_mehr' );
+		$cur = strtoupper( preg_replace( '/[^A-Za-z]/', '', $a['currency'] ) );
+		$p   = self::prices_for( $cur );
+		return $p ? esc_html( self::money( ( 'minimum' === $a['type'] ? 10 : 500 ) * self::DIRHAM_G * $p['silver'], $cur ) ) : '—';
+	}
+
+	public static function diyat_inline( $atts ) {
+		$a = shortcode_atts( array( 'type' => 'notified' ), $atts, 'myzt_diyat' );
+		if ( 'live' !== $a['type'] ) {
+			return esc_html( self::money( self::DIYAT_PKR, 'PKR' ) );
+		}
+		$p = self::prices_for( 'PKR' );
+		return $p ? esc_html( self::money( self::DIYAT_SILVER_G * $p['silver'], 'PKR' ) ) : '—';
 	}
 
 	public static function year() {

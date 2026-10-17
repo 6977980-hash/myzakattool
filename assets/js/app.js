@@ -73,6 +73,14 @@
 			discLink: 'Disclaimer', resetConfirm: 'Clear all entries?', savedLocal: 'Saved on this device only.',
 			shareText: 'My zakat estimate', calTitle: 'Zakat due (one lunar year)',
 			persons: 'Number of people', item: 'Pay as', perPerson: 'Amount per person', fitranaTotal: 'Total fitrana',
+			mh_kind: 'Mehr', mh_min: 'Minimum mehr (Hanafi)', mh_fatimi: 'Mehr-e-Fatimi', mh_silver: 'Silver', mh_value: 'Value today',
+			mh_dirham: 'dirham', mh_other: 'Other views held by scholars', mh_check: 'Check your mehr', mh_mine: 'Your agreed mehr', mh_mineHelp: 'Enter the amount in your nikah nama to see it in silver.',
+			mh_inSilver: 'Equal to', mh_ofFatimi: 'of Mehr-e-Fatimi', mh_belowMin: 'This is less than the Hanafi minimum mehr of 10 dirham. In the Hanafi madhab the mehr is then raised to the minimum.',
+			mh_metal: 'Mehr fixed in gold or silver?', mh_metalHelp: 'If the nikah nama says, for example, 5 tola gold, see what it is worth today.', mh_qty: 'Weight', mh_gold24: 'Gold 24K', mh_gold22: 'Gold 22K',
+			mh_madhabNote: "Shafi'i and Hanbali scholars set no minimum: anything of value may be mehr. Maliki: a quarter dinar of gold or 3 dirham of silver. Shia (Sistani): no minimum; the mehr of the Sunnah is 500 dirham.",
+			dy_notified: 'Diyat notified for', dy_from: 'in force from 1 July', dy_live: '30,630 g of silver at today\'s rate', dy_liveHelp: 'The law fixes diyat at the value of 30,630 g of silver. The government notifies the rupee amount once a year, so the live value moves with the silver price.',
+			dy_history: 'Notified amounts', dy_fy: 'Fiscal year', dy_amount: 'Amount', dy_source: 'Source', dy_noRate: 'Live silver rate in rupees is not available right now.',
+			dy_note: 'Courts may award more than the notified amount but not less (PPC s. 323). This is information, not legal advice; ask a lawyer about a case.',
 			fd_fasts: 'Fasts you cannot make up (fidya)', fd_broken: 'How many kaffaras are due (not the number of fasts broken)', fd_perDay: 'Amount for one poor person, one day', fd_fidya: 'Fidya', fd_kaffara: 'Kaffara (feeding 60 poor people each)', fd_total: 'Total to pay',
 			fd_hFasts: 'Only for illness or old age with no hope of fasting later. Otherwise make the fasts up.', fd_hBroken: 'Hanafi: several fasts broken in the same Ramadan need one kaffara. Kaffara by feeding is only for someone who cannot fast 60 days in a row.',
 			wheat: 'Wheat / flour', barley: 'Barley', dates: 'Dates', raisins: 'Raisins',
@@ -172,6 +180,14 @@
 			discLink: 'ڈسکلیمر', resetConfirm: 'سب خانے صاف کر دیں؟', savedLocal: 'صرف اسی ڈیوائس پر محفوظ۔',
 			shareText: 'میری زکوٰۃ کا اندازہ', calTitle: 'زکوٰۃ کی تاریخ (ایک قمری سال)',
 			persons: 'افراد کی تعداد', item: 'کس چیز سے', perPerson: 'فی فرد رقم', fitranaTotal: 'کل فطرانہ',
+			mh_kind: 'مہر', mh_min: 'کم سے کم مہر (حنفی)', mh_fatimi: 'مہرِ فاطمی', mh_silver: 'چاندی', mh_value: 'آج کی قیمت',
+			mh_dirham: 'درہم', mh_other: 'علما کی دوسری آرا', mh_check: 'اپنا مہر جانچیں', mh_mine: 'آپ کا طے شدہ مہر', mh_mineHelp: 'نکاح نامے میں لکھی رقم لکھیں اور دیکھیں کہ یہ کتنی چاندی بنتی ہے۔',
+			mh_inSilver: 'برابر ہے', mh_ofFatimi: 'مہرِ فاطمی کا', mh_belowMin: 'یہ حنفی کم سے کم مہر (10 درہم) سے کم ہے۔ حنفی مسلک میں ایسی صورت میں مہر کم سے کم مقدار تک بڑھ جاتا ہے۔',
+			mh_metal: 'مہر سونے یا چاندی میں طے ہے؟', mh_metalHelp: 'اگر نکاح نامے میں مثلاً 5 تولہ سونا لکھا ہے تو اس کی آج کی قیمت دیکھیں۔', mh_qty: 'وزن', mh_gold24: 'سونا 24 قیراط', mh_gold22: 'سونا 22 قیراط',
+			mh_madhabNote: 'شافعی اور حنبلی علما کے نزدیک کوئی کم سے کم حد نہیں: ہر قیمتی چیز مہر بن سکتی ہے۔ مالکی: چوتھائی دینار سونا یا 3 درہم چاندی۔ شیعہ (سیستانی): کوئی کم سے کم حد نہیں؛ مہرُ السنہ 500 درہم ہے۔',
+			dy_notified: 'دیت برائے مالی سال', dy_from: 'نافذ از یکم جولائی', dy_live: 'آج کے ریٹ پر 30,630 گرام چاندی', dy_liveHelp: 'قانون کے مطابق دیت 30,630 گرام چاندی کی قیمت ہے۔ حکومت سال میں ایک بار روپوں میں رقم کا اعلان کرتی ہے، اس لیے لائیو قیمت چاندی کے ساتھ بدلتی ہے۔',
+			dy_history: 'اعلان کردہ رقمیں', dy_fy: 'مالی سال', dy_amount: 'رقم', dy_source: 'ماخذ', dy_noRate: 'ابھی روپے میں چاندی کا لائیو ریٹ دستیاب نہیں۔',
+			dy_note: 'عدالت اعلان کردہ رقم سے زیادہ دیت دے سکتی ہے، کم نہیں (تعزیراتِ پاکستان دفعہ 323)۔ یہ معلومات ہیں، قانونی مشورہ نہیں؛ کسی مقدمے کے لیے وکیل سے پوچھیں۔',
 			fd_fasts: 'روزے جن کی قضا ممکن نہیں (فدیہ)', fd_broken: 'کتنے کفارے واجب ہیں (توڑے گئے روزوں کی تعداد نہیں)', fd_perDay: 'ایک مسکین کا ایک دن کا کھانا', fd_fidya: 'فدیہ', fd_kaffara: 'کفارہ (ہر ایک کے لیے 60 مسکین)', fd_total: 'کل رقم',
 			fd_hFasts: 'صرف بیماری یا بڑھاپے میں جب بعد میں روزہ رکھنے کی امید نہ ہو۔ ورنہ قضا رکھیں۔', fd_hBroken: 'حنفی: ایک رمضان کے کئی توڑے گئے روزوں کا ایک کفارہ کافی ہے۔ کھانا کھلانا صرف اس کے لیے ہے جو 60 مسلسل روزے نہ رکھ سکے۔',
 			wheat: 'گندم / آٹا', barley: 'جو', dates: 'کھجور', raisins: 'کشمش',
@@ -1305,12 +1321,94 @@
 		render();
 	}
 
+	function Mehr(root) {
+		var cur = pickCurrency(root);
+		var st = { mine: 0, qty: 0, unit: 'tola', metal: 'gold24' };
+		function row(label, v, pr, strong) {
+			var g = E.mehrGrams(v);
+			return '<tr><td>' + (strong ? '<b>' + esc(label) + '</b>' : esc(label)) + (v.dirham ? '<br><span class="myzt-small">' + v.dirham + ' ' + esc(t('mh_dirham')) + '</span>' : '') + '</td>' +
+				'<td>' + (Math.round(g * 100) / 100) + ' ' + unitLabel('gram') + '<br><span class="myzt-small">' + (Math.round(g / E.GRAMS_PER_TOLA * 100) / 100) + ' ' + unitLabel('tola') + '</span></td>' +
+				'<td class="z">' + (pr ? money(g * pr.silver, cur) : '—') + '</td></tr>';
+		}
+		function mineOut() {
+			var pr = pricesFor(cur);
+			if (!pr || !st.mine) return '';
+			var c = E.mehrCheck(st.mine, pr.silver);
+			return '<div class="myzt-line"><span>' + esc(t('mh_inSilver')) + '</span><span><b>' + (Math.round(c.grams * 10) / 10) + ' ' + unitLabel('gram') + ' · ' + (Math.round(c.tola * 100) / 100) + ' ' + unitLabel('tola') + '</b></span></div>' +
+				'<div class="myzt-line"><span>' + esc(t('mh_fatimi')) + '</span><span><b>' + (Math.round(c.ofFatimi * 1000) / 10) + '%</b> ' + esc(t('mh_ofFatimi')) + '</span></div>' +
+				(c.belowMin ? '<div class="myzt-note">' + esc(t('mh_belowMin')) + '</div>' : '');
+		}
+		function metalOut() {
+			var pr = pricesFor(cur);
+			if (!pr || !st.qty) return '';
+			var g = st.qty * unitGrams(st.unit);
+			var v = st.metal === 'silver' ? g * pr.silver : g * pr.gold * (st.metal === 'gold22' ? 22 / 24 : 1);
+			return '<div class="myzt-due">' + esc(t('mh_value')) + '</div><div class="myzt-amt">' + money(v, cur) + '</div>';
+		}
+		function render() { keepFocus(root, draw); }
+		function draw() {
+			var pr = pricesFor(cur);
+			var M = E.MEHR;
+			root.innerHTML = '<div class="myzt-card myzt-mini">' + curSelect(cur) +
+				'<div class="myzt-scroll"><table class="myzt-table"><thead><tr><th>' + esc(t('mh_kind')) + '</th><th>' + esc(t('mh_silver')) + '</th><th>' + esc(t('mh_value')) + '</th></tr></thead><tbody>' +
+				row(t('mh_min'), M.minimum[0], pr, true) + row(t('mh_fatimi'), M.fatimi[0], pr, true) + '</tbody></table></div>' +
+				'<details class="myzt-more"><summary class="myzt-small">' + esc(t('mh_other')) + '</summary><div class="myzt-scroll"><table class="myzt-table"><tbody>' +
+				M.minimum.slice(1).concat(M.fatimi.slice(1)).map(function (v) { return row(v.by, v, pr, false); }).join('') + '</tbody></table></div></details>' +
+				'<p class="myzt-small">' + (pr ? esc(stamp()) + (RATES.source === 'manual' ? '' : ' · ' + t('spotRate')) : esc(t('rateMissing'))) + '</p>' +
+				'<div class="myzt-sec"><h2 class="myzt-h">' + esc(t('mh_check')) + '</h2>' +
+				'<div class="myzt-field"><label for="myzt-mm">' + esc(t('mh_mine')) + ' (' + cur + ')<span class="myzt-help">' + esc(t('mh_mineHelp')) + '</span></label><input class="myzt-inp" id="myzt-mm" inputmode="decimal" data-m="mine" value="' + esc(plain(st.mine, cur)) + '" placeholder="0"></div>' +
+				'<div data-mine>' + mineOut() + '</div></div>' +
+				'<div class="myzt-sec"><h2 class="myzt-h">' + esc(t('mh_metal')) + '</h2><p class="myzt-small">' + esc(t('mh_metalHelp')) + '</p>' +
+				'<div class="myzt-field"><span class="myzt-seg" role="group">' + ['gold24', 'gold22', 'silver'].map(function (m) {
+					return '<button type="button" data-metal="' + m + '" aria-pressed="' + (st.metal === m) + '">' + esc(t(m === 'silver' ? 'mh_silver' : 'mh_' + m)) + '</button>';
+				}).join('') + '</span></div>' +
+				'<div class="myzt-field"><label for="myzt-mq">' + esc(t('mh_qty')) + '</label><div class="myzt-row"><input class="myzt-inp" id="myzt-mq" inputmode="decimal" data-m="qty" value="' + (st.qty || '') + '" placeholder="0">' +
+				'<span class="myzt-seg" role="group">' + ['tola', 'gram'].map(function (u) { return '<button type="button" data-munit="' + u + '" aria-pressed="' + (st.unit === u) + '">' + esc(t('uo_' + u)) + '</button>'; }).join('') + '</span></div></div>' +
+				'<div data-metal-out>' + metalOut() + '</div></div>' +
+				'<div class="myzt-note">' + esc(t('mh_madhabNote')) + '</div><div class="myzt-disc">' + esc(t('disc')) + '</div></div>';
+		}
+		root.addEventListener('input', function (e) {
+			var k = e.target.dataset.m;
+			if (!k) return;
+			st[k] = num(e.target.value);
+			if (k === 'mine') root.querySelector('[data-mine]').innerHTML = mineOut();
+			else root.querySelector('[data-metal-out]').innerHTML = metalOut();
+		});
+		root.addEventListener('click', function (e) {
+			var b = e.target.closest('[data-metal]'), u = e.target.closest('[data-munit]');
+			if (b) { st.metal = b.dataset.metal; render(); }
+			if (u) { st.unit = u.dataset.munit; render(); }
+		});
+		root.addEventListener('change', function (e) { if (e.target.dataset.cur !== undefined) { cur = e.target.value; st.mine = 0; render(); } });
+		render();
+		freshRates(render);
+	}
+
+	/** Diyat is a Pakistani legal amount, so it is shown in rupees only. */
+	function Diyat(root) {
+		function render() {
+			var pr = pricesFor('PKR');
+			var N = E.DIYAT_NOTIFIED, now = N[0];
+			root.innerHTML = '<div class="myzt-card myzt-mini">' +
+				'<div class="myzt-due">' + esc(t('dy_notified')) + ' ' + esc(now.fy) + ' · ' + esc(t('dy_from')) + ' ' + esc(now.fy.slice(0, 4)) + '</div><div class="myzt-amt">' + money(now.pkr, 'PKR') + '</div>' +
+				'<div class="myzt-line"><span>' + esc(t('dy_live')) + '</span><span><b>' + (pr ? money(E.diyatValue(pr.silver), 'PKR') : '—') + '</b></span></div>' +
+				'<p class="myzt-small">' + (pr ? esc(stamp()) + (RATES.source === 'manual' ? '' : ' · ' + t('spotRate')) : esc(t('dy_noRate'))) + '</p>' +
+				'<p class="myzt-small">' + esc(t('dy_liveHelp')) + '</p>' +
+				'<div class="myzt-sec"><h2 class="myzt-h">' + esc(t('dy_history')) + '</h2><div class="myzt-scroll"><table class="myzt-table"><thead><tr><th>' + esc(t('dy_fy')) + '</th><th>' + esc(t('dy_amount')) + '</th><th>' + esc(t('dy_source')) + '</th></tr></thead><tbody>' +
+				N.map(function (r) { return '<tr><td dir="ltr" style="white-space:nowrap">' + esc(r.fy) + '</td><td class="z">' + money(r.pkr, 'PKR') + '</td><td class="myzt-small">' + esc(r.src) + '</td></tr>'; }).join('') +
+				'</tbody></table></div></div>' +
+				'<div class="myzt-note">' + esc(t('dy_note')) + '</div></div>';
+		}
+		render();
+		freshRates(render);
+	}
+
 	/*
 	 * Each widget starts in its own task, so a page with several widgets never makes one long
 	 * main-thread block (mobile Total Blocking Time, FIX-049). The first one starts at once.
 	 */
 	function boot() {
-		var map = { calculator: Calculator, goldrate: GoldRate, nisab: Nisab, fitrana: Fitrana, fidya: Fidya, khums: Khums, hawl: Hawl, ushr: Ushr };
+		var map = { calculator: Calculator, goldrate: GoldRate, nisab: Nisab, fitrana: Fitrana, fidya: Fidya, khums: Khums, hawl: Hawl, ushr: Ushr, mehr: Mehr, diyat: Diyat };
 		var queue = [];
 		document.querySelectorAll('.myzt[data-widget]').forEach(function (el) {
 			var fn = map[el.dataset.widget];

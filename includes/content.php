@@ -46,6 +46,8 @@ function myzt_content_pages() {
 <li><strong>Shia (Sistani):</strong> no zakat on paper money or jewellery; khums applies instead.</li>
 </ul>
 <p>The calculator above does these steps for you with today's rate. In Pakistan, the <a href="/zakat-calculator-pakistan/">Pakistan zakat calculator</a> adds tola, rupees, committee, prize bonds and the bank's 1 Ramadan deduction. Not sure when your zakat is due? The <a href="/zakat-date-calculator/">zakat date calculator</a> finds your date and sets reminders.</p>
+<h2>More tools</h2>
+<p>The same live silver rate powers the <a href="/haq-mehr-calculator/">haq mehr calculator</a> (Mehr-e-Fatimi in today's money) and the <a href="/diyat-calculator/">diyat calculator</a> for Pakistan. See <a href="/calculators/">all calculators</a>, including fitrana, fidya, ushr and khums.</p>
 <h2>Is my data safe?</h2>
 <p>Yes. Everything is calculated inside your browser. Nothing you type is sent to our server or saved by us. You can download a PDF report or a data file for your own records.</p>
 [myzt_faq]
@@ -349,8 +351,8 @@ HTML
 	/* ------------------------------------------------------------------ */
 	$p['calculators'] = array(
 		'title' => 'Zakat Calculators',
-		'seo'   => 'All Zakat Calculators: Gold, Fitrana, Fidya, Ushr, Khums',
-		'desc'  => 'All free zakat tools in one place: gold, business, Pakistan, fitrana, fidya and kaffara, zakat date tracker, ushr and livestock, khums, nisab and gold rate.',
+		'seo'   => 'All Calculators: Zakat, Fitrana, Fidya, Ushr, Khums, Mehr',
+		'desc'  => 'All free tools in one place: zakat on gold, business and savings, fitrana, fidya, zakat date, ushr, khums, haq mehr, diyat, nisab and gold rate.',
 		'nav'   => 'Calculators',
 		'blurb' => 'all tools',
 		'llms'  => true,
@@ -366,6 +368,8 @@ HTML
 <li><a href="/zakat-date-calculator/">Zakat date calculator</a> (hawl tracker, reminders, missed years)</li>
 <li><a href="/ushr-calculator/">Ushr and livestock calculator</a> (crops, goats, cows, camels)</li>
 <li><a href="/khums-calculator/">Khums calculator</a></li>
+<li><a href="/haq-mehr-calculator/">Haq mehr calculator</a> (Mehr-e-Fatimi and minimum mehr in today's money)</li>
+<li><a href="/diyat-calculator/">Diyat calculator</a> (Pakistan's notified diyat and its live silver value)</li>
 <li><a href="/nisab/">Nisab today</a> and <a href="/gold-rate-today/">gold rate today</a></li>
 <li><a href="/free-zakat-widget/">Free nisab widget</a> for mosque and blog websites</li>
 </ul>
@@ -379,6 +383,8 @@ HTML
 <li><strong>Not sure when your zakat is due, or missed some years:</strong> the <a href="/zakat-date-calculator/">zakat date calculator</a>.</li>
 <li><strong>Farmers and livestock owners:</strong> the <a href="/ushr-calculator/">ushr and livestock calculator</a>.</li>
 <li><strong>Fiqh-e-Jafaria:</strong> the <a href="/khums-calculator/">khums calculator</a> for the yearly surplus, next to the <a href="/shia-zakat-calculator/">Shia zakat calculator</a>.</li>
+<li><strong>Before a nikah:</strong> the <a href="/haq-mehr-calculator/">haq mehr calculator</a> turns Mehr-e-Fatimi and the minimum mehr into today's money.</li>
+<li><strong>Lawyers and families in a diyat case:</strong> the <a href="/diyat-calculator/">diyat calculator</a> shows the amount notified for the year and its value at today's silver rate.</li>
 </ul>
 <p>Every tool runs in your browser, so nothing you enter is sent to us, and each one can produce a short PDF of your own figures for your records.</p>
 [myzt_faq]
@@ -610,6 +616,95 @@ HTML
 		),
 	);
 
+	$p['haq-mehr-calculator'] = array(
+		'title' => 'Haq Mehr Calculator',
+		'seo'   => 'Haq Mehr Calculator {year}: Mehr-e-Fatimi in Rupees Today',
+		'desc'  => "Mehr-e-Fatimi and the minimum mehr in today's money from the live silver rate: grams, tola and rupees, other scholars' views, and a check for your own mehr.",
+		'nav'   => 'Haq Mehr',
+		'blurb' => 'mehr-e-fatimi today',
+		'hub'   => 'calculators',
+		'llms'  => true,
+		'content' => <<<'HTML'
+[myzt_answer q="How much is Mehr-e-Fatimi today?"]Mehr-e-Fatimi is 500 dirham of silver, which Pakistani and Indian muftis put at 131.25 tola or about 1,530.9 g of silver. At today's international silver rate that is about [myzt_mehr type="fatimi" currency="PKR"]. The minimum mehr in the Hanafi madhab is 10 dirham (about 30.62 g of silver), worth about [myzt_mehr type="minimum" currency="PKR"] today.[/myzt_answer]
+[zakat_mehr currency="PKR"]
+<h2>What is haq mehr?</h2>
+<p>Mehr (mahr) is the money or property a husband gives his wife because of the nikah. The Qur'an calls it her right and a gift: "And give the women their mahr as a free gift" (al-Nisa 4:4). It belongs to the wife alone, not to her father or family, and she may spend it as she likes. It is written in the nikah nama, which has separate columns for the amount, the part that is paid at once (mu'ajjal) and the part that is deferred (muwajjal), and anything given at the time of the nikah.</p>
+<h2>Why is mehr measured in silver?</h2>
+<p>The amounts in the hadith and the books of fiqh are in dirhams, the silver coins of the time. A dirham is a fixed weight of silver, so the mehr keeps its value while the rupee loses value. That is why muftis tell people to work out Mehr-e-Fatimi and the minimum mehr from the silver price on the day of the nikah, not from an old rupee figure. The calculator above does this with the live international silver rate, which is refreshed every hour. Local sarafa prices are usually a little higher, so you may enter your own amount if you prefer the bazaar rate.</p>
+<h2>Mehr-e-Fatimi: the sources and the different views</h2>
+<p>Mehr-e-Fatimi is the mehr the Prophet (peace be upon him) gave for his daughter Fatimah (may Allah be pleased with her). Sayyidah Aisha said the mehr he gave his wives was twelve and a half uqiyah, which is 500 dirham (Sahih Muslim 1426). Sayyiduna Umar said it was not more than twelve uqiyah, or 480 dirham (Sunan Abu Dawud 2106, Jami' al-Tirmidhi 1114). Because of this, scholars give more than one figure:</p>
+<ul>
+<li><strong>500 dirham, 131.25 tola, about 1,530.9 g of silver.</strong> The figure given by Mufti Muhammad Shafi and preferred in many Pakistani fatwas. The calculator uses it by default.</li>
+<li><strong>480 dirham, about 1,469.7 g.</strong> Based on the narration of Sayyiduna Umar.</li>
+<li><strong>400 dirham, about 1,224.7 g.</strong> The view reported from Ibn al-Humam.</li>
+</ul>
+<p>Open "Other views held by scholars" under the table to see each of these in today's money. Paying Mehr-e-Fatimi is not obligatory. Many families choose it for its blessing, but any amount both sides agree on is valid, as long as it is not below the minimum of your madhab.</p>
+<h2>Minimum mehr in each madhab</h2>
+<ul>
+<li><strong>Hanafi:</strong> 10 dirham, about 30.62 g of silver (2 tola 7.5 masha). If a smaller amount is fixed, the mehr becomes 10 dirham. Maulana Ashraf Ali Thanwi and Mufti Rasheed Ahmad Ludhianvi gave about 34 g, which the calculator also shows.</li>
+<li><strong>Maliki:</strong> a quarter dinar of gold or 3 dirham of silver.</li>
+<li><strong>Shafi'i and Hanbali:</strong> no fixed minimum; anything that has value may be mehr.</li>
+<li><strong>Shia (Ayatollah Sistani):</strong> no fixed minimum; the mehr of the Sunnah is 500 dirham.</li>
+</ul>
+<h2>Is my mehr enough? Check it</h2>
+<p>Type the amount written in your nikah nama in "Your agreed mehr". The calculator shows how much silver it buys today and what share of Mehr-e-Fatimi it is, and warns you if it is below the Hanafi minimum. If your mehr was fixed in gold, for example "5 tola gold", use the second box to see what it is worth today in 24K or 22K gold, or in silver.</p>
+<h2>Prompt and deferred mehr</h2>
+<p>Mu'ajjal (prompt) mehr is due as soon as the nikah takes place and the wife may ask for it at any time. Muwajjal (deferred) mehr is due at the time agreed, or at divorce or death. In Pakistan, section 10 of the Muslim Family Laws Ordinance 1961 says that if the nikah nama does not say how the mehr is to be paid, the whole of it is payable on demand. Unpaid mehr is a debt on the husband. If he dies before paying it, it is paid from his estate before the inheritance is divided.</p>
+<h2>Mehr and zakat</h2>
+<p>Mehr the wife has received is her own wealth and counts towards her zakat like any other savings or gold. Many Hanafi muftis say zakat is not due on unpaid mehr until she receives it. Use the <a href="/">zakat calculator</a> for her total, and see <a href="/nisab/">today's nisab</a>.</p>
+<p>This page gives figures from published fatwas and the live silver rate. It is not a fatwa; for a particular nikah, ask the imam or mufti who performs it.</p>
+[myzt_faq]
+HTML
+		. $author . '[myzt_related slugs="haq-mehr-calculator-urdu,diyat-calculator,nisab,gold-rate-today"]',
+		'faq'   => array(
+			array( 'q' => 'Mehr-e-Fatimi kitna hai?', 'a' => '500 dirham chandi, yani 131.25 tola (taqreeban 1,530.9 gram). Rupees mein is ki qeemat aaj ke chandi ke rate se nikalti hai; upar calculator mein dekhein.' ),
+			array( 'q' => 'Kam se kam haq mehr kitna hai?', 'a' => 'Hanafi fiqh mein 10 dirham, yani taqreeban 30.62 gram (2 tola 7.5 masha) chandi ki qeemat. Is se kam mehr tay ho to 10 dirham hi wajib hota hai.' ),
+			array( 'q' => 'Is Mehr-e-Fatimi obligatory?', 'a' => 'No. It is a recommended choice for its blessing. Any amount both sides agree on is valid if it is not below the minimum of the madhab.' ),
+			array( 'q' => 'Should mehr be calculated from the gold or the silver rate?', 'a' => 'Mehr-e-Fatimi and the minimum mehr are measured in dirhams, which are silver coins, so they are worked out from the silver rate. A mehr fixed in gold, such as 5 tola gold, is valued at the gold rate.' ),
+			array( 'q' => 'Which silver rate does the calculator use?', 'a' => 'The international spot rate, refreshed every hour. Sarafa rates in Pakistan are often slightly higher.' ),
+		),
+	);
+
+	$p['diyat-calculator'] = array(
+		'title' => 'Diyat Calculator Pakistan',
+		'seo'   => 'Diyat Amount {year} Pakistan: Notified & Live Value',
+		'desc'  => 'Diyat in Pakistan for 2026-27 is Rs 19,352,390, the value of 30,630 g of silver. See the live value at today\'s silver rate and every year\'s notified amount.',
+		'nav'   => 'Diyat',
+		'blurb' => 'blood money in Pakistan',
+		'hub'   => 'calculators',
+		'llms'  => true,
+		'content' => <<<'HTML'
+[myzt_answer q="What is the diyat amount in Pakistan?"]For the fiscal year 2026-27 the Federal Government has notified diyat at [myzt_diyat type="notified"], in force from 1 July 2026. The law fixes diyat at the value of 30,630 g of silver; at today's international silver rate that is about [myzt_diyat type="live"].[/myzt_answer]
+[zakat_diyat]
+<h2>What is diyat?</h2>
+<p>Diyat is the compensation paid to the heirs of a person who has been killed. Islamic law sets it at 100 camels, or its equivalent of 1,000 dinar of gold or, in the Hanafi madhab, 10,000 dirham of silver. In Pakistan it is part of the Pakistan Penal Code (Qisas and Diyat law), and it applies in cases of qatl-i-khata (killing by mistake), qatl shibh-i-amd, and in qatl-i-amd where qisas is not enforced.</p>
+<h2>How the amount is fixed</h2>
+<p>Section 323 of the Pakistan Penal Code says the court fixes the diyat, but it may not be less than the value of 30,630 grams of silver. The Finance Division works out that value and notifies it for each fiscal year, from 1 July to 30 June. The silver weight never changes; only the rupee figure does, because the silver price and the rupee move. 30,630 g is very close to the classical 10,000 dirham of the Hanafi madhab (10,000 × 3.0618 g = 30,618 g).</p>
+<h2>Why the amount almost doubled in 2026</h2>
+<p>The notified amount was Rs 9,828,670 for 2025-26 and Rs 19,352,390 for 2026-27, an increase of about 97%. The reason is the price of silver, which rose sharply in the year before the notification. The table in the calculator lists every notified amount we have checked, with its source, and the live value shows where the next notification may land if silver prices stay where they are.</p>
+<h2>Live value or notified amount: which one counts?</h2>
+<p>For a court case, the amount notified for the year is the legal minimum. The live value on this page is for information: it shows what 30,630 g of silver is worth today at the international spot rate. Local bazaar silver rates in Pakistan are often a little higher than the spot rate.</p>
+<h2>How diyat is paid and shared</h2>
+<ul>
+<li><strong>Instalments:</strong> under section 331 of the Penal Code diyat may be paid in a lump sum or in instalments spread over up to three years from the final judgment.</li>
+<li><strong>Who receives it:</strong> the heirs of the person killed, in their shares of inheritance.</li>
+<li><strong>Compromise:</strong> the heirs may forgive the diyat or agree on a different amount (badal-i-sulh) where the law allows.</li>
+</ul>
+<h2>Diyat in the different madhabs</h2>
+<p>All schools agree on 100 camels as the basis. For gold, the figure is 1,000 dinar. For silver the Hanafi madhab gives 10,000 dirham and the Maliki and Hanbali schools 12,000 dirham; in the Shafi'i school the camels are the basis, and their value is paid when camels are not available. In Shia fiqh (Ayatollah Sistani) the options include 100 camels, 1,000 dinar or 10,000 dirham. Pakistani law follows the silver measure of 30,630 g.</p>
+<p>This page explains the published figures and the law. It is not legal advice; for a case, speak to a lawyer. Related tools: the <a href="/haq-mehr-calculator/">haq mehr calculator</a>, which also uses the silver rate, and <a href="/gold-rate-today/">today's gold and silver rate</a>.</p>
+[myzt_faq]
+HTML
+		. $author . '[myzt_related slugs="haq-mehr-calculator,gold-rate-today,nisab,calculators"]',
+		'faq'   => array(
+			array( 'q' => 'Diyat ki raqam 2026-27 mein kitni hai?', 'a' => 'Wafaqi hukoomat ne maali saal 2026-27 ke liye diyat Rs 19,352,390 notify ki hai, jo 1 July 2026 se naafiz hai.' ),
+			array( 'q' => 'How is diyat calculated in Pakistan?', 'a' => 'It is the value of 30,630 grams of silver (Pakistan Penal Code, section 323). The Finance Division notifies the rupee value every year.' ),
+			array( 'q' => 'Can a court award less than the notified diyat?', 'a' => 'No. The court may award more, but not less than the notified value.' ),
+			array( 'q' => 'Can diyat be paid in instalments?', 'a' => 'Yes. It may be paid in instalments over up to three years from the final judgment (section 331).' ),
+			array( 'q' => 'Diyat kis ko milti hai?', 'a' => 'Maqtool ke warison ko, wirasat ke hisson ke mutabiq.' ),
+		),
+	);
+
 	$p['zakat-date-calculator'] = array(
 		'title' => 'Zakat Date Calculator and Hawl Tracker',
 		'seo'   => 'Zakat Date Calculator {year}: Hawl Date & Reminders',
@@ -820,6 +915,7 @@ HTML
 <p>These are international spot prices, refreshed every hour and converted with daily exchange rates. Jewellers' prices include making charges and local premiums, so the price you pay in a shop is higher. For zakat, the value of the pure gold is what counts.</p>
 <p>1 tola = 11.6638 g (often rounded to 11.664 g) · 1 troy ounce = 31.103 g · 22K gold is 91.7% pure, 21K is 87.5%, 18K is 75%.</p>
 <p>Use these rates directly in the <a href="/zakat-on-gold-calculator/">zakat on gold calculator</a>, or see <a href="/zakat-on-1-tola-gold/">zakat on 1 tola gold</a> worked out at today's rate.</p>
+<p>The silver price also sets two amounts people look for every year: <a href="/haq-mehr-calculator/">Mehr-e-Fatimi and the minimum haq mehr</a>, and the <a href="/diyat-calculator/">diyat amount in Pakistan</a> (the value of 30,630 g of silver).</p>
 [myzt_faq]
 HTML
 		. $author . '[myzt_related slugs="zakat-on-gold-calculator,nisab,free-zakat-widget,zakat-calculator-pakistan"]',

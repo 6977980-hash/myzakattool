@@ -352,6 +352,8 @@ class MYZT_Installer {
 			'zakat-date-calculator'    => array( 'Zakat Date', $parent ),
 			'ushr-calculator'          => array( 'Ushr & Livestock', $parent ),
 			'free-zakat-widget'        => array( 'Free Nisab Widget', $parent ),
+			'haq-mehr-calculator'      => array( 'Haq Mehr', $parent ),
+			'diyat-calculator'         => array( 'Diyat', $parent ),
 			'zakat-calculator-urdu'    => array( 'اردو', 0 ),
 		);
 		foreach ( $add as $slug => $item ) {
@@ -416,7 +418,7 @@ class MYZT_Installer {
 			}
 		}
 		// Every tool linked from every page, so the newer ones are not orphaned (audit FIX-044).
-		$tools = array( 'calculators' => 'All calculators', 'fitrana-calculator' => 'Fitrana', 'fidya-kaffara-calculator' => 'Fidya & kaffara', 'zakat-date-calculator' => 'Zakat date', 'ushr-calculator' => 'Ushr & livestock', 'khums-calculator' => 'Khums', 'free-zakat-widget' => 'Free nisab widget' );
+		$tools = array( 'calculators' => 'All calculators', 'fitrana-calculator' => 'Fitrana', 'fidya-kaffara-calculator' => 'Fidya & kaffara', 'zakat-date-calculator' => 'Zakat date', 'ushr-calculator' => 'Ushr & livestock', 'khums-calculator' => 'Khums', 'haq-mehr-calculator' => 'Haq mehr', 'diyat-calculator' => 'Diyat', 'free-zakat-widget' => 'Free nisab widget' );
 		$tl    = array();
 		foreach ( $tools as $slug => $label ) {
 			if ( get_page_by_path( $slug ) ) {

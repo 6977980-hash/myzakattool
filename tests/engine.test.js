@@ -207,3 +207,27 @@ test('ushr and livestock', () => {
 	assert.deepEqual(E.livestock('camels', 12), [{ n: 2, what: 'sheep' }]);
 	assert.deepEqual(E.livestock('camels', 50), [{ n: 1, what: 'hiqqa' }]);
 });
+
+test('haq mehr in silver', () => {
+	assert.equal(E.DIRHAM_G, 3.0618);
+	assert.equal(Math.round(E.mehrGrams(E.MEHR.fatimi[0]) * 10) / 10, 1530.9);
+	assert.equal(Math.round(E.mehrGrams(E.MEHR.fatimi[0]) / E.GRAMS_PER_TOLA * 100) / 100, 131.25);
+	assert.equal(Math.round(E.mehrGrams(E.MEHR.minimum[0]) * 1000) / 1000, 30.618);
+	assert.equal(E.mehrGrams(E.MEHR.minimum[1]), 34);
+	const c = E.mehrCheck(1530.9 * 300, 300);
+	assert.equal(Math.round(c.ofFatimi * 1000), 1000);
+	assert.equal(c.belowMin, false);
+	assert.equal(E.mehrCheck(1000, 300).belowMin, true);
+	assert.equal(E.mehrCheck(0, 300).belowMin, false);
+	assert.equal(E.mehrCheck(5000, 0).grams, 0);
+});
+
+test('diyat is the value of 30,630 g of silver; notified amounts match the PHP constant', () => {
+	assert.equal(E.diyatValue(100), 3063000);
+	assert.equal(E.DIYAT_NOTIFIED[0].fy, '2026-27');
+	const php = require('node:fs').readFileSync(require('node:path').join(__dirname, '../includes/class-frontend.php'), 'utf8');
+	assert.match(php, new RegExp("DIYAT_PKR\\s*=\\s*" + E.DIYAT_NOTIFIED[0].pkr + ";"));
+	assert.match(php, new RegExp("DIYAT_FY\\s*=\\s*'" + E.DIYAT_NOTIFIED[0].fy + "'"));
+	assert.match(php, /DIRHAM_G\s*=\s*3\.0618;/);
+	assert.match(php, /DIYAT_SILVER_G\s*=\s*30630;/);
+});
