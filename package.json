@@ -7,7 +7,7 @@
     "test": "npm run test:php && npm run test:js && npm run test:ui",
     "test:php": "sh tests/php-lint.sh",
     "test:js": "node --check assets/js/engine.js && node --check assets/js/app.js && node --check assets/js/pdf.js && node --check assets/js/embed.js && node --check assets/js/wirasat.js && node --check assets/js/wirasat-frame.js && node tools/build-wirasat.js --check && node --test tests/engine.test.js tests/wirasat.test.js tests/matrix.test.js tests/version.test.js tests/content.test.js tests/pdf.test.js",
-    "test:ui": "node --test tests/ui/smoke.test.js tests/ui/wirasat-app.test.js"
+    "test:ui": "node --test tests/ui/smoke.test.js tests/ui/wirasat-app.test.js tests/ui/wirasat-ask.test.js"
   },
   "devDependencies": {
     "playwright": "1.56.1"
