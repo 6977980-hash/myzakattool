@@ -719,6 +719,7 @@ HTML
 [myzt_answer q="How is inheritance (wirasat) divided in Islam?"]First the funeral costs and all debts (including unpaid mehr) are paid from what the person left, then any will for non-heirs up to one third. The rest is divided among the heirs by the shares fixed in the Qur'an (al-Nisa 4:11, 4:12 and 4:176): for example a wife gets 1/8 when there are children, parents 1/6 each, and sons get twice what daughters get. Choose your madhab below and the calculator works out every heir's share, in rupees, land and gold.[/myzt_answer]
 [zakat_wirasat]
 <h2>How to use the calculator</h2>
+<p><strong>Quickest way:</strong> type or paste the question in the "سوال سے حساب" box at the top, in Urdu or Roman Urdu, for example "ek aurat fout hui, shohar, maa, do haqeeqi behnen". The page recognises the relatives and fills the form; check it and press calculate. Or fill the form step by step:</p>
 <ol>
 <li><strong>Enter what was left:</strong> cash and bank balance (with debts and funeral costs), land in kanal, marla and feet, gold and silver in tola.</li>
 <li><strong>Enter the deceased:</strong> man or woman, and the name.</li>

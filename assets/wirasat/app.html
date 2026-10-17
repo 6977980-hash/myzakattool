@@ -84,6 +84,11 @@ details.more[open] > summary { margin-bottom: 6px; }
 .go.ghost { background: var(--surface); color: var(--accent); border: 1.5px solid var(--accent); min-height: 44px; font-size: 15px; }
 .actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
 #result.stale > :not(.banner) { opacity: .35; }
+.ask textarea.in { width: 100%; box-sizing: border-box; font: inherit; line-height: 1.9; resize: vertical; }
+.ask .tag { font-size: 12px; font-family: var(--body); }
+.askout { display: grid; gap: 8px; }
+.askout p { margin: 0; }
+.chip.on { background: var(--accent-soft); border-color: var(--accent); cursor: default; }
 .tabs { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 .banner { background: var(--warn-soft); color: var(--warn); border-radius: 8px; padding: 8px 12px; font-size: 14px; }
 .treebox { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
@@ -171,6 +176,14 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
     <h1>وراثت کیلکولیٹر اور شجرہ</h1>
     <span class="tag">پیش نظارہ: سائٹ پر یہی کیلکولیٹر چلتا ہے</span>
   </header>
+
+  <section class="sec wide ask" aria-labelledby="h-q">
+      <h2 id="h-q"><span class="no">؟</span>سوال سے حساب <span class="tag">نیا</span></h2>
+      <p class="hint">اپنا سوال اردو یا رومن اردو میں لکھیں یا کہیں سے پیسٹ کریں، جیسے: "ایک عورت فوت ہوئی، شوہر، ماں، دو حقیقی بہنیں…"۔ صفحہ رشتے پہچان کر نیچے کا فارم خود بھر دے گا۔ سوال کہیں نہیں بھیجا جاتا۔</p>
+      <textarea class="in" id="askText" rows="5" maxlength="2000" placeholder="مثلاً: ایک آدمی فوت ہوا، بیوی، دو بیٹے اور تین بیٹیاں، والدہ زندہ، والد پہلے فوت۔ ترکہ 20 لاکھ روپے اور 4 کنال زمین"></textarea>
+      <div class="actions"><button type="button" class="go" id="askGo">سوال سے فارم بھریں</button><button type="button" class="go ghost" id="askEx">مثال آزمائیں</button></div>
+      <div id="askOut" aria-live="polite"></div>
+    </section>
 
   <div class="form">
     <section class="sec" aria-labelledby="h-a">
@@ -1488,6 +1501,194 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
       });
     }).catch(function () { fail('رپورٹ نہیں بن سکی۔ انٹرنیٹ چیک کر کے دوبارہ کوشش کریں۔'); }).then(function () { rep.innerHTML = ''; $('report1').innerHTML = ''; });
   }
+
+  /* ---------- سوال سے حساب: a question in Urdu or Roman Urdu fills the form (rules only, nothing leaves the browser) ---------- */
+  var ASK = (function () {
+    var L = '[\\p{L}\\p{M}]';
+    function w(src) { return '(?<!' + L + ')(?:' + src + ')(?!' + L + ')'; }
+    var NUMS = { 'ایک': 1, 'اک': 1, 'دو': 2, 'تین': 3, 'چار': 4, 'پانچ': 5, 'چھ': 6, 'چھے': 6, 'سات': 7, 'آٹھ': 8, 'نو': 9, 'دس': 10, 'گیارہ': 11, 'بارہ': 12,
+      ek: 1, aik: 1, ik: 1, one: 1, do: 2, two: 2, teen: 3, tin: 3, three: 3, char: 4, chaar: 4, four: 4, panch: 5, paanch: 5, five: 5, chay: 6, chhe: 6, che: 6, six: 6, saat: 7, sat: 7, seven: 7, aath: 8, ath: 8, eight: 8, nau: 9, nine: 9, das: 10, dus: 10, ten: 10 };
+    var NUMRE = new RegExp(w('\\d+|' + Object.keys(NUMS).join('|')), 'giu');
+    // [rel, pattern, plural pattern]. Longer, more exact names come first; a matched span is blanked so
+    // "ماں" inside "ماں شریک بھائی" is not counted again.
+    var RELS = [
+      ['mbrother', 'اخیافی بھائی|اخیافی بھائیوں|ماں شریک بھائی|ماں جائے بھائی|akhyafi bhai|akhiyafi bhai|akhyafi bhaiyon|maa shareek bhai|maan shareek bhai|ma shareek bhai|maternal half[- ]brothers?|uterine brothers?', 'بھائیوں|bhaiyon|brothers'],
+      ['msister', 'اخیافی بہن|اخیافی بہنیں|اخیافی بہنوں|ماں شریک بہن|ماں شریک بہنیں|akhyafi behn|akhyafi behan|akhiyafi behn|akhyafi behnen|akhyafi behnain|maa shareek behn|maa shareek behan|maan shareek behn|maternal half[- ]sisters?|uterine sisters?', 'بہنیں|بہنوں|behnen|behnain|behne|sisters'],
+      ['pbrother', 'علاتی بھائی|علاتی بھائیوں|باپ شریک بھائی|allati bhai|alati bhai|baap shareek bhai|bap shareek bhai|paternal half[- ]brothers?|consanguine brothers?', 'بھائیوں|bhaiyon|brothers'],
+      ['psister', 'علاتی بہن|علاتی بہنیں|باپ شریک بہن|باپ شریک بہنیں|allati behn|alati behn|allati behan|baap shareek behn|baap shareek behan|paternal half[- ]sisters?|consanguine sisters?', 'بہنیں|بہنوں|behnen|behnain|sisters'],
+      ['granddaughter', 'پوتیاں|پوتی|poti|potiyan|potian|granddaughters?', 'پوتیاں|potiyan|potian|granddaughters'],
+      ['grandson', 'پوتے|پوتا|pota|potay|potey|pote|grandsons?', 'پوتے|potay|potey|pote|grandsons'],
+      ['ddaughter', 'نواسیاں|نواسی|nawasi|nawasiyan', 'نواسیاں|nawasiyan'],
+      ['dson', 'نواسے|نواسا|nawasa|nawasay|nawase', 'نواسے|nawasay|nawase'],
+      ['bniece', 'بھتیجیاں|بھتیجی|bhatiji|bhateeji|bhatijiyan', 'بھتیجیاں|bhatijiyan'],
+      ['bnephew', 'بھتیجے|بھتیجا|bhatija|bhateeja|bhatijay|bhatije', 'بھتیجے|bhatijay|bhatije'],
+      ['sniece', 'بھانجیاں|بھانجی|bhanji|bhaanji|bhanjiyan', 'بھانجیاں|bhanjiyan'],
+      ['snephew', 'بھانجے|بھانجا|bhanja|bhaanja|bhanjay|bhanje', 'بھانجے|bhanjay|bhanje'],
+      ['brother', '(?:حقیقی |سگے |سگا |سگی )?(?:بھائیوں|بھائی)|(?:haqeeqi |haqiqi |saga |sagay |sage |sagi )?(?:bhaiyon|bhai|bhaee)|(?:full )?brothers?', 'بھائیوں|bhaiyon|brothers'],
+      ['sister', '(?:حقیقی |سگی |سگے )?(?:بہنیں|بہنوں|بہن)|(?:haqeeqi |haqiqi |sagi |sagay )?(?:behnen|behnain|behne|behnon|behn|behan|bahan)|(?:full )?sisters?', 'بہنیں|بہنوں|behnen|behnain|behne|behnon|sisters'],
+      ['husband', 'شوہر|خاوند|shohar|shauhar|shoher|khawand|khaavind|husband', ''],
+      ['wife', 'بیویاں|بیوی|بیوہ|زوجہ|biwiyan|biwi|bivi|bv|bewa|beva|zoja|zauja|widow|wives|wife', 'بیویاں|biwiyan|wives'],
+      ['dada', 'دادا|dada|paternal grandfather', ''],
+      ['dadi', 'دادی|dadi|paternal grandmother', ''],
+      ['nani', 'نانی|nani|maternal grandmother', ''],
+      ['chacha', 'چچاؤں|چچا|تایا|chachaon|chacha|chacha|taya|tayaa|paternal uncles?', 'چچاؤں|chachaon|uncles'],
+      ['son', 'بیٹوں|بیٹے|بیٹا|لڑکے|لڑکا|beton|betay|bete|betey|beta|larkay|larke|larka|sons?', 'بیٹوں|بیٹے|لڑکے|beton|betay|bete|betey|larkay|larke|sons'],
+      ['daughter', 'بیٹیوں|بیٹیاں|بیٹی|لڑکیاں|betiyon|betiyan|betian|beti|larkiyan|daughters?', 'بیٹیوں|بیٹیاں|لڑکیاں|betiyon|betiyan|betian|larkiyan|daughters'],
+      ['father', 'والد|باپ|ابا|ابو|walid|waalid|baap|bap|abba|abbu|abu|father', ''],
+      ['mother', 'والدہ|ماں|امی|اماں|walida|waalida|maa|maan|ma|ammi|amma|mother', '']
+    ].map(function (r) { return { rel: r[0], re: new RegExp(w(r[1]), 'giu'), pl: r[2] ? new RegExp('^(?:' + r[2].split('|').map(function (x) { return '(?:.* )?' + x; }).join('|') + ')$', 'iu') : null }; });
+    var NO = new RegExp(w('نہیں|نہ|کوئی نہیں|موجود نہیں|زندہ نہیں|nahi|nahin|nai|ni|na|nhi|koi nahi|no|none|not'), 'iu');
+    var DIED = new RegExp(w('فوت|وفات|انتقال|مر گئے|مر گیا|مر گئی|fout|faut|foat|wafat|intiqal|inteqal|died|dead|deceased'), 'iu');
+    var BEFORE = new RegExp(w('پہلے|pehle|pehlay|pahle|before|earlier'), 'iu');
+    var AFTER = new RegExp(w('بعد|baad|bad|after|later'), 'iu');
+    var FEM = new RegExp(w('عورت|خاتون|لڑکی|متوفیہ|مرحومہ|بیوہ فوت|aurat|orat|khatoon|khatun|larki|woman|lady|female'), 'iu');
+    var MAS = new RegExp(w('مرد|آدمی|شخص|متوفی|مرحوم|لڑکا فوت|mard|aadmi|admi|shakhs|shaks|man|male|person'), 'iu');
+    var NOKIDS = new RegExp(w('اولاد نہیں|اولاد کوئی نہیں|کوئی اولاد نہیں|بے اولاد|لاولد|لا ولد|بچے نہیں|aulad nahi|aulad nahin|olad nahi|olad ni|aulad ni|koi aulad nahi|be aulad|la walad|lawalad|bache nahi|no children|childless'), 'iu');
+    var PARENTS = new RegExp(w('والدین|ماں باپ|walidain|waldain|maa baap|parents'), 'iu');
+    var MADHAB = [['hanafi', 'حنفی|احناف|hanafi|hanfi'], ['shafii', 'شافعی|shafi|shafii|shafai'], ['maliki', 'مالکی|maliki'], ['hanbali', 'حنبلی|hanbali|humbli'], ['ahlehadith', 'اہل حدیث|اہلِ حدیث|ahle hadees|ahl e hadith|ahle hadith|ahl-e-hadith|wahabi'], ['jafari', 'جعفری|شیعہ|اہل تشیع|jafari|jafria|shia|shiah']]
+      .map(function (m) { return [m[0], new RegExp(w(m[1]), 'iu')]; });
+    var MONEY = /(\d[\d,]*(?:\.\d+)?)\s*(لاکھ|lakh|lac|ہزار|hazar|hazaar|thousand|کروڑ|crore|karor)?\s*(?:روپے|روپیہ|rs\.?|rupay|rupees|rupee|pkr)/iu;
+    var MONEY2 = /(?:روپے|rs\.?|pkr)\s*(\d[\d,]*)/iu;
+    var KANAL = /(\d+(?:\.\d+)?)\s*(?:کنال|kanal)/iu, MARLA = /(\d+(?:\.\d+)?)\s*(?:مرلہ|مرلے|marla|marlay|marle)/iu, FOOT = /(\d+(?:\.\d+)?)\s*(?:فٹ|مربع فٹ|sq\.? ?ft|feet|foot|fut)/iu;
+    var TOLA = /(\d+(?:\.\d+)?)\s*(?:تولہ|تولے|tola|tolay)\s*(سونا|سونے|gold|sona|چاندی|چاندی|silver|chandi)?/iu;
+    // Words that carry no relation: left over in a clause, they are not reported as "not understood".
+    var FILLER = new RegExp(w('ورثاء|ورثا|وارثان|وارثین|وارث|ترکہ|ترکے|جائیداد|زمین|مکان|مسلک|فقہ|کے مطابق|ہے|ہیں|تھے|تھا|تھی|ہوا|ہوئی|ہوئے|کا|کی|کے|کو|نے|میں|سے|چھوڑے|چھوڑا|چھوڑی|حصہ|حصے|بتائیں|بتا دیں|کتنا|کتنی|کتنے|کیا|زندہ|موجود|صرف|تمام|سب|ہیں:|waris|warisan|wurasa|tarka|tarkah|jaidad|jaidaad|zameen|zamin|makan|maslak|fiqh|ke mutabiq|hai|hain|tha|thi|thay|hua|hui|huay|ka|ki|ke|ko|ne|mein|main|se|chora|chhora|choray|chhoray|chori|hissa|hisse|batayen|kitna|kitni|kitne|kya|zinda|mojood|maujood|sirf|tamam|sab|heirs?|left|leaves|behind|his|her|the|a|an|of|is|are|was|were|alive|only|estate|property'), 'giu');
+    function digits(s) { return s.replace(/[۰-۹]/g, function (c) { return '۰۱۲۳۴۵۶۷۸۹'.indexOf(c); }).replace(/[٠-٩]/g, function (c) { return '٠١٢٣٤٥٦٧٨٩'.indexOf(c); }); }
+    function numOf(tok) { var n = parseInt(tok, 10); return isFinite(n) ? n : NUMS[tok.toLowerCase()] || 0; }
+
+    function parse(text) {
+      var out = { sex: '', madhab: '', counts: {}, status: {}, kids: false, notes: [], unknown: [], seen: [], assets: {} };
+      var t = digits(String(text || '')).replace(/[‌‏‎]/g, '').replace(/ي/g, 'ی').replace(/ك/g, 'ک');
+      // Estate: money, land, gold, read from the whole text first, then taken out.
+      var m;
+      if ((m = MONEY.exec(t)) || (m = MONEY2.exec(t))) { var amt = parseFloat(m[1].replace(/,/g, '')), mul = /لاکھ|lakh|lac/i.test(m[2] || '') ? 1e5 : /کروڑ|crore|karor/i.test(m[2] || '') ? 1e7 : /ہزار|hazar|thousand/i.test(m[2] || '') ? 1e3 : 1; out.assets.cash = String(Math.round(amt * mul)); t = t.replace(m[0], ' '); }
+      if ((m = KANAL.exec(t))) { out.assets.kanal = m[1]; t = t.replace(m[0], ' '); }
+      if ((m = MARLA.exec(t))) { out.assets.marla = m[1]; t = t.replace(m[0], ' '); }
+      if ((m = FOOT.exec(t)) && (out.assets.kanal || out.assets.marla)) { out.assets.foot = m[1]; t = t.replace(m[0], ' '); }
+      if ((m = TOLA.exec(t))) { if (/چاندی|silver|chandi/i.test(m[2] || '')) out.assets.silver = m[1]; else out.assets.gold = m[1]; t = t.replace(m[0], ' '); }
+      MADHAB.forEach(function (x) { var mm = x[1].exec(t); if (mm && !out.madhab) { out.madhab = x[0]; t = t.replace(mm[0], ' '); } });
+
+      var clauses = t.split(/[\n\r،,۔;؛*•●▪◦|]+|\s[-–]\s|(?<!\p{L})(?:اور|aur|or|and)(?!\p{L})|\.(?!\d)/u).map(function (c) { return c.replace(/[():"'«»؟?!]+/g, ' ').replace(/\s+/g, ' ').trim(); }).filter(Boolean);
+      clauses.forEach(function (c, ci) {
+        var low = c.toLowerCase(), hit = false;
+        if (NOKIDS.test(low)) { out.kids = 'none'; hit = true; low = low.replace(NOKIDS, ' '); }
+        var pm = PARENTS.exec(low);
+        if (pm) {
+          var st0 = NO.test(low) || DIED.test(low) ? 'before' : 'alive';
+          out.status.father = out.status.mother = st0; out.counts.father = out.counts.mother = st0 === 'alive' ? 1 : 0;
+          hit = true; low = low.replace(pm[0], ' ');
+        }
+        var found = [];
+        RELS.forEach(function (r) {
+          r.re.lastIndex = 0;
+          var mm;
+          while ((mm = r.re.exec(low))) { found.push({ rel: r.rel, at: mm.index, end: mm.index + mm[0].length, word: mm[0], plural: r.pl && r.pl.test(mm[0]) }); }
+          low = low.replace(r.re, function (s) { return s.replace(/./gu, '#'); });
+        });
+        found.sort(function (a, b) { return a.at - b.at; });
+        // The clause that says who died: "ایک عورت فوت ہوئی". Its sex words are about the deceased.
+        var aboutDeceased = !found.length && DIED.test(low);
+        if (FEM.test(low) && (aboutDeceased || !found.length || ci === 0)) { out.sex = out.sex || 'f'; hit = true; }
+        else if (MAS.test(low) && (aboutDeceased || !found.length || ci === 0)) { out.sex = out.sex || 'm'; hit = true; }
+        if (aboutDeceased) hit = true;
+        found.forEach(function (f, i) {
+          hit = true;
+          var before = low.slice(i ? found[i - 1].end : 0, f.at), after = low.slice(f.end, found[i + 1] ? found[i + 1].at : low.length);
+          var nb = before.match(NUMRE), na = after.match(NUMRE), n = 0;
+          if (nb) n = numOf(nb[nb.length - 1]); else if (na && /^\s*[:=]?\s*\S+\s*$/.test(after.split(/\s+/).slice(0, 3).join(' '))) n = numOf(na[0]);
+          var neg = NO.test(after) || (/^(?:کوئی|koi|no)\b/u.test(before.trim()) && NO.test(after + ' ' + before));
+          var died = DIED.test(after), status = 'alive';
+          if (died) status = AFTER.test(after) ? 'after' : 'before';
+          if (neg && !died) { n = 0; status = 'none'; }
+          if (!n && status !== 'none') { n = f.plural ? 2 : 1; if (f.plural) out.notes.push(f.word + ': تعداد نہیں لکھی، 2 مان لی؛ فارم میں درست کر لیں'); }
+          if (f.rel === 'father' || f.rel === 'mother') { out.status[f.rel] = status === 'none' ? 'before' : status; out.counts[f.rel] = status === 'none' ? 0 : 1; }
+          else {
+            out.counts[f.rel] = (out.counts[f.rel] || 0) + (status === 'none' ? 0 : n);
+            if (status !== 'none') out.status[f.rel] = status;
+            if (status === 'none') out.counts[f.rel] = out.counts[f.rel] || 0;
+          }
+          out.seen.push(f.rel);
+        });
+        if (!hit && /\p{L}{2,}/u.test(c.replace(FILLER, ' ').replace(NUMRE, ' '))) out.unknown.push(c);
+      });
+      if (out.counts.husband && !out.sex) out.sex = 'f';
+      if (out.counts.wife && !out.sex) out.sex = 'm';
+      if (out.counts.husband && out.counts.wife) out.notes.push('شوہر اور بیوی دونوں لکھے ہیں؛ متوفی/متوفیہ کے مطابق ایک ہی رکھا گیا');
+      if (out.kids === 'none') ['son', 'daughter', 'grandson', 'granddaughter', 'dson', 'ddaughter'].forEach(function (k) { if (out.counts[k]) out.notes.push('اولاد نہ ہونے کا لکھا ہے مگر ' + SHORT[k.replace(/^d/, 'grand')] + ' بھی لکھا ہے؛ فارم چیک کریں'); });
+      return out;
+    }
+
+    // Grandchildren, nephews and nieces hang under a parent who died first (that is when the form asks for them).
+    var VIA = { grandson: ['son', 'grandson'], granddaughter: ['son', 'granddaughter'], dson: ['daughter', 'grandson'], ddaughter: ['daughter', 'granddaughter'], bnephew: ['brother', 'nephew'], bniece: ['brother', 'niece'], snephew: ['sister', 'nephew'], sniece: ['sister', 'niece'] };
+    var MAX = { wife: 4, husband: 1, son: 12, daughter: 12, dada: 1, dadi: 1, nani: 1 };
+    function apply(p) {
+      var s = blank();
+      s.sex = p.sex || 'm';
+      s.madhab = p.madhab || st.madhab;
+      s.assets.cash.on = !!p.assets.cash; s.assets.cash.amount = p.assets.cash || '';
+      if (p.assets.kanal || p.assets.marla) { s.assets.land.on = true; s.assets.land.kanal = p.assets.kanal || ''; s.assets.land.marla = p.assets.marla || ''; s.assets.land.foot = p.assets.foot || ''; }
+      if (p.assets.gold) { s.assets.gold.on = true; s.assets.gold.tola = p.assets.gold; }
+      if (p.assets.silver) { s.assets.silver.on = true; s.assets.silver.tola = p.assets.silver; }
+      if (!s.assets.cash.on && !s.assets.land.on && !s.assets.gold.on && !s.assets.silver.on) s.assets.cash.on = true;
+      var seq = 2;
+      function add(rel, status, parent) { seq++; var q = { id: 'p' + seq, rel: rel, name: '', status: status || 'alive' }; if (parent) q.parent = parent; s.people.push(q); return q; }
+      s.people[0].status = p.status.father || 'before';
+      s.people[1].status = p.status.mother || 'before';
+      var made = [];
+      Object.keys(p.counts).forEach(function (rel) {
+        var n = p.counts[rel];
+        if (!n || rel === 'father' || rel === 'mother') return;
+        if (rel === 'husband' && s.sex !== 'f') return;
+        if (rel === 'wife' && s.sex !== 'm') return;
+        if (VIA[rel]) {
+          var v = VIA[rel], par = s.people.filter(function (q) { return q.rel === v[0] && q.status === 'before' && !q.parent; })[0];
+          if (!par) { par = add(v[0], 'before'); made.push(SHORT[v[0]]); }
+          for (var j = 0; j < Math.min(n, 12); j++) add(v[1], 'alive', par.id);
+          return;
+        }
+        for (var i = 0; i < Math.min(n, MAX[rel] || 9); i++) add(rel, p.status[rel] || 'alive');
+      });
+      made.forEach(function (x) { p.notes.push('ان کے والد / والدہ (' + x + ') کو ' + (s.sex === 'f' ? 'متوفیہ' : 'متوفی') + ' سے پہلے فوت مان لیا، کیونکہ فارم میں ان کی اولاد اسی صورت میں آتی ہے'); });
+      if (!p.status.father) p.notes.push('والد کا ذکر نہیں: پہلے فوت مان لیا؛ زندہ ہوں تو فارم میں بدل لیں');
+      if (!p.status.mother) p.notes.push('والدہ کا ذکر نہیں: پہلے فوت مان لیا؛ زندہ ہوں تو فارم میں بدل لیں');
+      if (!p.sex) p.notes.push('یہ واضح نہیں کہ فوت ہونے والا مرد ہے یا عورت: مرد مان لیا');
+      s.seq = seq; s.shown = false; s.askText = p.text;
+      return s;
+    }
+    return { parse: parse, apply: apply };
+  })();
+  window.WIRASAT_ASK = ASK;
+
+  function askSummary(p) {
+    var names = { husband: 'شوہر', wife: 'بیوی', father: 'والد', mother: 'والدہ', son: 'بیٹے', daughter: 'بیٹیاں', brother: 'سگے بھائی', sister: 'سگی بہنیں', pbrother: 'باپ شریک بھائی', psister: 'باپ شریک بہنیں', mbrother: 'ماں شریک بھائی', msister: 'ماں شریک بہنیں', dada: 'دادا', dadi: 'دادی', nani: 'نانی', chacha: 'چچا', grandson: 'پوتے', granddaughter: 'پوتیاں', dson: 'نواسے', ddaughter: 'نواسیاں', bnephew: 'بھتیجے', bniece: 'بھتیجیاں', snephew: 'بھانجے', sniece: 'بھانجیاں' };
+    var st2 = { alive: '', before: ' (پہلے فوت)', after: ' (بعد میں فوت)' };
+    var got = [];
+    if (p.sex) got.push(p.sex === 'f' ? 'متوفیہ: عورت' : 'متوفی: مرد');
+    if (p.madhab) got.push('مسلک: ' + MADHABS.filter(function (m) { return m[0] === p.madhab; })[0][1]);
+    ['father', 'mother'].forEach(function (k) { if (p.status[k]) got.push(names[k] + (p.status[k] === 'alive' ? ' (زندہ)' : st2[p.status[k]] || '')); });
+    Object.keys(p.counts).forEach(function (k) { if (k === 'father' || k === 'mother') return; got.push(names[k] + ': ' + (p.counts[k] || 'نہیں') + (p.counts[k] ? st2[p.status[k]] || '' : '')); });
+    if (p.kids === 'none') got.push('اولاد: نہیں');
+    if (p.assets.cash) got.push('رقم: ' + rs(+p.assets.cash));
+    if (p.assets.kanal || p.assets.marla) got.push('زمین: ' + (p.assets.kanal || 0) + ' کنال ' + (p.assets.marla || 0) + ' مرلہ');
+    if (p.assets.gold) got.push('سونا: ' + p.assets.gold + ' تولہ');
+    var h = '<div class="askout"><p><b>یہ سمجھا:</b></p><div class="chips">' + (got.length ? got.map(function (x) { return '<span class="chip on">' + esc(x) + '</span>'; }).join('') : '<span class="hint">کوئی رشتہ نہیں پہچانا</span>') + '</div>';
+    if (p.unknown.length) h += '<p class="err">یہ حصہ سمجھ نہیں آیا، فارم میں خود چن لیں: ' + p.unknown.map(function (x) { return '«' + esc(x) + '»'; }).join('، ') + '</p>';
+    if (p.notes.length) h += '<ul class="notes">' + p.notes.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>';
+    return h + '<p class="hint">نیچے فارم بھر دیا گیا ہے۔ ایک نظر دیکھ لیں، پھر "وراثت کا حساب لگائیں" دبائیں۔</p></div>';
+  }
+  $('askGo').addEventListener('click', function () {
+    var text = $('askText').value;
+    if (!text.trim()) { $('askOut').innerHTML = '<p class="err">پہلے سوال لکھیں یا پیسٹ کریں۔</p>'; return; }
+    var p = ASK.parse(text);
+    p.text = text;
+    st = ASK.apply(p); save(); renderTop(); renderPeople(); summary();
+    $('resultSec').hidden = true; cur = null;
+    $('askOut').innerHTML = askSummary(p);
+  });
+  $('askEx').addEventListener('click', function () {
+    $('askText').value = 'ایک عورت فوت ہوئی۔ ورثاء:\n* شوہر\n* ماں\n* دو حقیقی بہنیں\n* ایک اخیافی بھائی\n* ایک اخیافی بہن\n* والد موجود نہیں، اولاد نہیں';
+    $('askGo').click();
+  });
 
   $('reset').addEventListener('click', function () { st = sample(); save(); renderTop(); renderPeople(); summary(); $('resultSec').hidden = true; cur = null; });
   $('clear').addEventListener('click', function () { st = blank(); save(); renderTop(); renderPeople(); summary(); $('resultSec').hidden = true; cur = null; });
