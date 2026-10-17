@@ -209,12 +209,12 @@
 			else fard([mother], Q(1, 3), 'mother');
 		}
 
-		// Grandmothers: mother blocks both; father blocks his own mother (not in the Hanbali school).
+		// Grandmothers: mother blocks both; father blocks his own mother (not for Hanbali and Ahl-e-Hadith, Ibn Uthaymeen's Tashil al-Fara'id).
 		var gms = [];
 		of('nani').forEach(function (p) { if (mother) block(r, [p], 'mother'); else gms.push(p); });
 		of('dadi').forEach(function (p) {
 			if (mother) block(r, [p], 'mother');
-			else if (father && madhab !== 'hanbali') block(r, [p], 'father');
+			else if (father && madhab !== 'hanbali' && madhab !== 'ahlehadith') block(r, [p], 'father');
 			else gms.push(p);
 		});
 		fard(gms, Q(1, 6), 'grandmother');
@@ -299,7 +299,7 @@
 
 		if (muqasama) return zaydGrandfather(r, fards, GF, FB, FS, PB, PS, husband, mother, femDesc);
 
-		return finish(r, fards, asaba, persons, H, map, husband.concat(wives));
+		return finish(r, fards, asaba, persons, H, map, husband.concat(wives), madhab);
 	}
 
 	/** Grandfather with full or consanguine siblings, after Zayd ibn Thabit (Shafi'i, Maliki, Hanbali). */
@@ -351,7 +351,7 @@
 	}
 
 	/** Fixed shares, then the rest to the residuary; 'awl when the shares exceed the estate, radd when they fall short. */
-	function finish(r, fards, asaba, persons, H, map, spouses) {
+	function finish(r, fards, asaba, persons, H, map, spouses, madhab) {
 		var total = sum(fards.map(function (x) { return x.f; }));
 		var scale = ONE;
 		if (cmp(total, ONE) > 0) {
@@ -389,19 +389,25 @@
 			});
 			r.radd = true;
 			r.notes.push('radd');
+			if (madhab === 'shafii' || madhab === 'maliki') r.notes.push('raddLater');
 			return r;
 		}
 		// Dhawi al-arham before radd to a spouse.
-		if (persons && dhawi(r, persons, H, map, rest)) return r;
+		if (persons && dhawi(r, persons, H, map, rest)) {
+			if (madhab === 'shafii' || madhab === 'maliki') r.notes.push('raddLater');
+			return r;
+		}
 		var sp = (spouses || []);
-		if (sp.length) {
+		// Radd to a spouse: the later Hanafi fatwa (and Ibn Taymiyya's choice, for Ahl-e-Hadith).
+		// Shafi'i, Maliki and Hanbali: the rest goes to the bayt al-mal, so it stays unassigned here.
+		if (sp.length && (madhab === 'hanafi' || madhab === 'ahlehadith' || !madhab)) {
 			give(r, sp.map(function (p) { return p.id; }), rest, 'radd');
 			r.radd = true;
 			r.notes.push('raddSpouse');
 			return r;
 		}
 		r.unassigned = rest;
-		r.notes.push('unassigned');
+		r.notes.push(sp.length ? 'baitulmal' : 'unassigned');
 		return r;
 	}
 
@@ -560,11 +566,11 @@
 			return jafariLand(r, wives);
 		}
 
-		// Class 3: paternal uncles and aunts 2/3, maternal 1/3 (1/6 if only one).
+		// Class 3: paternal uncles and aunts 2/3, maternal 1/3 even when there is only one (al-Muhaqqiq, Shara'i al-Islam).
 		var pat = of('chacha').concat(of('phuphi')).map(unit).concat(uncReps);
 		var mat = of('mamu').concat(of('khala')).map(unit);
 		if (pat.length && mat.length) {
-			var mf3 = mat.length === 1 ? Q(1, 6) : Q(1, 3);
+			var mf3 = Q(1, 3);
 			give21(r, mat, mf3, 'uncles', REFS.jafariClass, true);
 			give21(r, pat, sub(rest, mf3), 'uncles', REFS.jafariClass);
 		} else if (mat.length) give21(r, mat, rest, 'uncles', REFS.jafariClass, true);
