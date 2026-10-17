@@ -50,7 +50,16 @@ class MYZT_Installer {
 		if ( get_option( 'myzt_version' ) === MYZAKATTOOL_VERSION ) {
 			return;
 		}
+		// One run at a time: two admin requests at once (page + admin-ajax) used to create
+		// every new page and menu item twice. add_option() fails if the row already exists.
+		if ( ! add_option( 'myzt_upgrading', time(), '', false ) ) {
+			if ( time() - (int) get_option( 'myzt_upgrading' ) < 300 ) {
+				return;
+			}
+			update_option( 'myzt_upgrading', time(), false );
+		}
 		self::install();
+		delete_option( 'myzt_upgrading' );
 	}
 
 	public static function install() {
@@ -123,6 +132,7 @@ class MYZT_Installer {
 					)
 				);
 				self::meta( $existing->ID, $def );
+				update_post_meta( $existing->ID, '_myzt_hash', md5( get_post_field( 'post_content', $existing->ID ) ) );
 				$ids[ $slug ] = $existing->ID;
 				++$created;
 				continue;
@@ -176,6 +186,12 @@ class MYZT_Installer {
 		$hash      = get_post_meta( $post->ID, '_myzt_hash', true );
 		$current   = md5( $post->post_content );
 		$untouched = $hash ? hash_equals( $hash, $current ) : $post->post_modified_gmt === $post->post_date_gmt;
+		// Before 1.6.10 the replaced WordPress privacy draft got no hash, so it looked edited
+		// forever. Treat it as untouched if it was last saved at the first install.
+		if ( ! $hash && ! $untouched && 'privacy-policy' === $post->post_name ) {
+			$installed = (int) get_option( 'myzt_installed' );
+			$untouched = $installed && abs( strtotime( $post->post_modified_gmt . ' UTC' ) - $installed ) < 600;
+		}
 		if ( ! $untouched ) {
 			return false;
 		}
