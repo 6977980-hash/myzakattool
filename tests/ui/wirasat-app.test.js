@@ -144,3 +144,21 @@ test('no scrollbar flashes inside the frame when a row is added (the form jerked
 	assert.equal(lo, hi, 'frame width stayed ' + hi + 'px');
 	await b.close();
 });
+
+test('gold: each share in tola and grams, with an estimate at the site rate', async () => {
+	// tests/ui/rates.json: gold $4000/oz, Rs 280 per $, so one tola (11.6638 g) is Rs 4,20,000.
+	const { ctx, errors, f } = await open(1100);
+	await f.fill('#askText', 'ek aadmi fout hua, biwi aur ek beta, 8 tola sona');
+	await f.click('#askGo');
+	await f.click('#go');
+	await f.waitForSelector('#resultSec:not([hidden])');
+	const rows = await f.$$eval('#result table tr', (trs) => trs.map((tr) => [...tr.querySelectorAll('td')].map((td) => td.textContent.trim())).filter((r) => r.length));
+	const wife = rows.find((r) => r[0] === 'بیوی'), son = rows.find((r) => r[0] === 'بیٹا');
+	assert.equal(wife[1], '1/8');
+	assert.equal(wife[2], '1 تولہ11.66 گرام · اندازاً Rs 4,20,000');
+	assert.equal(son[2], '7 تولہ81.65 گرام · اندازاً Rs 29,40,000');
+	const note = await f.textContent('#result');
+	assert.ok(note.includes('قیمت صرف اندازے کے لیے ہے') && note.includes('Rs 4,20,000 فی تولہ'));
+	assert.deepEqual(errors, []);
+	await ctx.close();
+});
