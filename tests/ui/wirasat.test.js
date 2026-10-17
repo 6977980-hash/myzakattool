@@ -116,3 +116,22 @@ test('Urdu on a phone: PNG and PDF downloads work', async () => {
 	assert.deepEqual(errors, []);
 	await ctx.close();
 });
+
+test('A daughter who died first is asked about her children', async () => {
+	const { ctx, errors, w } = await open('en');
+	await w.locator('[data-madhab="hanafi"]').click();
+	for (const rel of ['wife', 'son', 'daughter']) await w.locator(`[data-add="${rel}"]`).click();
+	const ids = await w.locator('[data-pname]').evaluateAll((els) => els.map((e) => e.dataset.pname));
+	await w.locator(`[data-pname="${ids[2]}"]`).fill('Amna');
+	await w.locator(`select[data-pstatus="${ids[2]}"]`).selectOption('before');
+	const ask = w.locator(`[data-addkid][data-for="${ids[2]}"]`);
+	assert.equal(await ask.count(), 2);
+	await ask.first().click();
+	await w.locator('[data-sec4]').check();
+	await w.page().waitForTimeout(600);
+	const r = await rows(w);
+	// Section 4: Amna's son takes her share (1/3 of the 7/8 left after the wife).
+	assert.ok(r.some((x) => /7\/24/.test(x)), JSON.stringify(r));
+	assert.deepEqual(errors, []);
+	await ctx.close();
+});
