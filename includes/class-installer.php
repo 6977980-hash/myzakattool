@@ -60,6 +60,7 @@ class MYZT_Installer {
 		self::create_pages();
 		self::menu();
 		self::logo();
+		self::root_favicon();
 		if ( $first ) {
 			update_option( 'myzt_installed', time() );
 		}
@@ -67,6 +68,14 @@ class MYZT_Installer {
 		MYZT_Rates::ensure_schedule();
 		if ( ! MYZT_Rates::get() ) {
 			MYZT_Rates::refresh();
+		}
+	}
+
+	/** Some hosts answer /favicon.ico with a static 404 before WordPress runs: place a real file at the root. */
+	private static function root_favicon() {
+		$dest = ABSPATH . 'favicon.ico';
+		if ( ! file_exists( $dest ) && wp_is_writable( ABSPATH ) ) {
+			@copy( MYZAKATTOOL_DIR . 'assets/img/favicon.ico', $dest ); // phpcs:ignore WordPress.PHP.NoSilencedErrors
 		}
 	}
 

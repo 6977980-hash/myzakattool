@@ -558,7 +558,7 @@ HTML
 <li><strong>Go by the majority.</strong> If most of the season's watering came from rain, pay 10%; if most came from the tube well, pay 5%. In the Hanafi school this is the main rule.</li>
 <li><strong>If the two are about equal,</strong> the Shafi'i and Hanbali schools give three quarters of a tenth, which is 7.5%.</li>
 </ul>
-<p>Our <a href="/ushr-calculator/">calculator</a> offers a "mixed" option at 7.5%. That is the right answer when the watering was roughly half and half. If one source clearly dominated, choose "rain" or "irrigated" instead, following the majority rule. Some scholars prefer to split the rate in exact proportion (for example, two thirds rain and one third tube well), which gives a figure between 5% and 10%; that is also a recognised view.</p>
+<p>In the Shafi'i, Maliki and Hanbali modes our <a href="/ushr-calculator/">calculator</a> offers a "mixed" option at 7.5% (it is not shown in Hanafi mode, where the source used for most of the season decides). That is the right answer when the watering was roughly half and half. If one source clearly dominated, choose "rain" or "irrigated" instead, following the majority rule. Some scholars prefer to split the rate in exact proportion (for example, two thirds rain and one third tube well), which gives a figure between 5% and 10%; that is also a recognised view.</p>
 
 <h2>Is there a minimum (nisab) for ushr?</h2>
 <p>This is the biggest difference between the schools, and it matters for small farmers.</p>
@@ -613,7 +613,7 @@ HTML
 <h3>3. Cotton in rupees</h3>
 <p>Nadia's family grows cotton on 10 acres of tube well land and sells 250 maund of phutti at an example price of Rs 8,000 per maund, Rs 20,00,000 in total. In the Hanafi school ushr is 5% of the crop: 12.5 maund, or <strong>Rs 1,00,000</strong> in value. In the Shafi'i, Maliki and Hanbali schools cotton is not an ushr crop; the sale money instead joins their cash for the annual 2.5% zakat if it is still held when their zakat year completes.</p>
 <h3>4. Mixed watering</h3>
-<p>Imran's rice field was flooded by monsoon rain for about half the season and pumped from a tube well for the other half. 200 maund harvested. With roughly equal watering, ushr is 7.5%: <strong>15 maund</strong>. If he estimates that the tube well did most of the work, say three quarters of the watering, the majority rule gives 5%: 10 maund.</p>
+<p>Imran's rice field was flooded by monsoon rain for about half the season and pumped from a tube well for the other half. 200 maund harvested. With roughly equal watering, ushr in the Shafi'i, Maliki and Hanbali schools is 7.5%: <strong>15 maund</strong>. In Hanafi mode the calculator asks you to pick the source that did most of the work. If he estimates that the tube well did most of the work, say three quarters of the watering, the majority rule gives 5%: 10 maund.</p>
 <h3>5. A small plot</h3>
 <p>A widow's small plot gives 8 maund of wheat (320 kg) on rain. In the Hanafi school, 10% is due: 0.8 maund, about 32 kg. In the Shafi'i, Maliki and Hanbali schools nothing is due, because 320 kg is below 5 wasq (about 653 kg).</p>
 <h3>Converting maund and kilograms</h3>
@@ -1061,7 +1061,7 @@ HTML
 <tr><td>Sahm-e-Imam (10%)</td><td>Rs 40,000</td></tr>
 <tr><td>Sahm-e-Sadat (10%)</td><td>Rs 40,000</td></tr>
 </tbody></table></figure>
-<p>Once Ali pays, all Rs 6,20,000 counts as khums-paid money. If next year he still has Rs 6,00,000 of it untouched, no khums is due on that part again. Only new surplus is counted.</p>
+<p>Once Ali pays the Rs 80,000, the money he has left counts as khums-paid money. If next year he still has, say, Rs 5,00,000 of it untouched, no khums is due on that part again. Only new surplus is counted.</p>
 <h3>Two quick cases</h3>
 <ul>
 <li><strong>A student with no job</strong> receives Rs 1,00,000 from relatives over the year and has Rs 40,000 left. With Sistani, khums is due on the Rs 40,000 once a year has passed from when each gift was received, or on her chosen khums date: Rs 8,000.</li>

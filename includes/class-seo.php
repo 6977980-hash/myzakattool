@@ -28,6 +28,8 @@ class MYZT_SEO {
 		add_filter( 'wp_sitemaps_posts_query_args', array( __CLASS__, 'sitemap_exclude_noindex' ), 10, 2 );
 		add_filter( 'wp_robots', array( __CLASS__, 'robots_meta' ) );
 		add_action( 'template_redirect', array( __CLASS__, 'redirects' ), 1 );
+		add_filter( 'term_link', array( __CLASS__, 'guides_term_link' ), 10, 3 );
+		add_filter( 'oembed_response_data', array( __CLASS__, 'oembed_author' ), 10, 2 );
 		add_filter( 'the_content', array( __CLASS__, 'breadcrumb' ), 5 );
 		remove_action( 'wp_head', 'wp_generator' );
 		remove_action( 'wp_head', 'wp_shortlink_wp_head' );
@@ -402,6 +404,29 @@ class MYZT_SEO {
 			wp_safe_redirect( MYZT_Frontend::page_url( 'guides' ), 301 );
 			exit;
 		}
+		// An empty category (for example the default "Blog") would show a "Nothing Found" page.
+		if ( is_category() && ! is_paged() && ! have_posts() ) {
+			wp_safe_redirect( MYZT_Frontend::page_url( 'guides' ), 301 );
+			exit;
+		}
+	}
+
+	/** Theme post meta links to /category/guides/, which redirects: link straight to the Guides page. */
+	public static function guides_term_link( $url, $term, $taxonomy ) {
+		if ( 'category' === $taxonomy && 'guides' === $term->slug ) {
+			return MYZT_Frontend::page_url( 'guides' );
+		}
+		return $url;
+	}
+
+	/** oEmbed takes the WordPress user's display name; use the site author instead. */
+	public static function oembed_author( $data, $post ) {
+		$n = (string) MYZT_Settings::get( 'author_name' );
+		if ( '' !== $n ) {
+			$data['author_name'] = $n;
+			$data['author_url']  = MYZT_Frontend::page_url( 'about' );
+		}
+		return $data;
 	}
 
 	/* ---------- robots ---------- */
@@ -429,10 +454,7 @@ class MYZT_SEO {
 		$lines[] = 'User-agent: *';
 		$lines[] = 'Disallow: /wp-admin/';
 		$lines[] = 'Allow: /wp-admin/admin-ajax.php';
-		$lines[] = 'Disallow: /?s=';
-		$lines[] = 'Disallow: /search/';
-		$lines[] = 'Disallow: /tag/';
-		$lines[] = 'Disallow: /author/';
+		// Search, tag and author pages are not blocked here: they carry noindex, which crawlers must be able to read.
 		$lines[] = 'Disallow: /*?replytocom=';
 		$lines[] = '';
 		$lines[] = '# AI search and answer engines (GPTBot, PerplexityBot, ClaudeBot, Google-Extended) are allowed by the rules above.';
@@ -504,6 +526,16 @@ class MYZT_SEO {
 		$s    = MYZT_Settings::get();
 
 		switch ( $file ) {
+			case 'favicon.ico':
+				if ( has_site_icon() ) {
+					wp_redirect( get_site_icon_url( 48 ), 302 ); // phpcs:ignore WordPress.Security.SafeRedirect
+					exit;
+				}
+				status_header( 200 );
+				header( 'Content-Type: image/x-icon' );
+				header( 'Cache-Control: public, max-age=604800' );
+				readfile( MYZAKATTOOL_DIR . 'assets/img/favicon.ico' ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+				exit;
 			case 'apple-touch-icon.png':
 			case 'apple-touch-icon-precomposed.png':
 				status_header( 200 );

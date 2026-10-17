@@ -202,7 +202,7 @@ HTML
 <h2>Do I have to pay zakat again?</h2>
 <p>You pay the difference. Calculate your full zakat on all your wealth, then subtract what the bank already deducted. In our calculator, tap <strong>Already paid</strong> and enter the bank's deduction: it shows what is still left to pay. The bank looks at one account, on one fixed date, with the government's nisab. Your own zakat covers gold, cash at home, other accounts and business assets, on your own zakat date.</p>
 <h2>Example</h2>
-<p>Sana had Rs 8,00,000 in a savings account on 1 Ramadan, so the bank deducted Rs 20,000. She also owns 4 tola of gold and keeps Rs 1,50,000 at home. Her full zakat in the Hanafi madhab is 2.5% of the cash, savings and gold together. If that comes to Rs 45,000, she still owes Rs 25,000.</p>
+<p>Sana had Rs 8,00,000 in a savings account on 1 Ramadan, so the bank deducted Rs 20,000. She also owns 4 tola of 24K gold and keeps Rs 1,50,000 at home. At an example rate of Rs 4,30,000 a tola her gold is worth Rs 17,20,000, so her total is Rs 26,70,000. Her full zakat in the Hanafi madhab is 2.5% of that, Rs 66,750, and she still owes Rs 46,750 after the bank's Rs 20,000. Gold prices change, so the calculator uses today's rate.</p>
 <h2>How to avoid paying twice</h2>
 <ul>
 <li>Keep the bank's zakat deduction certificate (shown on your statement) and subtract it from your total.</li>

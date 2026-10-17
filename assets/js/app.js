@@ -57,7 +57,7 @@
 			n_shafii_separate: "In Shafi'i fiqh gold and silver are separate; the other metal is checked against its own nisab.",
 			n_doubtful_receivables: 'Doubtful debts are not counted now; pay zakat on them when you receive them.',
 			n_debts_vs_metal: 'You have debts and only one metal: that metal\'s own nisab by weight is used, and your debts are deducted from its value.',
-			nisabUsed: 'Nisab used', basisGold: 'gold (87.48 g)', basisSilver: 'silver (612.36 g)', basisCoins: 'coins only',
+			nisabUsed: 'Nisab used', basisGold: 'gold (87.48 g)', basisSilver: 'silver (612.35 g)', basisCoins: 'coins only',
 			chooseNisab: 'Nisab standard', compare: 'Compare all madhabs', hideCompare: 'Hide comparison',
 			pdf: 'PDF report', whatsapp: 'WhatsApp', calendar: 'Add to calendar', report: 'Report an error',
 			saveFile: 'Save data file', loadFile: 'Open data file', reset: 'Clear all',
@@ -152,7 +152,7 @@
 			n_shafii_separate: 'شافعی فقہ میں سونا اور چاندی الگ ہیں؛ دوسری دھات اپنے نصاب سے دیکھی جاتی ہے۔',
 			n_doubtful_receivables: 'مشکوک قرض ابھی شامل نہیں؛ ملنے پر اس کی زکوٰۃ دیں۔',
 			n_debts_vs_metal: 'آپ پر قرض ہے اور صرف ایک دھات ہے: اسی دھات کا نصاب (وزن) لگا، اور قرض اس کی قیمت سے منہا کیا گیا۔',
-			nisabUsed: 'نصاب', basisGold: 'سونا (87.48 گرام)', basisSilver: 'چاندی (612.36 گرام)', basisCoins: 'صرف سکے',
+			nisabUsed: 'نصاب', basisGold: 'سونا (87.48 گرام)', basisSilver: 'چاندی (612.35 گرام)', basisCoins: 'صرف سکے',
 			chooseNisab: 'نصاب کا معیار', compare: 'تمام مسالک کا موازنہ', hideCompare: 'موازنہ چھپائیں',
 			pdf: 'PDF رپورٹ', whatsapp: 'واٹس ایپ', calendar: 'کیلنڈر میں شامل کریں', report: 'غلطی بتائیں',
 			saveFile: 'ڈیٹا فائل محفوظ کریں', loadFile: 'ڈیٹا فائل کھولیں', reset: 'سب صاف کریں',
@@ -962,7 +962,7 @@
 			if (!pr) return;
 			var nv = E.nisabValues(pr);
 			root.innerHTML = '<div class="myzt-card">' + curSelect(cur) + '<div class="myzt-scroll"><table class="myzt-table"><thead><tr><th>' + esc(t('nisab')) + '</th><th>Weight</th><th>' + esc(t('c_zakat')) + ' ' + esc(t('nisab')) + '</th></tr></thead><tbody>' +
-				'<tr><td>' + esc(t('silver')) + '</td><td>612.36 g · 52.5 tola</td><td class="z">' + money(nv.silver, cur) + '</td></tr>' +
+				'<tr><td>' + esc(t('silver')) + '</td><td>612.35 g · 52.5 tola</td><td class="z">' + money(nv.silver, cur) + '</td></tr>' +
 				'<tr><td>' + esc(t('l_gold')) + '</td><td>87.48 g · 7.5 tola</td><td class="z">' + money(nv.gold, cur) + '</td></tr></tbody></table></div>' +
 				'<p class="myzt-small">' + esc(stamp()) + (RATES.source === 'manual' ? '' : ' · international spot rate') + '</p></div>';
 		}
