@@ -592,7 +592,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
       h += '<div class="banner">پہلے فوت ہونے والے بیٹے یا بیٹی کی اولاد کی وجہ سے فقہ اور پاکستانی قانون (عائلی قوانین 1961، دفعہ 4) کا نتیجہ مختلف ہے۔ پٹواری اور عدالت قانون والا حصہ لکھتے ہیں۔</div>' +
         '<div class="tabs" id="view"><button type="button" class="chip" data-v="law" aria-pressed="' + (view === 'law') + '">پاکستانی قانون (پٹواری)</button><button type="button" class="chip" data-v="fiqh" aria-pressed="' + (view === 'fiqh') + '">فقہ ' + esc(madhabName()) + '</button></div>';
     }
-    h += '<div class="fitbar"><span class="hint" id="fitHint"></span><button type="button" class="chip" id="zoom" aria-pressed="false">شجرہ بڑا کریں</button></div>' + tree(r, 'tree') + table(r) + noShare(r) + notes(r) + tools(r) +
+    h += '<div class="fitbar"><span class="hint" id="fitHint"></span><button type="button" class="chip" id="zoom" aria-pressed="false">شجرہ بڑا کریں</button></div>' + tree(r, 'tree') + table(r) + noShare(r) + notes(r) + tools(r) + report(r) +
       '<div class="actions" style="margin-top:14px"><button type="button" class="go" id="pdf">پی ڈی ایف رپورٹ ڈاؤن لوڈ کریں</button><span class="hint" id="pdfMsg"></span></div>';
     el.innerHTML = h;
     var v = $('view');
@@ -948,6 +948,11 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
       '<tr><td><b>میزان</b></td><td class="f">1</td><td><b>' + base + '</b></td>' + (e.cash != null ? '<td><b>' + rs(heirs.reduce(function (a, p) { return a + cash(r)[p.id]; }, 0)) + '</b></td>' : '') + '</tr></tbody></table></div>';
     return h;
   }
+  // Where a user tells us about a mistake in the shajra or the shares; the share link lets us open the same family.
+  var CONTACT = 'https://myzakattool.com/contact/';
+  function report() {
+    return '<p class="note-box"><b>کوئی غلطی نظر آئی؟</b> اگر آپ کو لگے کہ حساب، حصوں یا شجرے میں کوئی غلطی یا خرابی ہے تو ہمارے <a href="' + CONTACT + '" target="_blank" rel="noopener">رابطہ صفحے</a> سے بتائیں۔ پیغام میں مسلک، رشتہ دار اور وہ حصہ لکھیں جو آپ کے خیال میں درست ہے؛ اوپر "شیئر کریں" والا لنک بھی ساتھ بھیج دیں تو ہم یہی خاندان کھول کر دیکھ لیں گے۔</p>';
+  }
   function persons0() { return st.people.map(function (p) { return { id: p.id, rel: p.rel, status: p.status, parent: p.parent, name: p.name }; }); }
   // The same family in all six schools (fiqh, without the s.4 option); cells that differ from the chosen school are marked.
   function six() {
@@ -1060,7 +1065,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
       '<div class="box" style="display:flex;gap:40px;flex-wrap:wrap">' + (assets || '<div class="hint">ترکہ درج نہیں کیا، صرف حصے</div>') + '</div>' +
       '<div class="box"><span class="hint">وارثین</span><br>' + heirsLine + '</div>' +
       table(r) + noShare(r) + notes(r) + '<h2 class="sub">حساب کی کاپی</h2>' + sheet(r) +
-      '<div class="small">یہ رپورٹ myzakattool.com کے وراثت کیلکولیٹر سے بنی ہے۔ یہ فتویٰ، قانونی مشورہ یا سرکاری دستاویز نہیں۔ تقسیم سے پہلے کسی مستند مفتی اور ریونیو / قانونی ماہر سے تصدیق کریں۔</div></div>';
+      '<div class="small">یہ رپورٹ myzakattool.com کے وراثت کیلکولیٹر سے بنی ہے۔ یہ فتویٰ، قانونی مشورہ یا سرکاری دستاویز نہیں۔ تقسیم سے پہلے کسی مستند مفتی اور ریونیو / قانونی ماہر سے تصدیق کریں۔ حساب یا شجرے میں غلطی لگے تو myzakattool.com/contact پر بتائیں۔</div></div>';
   }
   function makePdf() {
     if (!cur || stale) return;
