@@ -1802,11 +1802,16 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
       var p1 = $('rp1'), p2 = $('rp2');
       var shot = function (el) { return window.html2canvas(el, { scale: 2, backgroundColor: '#ffffff', windowWidth: Math.max(794, el.scrollWidth + 40) }); };
       return Promise.all([shot(p1), shot(p2)]).then(function (cv) {
-        var jsPDF = window.jspdf.jsPDF, doc = new jsPDF({ unit: 'pt', format: 'a4' });
-        var pw = doc.internal.pageSize.getWidth(), ph = doc.internal.pageSize.getHeight(), m = 24;
-        // Page 1: the whole shajra in the top 60%, shrunk to fit (bottom 40% left blank for the patwari's report and witnesses) when there are many heirs (never enlarged past print size).
-        var c1 = cv[0], k = Math.min((pw - 2 * m) / c1.width, (ph * 0.6 - m) / c1.height, (pw - 2 * m) / (794 * 2));
+        // Page 1: the whole shajra, shrunk to fit when there are many heirs (never enlarged past print size), with room left
+        // below for the patwari's report and witnesses: the top 60% of a portrait page. A wide shajra (a large family) prints
+        // bigger across a landscape page (top 75%), so a shajra wider than 1200px makes page 1 landscape; the report pages after it stay portrait.
+        var jsPDF = window.jspdf.jsPDF, A4 = [595.28, 841.89], m = 24, c1 = cv[0];
+        var fit = function (w, h, part) { return Math.min((w - 2 * m) / c1.width, (h * part - m) / c1.height, (w - 2 * m) / (794 * 2)); };
+        var kp = fit(A4[0], A4[1], 0.6), kl = fit(A4[1], A4[0], 0.75), land = c1.width / 2 > 1200 && kl > kp * 1.15, k = land ? kl : kp;
+        var doc = new jsPDF({ unit: 'pt', format: 'a4', orientation: land ? 'landscape' : 'portrait' });
+        var pw = doc.internal.pageSize.getWidth(), ph = doc.internal.pageSize.getHeight();
         doc.addImage(c1.toDataURL('image/jpeg', 0.95), 'JPEG', (pw - c1.width * k) / 2, m, c1.width * k, c1.height * k);
+        pw = A4[0]; ph = A4[1];
         // Following pages: report details, table and notes, sliced page by page.
         // Following pages keep a margin on every side.
         var canvas = cv[1], M = 36, cw = pw - 2 * M, pageH = Math.floor(canvas.width * (ph - 2 * M) / cw), y = 0;
@@ -1814,7 +1819,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
           var h = Math.min(pageH, canvas.height - y), part = document.createElement('canvas');
           part.width = canvas.width; part.height = h;
           var g = part.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, part.width, h); g.drawImage(canvas, 0, y, canvas.width, h, 0, 0, canvas.width, h);
-          doc.addPage();
+          doc.addPage('a4', 'portrait');
           doc.addImage(part.toDataURL('image/jpeg', 0.92), 'JPEG', M, M, cw, h * cw / canvas.width);
           y += h;
         }
