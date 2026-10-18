@@ -100,15 +100,18 @@
 
 	function Result(persons) {
 		var r = { shares: {}, notes: [], awl: false, radd: false, unassigned: ZERO };
-		persons.forEach(function (p) { r.shares[p.id] = { f: ZERO, why: null, ref: null, blocked: null }; });
+		persons.forEach(function (p) { r.shares[p.id] = { f: ZERO, why: null, ref: null, blocked: null, parts: {} }; });
 		return r;
 	}
+	// Which step a share comes from, so the page can show "1/6 fixed + 1/3 residue = 1/2": fard, asaba, radd or dhawi.
+	var PHASE = 'fard';
 	function give(r, ids, f, why, ref) {
 		if (!ids.length) return;
 		var each = div(f, Q(ids.length));
 		ids.forEach(function (id) {
 			var s = r.shares[id];
 			s.f = add(s.f, each);
+			s.parts[PHASE] = add(s.parts[PHASE] || ZERO, each);
 			if (!s.why) { s.why = why; s.ref = ref || REFS[why] || null; }
 		});
 	}
@@ -360,13 +363,17 @@
 			var lcm = fards.reduce(function (m, x) { return m / gcd(m, x.f.d) * x.f.d; }, 1);
 			r.awlFrom = { from: lcm, to: total.n * lcm / total.d };
 		}
+		// The fixed shares as the books write the mas'ala (before 'awl), and who took the rest: the page's worked sheet.
+		r.fards = fards.map(function (x) { return { ids: x.ids || x.units.map(function (u) { return u.id; }), f: x.f, why: x.why }; });
 		fards.forEach(function (x) {
 			var f = mul(x.f, scale);
 			if (x.units) give21(r, x.units, f, x.why, x.ref || REFS[x.why]);
 			else give(r, x.ids, f, x.why, x.ref || REFS[x.why]);
 		});
 		var rest = r.awl ? ZERO : sub(ONE, total);
+		PHASE = 'asaba';
 		if (asaba) {
+			if (!isZero(rest)) r.asabaGroup = { ids: asaba.units.map(function (u) { return u.id; }), why: asaba.why, f: rest };
 			if (!isZero(rest)) give21(r, asaba.units, rest, asaba.why, REFS[asaba.why === 'children' ? 'children' : asaba.why === 'maalGhayr' ? 'maalGhayr' : asaba.why === 'muqasama' ? 'muqasama' : 'asaba']);
 			else asaba.units.forEach(function (u) { if (!r.shares[u.id].why) r.shares[u.id].blocked = 'nothingLeft'; });
 			return r;
@@ -380,6 +387,7 @@
 			var ids = x.ids || x.units.map(function (u) { return u.id; });
 			if (!ids.some(function (id) { return spouseIds[id]; })) sharers.push(x);
 		});
+		PHASE = 'radd';
 		if (sharers.length) {
 			var base = sum(sharers.map(function (x) { return x.f; }));
 			sharers.forEach(function (x) {
@@ -393,6 +401,7 @@
 			return r;
 		}
 		// Dhawi al-arham before radd to a spouse.
+		PHASE = 'dhawi';
 		if (persons && dhawi(r, persons, H, map, rest)) {
 			if (madhab === 'shafii' || madhab === 'maliki') r.notes.push('raddLater');
 			return r;
@@ -401,9 +410,10 @@
 		// Radd to a spouse: the later Hanafi fatwa (and Ibn Taymiyya's choice, for Ahl-e-Hadith).
 		// Shafi'i, Maliki and Hanbali: the rest goes to the bayt al-mal, so it stays unassigned here.
 		if (sp.length && (madhab === 'hanafi' || madhab === 'ahlehadith' || !madhab)) {
+			PHASE = 'radd';
 			give(r, sp.map(function (p) { return p.id; }), rest, 'radd');
 			r.radd = true;
-			r.notes.push('raddSpouse');
+			r.notes.push(madhab === 'ahlehadith' ? 'raddSpouseAeh' : 'raddSpouse');
 			return r;
 		}
 		r.unassigned = rest;
@@ -519,6 +529,7 @@
 				var pTotal = sum(pf.map(function (x) { return x.f; }));
 				if (sons.length) {
 					pf.forEach(function (x) { give(r, [x.id], x.f, x.why); });
+					PHASE = 'asaba';
 					give21(r, kids, sub(rest, pTotal), 'children', REFS.children);
 				} else {
 					var dF = kids.length === 1 ? Q(1, 2) : Q(2, 3);
@@ -531,8 +542,11 @@
 						var extra = sub(rest, need);
 						var shareRadd = [{ f: dF, kids: true }].concat(pf.filter(function (x) { return !x.noRadd; }));
 						var base = sum(shareRadd.map(function (x) { return x.f; }));
-						pf.forEach(function (x) { give(r, [x.id], x.noRadd ? x.f : add(x.f, mul(extra, div(x.f, base))), x.why); });
-						give21(r, kids, add(dF, mul(extra, div(dF, base))), 'daughters', REFS.daughters, true);
+						pf.forEach(function (x) { give(r, [x.id], x.f, x.why); });
+						give21(r, kids, dF, 'daughters', REFS.daughters, true);
+						PHASE = 'radd';
+						pf.forEach(function (x) { if (!x.noRadd) give(r, [x.id], mul(extra, div(x.f, base)), x.why); });
+						give21(r, kids, mul(extra, div(dF, base)), 'daughters', REFS.daughters, true);
 						r.radd = true;
 						r.notes.push('radd');
 					}
@@ -597,12 +611,15 @@
 	/**
 	 * persons: [{ id, rel, status: 'alive' | 'before' | 'after', parent }]
 	 * opt: { madhab, deceasedSex: 'm' | 'f', sec4: bool }
-	 * Returns { shares: { id: { f: {n,d}, why, ref, blocked, pass } }, notes, awl, radd, unassigned, landShares?, base }
+	 * Returns { shares: { id: { f: {n,d}, why, ref, blocked, pass, parts: { fard, asaba, radd, dhawi } } }, notes, awl, awlFrom?,
+ *   radd, unassigned, landShares?, base, fards? (fixed shares before 'awl), asabaGroup? (who took the rest) }
 	 */
 	function calculate(persons, opt) {
 		opt = opt || {};
 		var list = (persons || []).filter(function (p) { return p && REL[p.rel]; });
+		PHASE = 'fard';
 		var r = opt.madhab === 'jafari' ? jafari(list, opt) : sunni(list, opt);
+		PHASE = 'fard';
 		list.forEach(function (p) {
 			var s = r.shares[p.id];
 			if (p.status === 'before' && s.why !== 'passed') { s.blocked = 'diedBefore'; s.f = ZERO; }

@@ -98,14 +98,15 @@ test('phone width: no sideways scroll outside the shajra box', async () => {
 	await f.waitForSelector('#resultSec:not([hidden])');
 	const over = await f.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
 	assert.ok(over <= 1, 'page overflow ' + over + 'px');
-	// The whole shajra fits the width; "شجرہ بڑا کریں" shows it full size with a sideways scroll.
+	// On a phone the shajra opens full size (shrunk to fit it cannot be read), scrolling sideways inside its own box;
+	// "پورا شجرہ دکھائیں" shrinks it to fit, and the button brings the full size back.
 	const fits = () => f.evaluate(() => { const b = document.getElementById('tree').parentNode; return b.scrollWidth - b.clientWidth; });
-	assert.ok((await fits()) <= 1, 'shajra fits without scrolling');
-	await f.click('#zoom');
 	assert.ok((await fits()) > 50, 'full-size shajra scrolls sideways');
 	assert.equal(await f.getAttribute('#zoom', 'aria-pressed'), 'true');
 	await f.click('#zoom');
-	assert.ok((await fits()) <= 1);
+	assert.ok((await fits()) <= 1, 'shajra fits without scrolling');
+	await f.click('#zoom');
+	assert.ok((await fits()) > 50);
 	assert.deepEqual(errors, []);
 	await ctx.close();
 });
