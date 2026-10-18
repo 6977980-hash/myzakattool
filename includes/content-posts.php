@@ -10,10 +10,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 require_once __DIR__ . '/content-posts-tools.php';
+require_once __DIR__ . '/content-posts-wirasat.php';
 
 function myzt_content_posts() {
 	$author = '[myzt_author]';
-	return myzt_content_posts_tools() + array(
+	return myzt_content_posts_tools() + myzt_content_posts_wirasat() + array(
 		'who-can-receive-zakat'         => array(
 			'title'   => 'Who Can Receive Zakat? The 8 Categories Explained',
 			'seo'     => 'Who Can Receive Zakat? 8 Categories (Zakat Kis Ko Dein)',
@@ -99,6 +100,7 @@ HTML
 </ul>
 <h2>Who pays: husband or wife?</h2>
 <p>Zakat is due on the owner. Jewellery given to a bride as her property (from her parents or as mahr) is hers, and it is her zakat, calculated together with her own savings. If she has no cash, she may pay from the jewellery itself, or her husband may pay on her behalf with her permission. Jewellery the husband bought and still owns, which his wife only wears, is his zakat in the Hanafi view. The family mode in our calculator lets you calculate each person separately.</p>
+<p><strong>Inherited jewellery</strong> follows the same rule as jewellery you bought: it is yours once your share is settled, and your school's ruling on worn or stored jewellery applies. See <a href="/zakat-on-inherited-wealth/">zakat on inherited wealth</a>, and the <a href="/wirasat-calculator/">wirasat calculator</a> for each heir's share of the gold in tola and grams.</p>
 <h2>Example</h2>
 <p>Ayesha owns 8 tola of 22K jewellery and Rs 50,000 in savings. In the Hanafi madhab the gold and cash are added and checked against the silver nisab, so zakat is due on both. In the Shafi'i madhab her worn jewellery is exempt and Rs 50,000 is below the nisab, so nothing is due. Try the same numbers in the <a href="/madhab-comparison/">madhab comparison</a>.</p>
 <p>Calculate it now with the <a href="/zakat-on-gold-calculator/">zakat on gold calculator</a>, or read <a href="/zakat-on-1-tola-gold/">how much zakat is due on 1 tola</a>.</p>

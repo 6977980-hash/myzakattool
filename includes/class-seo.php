@@ -413,8 +413,8 @@ class MYZT_SEO {
 				}
 			}
 
-			if ( $post && preg_match( '/\[(zakat_calculator|zakat_fitrana|zakat_fidya|zakat_khums|zakat_hawl|zakat_ushr|zakat_mehr|zakat_diyat|zakat_wirasat)/', $post->post_content ) ) {
-				$graph[] = array(
+			if ( $post && preg_match( '/\[(zakat_calculator|zakat_fitrana|zakat_fidya|zakat_khums|zakat_hawl|zakat_ushr|zakat_mehr|zakat_diyat|zakat_wirasat)/', $post->post_content, $tool ) ) {
+				$app = array(
 					'@type'               => 'WebApplication',
 					'@id'                 => $url . '#app',
 					'name'                => get_the_title( $post ),
@@ -424,7 +424,7 @@ class MYZT_SEO {
 					'operatingSystem'     => 'Any',
 					'browserRequirements' => 'Requires JavaScript',
 					'isAccessibleForFree' => true,
-					'inLanguage'          => array( 'en', 'ur' ),
+					'inLanguage'          => 'zakat_wirasat' === $tool[1] ? 'ur' : array( 'en', 'ur' ), // The inheritance calculator is in Urdu only.
 					'offers'              => array(
 						'@type'         => 'Offer',
 						'price'         => '0',
@@ -432,6 +432,11 @@ class MYZT_SEO {
 					),
 					'author'              => $full ? array( '@id' => $per_id ) : array( '@type' => 'Person', 'name' => $s['author_name'] ),
 				);
+				$defs = MYZT_Installer::pages();
+				if ( ! empty( $defs[ $post->post_name ]['features'] ) ) {
+					$app['featureList'] = $defs[ $post->post_name ]['features'];
+				}
+				$graph[] = $app;
 			}
 		}
 
