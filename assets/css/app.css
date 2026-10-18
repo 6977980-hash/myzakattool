@@ -14,6 +14,8 @@
 .myzt-ctxform{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
 .myzt-ctxform label{font-size:12.5px;color:var(--z-mute);display:block}
 .myzt-sel,.myzt-inp{width:100%;border:1.5px solid var(--z-line);border-radius:9px;padding:10px 12px;font-size:16px;background:var(--z-card);min-height:44px}
+/* .myzt input (0,1,1) above sets font:inherit (15px); 16px keeps iOS from zooming on focus (FIX-112). */
+.myzt .myzt-inp,.myzt .myzt-sel{font-size:16px}
 .myzt-inp:focus,.myzt-sel:focus{outline:2px solid var(--z-teal);outline-offset:1px;border-color:var(--z-teal)}
 .myzt-rates{display:flex;gap:6px 18px;font-size:13px;color:var(--z-mute);margin:12px 0 4px;flex-wrap:wrap}
 .myzt-rates strong{color:var(--z-ink)}
@@ -142,3 +144,9 @@
 .myzt-sr{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 /* Inheritance calculator (wirasat): its own page in a frame; the frame takes the height the page reports. */
 .myzt-wirasat-frame{display:block;width:100%;height:1600px;border:0;background:transparent}
+/* Urdu pages are dir="rtl" (FIX-113). The theme pulls .alignwide out with a negative left margin, which a right-to-left box ignores, so mirror it.
+   The theme's English parts (sidebar widgets, footer) stay left to right, so their full stops stay at the end. */
+html[dir=rtl] .entry-content .myzt.alignwide{margin-left:0;margin-right:-40px}
+@media (max-width:768px){html[dir=rtl] .entry-content .myzt.alignwide{margin-right:-30px}}
+html[dir=rtl] .full-width-content .entry-content .myzt.alignwide{margin-right:0}
+html[dir=rtl] .widget-area .widget,html[dir=rtl] .site-info,html[dir=rtl] .myzt-footer-links{direction:ltr}

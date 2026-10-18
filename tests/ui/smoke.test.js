@@ -169,6 +169,25 @@ test('a negative amount is flagged, not silently made positive (FIX-006)', async
 	await ctx.close();
 });
 
+test('a negative amount outside the zakat calculator gets a message without Debts / Bills (FIX-125)', async () => {
+	const { page, ctx } = await open();
+	assert.match(await calc(page).textContent(), /Debts/, 'the main calculator has a Debts section');
+	const box = page.locator('.myzt-khums input[data-k]').first();
+	await box.fill('-100');
+	assert.equal(await box.getAttribute('aria-invalid'), 'true');
+	const msg = await page.locator('.myzt-khums .myzt-err').textContent();
+	assert.match(msg, /cannot be negative/);
+	assert.doesNotMatch(msg, /Debts/);
+	await ctx.close();
+});
+
+test('number boxes are 16px so iOS does not zoom (FIX-112)', async () => {
+	const { page, ctx } = await open();
+	const small = await page.evaluate(() => [...document.querySelectorAll('.myzt .myzt-inp, .myzt .myzt-sel')].filter((e) => parseFloat(getComputedStyle(e).fontSize) < 16).length);
+	assert.equal(small, 0);
+	await ctx.close();
+});
+
 test('unreadable input is flagged; Urdu digits and lakh commas are read (T21)', async () => {
 	const { page, ctx } = await open();
 	const box = calc(page).locator('input[data-money="cash"]');
