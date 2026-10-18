@@ -48,9 +48,9 @@ class MYZT_Cite {
 			'ruling 1915'                       => self::SISTANI . '2318/',
 			'ruling 1916'                       => self::SISTANI . '2318/',
 			'Islamic Laws'                      => self::SISTANI,
-			'Muslim Family Laws Ordinance 1961' => 'https://pakistancode.gov.pk/english/UY2FqaJw1-apaUY2Fqa-cJyX-sg-jjjjjjjjjjjjj',
-			'MFLO 1961'                         => 'https://pakistancode.gov.pk/english/UY2FqaJw1-apaUY2Fqa-cJyX-sg-jjjjjjjjjjjjj',
-			'MFLO'                              => 'https://pakistancode.gov.pk/english/UY2FqaJw1-apaUY2Fqa-cJyX-sg-jjjjjjjjjjjjj',
+			'Muslim Family Laws Ordinance 1961' => 'https://pakistancode.gov.pk/english/UY2FqaJw1-apaUY2Fqa-apaUY2Npa5po-sg-jjjjjjjjjjjjj',
+			'MFLO 1961'                         => 'https://pakistancode.gov.pk/english/UY2FqaJw1-apaUY2Fqa-apaUY2Npa5po-sg-jjjjjjjjjjjjj',
+			'MFLO'                              => 'https://pakistancode.gov.pk/english/UY2FqaJw1-apaUY2Fqa-apaUY2Npa5po-sg-jjjjjjjjjjjjj',
 			'Finance Division'                  => 'https://finance.gov.pk/circulars/circular_27072026.pdf',
 		);
 	}
