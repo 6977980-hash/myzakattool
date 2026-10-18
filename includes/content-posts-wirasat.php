@@ -98,6 +98,7 @@ HTML
 <li><strong>Irrevocable divorce:</strong> once the iddah of a revocable divorce is over, or after an irrevocable divorce, they no longer inherit from each other. If a husband divorces his wife during a fatal illness to keep her out of the inheritance, the Hanafi school still lets her inherit if he dies during her iddah, and the other schools have similar rules; ask a mufti about such a case.</li>
 <li><strong>Remarriage of the widow</strong> does not take away a share she has already inherited.</li>
 </ul>
+<p>To find the day an iddah ends, after a divorce, khula or the husband's death, use the <a href="/iddat-calculator/">iddat calculator</a>.</p>
 <h2>Where the madhabs differ</h2>
 <ul>
 <li><strong>When there is no other heir:</strong> later Hanafi scholars return the rest of the estate to the husband or wife (<em>radd</em>). The Shafi'i, Maliki and Hanbali schools do not. Our Ahl-e-Hadith setting also returns it, following Ibn Taymiyyah's view, but many scholars do not give the remainder to a spouse, so this is an open question: ask a mufti before dividing. In Ja'fari fiqh a husband alone takes the whole estate, while a wife alone takes her quarter.</li>

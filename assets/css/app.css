@@ -41,6 +41,7 @@
 .myzt-seg{display:inline-flex;border:1.5px solid var(--z-field);border-radius:9px;overflow:hidden;font-size:13px}
 .myzt-seg button{border:0;background:var(--z-card);padding:10px 11px;color:var(--z-ink);min-height:44px}
 .myzt-seg button[aria-pressed="true"]{background:var(--z-tealbg);color:#fff}
+@media (max-width:520px){.myzt-seg6{display:grid;grid-template-columns:repeat(3,1fr)}}
 .myzt-people{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0 4px;align-items:center}
 .myzt-person{border:1.5px solid var(--z-line);background:var(--z-card);border-radius:20px;padding:6px 12px;font-size:13px}
 .myzt-person[aria-pressed="true"]{border-color:var(--z-teal);background:var(--z-teal2);color:var(--z-acc);font-weight:600}

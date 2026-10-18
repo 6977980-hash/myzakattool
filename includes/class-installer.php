@@ -410,6 +410,8 @@ class MYZT_Installer {
 			'haq-mehr-calculator'      => array( 'Haq Mehr', $parent ),
 			'diyat-calculator'         => array( 'Diyat', $parent ),
 			'wirasat-calculator'       => array( 'Wirasat', $parent ),
+			'qurbani-calculator'       => array( 'Qurbani', $parent ),
+			'iddat-calculator'         => array( 'Iddat', $parent ),
 			'zakat-calculator-urdu'    => array( 'اردو', 0 ),
 		);
 		foreach ( $add as $slug => $item ) {
@@ -474,7 +476,7 @@ class MYZT_Installer {
 			}
 		}
 		// Every tool linked from every page, so the newer ones are not orphaned (audit FIX-044).
-		$tools = array( 'calculators' => 'All calculators', 'fitrana-calculator' => 'Fitrana', 'fidya-kaffara-calculator' => 'Fidya & kaffara', 'zakat-date-calculator' => 'Zakat date', 'ushr-calculator' => 'Ushr & livestock', 'khums-calculator' => 'Khums', 'haq-mehr-calculator' => 'Haq mehr', 'diyat-calculator' => 'Diyat', 'wirasat-calculator' => 'Wirasat (inheritance)', 'free-zakat-widget' => 'Free nisab widget' );
+		$tools = array( 'calculators' => 'All calculators', 'fitrana-calculator' => 'Fitrana', 'fidya-kaffara-calculator' => 'Fidya & kaffara', 'zakat-date-calculator' => 'Zakat date', 'ushr-calculator' => 'Ushr & livestock', 'khums-calculator' => 'Khums', 'haq-mehr-calculator' => 'Haq mehr', 'diyat-calculator' => 'Diyat', 'wirasat-calculator' => 'Wirasat (inheritance)', 'qurbani-calculator' => 'Qurbani', 'iddat-calculator' => 'Iddat', 'free-zakat-widget' => 'Free nisab widget' );
 		$tl    = array();
 		foreach ( $tools as $slug => $label ) {
 			if ( get_page_by_path( $slug ) ) {
