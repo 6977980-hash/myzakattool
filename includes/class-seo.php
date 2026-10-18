@@ -108,11 +108,13 @@ class MYZT_SEO {
 		return $out;
 	}
 
-	/** <html lang="ur" dir="rtl"> on the Urdu pages, so the heading, text and breadcrumb read right to left (FIX-113). */
+	/**
+	 * <html lang="ur"> on the Urdu pages. Not dir="rtl": the theme has no RTL stylesheet, so the header, menu and
+	 * sidebar would flip and the sidebar ran into the calculator. app.css turns the article itself right to left (FIX-113).
+	 */
 	public static function html_lang( $output ) {
 		if ( self::is_ur() ) {
-			$output = preg_replace( '/\s*dir="[^"]*"/', '', $output );
-			$output = preg_replace( '/lang="[^"]*"/', 'lang="ur" dir="rtl"', $output );
+			$output = preg_replace( '/lang="[^"]*"/', 'lang="ur"', $output );
 		}
 		return $output;
 	}
