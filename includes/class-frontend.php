@@ -40,6 +40,12 @@ class MYZT_Frontend {
 		add_shortcode( 'myzt_mehr', array( __CLASS__, 'mehr_inline' ) );
 		add_shortcode( 'myzt_diyat', array( __CLASS__, 'diyat_inline' ) );
 		add_shortcode( 'myzt_reviewed', array( __CLASS__, 'reviewed' ) );
+		add_shortcode( 'myzt_rate_date', array( __CLASS__, 'rate_date' ) );
+		add_shortcode( 'myzt_karat_table', array( __CLASS__, 'karat_table' ) );
+		add_shortcode( 'myzt_tola_table', array( __CLASS__, 'tola_table' ) );
+		add_shortcode( 'myzt_rate_chart', array( __CLASS__, 'rate_chart' ) );
+		add_shortcode( 'myzt_official', array( __CLASS__, 'official_box' ) );
+		add_shortcode( 'myzt_history', array( __CLASS__, 'history_table' ) );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_assets' ) );
 		add_action( 'wp_footer', array( __CLASS__, 'late_enqueue' ), 1 );
 		add_action( 'init', array( __CLASS__, 'no_emoji' ) );
@@ -526,5 +532,166 @@ class MYZT_Frontend {
 			$out .= '<a href="' . esc_url( $url ) . '">' . esc_html( $pages[ $slug ]['nav'] ) . '<small>' . esc_html( $pages[ $slug ]['blurb'] ) . '</small></a>';
 		}
 		return $out ? '<nav class="myzt myzt-related" aria-label="Related">' . $out . '</nav>' : '';
+	}
+
+	/** [myzt_rate_date]: the day of the rate snapshot on the page, e.g. "18 October 2026" (FIX-151). */
+	public static function rate_date() {
+		$t = (int) self::config()['rates']['updated'];
+		return $t ? '<time datetime="' . esc_attr( gmdate( 'Y-m-d', $t ) ) . '">' . esc_html( wp_date( 'j F Y', $t ) ) . '</time>' : esc_html( wp_date( 'j F Y' ) );
+	}
+
+	private static function rate_note( $p ) {
+		return '<p class="myzt-small">Updated ' . esc_html( wp_date( 'j M Y, H:i', $p['updated'] ) ) . ' · ' . esc_html( $p['label'] ) . '</p>';
+	}
+
+	/** [myzt_karat_table currency="PKR"]: gold value by karat for 1 g, 10 g, 1 tola and 10 tola, server-rendered (FIX-151). */
+	public static function karat_table( $atts ) {
+		$a   = shortcode_atts( array( 'currency' => 'PKR' ), $atts, 'myzt_karat_table' );
+		$cur = strtoupper( preg_replace( '/[^A-Za-z]/', '', $a['currency'] ) );
+		$p   = self::prices_for( $cur );
+		if ( ! $p ) {
+			return '';
+		}
+		self::enqueue();
+		$rows = '';
+		foreach ( array( 24, 22, 21, 18 ) as $k ) {
+			$g     = $p['gold'] * $k / 24;
+			$rows .= '<tr><td>' . $k . 'K (' . esc_html( number_format( $k / 24 * 100, 1 ) ) . '%)</td><td>' . esc_html( self::money( $g, $cur ) ) . '</td><td>' . esc_html( self::money( $g * 10, $cur ) ) . '</td><td>' . esc_html( self::money( $g * 11.6638038, $cur ) ) . '</td><td>' . esc_html( self::money( $g * 116.638038, $cur ) ) . '</td></tr>';
+		}
+		return '<div class="myzt myzt-card"><div class="myzt-scroll"><table class="myzt-table"><thead><tr><th>Karat</th><th>1 gram</th><th>10 grams</th><th>1 tola</th><th>10 tola</th></tr></thead><tbody>' . $rows . '</tbody></table></div>' . self::rate_note( $p ) . '</div>';
+	}
+
+	/** [myzt_tola_table currency="PKR"]: value and zakat of 1 to 50 tola in 24K and 22K at today's rate (FIX-152, FIX-169). */
+	public static function tola_table( $atts ) {
+		$a   = shortcode_atts( array( 'currency' => 'PKR' ), $atts, 'myzt_tola_table' );
+		$cur = strtoupper( preg_replace( '/[^A-Za-z]/', '', $a['currency'] ) );
+		$p   = self::prices_for( $cur );
+		if ( ! $p ) {
+			return '';
+		}
+		self::enqueue();
+		$rows = '';
+		foreach ( array( 1, 2, 3, 4, 5, 6, 7.5, 10, 12, 15, 20, 25, 30, 40, 50 ) as $t ) {
+			$v24   = $p['gold'] * 11.6638038 * $t;
+			$v22   = $v24 * 22 / 24;
+			$rows .= '<tr><td>' . esc_html( (string) $t ) . ' tola (' . esc_html( number_format( $t * 11.6638038, 2 ) ) . ' g)</td><td>' . esc_html( self::money( $v24, $cur ) ) . '</td><td class="z">' . esc_html( self::money( $v24 * 0.025, $cur ) ) . '</td><td class="z">' . esc_html( self::money( $v22 * 0.025, $cur ) ) . '</td></tr>';
+		}
+		return '<div class="myzt myzt-card"><div class="myzt-scroll"><table class="myzt-table"><thead><tr><th>Gold</th><th>Value (24K)</th><th>Zakat 24K</th><th>Zakat 22K</th></tr></thead><tbody>' . $rows . '</tbody></table></div>' . self::rate_note( $p ) . '</div>';
+	}
+
+	/** [myzt_rate_chart currency="PKR"]: 30-day chart of 24K gold and silver per tola from the saved daily rates (FIX-151). */
+	public static function rate_chart( $atts ) {
+		$a   = shortcode_atts( array( 'currency' => 'PKR' ), $atts, 'myzt_rate_chart' );
+		$cur = strtoupper( preg_replace( '/[^A-Za-z]/', '', $a['currency'] ) );
+		$k   = strtolower( $cur );
+		$pts = array();
+		foreach ( array_slice( MYZT_Rates::history(), -30, null, true ) as $day => $r ) {
+			$fx = 'usd' === $k ? 1 : ( isset( $r[ $k ] ) ? (float) $r[ $k ] : 0 );
+			if ( $fx > 0 && ! empty( $r['g'] ) ) {
+				$pts[ $day ] = array( $r['g'] * $fx / 31.1034768 * 11.6638038, $r['s'] * $fx / 31.1034768 * 11.6638038 );
+			}
+		}
+		if ( count( $pts ) < 2 ) {
+			return '';
+		}
+		self::enqueue();
+		$gold = array_column( array_values( $pts ), 0 );
+		$min  = min( $gold );
+		$max  = max( $gold );
+		$span = $max > $min ? $max - $min : 1;
+		$n    = count( $pts ) - 1;
+		$line = array();
+		foreach ( $gold as $i => $v ) {
+			$line[] = round( 10 + $i * 580 / $n, 1 ) . ',' . round( 150 - ( $v - $min ) / $span * 130, 1 );
+		}
+		$days  = array_keys( $pts );
+		$first = reset( $pts );
+		$last  = end( $pts );
+		$chg   = ( $last[0] - $first[0] ) / $first[0] * 100;
+		$label = '24K gold per tola in ' . $cur . ', ' . wp_date( 'j M', strtotime( $days[0] ) ) . ' to ' . wp_date( 'j M Y', strtotime( end( $days ) ) );
+		$svg   = '<svg viewBox="0 0 600 170" width="100%" role="img" aria-label="' . esc_attr( $label ) . '" style="max-height:220px"><polyline fill="none" stroke="currentColor" stroke-width="2.5" points="' . implode( ' ', $line ) . '"/></svg>';
+		$rows  = '';
+		foreach ( array_slice( $pts, -7, null, true ) as $day => $v ) {
+			$rows = '<tr><td>' . esc_html( wp_date( 'j M Y', strtotime( $day ) ) ) . '</td><td>' . esc_html( self::money( $v[0], $cur ) ) . '</td><td>' . esc_html( self::money( $v[1], $cur ) ) . '</td></tr>' . $rows;
+		}
+		return '<figure class="myzt myzt-card myzt-chart" style="color:var(--z-teal,#0f766e)"><figcaption><strong>' . esc_html( $label ) . '</strong></figcaption>' . $svg .
+			'<p class="myzt-small" style="color:inherit">Low ' . esc_html( self::money( $min, $cur ) ) . ' · High ' . esc_html( self::money( $max, $cur ) ) . ' · Change ' . esc_html( ( $chg >= 0 ? '+' : '' ) . number_format( $chg, 1 ) ) . '% over ' . count( $pts ) . ' days</p>' .
+			'<div class="myzt-scroll" style="color:var(--z-ink)"><table class="myzt-table"><thead><tr><th>Day</th><th>24K gold, 1 tola</th><th>Silver, 1 tola</th></tr></thead><tbody>' . $rows . '</tbody></table></div>' .
+			'<p class="myzt-small">Daily international spot rates (one reading a day), converted at that day\'s exchange rate.</p></figure>';
+	}
+
+	/**
+	 * Official Pakistani figures, newest first (FIX-154, FIX-167). On announcement day add the new row at the top
+	 * and set 'pending' to false; every box and table on the site follows.
+	 */
+	public static function official() {
+		return array(
+			'bank-nisab' => array(
+				'name'    => 'Nisab for bank zakat deduction in Pakistan',
+				'pending' => 'Ramadan 1448 (February 2027): not announced yet. It is usually notified a few days before 1 Ramadan.',
+				'rows'    => array(
+					array( '1447', '2026', 'Rs 5,03,529', 'Ministry of Poverty Alleviation, 16 Feb 2026 (silver at Rs 9,591 a tola)', 'https://profit.pakistantoday.com.pk/2026/02/17/pakistan-fixes-zakat-nisab-at-rs503529-for-ramadan-2026/' ),
+					array( '1446', '2025', 'Rs 1,79,689', 'Government of Pakistan, before Ramadan 2025', 'https://profit.pakistantoday.com.pk/?p=188369' ),
+					array( '1445', '2024', 'Rs 1,35,179', 'Ministry of Poverty Alleviation, before Ramadan 2024', 'https://www.geo.tv/latest/533992-minimum-nisab-fixed-at-rs135179-for-zakat' ),
+					array( '1444', '2023', 'Rs 1,03,159', 'Administrator General Zakat, March 2023', 'https://www.geo.tv/latest/477602-minimum-nisab-set-at-rs103159-for-zakat-deduction' ),
+					array( '1443', '2022', 'Rs 88,927', 'Government of Pakistan, March 2022 (some reports round it to Rs 88,000)', 'https://propakistani.pk/2022/03/31/govt-announces-nisab-of-zakat-for-2022/amp/' ),
+					array( '1442', '2021', 'Rs 80,933', 'Poverty Alleviation and Social Safety Division, April 2021', 'https://pid.gov.pk/site/press_detail/16316' ),
+				),
+			),
+			'fitrana'    => array(
+				'name'    => 'Fitrana (sadaqat al-fitr) per person, Council of Islamic Ideology',
+				'pending' => 'Ramadan 1448 (February 2027): not announced yet. The Council usually announces it shortly before or early in Ramadan.',
+				'rows'    => array(
+					array( '1447', '2026', 'Rs 300 (wheat), Rs 1,100 (barley), Rs 1,600 (dates), Rs 3,800 (raisins)', 'Council of Islamic Ideology, 9 Feb 2026; Rs 200 for subsidised flour', 'https://www.app.com.pk/?p=1159356' ),
+					array( '1446', '2025', 'Rs 220 (wheat), Rs 450 (barley), Rs 1,650 (dates), Rs 2,500 (raisins)', 'Council of Islamic Ideology, March 2025', 'https://www.dawn.com/news/1893247' ),
+					array( '1445', '2024', 'Rs 300 (wheat flour)', 'Shariah Board Pakistan; we have not found the Council\'s own figure for this year', 'https://english.aaj.tv/news/30356809' ),
+				),
+			),
+			'diyat'      => array(
+				'name'    => 'Diyat in Pakistan (value of 30,630 g of silver)',
+				'pending' => 'Fiscal year 2027-28: due from 1 July 2027.',
+				'rows'    => array(
+					array( '', '2026-27', 'Rs 1,93,52,390', 'Federal Government, in force from 1 July 2026', '' ),
+					array( '', '2025-26', 'Rs 98,28,670', 'Federal Government, in force from 1 July 2025', '' ),
+				),
+			),
+		);
+	}
+
+	/** [myzt_official type="bank-nisab|fitrana|fidya|diyat"]: "Official figure" box with the latest announced value and its source (FIX-154). */
+	public static function official_box( $atts ) {
+		$a    = shortcode_atts( array( 'type' => 'bank-nisab' ), $atts, 'myzt_official' );
+		$type = 'fidya' === $a['type'] ? 'fitrana' : $a['type'];
+		$all  = self::official();
+		if ( empty( $all[ $type ] ) ) {
+			return '';
+		}
+		self::enqueue();
+		$o   = $all[ $type ];
+		$r   = $o['rows'][0];
+		$src = $r[4] ? '<a href="' . esc_url( $r[4] ) . '" rel="noopener" target="_blank">' . esc_html( $r[3] ) . '</a>' : esc_html( $r[3] );
+		$for = ( $r[0] ? 'Ramadan ' . $r[0] . ' (' . $r[1] . ')' : $r[1] );
+		$lead = 'fidya' === $a['type'] ? 'In the Hanafi madhab, fidya for one fast equals one fitrana. ' : '';
+		return '<div class="myzt myzt-official myzt-card" style="border-left:4px solid var(--z-teal,#0f766e)"><p><strong>Official figure: ' . esc_html( $o['name'] ) . '</strong></p>' .
+			'<p>' . esc_html( $lead ) . 'Latest announced, for ' . esc_html( $for ) . ': <strong>' . esc_html( $r[2] ) . '</strong> (' . $src . ').</p>' .
+			( $o['pending'] ? '<p class="myzt-small">Next: ' . esc_html( $o['pending'] ) . ' We update this box on the day it is announced.</p>' : '' ) . '</div>';
+	}
+
+	/** [myzt_history type="bank-nisab|fitrana|diyat"]: past years with sources (FIX-167). */
+	public static function history_table( $atts ) {
+		$a   = shortcode_atts( array( 'type' => 'bank-nisab' ), $atts, 'myzt_history' );
+		$all = self::official();
+		if ( empty( $all[ $a['type'] ] ) ) {
+			return '';
+		}
+		self::enqueue();
+		$o    = $all[ $a['type'] ];
+		$hijri = '' !== $o['rows'][0][0];
+		$rows = '';
+		foreach ( $o['rows'] as $r ) {
+			$src   = $r[4] ? '<a href="' . esc_url( $r[4] ) . '" rel="noopener" target="_blank">' . esc_html( $r[3] ) . '</a>' : esc_html( $r[3] );
+			$rows .= '<tr><td>' . esc_html( $hijri ? $r[1] . ' (' . $r[0] . ' AH)' : $r[1] ) . '</td><td>' . esc_html( $r[2] ) . '</td><td>' . $src . '</td></tr>';
+		}
+		return '<div class="myzt myzt-card"><div class="myzt-scroll"><table class="myzt-table"><thead><tr><th>Year</th><th>Amount</th><th>Announced by (source)</th></tr></thead><tbody>' . $rows . '</tbody></table></div></div>';
 	}
 }

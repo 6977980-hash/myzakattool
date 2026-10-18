@@ -92,6 +92,25 @@ foreach ( array( 'contact' => 300, 'about' => 400, 'khums-calculator' => 450, 'b
 	check( $n >= $min, "$slug has $n words (want $min)" );
 }
 
+// FIX-150/151/152/154: deeper madhab, rate and gold pages, and the 2027 Pakistan hub (content plus FAQ words).
+foreach ( array( 'hanafi-zakat-calculator' => 1000, 'shafi-zakat-calculator' => 1000, 'maliki-zakat-calculator' => 1000, 'hanbali-zakat-calculator' => 1000, 'ahl-e-hadith-zakat-calculator' => 1000, 'shia-zakat-calculator' => 1000, 'nisab' => 800, 'gold-rate-today' => 600, 'zakat-on-gold-calculator' => 650, 'zakat-on-1-tola-gold' => 1050, 'zakat-2027-pakistan' => 600 ) as $slug => $min ) {
+	$n = words( $pages[ $slug ]['content'] ) + words( implode( ' ', array_map( function ( $f ) { return $f['q'] . ' ' . $f['a']; }, $pages[ $slug ]['faq'] ) ) );
+	check( $n >= $min, "$slug has $n words (want $min)" );
+}
+// FIX-155: every hub opens with a quick answer.
+foreach ( array( 'madhab', 'calculators', 'guides', 'free-zakat-widget', 'zakat-2027-pakistan' ) as $slug ) {
+	check( false !== strpos( $pages[ $slug ]['content'], '[myzt_answer' ), "$slug has a quick answer" );
+}
+// FIX-154/167: the official figures boxes and past-year tables are on the pages that need them.
+foreach ( array( 'nisab' => 'myzt_history type="bank-nisab"', 'fitrana-calculator' => 'myzt_history type="fitrana"', 'fidya-kaffara-calculator' => 'myzt_official type="fidya"', 'diyat-calculator' => 'myzt_official type="diyat"', 'gold-rate-today' => 'myzt_rate_chart', 'zakat-on-1-tola-gold' => 'myzt_tola_table' ) as $slug => $code ) {
+	check( false !== strpos( $pages[ $slug ]['content'], $code ), "$slug shows [$code]" );
+}
+// FIX-153: wirasat spelling variants on the page text.
+foreach ( array( 'virasat', 'warasat', 'mirath', 'faraid', 'inheritance calculator for Pakistan' ) as $v ) {
+	check( false !== stripos( $pages['wirasat-calculator']['content'], $v ), "wirasat page mentions $v" );
+}
+check( false !== strpos( $pages['wirasat-calculator-urdu']['content'], 'میراث کیلکولیٹر' ), 'Urdu wirasat page has a میراث H2' );
+
 // FIX-044: each newer tool has at least 8 linking pages (content and related blocks, plus the footer).
 foreach ( array( 'free-zakat-widget', 'fidya-kaffara-calculator', 'ushr-calculator', 'zakat-date-calculator', 'haq-mehr-calculator', 'diyat-calculator', 'wirasat-calculator' ) as $tool ) {
 	$n = isset( $inbound[ $tool ] ) ? count( $inbound[ $tool ] ) : 0;

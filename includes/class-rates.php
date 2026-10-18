@@ -17,8 +17,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class MYZT_Rates {
 
-	const OPTION = 'myzt_rates';
-	const CRON   = 'myzt_refresh_rates';
+	const OPTION  = 'myzt_rates';
+	const CRON    = 'myzt_refresh_rates';
+	const HISTORY = 'myzt_rate_history';
+
+	/** Currencies kept in the daily history (FIX-151 30-day chart). */
+	const HISTORY_FX = array( 'pkr', 'inr', 'gbp', 'aed', 'sar', 'eur' );
 
 	/** Metal rates older than this are reported as stale (admin notice and email). */
 	const STALE_AFTER = 3 * HOUR_IN_SECONDS;
@@ -172,6 +176,9 @@ class MYZT_Rates {
 		$new['lastAttempt'] = time();
 		$new['lastOk']      = ( $metals && $fxdata ) ? 1 : 0;
 		update_option( self::OPTION, $new, false );
+		if ( $metals && $fxdata ) {
+			self::record_history( $new );
+		}
 		delete_transient( 'myzt_refresh_lock' );
 		if ( $metals || $fxdata ) {
 			// Pages print rates in their HTML; drop cached copies so every page shows this snapshot.
@@ -232,6 +239,56 @@ class MYZT_Rates {
 			return array( 'gold' => $gold, 'silver' => $silver, 'source' => 'currency-api (daily)' );
 		}
 		return null;
+	}
+
+	/**
+	 * Daily rates for the last 30 days: date (Y-m-d, UTC) => gold and silver in USD per ounce and a few FX rates.
+	 * Today's entry follows the live rate; missing earlier days are back-filled, three per refresh, from
+	 * the dated files of the same currency API, so the chart fills within a few hours of install.
+	 */
+	public static function history() {
+		$h = get_option( self::HISTORY );
+		if ( ! is_array( $h ) ) {
+			return array();
+		}
+		ksort( $h );
+		return $h;
+	}
+
+	private static function history_row( $gold, $silver, $fx ) {
+		$row = array( 'g' => round( (float) $gold, 2 ), 's' => round( (float) $silver, 3 ) );
+		foreach ( self::HISTORY_FX as $k ) {
+			if ( isset( $fx[ $k ] ) && $fx[ $k ] > 0 ) {
+				$row[ $k ] = round( (float) $fx[ $k ], 4 );
+			}
+		}
+		return $row;
+	}
+
+	private static function record_history( $rates ) {
+		$h = self::history();
+		$h[ gmdate( 'Y-m-d' ) ] = self::history_row( $rates['goldUsdOz'], $rates['silverUsdOz'], $rates['fx'] );
+		$fetched = 0;
+		for ( $i = 30; $i >= 1 && $fetched < 3; $i-- ) {
+			$day = gmdate( 'Y-m-d', time() - $i * DAY_IN_SECONDS );
+			if ( isset( $h[ $day ] ) ) {
+				continue;
+			}
+			++$fetched;
+			$d = self::get_json( 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@' . $day . '/v1/currencies/usd.min.json' );
+			$m = isset( $d['usd'] ) && is_array( $d['usd'] ) ? self::metals_from_fx( $d['usd'] ) : null;
+			if ( $m ) {
+				$h[ $day ] = self::history_row( $m['gold'], $m['silver'], $d['usd'] );
+			}
+		}
+		$cut = gmdate( 'Y-m-d', time() - 40 * DAY_IN_SECONDS );
+		foreach ( array_keys( $h ) as $day ) {
+			if ( $day < $cut ) {
+				unset( $h[ $day ] );
+			}
+		}
+		ksort( $h );
+		update_option( self::HISTORY, $h, false );
 	}
 
 	/** Reject obviously broken data instead of showing it to users. */
