@@ -104,6 +104,8 @@ HTML
 			array( 'q' => 'Can I choose the madhab that gives less zakat?', 'a' => 'Scholars advise following the school you already follow, not choosing rulings for convenience. If unsure, ask a scholar.' ),
 			array( 'q' => 'Main kaunsa maslak chunoon?', 'a' => 'Jis maslak par aap namaz aur roza mein amal karte hain, wahi chunain. Deobandi aur Barelvi dono Hanafi hain.' ),
 			array( 'q' => 'Kya har maslak mein zakat 2.5% hai?', 'a' => 'Haan. Farq sirf is mein hai ke zevar, qarz aur nisab ko kaise gina jaye. Fiqh-e-Jafaria mein naqdi par zakat ke bajaye khums hai.' ),
+			array( 'q' => 'Deobandi aur Barelvi ki zakat mein farq hai?', 'a' => 'Dono Hanafi fiqh par hain. Zevar, qarz aur nisab ke masail mein hamein un mein koi farq maloom nahi, is liye dono Hanafi zakat calculator istemal karen.' ),
+			array( 'q' => 'Ahl-e-Hadith ke liye kaunsa calculator hai?', 'a' => 'Ahl-e-Hadith zakat calculator, jo Saudi Permanent Committee ke fatwon par chalta hai: pehne hue zevar par zakat, qarz minus nahi, aur naqdi ke liye dono nisab mein se kam wala.' ),
 		),
 	);
 
@@ -177,6 +179,8 @@ HTML,
 				array( 'q' => 'Are debts subtracted in Hanafi zakat?', 'a' => 'Yes, debts due now are subtracted before checking the nisab.' ),
 				array( 'q' => 'Deobandi aur Barelvi zakat mein koi farq hai?', 'a' => 'Nahi. Dono Hanafi fiqh par hain; zevar, qarz aur nisab ke masail mein hamein koi farq maloom nahi. Apne mufti sahib ki baat ko tarjeeh dein.' ),
 				array( 'q' => 'Bachon ke maal par Hanafi fiqh mein zakat hai?', 'a' => 'Nahi. Hanafi fiqh mein nabaligh bache aur deewane ke maal par zakat nahi, jab ke baqi Sunni maslak is par zakat wajib kehte hain.' ),
+				array( 'q' => 'Hanafi fiqh mein ghar aur gaari par zakat hai?', 'a' => 'Nahi. Rehne ka ghar, apne istemal ki gaari, furniture, kapre aur kaam ke auzaar zaroorat ki cheezein hain. Bechne ki niyyat se khareeda gaya plot ya flat karobari maal hai, us ki bazaar qeemat par zakat hai.' ),
+				array( 'q' => 'Hanafi fiqh mein saal ke beech paise nisab se kam ho jayein to?', 'a' => 'Agar saal ke shuru aur aakhir mein nisab poora ho to beech ki kami se farq nahi parta, jab tak maal bilkul khatam na ho jaye.' ),
 			),
 			'related' => 'zakat-calculator-pakistan,zakat-on-gold-calculator,madhab-comparison,zakat-on-jewellery',
 		),
@@ -244,6 +248,8 @@ HTML,
 				array( 'q' => "Shafi'i maslak mein pehne hue zevar par zakat hai?", 'a' => "Nahi, agar zevar jaiz ho aur aam rivaj ke andar pehna jata ho. Jo zevar bachat ke liye rakha ho, sone ke biscuit aur sikke, un par zakat hai." ),
 				array( 'q' => "Shafi'i fiqh mein qarz minus hota hai?", 'a' => "Mu'tamad qaul ke mutabiq nahi. Qarz zakat ko kam nahi karta." ),
 				array( 'q' => "Is zakat due on a child's savings in the Shafi'i madhab?", 'a' => 'Yes. The guardian pays it from the child\'s own wealth once it reaches the nisab and a year passes.' ),
+				array( 'q' => 'Shafi\'i fiqh mein sona aur chandi mila kar nisab dekha jata hai?', 'a' => 'Nahi. Shafi\'i maslak mein sona aur chandi do alag qismein hain; har ek ko apne nisab se dekha jata hai aur dono ko mila kar nisab poora nahi kiya jata.' ),
+				array( 'q' => 'Shafi\'i maslak mein naqdi ke liye kaunsa nisab hai?', 'a' => 'Malaysia aur Singapore ke idare sone ka nisab lete hain; kuch Shafi\'i ulama chandi ka nisab behtar samajhte hain jo kam hai aur ghareebon ke liye behtar. Calculator mein dono mein se chun sakte hain; apne aalim se pooch kar har saal ek hi rakhen.' ),
 			),
 			'related' => 'madhab-comparison,zakat-on-jewellery,nisab,gold-rate-today',
 		),
@@ -310,6 +316,8 @@ HTML,
 				array( 'q' => 'Is gold kept as savings zakatable for Malikis?', 'a' => 'Yes. Only permissible jewellery that is actually worn is exempt. Gold bars, coins and jewellery kept as savings or for sale are counted.' ),
 				array( 'q' => 'When do Malikis pay zakat on a loan they gave?', 'a' => 'A cash loan is paid on once, for one year, when it comes back. A trader counts money owed from sales every year.' ),
 				array( 'q' => 'Maliki maslak mein qarz minus hota hai?', 'a' => 'Haan, naqdi, sona, chandi aur karobari maal se qarz minus hota hai, lekin fasal aur maweshi ki zakat se nahi.' ),
+				array( 'q' => 'Maliki maslak mein pehne hue zevar par zakat hai?', 'a' => 'Nahi, jaiz zevar jo pehna jata ho us par zakat nahi. Bachat ya bechne ke liye rakha zevar, sone ke biscuit aur sikke gine jate hain.' ),
+				array( 'q' => 'Maliki maslak mein diye hue qarz ki zakat kab di jaye?', 'a' => 'Kisi ko diya hua naqd qarz wapas milne par sirf ek saal ki zakat di jati hai. Tajir ke grahakon par baqi raqam har saal stock ke saath gini jati hai.' ),
 			),
 			'related' => 'madhab-comparison,business-zakat-calculator,nisab,zakat-on-jewellery',
 		),
@@ -374,6 +382,8 @@ HTML,
 				array( 'q' => 'Does wealth have to stay above the nisab all year for Hanbalis?', 'a' => 'Yes. In the Hanbali madhab the nisab must be held throughout the lunar year, not only at its start and end.' ),
 				array( 'q' => 'Is zakat due on a child\'s wealth in the Hanbali madhab?', 'a' => 'Yes. The guardian pays it from the child\'s own wealth once it has been above the nisab for a lunar year, as in the Maliki and Shafi\'i schools. Only the Hanafi school exempts children.' ),
 				array( 'q' => 'Hanbali maslak mein zevar par zakat hai?', 'a' => 'Mu\'tamad Hanbali qaul mein jaiz zevar jo pehna jaye ya udhaar diya jaye us par zakat nahi. Saudi Permanent Committee jaise kuch ulama zakat wajib kehte hain.' ),
+				array( 'q' => 'Hanbali maslak mein qarz minus hota hai?', 'a' => 'Haan, jo qarz abhi ada karna hai woh nisab dekhne se pehle minus hota hai.' ),
+				array( 'q' => 'Hanbali maslak mein kaunsa nisab lagta hai?', 'a' => 'Naqdi aur karobari maal ke liye woh nisab jo ghareebon ke liye behtar ho, jo aaj chandi ka nisab hai. Sona, chandi aur naqdi mila kar nisab poora kiya jata hai.' ),
 			),
 			'related' => 'ahl-e-hadith-zakat-calculator,madhab-comparison,nisab,gold-rate-today',
 		),
@@ -439,6 +449,8 @@ HTML,
 				array( 'q' => 'Do Ahl-e-Hadith pay zakat on jewellery they wear every day?', 'a' => 'In the view this calculator follows, yes: the Permanent Committee holds that gold and silver jewellery is zakatable once it reaches the nisab, worn or not, at 2.5% of the value of its pure metal.' ),
 				array( 'q' => 'Ahl-e-Hadith kaunsa nisab lete hain?', 'a' => 'Sona, chandi aur naqdi mila kar dono nisab mein se kam wala, jo aaj chandi ka nisab hai.' ),
 				array( 'q' => 'Is there a Pakistani Ahl-e-Hadith fatwa behind this calculator?', 'a' => 'Not on every point yet. It follows the Saudi Permanent Committee, Shaykh Ibn Baz and Shaykh Ibn Uthaymeen, whom many Ahl-e-Hadith readers follow. Confirm with your own scholar.' ),
+				array( 'q' => 'Ahl-e-Hadith ke nazdeek bachon ke maal par zakat hai?', 'a' => 'Is calculator ke mutabiq haan, jo Saudi Permanent Committee aur aksar ulama ki rai hai: bache ka maal nisab tak pohanche aur saal guzar jaye to sarparast us ke maal se zakat ada kare.' ),
+				array( 'q' => 'Ahl-e-Hadith aur Hanafi zakat mein kya farq hai?', 'a' => 'Dono pehne hue zevar par zakat kehte hain. Farq yeh hai ke Hanafi fiqh mein jo qarz abhi ada karna ho woh minus hota hai, jabke is calculator ke Ahl-e-Hadith hisab mein (Saudi Permanent Committee ke mutabiq) qarz minus nahi hota, is liye natija aksar zyada aata hai.' ),
 			),
 			'related' => 'hanbali-zakat-calculator,zakat-on-jewellery,madhab-comparison,nisab',
 		),
@@ -503,6 +515,8 @@ HTML,
 				array( 'q' => 'Shia zakat kin cheezon par hai?', 'a' => 'Ayatollah Sistani ke mutabiq sirf nau cheezon par: gandum, jau, khajoor, kishmish, oont, gaaye, bakri/bheir, aur sone chandi ke woh sikke jo raqam ke tor par chalte hon. Naqdi aur zevar par zakat nahi, un par khums ka hukm hai.' ),
 				array( 'q' => 'Is jafari zakat different from khums?', 'a' => 'Yes. Ja\'fari zakat is on the nine items, mostly crops and livestock. Khums is 20% of the year\'s surplus income, including savings, and is paid separately.' ),
 				array( 'q' => 'Kya Shia bank ki zakat katauti se bach sakte hain?', 'a' => 'Haan, Fiqh-e-Jafaria ke pairokar har bank mein Ramazan se pehle CZ-50 declaration jama kara kar katauti rukwa sakte hain.' ),
+				array( 'q' => 'Fiqh-e-Jafaria mein sone ka nisab kitna hai?', 'a' => 'Ayatollah Sistani ke mutabiq sone ke sikkon ka nisab 20 shar\'i misqal (taqreeban 69.12 gram) aur chandi ka 105 aam misqal (taqreeban 483.84 gram) hai. Yeh sirf un sikkon par hai jo raqam ke tor par chalte hon.' ),
+				array( 'q' => 'Kya Shia par fitra wajib hai?', 'a' => 'Ji haan, Fiqh-e-Jafaria mein bhi Eid par fitra (zakat al-fitr) wajib hai. Apne marja ki batayi hui raqam ada karen.' ),
 			),
 			'related' => 'khums-calculator,khums-who-must-pay,madhab-comparison,nisab',
 		),
@@ -558,6 +572,8 @@ HTML
 		'faq'   => array(
 			array( 'q' => 'Which madhab gives the highest zakat?', 'a' => 'Usually the Hanafi and Ahl-e-Hadith calculations, because both count worn jewellery and use the lower silver nisab for cash. Ahl-e-Hadith is often the highest of all, because debts are not subtracted.' ),
 			array( 'q' => 'Can I choose the madhab with the lowest zakat?', 'a' => 'Scholars advise following the school you normally follow, not picking the easiest view for each question.' ),
+			array( 'q' => 'Kis maslak mein zakat sab se zyada banti hai?', 'a' => 'Aam tor par Hanafi aur Ahl-e-Hadith mein, kyun ke dono pehne hue zevar ko ginte hain aur naqdi ke liye chandi ka kam nisab lete hain. Ahl-e-Hadith hisab mein qarz minus nahi hota, is liye aksar wahi sab se zyada hota hai.' ),
+			array( 'q' => 'Kya har maslak mein zevar par zakat hai?', 'a' => 'Nahi. Hanafi aur Ahl-e-Hadith mein pehne hue zevar par zakat hai; Shafi\'i, Maliki aur Hanbali mein jaiz pehna hua zevar mustasna hai; Ayatollah Sistani ke mutabiq bhi zevar par zakat nahi.' ),
 		),
 	);
 
@@ -589,6 +605,17 @@ HTML
 <li><a href="/free-zakat-widget/">Free nisab widget</a> for mosque and blog websites</li>
 <li><a href="/zakat-2027-pakistan/">Zakat 2027 Pakistan</a>: nisab, bank deduction, CZ-50 and fitrana dates for Ramadan 2027</li>
 </ul>
+<h2>Zakat on salary, property, shares and more</h2>
+<ul>
+<li><a href="/zakat-on-salary/">Zakat on salary</a> (monthly income and savings)</li>
+<li><a href="/zakat-on-property/">Zakat on property</a> (plots, houses and rent)</li>
+<li><a href="/zakat-on-shares/">Zakat on shares</a> (shares and mutual funds)</li>
+<li><a href="/zakat-on-provident-fund/">Zakat on provident fund</a></li>
+<li><a href="/zakat-on-crypto/">Zakat on crypto</a></li>
+<li><a href="/zakat-on-committee/">Zakat on committee (BC)</a></li>
+<li><a href="/zakat-for-overseas-pakistanis/">Zakat for overseas Pakistanis</a></li>
+<li><a href="/zakat-calculator-india/">Zakat calculator India</a> (rupees, grams and Hanafi rules)</li>
+</ul>
 <h2>Calculators in Urdu</h2>
 <ul>
 <li><a href="/zakat-calculator-urdu/">زکوٰۃ کیلکولیٹر اردو میں</a> (zakat calculator in Urdu)</li>
@@ -597,6 +624,10 @@ HTML
 <li><a href="/fitrana-calculator-urdu/">فطرانہ کیلکولیٹر</a> (fitrana calculator in Urdu)</li>
 <li><a href="/haq-mehr-calculator-urdu/">حق مہر کیلکولیٹر</a> (haq mehr calculator in Urdu)</li>
 <li><a href="/wirasat-calculator-urdu/">وراثت کیلکولیٹر</a> (wirasat calculator in Urdu)</li>
+<li><a href="/fidya-kaffara-calculator-urdu/">فدیہ اور کفارہ کیلکولیٹر</a> (fidya and kaffara calculator in Urdu)</li>
+<li><a href="/diyat-calculator-urdu/">دیت کیلکولیٹر</a> (diyat calculator in Urdu)</li>
+<li><a href="/khums-calculator-urdu/">خمس کیلکولیٹر</a> (khums calculator in Urdu)</li>
+<li><a href="/ushr-calculator-urdu/">عشر کیلکولیٹر</a> (ushr calculator in Urdu)</li>
 </ul>
 <h2>Which tool should I use?</h2>
 <ul>
@@ -620,6 +651,8 @@ HTML
 			array( 'q' => 'Are these zakat calculators free?', 'a' => 'Yes, all of them, with no sign-up.' ),
 			array( 'q' => 'Which gold rate do the calculators use?', 'a' => 'The international spot price, refreshed every hour. You can enter your own local rate instead.' ),
 			array( 'q' => 'Do the calculators work outside Pakistan?', 'a' => 'Yes. They support about 50 currencies, and grams and ounces as well as tola.' ),
+			array( 'q' => 'Kya yeh zakat calculator muft hain?', 'a' => 'Ji haan, sab calculator bilkul muft hain aur koi sign-up nahi. Sab hisab aap ke browser mein hota hai, aap ke figures hamein nahi bheje jate.' ),
+			array( 'q' => 'Urdu mein zakat calculator kahan hai?', 'a' => 'Is safhe par "Calculators in Urdu" ki list mein: zakat, sona, nisab, fitrana, haq mehr, wirasat, fidya aur kaffara, diyat, khums aur ushr ke Urdu safhe.' ),
 		),
 	);
 
@@ -842,7 +875,7 @@ HTML
 		'llms'  => true,
 		'content' => <<<'HTML'
 [myzt_answer q="How much is fitrana?"]Fitrana is paid for every member of the family before the Eid prayer. In Hanafi fiqh it is half a sa' of wheat (about 1.75 to 2 kg) or one sa' of barley, dates or raisins (about 4 kg), or their value. Scholars announce the amount in money each Ramadan.[/myzt_answer]
-<p>This fitrana calculator, also called a zakat al-fitr or fitr calculator (sadqa-e-fitr in Urdu), multiplies the number of people in your house by the amount for the item you choose.</p>
+<p>This fitrana calculator, which also works as a zakat al fitr calculator or fitr calculator for sadaqat al-fitr (sadqa-e-fitr in Urdu), multiplies the number of people in your house by the amount for the item you choose.</p>
 [zakat_fitrana]
 [myzt_official type="fitrana"]
 <h2>Who must pay fitrana?</h2>
@@ -1216,6 +1249,8 @@ HTML
 			array( 'q' => 'Is the nisab widget really free?', 'a' => 'Yes. There is no sign-up, no ads and no tracking. We only ask you to keep the small credit line.' ),
 			array( 'q' => 'How often does the widget update?', 'a' => 'The rates behind it are refreshed every hour from international gold and silver prices.' ),
 			array( 'q' => 'Does it work on Blogger, Wix or Squarespace?', 'a' => 'Yes, on any site that lets you paste HTML code into a page or an embed block.' ),
+			array( 'q' => 'Kya nisab widget muft hai?', 'a' => 'Ji haan, koi sign-up, ad ya tracking nahi. Bas chhoti si credit line rehne den.' ),
+			array( 'q' => 'Widget mein currency kaise badlen?', 'a' => 'Code mein data-currency ke andar PKR ki jagah apni currency ka teen harfi code likhen, jaise INR, GBP, AED ya SAR. Taqreeban 50 currencies support hain.' ),
 		),
 	);
 
@@ -1370,6 +1405,8 @@ HTML
 			array( 'q' => 'What is the 22K gold rate per tola today?', 'a' => '22K gold is 91.7% pure, so its price is 22/24 of the 24K rate. The karat table on this page shows it per gram, 10 grams, tola and 10 tola.' ),
 			array( 'q' => 'Aaj sone ka rate kya hai?', 'a' => 'Is safhe ke upar aaj ka rate fi tola, fi gram aur 10 gram mein diya gaya hai, 24, 22, 21 aur 18 karat ke liye. Sarafa bazaar ka rate is se thora zyada hota hai.' ),
 			array( 'q' => 'Which gold rate should I use for zakat?', 'a' => 'The market rate of pure gold on your zakat date. The international rate here or your local sarafa rate both work; use one honestly.' ),
+			array( 'q' => 'Aaj 22 karat sone ka rate fi tola kya hai?', 'a' => '22 karat sona 91.7% khalis hota hai, is liye is ka rate 24 karat ke rate ka 22/24 hissa hai. Is safhe ke karat table mein fi gram, 10 gram, tola aur 10 tola rate diya gaya hai.' ),
+			array( 'q' => 'Zakat ke liye sone ka kaunsa rate lagayen?', 'a' => 'Apni zakat ki tareekh wale din khalis sone ka bazaar rate. Yahan ka international rate ya sarafa bazaar ka rate, dono mein se koi ek imandari se istemal karen. Kuch mufti sahiban bechne wali qeemat (jo jeweller aap ko dega) lagane ko kehte hain.' ),
 		),
 	);
 
@@ -1381,7 +1418,7 @@ HTML
 		'nav'   => 'Guides',
 		'blurb' => 'answers',
 		'llms'  => true,
-		'content' => '[myzt_answer q="Where do I start with zakat?"]Zakat is 2.5% of your savings, gold, silver and business stock once they have stayed at or above the nisab for a lunar year. Start with what the nisab is and who can receive zakat, then use the calculator. The guides below answer the common questions, from bank deduction to fidya, khums and inheritance.[/myzt_answer]<p>Clear answers to the zakat questions people ask most, with sources for the main rulings and a link to the calculator so you can check your own numbers. Rulings differ between the schools, so every guide says which madhab a statement belongs to.</p><h2>All guides</h2>[myzt_guides]<h2>Start here</h2><p>New to zakat? Read <a href="/nisab/">what the nisab is</a>, then <a href="/who-can-receive-zakat/">who can receive zakat</a>, and use the <a href="/">zakat calculator</a>. For the differences between schools see the <a href="/madhab-comparison/">madhab comparison</a>, and for rates see <a href="/gold-rate-today/">gold rate today</a>.</p><h2>Inheritance (wirasat)</h2><p>After a death in the family, start with the <a href="/wirasat-calculator/">wirasat calculator</a>, then read about the <a href="/daughters-share-in-inheritance/">daughter\'s share</a>, the <a href="/wife-husband-share-in-inheritance/">wife\'s and husband\'s share</a>, <a href="/orphaned-grandchildren-inheritance/">orphaned grandchildren and section 4</a> and <a href="/zakat-on-inherited-wealth/">zakat on inherited wealth</a>.</p><h2>Ramadan, Pakistan and Fiqh-e-Jafaria</h2><p>Before Ramadan, read about the <a href="/bank-zakat-deduction-pakistan/">bank deduction and the CZ-50 form</a> and keep an eye on <a href="/zakat-2027-pakistan/">zakat 2027 Pakistan</a> for the new nisab and fitrana. For missed or broken fasts see <a href="/roza-fidya/">roza fidya</a> and <a href="/kaffara-for-breaking-a-fast/">kaffara</a>. Followers of Fiqh-e-Jafaria should read <a href="/khums-who-must-pay/">who must pay khums</a>, and farmers <a href="/ushr-on-crops/">ushr on crops</a> and <a href="/zakat-on-livestock/">zakat on livestock</a>.</p>' . $author,
+		'content' => '[myzt_answer q="Where do I start with zakat?"]Zakat is 2.5% of your savings, gold, silver and business stock once they have stayed at or above the nisab for a lunar year. Start with what the nisab is and who can receive zakat, then use the calculator. The guides below answer the common questions, from bank deduction to fidya, khums and inheritance.[/myzt_answer]<p>Clear answers to the zakat questions people ask most, with sources for the main rulings and a link to the calculator so you can check your own numbers. Rulings differ between the schools, so every guide says which madhab a statement belongs to.</p><h2>All guides</h2>[myzt_guides]<h2>Start here</h2><p>New to zakat? Read <a href="/nisab/">what the nisab is</a>, then <a href="/who-can-receive-zakat/">who can receive zakat</a>, and use the <a href="/">zakat calculator</a>. For the differences between schools see the <a href="/madhab-comparison/">madhab comparison</a>, and for rates see <a href="/gold-rate-today/">gold rate today</a>.</p><h2>Inheritance (wirasat)</h2><p>After a death in the family, start with the <a href="/wirasat-calculator/">wirasat calculator</a>, then read about the <a href="/daughters-share-in-inheritance/">daughter\'s share</a>, the <a href="/wife-husband-share-in-inheritance/">wife\'s and husband\'s share</a>, <a href="/orphaned-grandchildren-inheritance/">orphaned grandchildren and section 4</a> and <a href="/zakat-on-inherited-wealth/">zakat on inherited wealth</a>.</p><h2>Ramadan, Pakistan and Fiqh-e-Jafaria</h2><p>Before Ramadan, read about the <a href="/bank-zakat-deduction-pakistan/">bank deduction and the CZ-50 form</a> and keep an eye on <a href="/zakat-2027-pakistan/">zakat 2027 Pakistan</a> for the new nisab and fitrana. For missed or broken fasts see <a href="/roza-fidya/">roza fidya</a> and <a href="/kaffara-for-breaking-a-fast/">kaffara</a>. Followers of Fiqh-e-Jafaria should read <a href="/khums-who-must-pay/">who must pay khums</a>, and farmers <a href="/ushr-on-crops/">ushr on crops</a> and <a href="/zakat-on-livestock/">zakat on livestock</a>.</p><h2>Nikah, Eid and Roman Urdu</h2><p>Before a nikah, read <a href="/haq-mehr-guide/">haq mehr in Islam: amount, types and rules</a>; before Eid, <a href="/fitrana-guide/">fitrana: who pays, how much and when</a>. Roman Urdu mein: <a href="/zakat-kaise-nikalen/">zakat kaise nikalen</a>, zakat ka hisab asan tareeqe se.</p>' . $author,
 		'faq'   => array(),
 	);
 
@@ -1640,8 +1677,12 @@ HTML
 		'faq'   => array(),
 	);
 
-	return $p;
+	// Zakat on salary, property, shares, provident fund, crypto, committee, expats and India (FIX-158, FIX-166).
+	return $p + myzt_content_assets_a() + myzt_content_assets_b();
 }
+
+require_once __DIR__ . '/content-assets-a.php';
+require_once __DIR__ . '/content-assets-b.php';
 
 /** Guide articles, created as posts in the "Guides" category. */
 require_once __DIR__ . '/content-posts.php';

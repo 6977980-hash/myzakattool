@@ -11,10 +11,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require_once __DIR__ . '/content-posts-tools.php';
 require_once __DIR__ . '/content-posts-wirasat.php';
+require_once __DIR__ . '/content-posts-guides.php';
 
 function myzt_content_posts() {
 	$author = '[myzt_author]';
-	return myzt_content_posts_tools() + myzt_content_posts_wirasat() + array(
+	return myzt_content_posts_tools() + myzt_content_posts_wirasat() + myzt_content_posts_guides() + array(
 		'who-can-receive-zakat'         => array(
 			'title'   => 'Who Can Receive Zakat? The 8 Categories Explained',
 			'seo'     => 'Who Can Receive Zakat? 8 Groups of Quran 9:60 & Who Cannot',
@@ -112,6 +113,8 @@ HTML
 				array( 'q' => 'Do I pay zakat on the stones in my jewellery?', 'a' => 'No. Only the gold or silver content counts, unless you deal in gems as a business.' ),
 				array( 'q' => 'Biwi ke zevar ki zakat kaun dega?', 'a' => 'Jo malik hai. Agar zevar biwi ki milkiyat hai to zakat us par hai; shohar uski ijazat se ada kar sakta hai.' ),
 				array( 'q' => 'Which price should I use, buying or selling?', 'a' => 'The value on your zakat date. Many muftis prefer the selling price (what a jeweller would pay you).' ),
+				array( 'q' => 'Kya artificial zevar par zakat hai?', 'a' => 'Nahi. Artificial zevar par kisi maslak mein zakat nahi; zakat sirf sone aur chandi par hai.' ),
+				array( 'q' => 'Zevar ki zakat mein nag aur banwai bhi gini jati hai?', 'a' => 'Nahi. Sirf sone ya chandi ka wazan gina jata hai; nag, moti aur banwai (making charges) ki qeemat nahi. 22 karat zevar mein sirf khalis sona (91.7%) gina jata hai.' ),
 			),
 		),
 

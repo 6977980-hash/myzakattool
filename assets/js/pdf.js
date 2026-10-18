@@ -207,5 +207,50 @@
 		});
 	}
 
-	window.MYZT_PDF = { build: build };
+	/** One-page record for the small tools (fitrana, fidya, khums, hawl, ushr, mehr, diyat): fields and results (FIX-126). */
+	function simple(data) {
+		return loadJsPdf().then(function (lib) {
+			var doc = new lib.jsPDF({ unit: 'mm', format: 'a4' });
+			var W = 210, M = 16, y = 18;
+			var teal = [15, 118, 110], ink = [20, 48, 43], mute = [110, 130, 125];
+			var dt = dates();
+			function text(s, x, yy, size, bold, c, align) {
+				doc.setFont('helvetica', bold ? 'bold' : 'normal');
+				doc.setFontSize(size);
+				doc.setTextColor(c[0], c[1], c[2]);
+				doc.text(latin(s), x, yy, align ? { align: align } : undefined);
+			}
+			function line(yy) { doc.setDrawColor(223, 233, 230); doc.setLineWidth(0.3); doc.line(M, yy, W - M, yy); }
+			function row(r) {
+				if (y > 266) { doc.addPage(); y = 18; }
+				doc.setFont('helvetica', 'normal'); doc.setFontSize(10);
+				var label = doc.splitTextToSize(latin(r[0]), 110);
+				text(label[0], M + 2, y, 10, r[2], r[2] ? teal : ink);
+				text(r[1], W - M - 2, y, 10, true, r[2] ? teal : ink, 'right');
+				y += 2.5; line(y); y += 4.5;
+			}
+			text('My Zakat Tool', M, y, 9, true, teal);
+			text(dt.g + (dt.h ? '  ·  ' + dt.h : ''), W - M, y, 9, false, mute, 'right');
+			y += 9;
+			text(data.title + ' (Personal Record)', M, y, 16, true, ink);
+			y += 10;
+			[['What you entered', data.inputs], ['Result', data.results]].forEach(function (sec) {
+				if (!sec[1].length) return;
+				text(sec[0], M, y, 11, true, ink); y += 6;
+				sec[1].forEach(row);
+				y += 4;
+			});
+			text('Source page: ' + location.href.split('#')[0], M, y, 8.5, false, mute);
+			var pages = doc.getNumberOfPages();
+			for (var i = 1; i <= pages; i++) {
+				doc.setPage(i);
+				line(279);
+				text('Personal estimate only. Not an official, legal or religious document. Not a fatwa.', M, 284, 7.5, false, mute);
+				text('Details: myzakattool.com/disclaimer  ·  Page ' + i + '/' + pages, M, 288, 7.5, false, mute);
+			}
+			doc.save(data.title.toLowerCase().replace(/[^a-z]+/g, '-').replace(/^-|-$/g, '') + '-' + new Date().toISOString().slice(0, 10) + '.pdf');
+		});
+	}
+
+	window.MYZT_PDF = { build: build, simple: simple };
 })();
