@@ -885,7 +885,7 @@ HTML
 [zakat_fitrana]
 [myzt_official type="fitrana"]
 <h2>Who must pay fitrana?</h2>
-<p>In Hanafi fiqh, which the amounts above follow, fitrana is wajib on every Muslim (Bukhari 1503) who at dawn on Eid day owns wealth equal to the nisab over and above basic needs and debts. This wealth does not need to have been held for a year or be zakatable wealth (<em>al-Hidayah</em>, Sadaqat al-Fitr). The person pays for himself and his young children; many also pay for their wife and other dependants. The Shafi'i, Maliki and Hanbali schools set a lower bar: anyone who has more than the food the family needs for the day and night of Eid pays.</p>
+<p>In Hanafi fiqh, which the amounts above follow, fitrana is wajib on every Muslim (Bukhari 1503) who at dawn on Eid day owns wealth equal to the nisab over and above basic needs and debts. This wealth does not need to have been held for a year or be zakatable wealth (<em>al-Hidayah</em>, Sadaqat al-Fitr). The person pays for himself and his young children; many also pay for their wife and other dependants. The Shafi'i, Maliki and Hanbali schools set a lower bar: anyone who has more than the food the family needs for the day and night of Eid pays. The same Hanafi test, wealth beyond needs equal to the nisab, also decides whether qurbani is wajib on you: the <a href="/qurbani-calculator/">qurbani calculator</a> checks it at today's rate.</p>
 <h2>When to pay</h2>
 <p>Before the Eid prayer, so that the poor can celebrate Eid; the Prophet ﷺ called it a purification for the fasting person and food for the poor, accepted as fitrana when paid before the prayer (Abu Dawud 1609). Paying it during Ramadan is allowed and makes it easier to reach people in need.</p>
 <h2>Which item to choose</h2>
