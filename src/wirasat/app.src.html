@@ -700,20 +700,23 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
     var pick = function (rels) { return P.filter(function (p) { return !p.parent && rels.indexOf(p.rel) >= 0; }).sort(function (a, b) { return rels.indexOf(a.rel) - rels.indexOf(b.rel); }); };
     var gp = pick(['dada', 'dadi', 'nana', 'nani']);
     var top = pick(['father', 'mother']);
-    var sibs = pick(['brother', 'sister', 'pbrother', 'psister', 'mbrother', 'msister', 'mamu', 'khala', 'chacha', 'phuphi']);
+    var sibs = pick(['brother', 'sister', 'pbrother', 'psister', 'mbrother', 'msister']);
+    var pat = pick(['chacha', 'phuphi']), mat = pick(['mamu', 'khala']);
     var sp = pick(['husband', 'wife']);
     var ch = pick(['son', 'daughter']);
     // Children under their own parent's side: grandchildren under the children, nephews and cousins under the siblings and uncles.
     var under = function (parents) { return P.filter(function (p) { return p.parent && parents.indexOf(byId(p.parent)) >= 0; }).sort(function (a, b) { return parents.indexOf(byId(a.parent)) - parents.indexOf(byId(b.parent)); }); };
-    var low = under(ch), sibLow = under(sibs);
+    var low = under(ch), sibLow = under(sibs), patLow = under(pat);
     function nodes(list) { return list.map(function (p) { return node(r, p, via(p) ? 'via' : ''); }).join(''); }
     function row(x) { return '<div class="trow">' + x + '</div>'; }
     var h = '<div class="treebox"><div class="tree" id="' + id + '"><svg class="links" aria-hidden="true"></svg>' + treeHead();
     if (gp.length) h += row(nodes(gp));
     if (top.length) h += row(nodes(top));
-    // The deceased with the spouse, then children and grandchildren; siblings and uncles in a block of their own beside it.
+    // Side by side, so no family's lines cross another's: the father's brothers and sisters on the father's side (right),
+    // then the deceased with spouse, children and grandchildren, then brothers and sisters, then the mother's side (left).
     var own = row(selfNode() + nodes(sp)) + (ch.length ? row(nodes(ch)) : '') + (low.length ? row(nodes(low)) : '');
-    if (sibs.length) h += '<div class="trow split"><div class="blk">' + own + '</div><div class="blk">' + row(nodes(sibs)) + (sibLow.length ? row(nodes(sibLow)) : '') + '</div></div>';
+    var blk = function (a, b) { return a.length ? '<div class="blk">' + row(nodes(a)) + (b && b.length ? row(nodes(b)) : '') + '</div>' : ''; };
+    if (sibs.length || pat.length || mat.length) h += '<div class="trow split">' + blk(pat, patLow) + '<div class="blk">' + own + '</div>' + blk(sibs, sibLow) + blk(mat) + '</div>';
     else h += own;
     return h + '<p class="legend">— — ڈیش والے خانے: جن کا حصہ نہیں بنتا (وجہ خانے کے نیچے)</p></div></div>';
   }
