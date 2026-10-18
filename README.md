@@ -33,6 +33,7 @@ and add `define( 'DISABLE_WP_CRON', true );` to `wp-config.php`.
 | `[zakat_nisab]` | Today's nisab (server-rendered) |
 | `[zakat_fitrana]`, `[zakat_fidya]`, `[zakat_khums]` | Fitrana, fidya/kaffara and khums calculators |
 | `[zakat_hawl]`, `[zakat_ushr]` | Zakat date / hawl tracker (reminders, missed years) and ushr + livestock calculators |
+| `[zakat_iddat]`, `[zakat_qurbani currency="PKR"]` | Iddat end date (death, talaq, khula, per madhab) and the qurbani wajib check |
 | `[myzt_embed_code currency="PKR"]` | Preview and copy code for the embeddable nisab widget (`assets/js/embed.js`) |
 | `[myzt_reviewed rates="1"]` | "Rules last reviewed" date (Settings) and a dated snapshot of the rates |
 | `[myzt_rate type="gold-tola"]` | One live number in text (`gold-gram`, `gold22-tola`, `silver-tola`, `silver-gram`, `nisab-silver`, `nisab-gold`, `gold-tola-zakat`, `gold22-tola-zakat`) |

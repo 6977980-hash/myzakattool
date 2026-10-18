@@ -30,6 +30,8 @@ class MYZT_Frontend {
 		add_shortcode( 'zakat_mehr', array( __CLASS__, 'mehr' ) );
 		add_shortcode( 'zakat_diyat', array( __CLASS__, 'diyat' ) );
 		add_shortcode( 'zakat_wirasat', array( __CLASS__, 'wirasat' ) );
+		add_shortcode( 'zakat_iddat', array( __CLASS__, 'iddat' ) );
+		add_shortcode( 'zakat_qurbani', array( __CLASS__, 'qurbani' ) );
 		add_shortcode( 'myzt_faq', array( __CLASS__, 'faq' ) );
 		add_shortcode( 'myzt_author', array( __CLASS__, 'author' ) );
 		add_shortcode( 'myzt_answer', array( __CLASS__, 'answer' ) );
@@ -351,6 +353,16 @@ class MYZT_Frontend {
 
 	public static function khums() {
 		return self::widget( 'khums', array() );
+	}
+
+	public static function iddat() {
+		return self::widget( 'iddat', array() );
+	}
+
+	/** [zakat_qurbani currency="PKR"]: is qurbani wajib, against today's nisab. */
+	public static function qurbani( $atts ) {
+		$a = shortcode_atts( array( 'currency' => '' ), $atts, 'zakat_qurbani' );
+		return self::widget( 'qurbani', array( 'currency' => strtoupper( preg_replace( '/[^A-Za-z]/', '', $a['currency'] ) ) ) );
 	}
 
 	// Same figures as engine.js: 1 dirham = 3.0618 g; diyat = 30,630 g of silver (PPC s. 323).

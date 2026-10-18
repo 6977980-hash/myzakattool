@@ -81,6 +81,48 @@
 			dy_notified: 'Diyat notified for', dy_from: 'in force from 1 July', dy_live: '30,630 g of silver at today\'s rate', dy_liveHelp: 'The law fixes diyat at the value of 30,630 g of silver. The government notifies the rupee amount once a year, so the live value moves with the silver price.',
 			dy_history: 'Notified amounts', dy_fy: 'Fiscal year', dy_amount: 'Amount', dy_source: 'Source', dy_noRate: 'Live silver rate in rupees is not available right now.',
 			dy_note: 'Courts may award more than the notified amount but not less (PPC s. 323). This is information, not legal advice; ask a lawyer about a case.',
+			id_kind: 'What happened?', id_death: 'Husband died', id_talaq: 'Talaq (divorce)', id_khula: 'Khula',
+			id_date_death: 'Date of the husband\'s death', id_date_talaq: 'Date of the talaq', id_date_khula: 'Date of the khula',
+			id_pregnant: 'She is pregnant', id_cons: 'The marriage was consummated',
+			id_consHelp: 'Hanafi and Hanbali: this also covers husband and wife having been alone together in private after the nikah (khalwa sahiha).',
+			id_periods: 'Her periods', id_regular: 'Has periods', id_none: 'No periods (too young or another reason)', id_meno: 'Periods stopped with age',
+			id_last: 'First day of her last period before the talaq', id_cycle: 'Days from the start of one period to the next', id_len: 'Days of bleeding',
+			id_ends: 'Iddat ends on', id_length: 'Length', id_days: 'days', id_timeD: 'at the same time of day as the death', id_timeT: 'at the same time of day as the talaq or khula',
+			id_timeH: 'when the bleeding of that period stops (estimate)', id_timeTuhr: 'when that period begins (estimate)',
+			id_b_moon: 'Counted by the moon, because it began on the 1st of an Islamic month.',
+			id_b_days: 'Counted in days (each month as 30 days), because it did not begin on the 1st of an Islamic month. This is Imam Abu Hanifa\'s rule; some scholars complete only the first month by days, which can move the end by a day or two.',
+			id_b_haiz: 'Three complete periods after the talaq: this madhab reads the Quran\'s "three quru\'" (2:228) as three periods.',
+			id_b_haiz1: 'One complete period after the khula.',
+			id_b_tuhr: 'Three times of purity (tuhr): this madhab reads "three quru\'" (2:228) as the clean days between periods, so the iddat ends as the third period after the talaq begins.',
+			id_birth: 'Iddat ends when the baby is born (Quran 65:4), however soon or late that is.',
+			id_birthJ: 'Ayatollah Sistani: the widow waits for the longer of the two, the birth or four months and ten days. Four months and ten days end on',
+			id_noneU: 'No iddat: the talaq came before the marriage was consummated (Quran 33:49). If a mehr was fixed, half of it is due.',
+			id_noneK: 'No iddat: the marriage was not consummated and husband and wife were never alone together in private (Quran 33:49). If a mehr was fixed, half of it is due.',
+			id_noneMeno: 'No iddat after divorce for a woman whose periods have stopped with age, according to Ayatollah Sistani.',
+			id_n_death_any: 'A widow keeps this iddat even if the marriage was never consummated. During it she stays in her marital home where she can, and avoids adornment, perfume and remarriage.',
+			id_n_khula_one: "Ahl-e-Hadith scholars give khula an iddat of one period, from the hadith of the wife of Thabit ibn Qays (Abu Dawud 2229, Tirmidhi 1185). The Hanafi, Shafi'i and Maliki schools count three, as for talaq.",
+			id_n_khula_hanbali: 'The Hanbali madhab counts three periods for khula; Imam Ahmad also has a narration of one period, which Ibn Taymiyyah preferred.',
+			id_n_in_period: 'The talaq fell during a period, so that period does not count towards the iddat.',
+			id_n_estimate: 'This is an estimate from the dates you entered. The iddat really ends with her actual periods, so go by those.',
+			id_n_jafari_later: 'If the baby is born after this date, the iddat lasts until the birth.',
+			id_needPeriod: 'Enter the first day of her last period (on or before the talaq) to estimate the end date.',
+			id_law: 'Pakistan law (MFLO 1961, section 7): a talaq or khula takes effect 90 days after the written notice reaches the Union Council chairman. With notice on the same day, that is',
+			id_lawP: 'If she is pregnant, it takes effect at the birth if that comes later.',
+			id_ics: 'Add the end date to my calendar', id_calTitle: 'Iddat ends',
+			id_note: 'Nothing you enter is saved or sent. Islamic months are lunar; a Hijri date can differ by a day with your country\'s moon sighting.',
+			qb_cash: 'Cash and bank balance', qb_gold: 'Gold (worn or kept)', qb_silver: 'Silver (worn or kept)',
+			qb_extra: 'Things beyond your basic needs (sale value)', qb_extraHelp: 'A second house or plot you do not live in, an extra car, clothes, jewellery or appliances you do not use. Your home, everyday clothes, furniture and work tools are not counted.',
+			qb_trade: 'Trade goods and business stock', qb_owed: 'Money owed to you', qb_debts: 'Debts you must repay now',
+			qb_travel: 'I will be travelling (musafir) during the days of Eid',
+			qb_wajib: 'Qurbani is wajib on you', qb_notWajib: 'Qurbani is not wajib on you', qb_travelNo: 'Not wajib while you are a traveller (musafir), though you may still give it.',
+			qb_wealth: 'Your wealth beyond needs', qb_nisab: 'Nisab today',
+			qb_hanafi: 'Hanafi: qurbani is wajib on every sane adult Muslim, not travelling, who owns the nisab beyond basic needs at any time from Fajr on 10 Dhul Hijjah to sunset on 12 Dhul Hijjah. No year needs to pass, and things that carry no zakat still count.',
+			qb_sunnahH: 'Sunnah, not wajib, in this madhab',
+			qb_sunnah: "Shafi'i, Maliki and Hanbali scholars, and most Ahl-e-Hadith scholars: qurbani is a strongly stressed sunnah (sunnah mu'akkadah) for anyone who can afford it beyond the needs of the Eid days. Leaving it is disliked for one who can afford it, but not a sin.",
+			qb_jafari: "Ayatollah Sistani: qurbani is strongly recommended (mustahabb mu'akkad) for anyone who can afford it. It is wajib only for a pilgrim on Hajj.",
+			qb_hanafiSays: 'Hanafi rule for the same figures',
+			qb_each: 'Each adult who owns the nisab gives a separate qurbani: a wife with her own gold, or a grown son with savings, owes one of their own. One goat or sheep is one qurbani; a cow, buffalo or camel can be shared by seven people.',
+			qb_eid: 'Eid al-Adha (10 Dhul Hijjah)', qb_left: 'days left', qb_eidNote: 'Expected date by the Umm al-Qura calendar; moon sighting in your country decides.',
 			fd_fasts: 'Fasts you cannot make up (fidya)', fd_broken: 'How many kaffaras are due (not the number of fasts broken)', fd_perDay: 'Amount for one poor person, one day', fd_fidya: 'Fidya', fd_kaffara: 'Kaffara (feeding 60 poor people each)', fd_total: 'Total to pay',
 			fd_hFasts: 'Only for illness or old age with no hope of fasting later. Otherwise make the fasts up.', fd_hBroken: 'Hanafi: several fasts broken in the same Ramadan need one kaffara. Kaffara by feeding is only for someone who cannot fast 60 days in a row.',
 			wheat: 'Wheat / flour', barley: 'Barley', dates: 'Dates', raisins: 'Raisins',
@@ -189,6 +231,48 @@
 			dy_notified: 'دیت برائے مالی سال', dy_from: 'نافذ از یکم جولائی', dy_live: 'آج کے ریٹ پر 30,630 گرام چاندی', dy_liveHelp: 'قانون کے مطابق دیت 30,630 گرام چاندی کی قیمت ہے۔ حکومت سال میں ایک بار روپوں میں رقم کا اعلان کرتی ہے، اس لیے لائیو قیمت چاندی کے ساتھ بدلتی ہے۔',
 			dy_history: 'اعلان کردہ رقمیں', dy_fy: 'مالی سال', dy_amount: 'رقم', dy_source: 'ماخذ', dy_noRate: 'ابھی روپے میں چاندی کا لائیو ریٹ دستیاب نہیں۔',
 			dy_note: 'عدالت اعلان کردہ رقم سے زیادہ دیت دے سکتی ہے، کم نہیں (تعزیراتِ پاکستان دفعہ 323)۔ یہ معلومات ہیں، قانونی مشورہ نہیں؛ کسی مقدمے کے لیے وکیل سے پوچھیں۔',
+			id_kind: 'کیا ہوا؟', id_death: 'شوہر کی وفات', id_talaq: 'طلاق', id_khula: 'خلع',
+			id_date_death: 'شوہر کی وفات کی تاریخ', id_date_talaq: 'طلاق کی تاریخ', id_date_khula: 'خلع کی تاریخ',
+			id_pregnant: 'عورت حاملہ ہے', id_cons: 'میاں بیوی کا ملاپ (رخصتی کے بعد تعلق) ہو چکا تھا',
+			id_consHelp: 'حنفی اور حنبلی: نکاح کے بعد میاں بیوی کا تنہائی میں اکٹھے ہونا (خلوتِ صحیحہ) بھی اسی میں شامل ہے۔',
+			id_periods: 'ماہواری', id_regular: 'ماہواری آتی ہے', id_none: 'ماہواری نہیں آتی (کم عمری یا کوئی اور وجہ)', id_meno: 'عمر کی وجہ سے ماہواری بند ہو چکی',
+			id_last: 'طلاق سے پہلے آخری ماہواری کا پہلا دن', id_cycle: 'ایک ماہواری کے شروع سے اگلی کے شروع تک کتنے دن', id_len: 'خون کے دن',
+			id_ends: 'عدت ختم ہوگی', id_length: 'مدت', id_days: 'دن', id_timeD: 'اسی وقت جس وقت وفات ہوئی', id_timeT: 'اسی وقت جس وقت طلاق یا خلع ہوئی',
+			id_timeH: 'جب اس ماہواری کا خون بند ہو (اندازہ)', id_timeTuhr: 'جب وہ ماہواری شروع ہو (اندازہ)',
+			id_b_moon: 'چاند کے حساب سے گنا گیا، کیونکہ مدت اسلامی مہینے کی پہلی تاریخ سے شروع ہوئی۔',
+			id_b_days: 'دنوں کے حساب سے گنا گیا (ہر مہینہ 30 دن)، کیونکہ مدت اسلامی مہینے کی پہلی تاریخ سے شروع نہیں ہوئی۔ یہ امام ابو حنیفہؒ کا قول ہے؛ بعض علما صرف پہلا مہینہ دنوں سے پورا کرتے ہیں، جس سے ایک دو دن کا فرق آ سکتا ہے۔',
+			id_b_haiz: 'طلاق کے بعد تین پوری ماہواریاں: یہ مسلک قرآن کے "تین قروء" (2:228) کو تین حیض مانتا ہے۔',
+			id_b_haiz1: 'خلع کے بعد ایک پوری ماہواری۔',
+			id_b_tuhr: 'تین طہر (پاکی کے دن): یہ مسلک "تین قروء" (2:228) کو ماہواریوں کے درمیان کے پاک دن مانتا ہے، اس لیے عدت طلاق کے بعد تیسری ماہواری شروع ہوتے ہی ختم ہو جاتی ہے۔',
+			id_birth: 'عدت بچے کی پیدائش پر ختم ہوگی (سورۃ الطلاق 65:4)، چاہے جلد ہو یا دیر سے۔',
+			id_birthJ: 'آیت اللہ سیستانی: بیوہ دونوں میں سے لمبی مدت گزارے گی، پیدائش یا چار مہینے دس دن۔ چار مہینے دس دن ختم ہوں گے',
+			id_noneU: 'عدت نہیں: طلاق میاں بیوی کے ملاپ سے پہلے ہوئی (سورۃ الاحزاب 33:49)۔ اگر مہر مقرر تھا تو اس کا آدھا ادا کرنا ہوگا۔',
+			id_noneK: 'عدت نہیں: نہ ملاپ ہوا اور نہ میاں بیوی کبھی تنہائی میں اکٹھے ہوئے (سورۃ الاحزاب 33:49)۔ اگر مہر مقرر تھا تو اس کا آدھا ادا کرنا ہوگا۔',
+			id_noneMeno: 'آیت اللہ سیستانی کے مطابق جس عورت کی ماہواری عمر کی وجہ سے بند ہو چکی ہو، اس پر طلاق کی عدت نہیں۔',
+			id_n_death_any: 'بیوہ یہ عدت گزارے گی چاہے ملاپ نہ ہوا ہو۔ عدت میں جہاں تک ممکن ہو شوہر کے گھر میں رہے، اور زیب و زینت، خوشبو اور دوسرے نکاح سے بچے۔',
+			id_n_khula_one: 'اہلِ حدیث علما خلع کی عدت ایک حیض بتاتے ہیں، ثابت بن قیسؓ کی بیوی کی حدیث کی بنا پر (ابو داؤد 2229، ترمذی 1185)۔ حنفی، شافعی اور مالکی مسالک میں طلاق کی طرح تین ہیں۔',
+			id_n_khula_hanbali: 'حنبلی مسلک میں خلع کی عدت تین حیض ہے؛ امام احمدؒ سے ایک حیض کی روایت بھی ہے، جسے ابن تیمیہؒ نے ترجیح دی۔',
+			id_n_in_period: 'طلاق ماہواری کے دنوں میں ہوئی، اس لیے وہ ماہواری عدت میں شمار نہیں ہوگی۔',
+			id_n_estimate: 'یہ آپ کی لکھی ہوئی تاریخوں سے اندازہ ہے۔ عدت اصل میں عورت کی حقیقی ماہواری کے مطابق ختم ہوتی ہے، اسی کو دیکھیں۔',
+			id_n_jafari_later: 'اگر بچہ اس تاریخ کے بعد پیدا ہو تو عدت پیدائش تک رہے گی۔',
+			id_needPeriod: 'اختتام کا اندازہ لگانے کے لیے طلاق سے پہلے (یا اسی دن) کی آخری ماہواری کا پہلا دن لکھیں۔',
+			id_law: 'پاکستانی قانون (عائلی قوانین آرڈیننس 1961، دفعہ 7): طلاق یا خلع یونین کونسل کے چیئرمین کو تحریری نوٹس ملنے کے 90 دن بعد مؤثر ہوتی ہے۔ اسی دن نوٹس دیا جائے تو یہ تاریخ ہے',
+			id_lawP: 'اگر عورت حاملہ ہو اور پیدائش بعد میں ہو تو طلاق پیدائش پر مؤثر ہوگی۔',
+			id_ics: 'اختتام کی تاریخ کیلنڈر میں شامل کریں', id_calTitle: 'عدت ختم',
+			id_note: 'آپ کا لکھا کچھ بھی محفوظ یا کہیں نہیں بھیجا جاتا۔ اسلامی مہینے قمری ہیں؛ آپ کے ملک کی رؤیتِ ہلال سے ہجری تاریخ میں ایک دن کا فرق ہو سکتا ہے۔',
+			qb_cash: 'نقد اور بینک بیلنس', qb_gold: 'سونا (پہنا ہوا یا رکھا ہوا)', qb_silver: 'چاندی (پہنی ہوئی یا رکھی ہوئی)',
+			qb_extra: 'ضرورت سے زائد چیزیں (بیچنے کی قیمت)', qb_extraHelp: 'دوسرا مکان یا پلاٹ جس میں آپ نہیں رہتے، زائد گاڑی، کپڑے، زیور یا سامان جو استعمال میں نہیں۔ رہائشی گھر، روزمرہ کپڑے، فرنیچر اور کام کے اوزار شمار نہیں ہوتے۔',
+			qb_trade: 'تجارتی مال اور کاروبار کا اسٹاک', qb_owed: 'جو رقم آپ نے لینی ہے', qb_debts: 'جو قرض ابھی ادا کرنا ہے',
+			qb_travel: 'عید کے دنوں میں میں سفر (مسافر) میں ہوں گا',
+			qb_wajib: 'آپ پر قربانی واجب ہے', qb_notWajib: 'آپ پر قربانی واجب نہیں', qb_travelNo: 'مسافر ہونے کی حالت میں واجب نہیں، البتہ کرنا چاہیں تو کر سکتے ہیں۔',
+			qb_wealth: 'ضرورت سے زائد آپ کا مال', qb_nisab: 'آج کا نصاب',
+			qb_hanafi: 'حنفی: قربانی ہر عاقل بالغ مسلمان پر واجب ہے جو مسافر نہ ہو اور 10 ذوالحجہ کی فجر سے 12 ذوالحجہ کے غروب تک کسی بھی وقت ضرورت سے زائد نصاب کا مالک ہو۔ سال گزرنا شرط نہیں، اور جن چیزوں پر زکوٰۃ نہیں وہ بھی شمار ہوتی ہیں۔',
+			qb_sunnahH: 'اس مسلک میں سنت ہے، واجب نہیں',
+			qb_sunnah: 'شافعی، مالکی، حنبلی اور اکثر اہلِ حدیث علما: قربانی ہر اس شخص کے لیے سنتِ مؤکدہ ہے جو عید کے دنوں کی ضرورت سے زیادہ کی استطاعت رکھتا ہو۔ استطاعت کے باوجود چھوڑنا مکروہ ہے، گناہ نہیں۔',
+			qb_jafari: 'آیت اللہ سیستانی: قربانی استطاعت رکھنے والے کے لیے مستحبِ مؤکد ہے۔ صرف حج کرنے والے پر واجب ہے۔',
+			qb_hanafiSays: 'انہی رقموں پر حنفی حکم',
+			qb_each: 'جو بالغ شخص خود نصاب کا مالک ہو وہ الگ قربانی کرے گا: اپنا سونا رکھنے والی بیوی یا بچت رکھنے والا جوان بیٹا اپنی الگ قربانی کریں۔ ایک بکرا یا بھیڑ ایک قربانی ہے؛ گائے، بھینس یا اونٹ میں سات لوگ شریک ہو سکتے ہیں۔',
+			qb_eid: 'عید الاضحیٰ (10 ذوالحجہ)', qb_left: 'دن باقی', qb_eidNote: 'ام القریٰ کیلنڈر کے مطابق متوقع تاریخ؛ اصل فیصلہ آپ کے ملک کی رؤیتِ ہلال کرے گی۔',
 			fd_fasts: 'روزے جن کی قضا ممکن نہیں (فدیہ)', fd_broken: 'کتنے کفارے واجب ہیں (توڑے گئے روزوں کی تعداد نہیں)', fd_perDay: 'ایک مسکین کا ایک دن کا کھانا', fd_fidya: 'فدیہ', fd_kaffara: 'کفارہ (ہر ایک کے لیے 60 مسکین)', fd_total: 'کل رقم',
 			fd_hFasts: 'صرف بیماری یا بڑھاپے میں جب بعد میں روزہ رکھنے کی امید نہ ہو۔ ورنہ قضا رکھیں۔', fd_hBroken: 'حنفی: ایک رمضان کے کئی توڑے گئے روزوں کا ایک کفارہ کافی ہے۔ کھانا کھلانا صرف اس کے لیے ہے جو 60 مسلسل روزے نہ رکھ سکے۔',
 			wheat: 'گندم / آٹا', barley: 'جو', dates: 'کھجور', raisins: 'کشمش',
@@ -1482,6 +1566,178 @@
 		freshRates(render);
 	}
 
+	/** Madhab buttons shared by the iddat and qurbani widgets. */
+	function madhabSeg(cur) {
+		return '<span class="myzt-seg myzt-seg6" role="group" aria-label="' + esc(t('madhab')) + '">' + E.MADHAB_ORDER.map(function (k) {
+			return '<button type="button" data-mz="' + k + '" aria-pressed="' + (cur === k) + '">' + esc(mname(k)) + '</button>';
+		}).join('') + '</span>';
+	}
+
+	/** Iddat end date. Nothing is saved: these are personal dates. */
+	function Iddat(root) {
+		var today = new Date().toISOString().slice(0, 10);
+		var st = { madhab: E.countryDefaults(COUNTRY).madhab, kind: 'death', start: '', pregnant: false, consummated: true, periods: 'regular', lastPeriod: '', cycle: 28, length: 6 };
+		function when(r) {
+			if (r.basis === 'haiz') return t('id_timeH');
+			if (r.basis === 'tuhr') return t('id_timeTuhr');
+			return t(st.kind === 'death' ? 'id_timeD' : 'id_timeT');
+		}
+		function out() {
+			if (!st.start) return '';
+			var r = E.iddat(st), h = '';
+			if (r.none) h = '<div class="myzt-due">' + esc(t(r.notes.indexOf('jafari_menopause') >= 0 ? 'id_noneMeno' : r.notes.indexOf('khalwa') >= 0 ? 'id_noneK' : 'id_noneU')) + '</div>';
+			else if (r.byBirth) {
+				h = '<div class="myzt-due">' + esc(t('id_birth')) + '</div>';
+				if (r.end) h += '<div class="myzt-line"><span>' + esc(t('id_birthJ')) + '</span><span><b>' + esc(niceDate(r.end)) + '</b><br><span class="myzt-small">' + esc(hijri(r.end)) + '</span></span></div>';
+			} else if (r.needPeriod) h = '<p class="myzt-note">' + esc(t('id_needPeriod')) + '</p>';
+			else if (r.end) {
+				h = '<div class="myzt-due">' + esc(t('id_ends')) + '</div><div class="myzt-amt">' + esc(niceDate(r.end)) + '</div>' +
+					'<div class="myzt-small">' + esc(hijri(r.end)) + ' · ' + esc(when(r)) + '</div>' +
+					'<div class="myzt-line"><span>' + esc(t('id_length')) + '</span><span><b>' + r.days + ' ' + esc(t('id_days')) + '</b></span></div>' +
+					'<p class="myzt-small">' + esc(t(r.basis === 'haiz' && r.notes.indexOf('khula_one') >= 0 ? 'id_b_haiz1' : 'id_b_' + r.basis)) + '</p>' +
+					(r.end >= today ? '<button type="button" class="myzt-btn" data-act="ics">📅 ' + esc(t('id_ics')) + '</button>' : '');
+			}
+			r.notes.forEach(function (n) { if (T.en['id_n_' + n]) h += '<p class="myzt-note">' + esc(t('id_n_' + n)) + '</p>'; });
+			if (r.law && st.kind !== 'death') h += '<p class="myzt-small">' + esc(t('id_law')) + ' <b>' + esc(niceDate(r.law)) + '</b>.' + (st.pregnant ? ' ' + esc(t('id_lawP')) : '') + '</p>';
+			return h;
+		}
+		function seg(key, opts) {
+			return '<span class="myzt-seg" role="group">' + opts.map(function (o) { return '<button type="button" data-ik="' + key + '" data-v="' + o + '" aria-pressed="' + (st[key] === o) + '">' + esc(t('id_' + (o === 'menopause' ? 'meno' : o))) + '</button>'; }).join('') + '</span>';
+		}
+		function render() { keepFocus(root, draw); }
+		function draw() {
+			var div = st.kind !== 'death';
+			var h = '<div class="myzt-card myzt-mini"><div class="myzt-field"><label>' + esc(t('madhab')) + '</label>' + madhabSeg(st.madhab) + '</div>' +
+				'<div class="myzt-field"><label>' + esc(t('id_kind')) + '</label>' + seg('kind', ['death', 'talaq', 'khula']) + '</div>' +
+				'<div class="myzt-field"><label for="myzt-is">' + esc(t('id_date_' + st.kind)) + '</label><input class="myzt-inp" type="date" id="myzt-is" data-i="start" value="' + esc(st.start) + '"></div>' +
+				'<label class="myzt-small myzt-check"><input type="checkbox" data-i="pregnant"' + (st.pregnant ? ' checked' : '') + '> ' + esc(t('id_pregnant')) + '</label>';
+			if (div) {
+				h += '<label class="myzt-small myzt-check"><input type="checkbox" data-i="consummated"' + (st.consummated ? ' checked' : '') + '> ' + esc(t('id_cons')) + '</label>' +
+					'<p class="myzt-help">' + esc(t('id_consHelp')) + '</p>';
+				if (st.consummated && !st.pregnant) {
+					h += '<div class="myzt-field"><label>' + esc(t('id_periods')) + '</label>' + seg('periods', ['regular', 'none', 'menopause']) + '</div>';
+					if (st.periods === 'regular') {
+						h += '<div class="myzt-field"><label for="myzt-il">' + esc(t('id_last')) + '</label><input class="myzt-inp" type="date" id="myzt-il" data-i="lastPeriod" value="' + esc(st.lastPeriod) + '"' + (st.start ? ' max="' + esc(st.start) + '"' : '') + '></div>' +
+							'<div class="myzt-field"><label for="myzt-ic">' + esc(t('id_cycle')) + '</label><input class="myzt-inp" id="myzt-ic" inputmode="numeric" data-i="cycle" value="' + st.cycle + '"></div>' +
+							'<div class="myzt-field"><label for="myzt-in">' + esc(t('id_len')) + '</label><input class="myzt-inp" id="myzt-in" inputmode="numeric" data-i="length" value="' + st.length + '"></div>';
+					}
+				}
+			}
+			root.innerHTML = h + '<div data-out>' + out() + '</div><p class="myzt-small">' + esc(t('id_note')) + '</p><div class="myzt-disc">' + esc(t('disc')) + '</div></div>';
+		}
+		function refresh() { root.querySelector('[data-out]').innerHTML = out(); }
+		root.addEventListener('change', function (e) {
+			var k = e.target.dataset.i;
+			if (!k) return;
+			if (e.target.type === 'checkbox') { st[k] = e.target.checked; render(); return; }
+			if (k === 'start' || k === 'lastPeriod') { st[k] = e.target.value; if (k === 'start') render(); else refresh(); }
+		});
+		root.addEventListener('input', function (e) {
+			var k = e.target.dataset.i;
+			if (k === 'cycle' || k === 'length') { st[k] = num(e.target.value); refresh(); }
+		});
+		root.addEventListener('click', function (e) {
+			var b = e.target.closest('[data-ik]'), m = e.target.closest('[data-mz]');
+			if (b) { st[b.dataset.ik] = b.dataset.v; render(); }
+			if (m) { st.madhab = m.dataset.mz; render(); }
+			if (e.target.closest('[data-act="ics"]')) { var r = E.iddat(st); if (r.end) icsFile('iddat.ics', t('id_calTitle'), [r.end]); }
+		});
+		render();
+		speaker(root, function () { return outText(root, '[data-out]'); });
+		pdfButton(root, 'Iddat');
+	}
+
+	/** Next 10 Dhul Hijjah (Umm al-Qura) on or after today, or '' where the browser has no Islamic calendar. */
+	function nextEidAdha(fromIso) {
+		for (var i = 0; i < 400; i++) {
+			var d = E.addDays(fromIso, i), h = E.hijriParts(d);
+			if (!h) return '';
+			if (h.month === 12 && h.day === 10) return d;
+		}
+		return '';
+	}
+
+	/** Is qurbani wajib? Hanafi uses the zakat nisab without the waiting year; the other schools call it sunnah. */
+	function Qurbani(root) {
+		var cur = pickCurrency(root);
+		var cd = E.countryDefaults(COUNTRY);
+		var st = { madhab: cd.madhab, cash: 0, gold: 0, karat: 22, silver: 0, unit: cd.unit === 'tola' ? 'tola' : 'gram', extra: 0, trade: 0, owed: 0, debts: 0, travel: false };
+		var today = new Date().toISOString().slice(0, 10);
+		function input() {
+			return {
+				money: { cash: st.cash, stock: st.trade, receivables: st.owed, other: st.extra },
+				goldKept: { weight: st.gold, unit: st.unit, karat: st.karat },
+				silverKept: { weight: st.silver, unit: st.unit },
+				liabilities: { debts: st.debts },
+			};
+		}
+		function verdict() {
+			var pr = pricesFor(cur);
+			if (!pr) return '<p class="myzt-note">' + esc(t('rateMissing')) + '</p>';
+			var r = E.qurbani(input(), pr), h = '';
+			var lines = '<div class="myzt-line"><span>' + esc(t('qb_wealth')) + '</span><span><b>' + money(r.wealth, cur) + '</b></span></div>' +
+				'<div class="myzt-line"><span>' + esc(t('qb_nisab')) + ' · ' + esc(t(r.nisabBasis === 'gold' ? 'basisGold' : 'basisSilver')) + '</span><span>' + money(r.nisab, cur) + '</span></div>';
+			if (st.madhab === 'hanafi') {
+				h = '<div class="myzt-amt" style="font-size:1.5em">' + esc(t(r.wajib && !st.travel ? 'qb_wajib' : 'qb_notWajib')) + '</div>' + lines +
+					(st.travel && r.wajib ? '<p class="myzt-note">' + esc(t('qb_travelNo')) + '</p>' : '') + '<p class="myzt-small">' + esc(t('qb_hanafi')) + '</p>';
+			} else {
+				h = '<div class="myzt-amt" style="font-size:1.5em">' + esc(t('qb_sunnahH')) + '</div><p class="myzt-small">' + esc(t(st.madhab === 'jafari' ? 'qb_jafari' : 'qb_sunnah')) + '</p>' +
+					'<details class="myzt-more"><summary class="myzt-small">' + esc(t('qb_hanafiSays')) + '</summary>' + lines +
+					'<p class="myzt-small"><b>' + esc(t(r.wajib && !st.travel ? 'qb_wajib' : 'qb_notWajib')) + '</b> (' + esc(mname('hanafi')) + ')</p></details>';
+			}
+			return h + '<p class="myzt-small">' + esc(stamp()) + (RATES.source === 'manual' ? '' : ' · ' + esc(t('spotRate'))) + '</p>';
+		}
+		function eid() {
+			var d = nextEidAdha(today);
+			if (!d) return '';
+			var left = Math.round((Date.parse(d + 'T00:00:00Z') - Date.parse(today + 'T00:00:00Z')) / 864e5);
+			return '<div class="myzt-line"><span>' + esc(t('qb_eid')) + '</span><span><b>' + esc(niceDate(d)) + '</b> · ' + left + ' ' + esc(t('qb_left')) + '</span></div><p class="myzt-small">' + esc(t('qb_eidNote')) + '</p>';
+		}
+		function box(id, key, label, help, mode) {
+			return '<div class="myzt-field"><label for="myzt-q' + id + '">' + esc(label) + (help ? '<span class="myzt-help">' + esc(help) + '</span>' : '') + '</label>' +
+				'<input class="myzt-inp" id="myzt-q' + id + '" inputmode="decimal" data-q="' + key + '" value="' + esc(mode === 'w' ? (st[key] || '') : plain(st[key], cur)) + '" placeholder="0"></div>';
+		}
+		function render() { keepFocus(root, draw); }
+		function draw() {
+			root.innerHTML = '<div class="myzt-card myzt-mini"><div class="myzt-field"><label>' + esc(t('madhab')) + '</label>' + madhabSeg(st.madhab) + '</div>' + curSelect(cur) +
+				box('c', 'cash', t('qb_cash') + ' (' + cur + ')') +
+				'<div class="myzt-field"><label>' + esc(t('unit')) + '</label><span class="myzt-seg" role="group">' + ['tola', 'gram'].map(function (u) {
+					return '<button type="button" data-qu="' + u + '" aria-pressed="' + (st.unit === u) + '">' + esc(t('uo_' + u)) + '</button>';
+				}).join('') + '</span></div>' +
+				box('g', 'gold', t('qb_gold') + ' (' + unitLabel(st.unit) + ')', '', 'w') +
+				'<div class="myzt-field"><label for="myzt-qk">' + esc(t('karat')) + '</label><select class="myzt-sel" id="myzt-qk" data-qk>' + [24, 22, 21, 18].map(function (k) {
+					return '<option value="' + k + '"' + (st.karat === k ? ' selected' : '') + '>' + k + 'K</option>';
+				}).join('') + '</select></div>' +
+				box('s', 'silver', t('qb_silver') + ' (' + unitLabel(st.unit) + ')', '', 'w') +
+				box('e', 'extra', t('qb_extra') + ' (' + cur + ')', t('qb_extraHelp')) +
+				box('t', 'trade', t('qb_trade') + ' (' + cur + ')') +
+				box('o', 'owed', t('qb_owed') + ' (' + cur + ')') +
+				box('d', 'debts', t('qb_debts') + ' (' + cur + ')') +
+				'<label class="myzt-small myzt-check"><input type="checkbox" data-qt' + (st.travel ? ' checked' : '') + '> ' + esc(t('qb_travel')) + '</label>' +
+				'<div data-out>' + verdict() + '</div>' + eid() + '<p class="myzt-note">' + esc(t('qb_each')) + '</p><div class="myzt-disc">' + esc(t('disc')) + '</div></div>';
+		}
+		root.addEventListener('input', function (e) {
+			var k = e.target.dataset.q;
+			if (!k) return;
+			st[k] = num(e.target.value);
+			root.querySelector('[data-out]').innerHTML = verdict();
+		});
+		root.addEventListener('change', function (e) {
+			if (e.target.dataset.cur !== undefined) { cur = e.target.value; ['cash', 'extra', 'trade', 'owed', 'debts'].forEach(function (k) { st[k] = 0; }); render(); }
+			else if (e.target.dataset.qk !== undefined) { st.karat = +e.target.value; root.querySelector('[data-out]').innerHTML = verdict(); }
+			else if (e.target.dataset.qt !== undefined) { st.travel = e.target.checked; root.querySelector('[data-out]').innerHTML = verdict(); }
+		});
+		root.addEventListener('click', function (e) {
+			var m = e.target.closest('[data-mz]'), u = e.target.closest('[data-qu]');
+			if (m) { st.madhab = m.dataset.mz; render(); }
+			if (u) { st.unit = u.dataset.qu; render(); }
+		});
+		render();
+		speaker(root, function () { return outText(root, '[data-out]'); });
+		pdfButton(root, 'Qurbani');
+		freshRates(render);
+	}
+
 	/** Diyat is a Pakistani legal amount, so it is shown in rupees only. */
 	function Diyat(root) {
 		function render() {
@@ -1507,7 +1763,7 @@
 	 * main-thread block (mobile Total Blocking Time, FIX-049). The first one starts at once.
 	 */
 	function boot() {
-		var map = { calculator: Calculator, goldrate: GoldRate, nisab: Nisab, fitrana: Fitrana, fidya: Fidya, khums: Khums, hawl: Hawl, ushr: Ushr, mehr: Mehr, diyat: Diyat };
+		var map = { calculator: Calculator, goldrate: GoldRate, nisab: Nisab, fitrana: Fitrana, fidya: Fidya, khums: Khums, hawl: Hawl, ushr: Ushr, mehr: Mehr, diyat: Diyat, iddat: Iddat, qurbani: Qurbani };
 		var queue = [];
 		document.querySelectorAll('.myzt[data-widget]').forEach(function (el) {
 			var fn = map[el.dataset.widget];

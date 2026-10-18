@@ -66,7 +66,7 @@ async function enter(page, tile, field, value) {
 
 test('every widget boots without a JavaScript error', async () => {
 	const { page, ctx, errors } = await open();
-	for (const w of ['calculator', 'goldrate', 'nisab', 'fitrana', 'fidya', 'khums', 'hawl', 'ushr', 'mehr', 'diyat']) {
+	for (const w of ['calculator', 'goldrate', 'nisab', 'fitrana', 'fidya', 'khums', 'hawl', 'ushr', 'mehr', 'diyat', 'iddat', 'qurbani']) {
 		const html = await page.locator(`.myzt[data-widget="${w}"]`).innerHTML();
 		assert.ok(html.length > 200, `${w} rendered`);
 		assert.equal(await page.locator(`.myzt[data-widget="${w}"]`).getAttribute('data-ready'), '1', `${w} ready`);
@@ -384,6 +384,48 @@ test('diyat: notified amount and live silver value in rupees', async () => {
 	const live = digits(await d.locator('.myzt-line b').first().textContent());
 	assert.equal(live, Math.round(30630 * 57.116001 * 277.33821319 / 31.1034768));
 	assert.equal(await d.locator('tbody tr').count(), 4);
+	await ctx.close();
+});
+
+test('iddat: widow 130 days, talaq by the woman\'s cycle per madhab, khula one period for Ahl-e-Hadith', async () => {
+	const { page, ctx, errors } = await open();
+	const i = page.locator('.myzt-iddat');
+	const setDate = async (sel, v) => { await i.locator(sel).fill(v); await i.locator(sel).dispatchEvent('change'); };
+	await setDate('input[data-i="start"]', '2026-10-18');
+	assert.match(await i.locator('[data-out]').textContent(), /25 February 2027/);
+	assert.match(await i.locator('[data-out]').textContent(), /130 days/);
+	await i.locator('[data-ik="kind"][data-v="talaq"]').click();
+	assert.match(await i.locator('[data-out]').textContent(), /first day of her last period/);
+	await setDate('input[data-i="lastPeriod"]', '2026-10-05');
+	assert.match(await i.locator('[data-out]').textContent(), /3 January 2027/);
+	assert.match(await i.locator('[data-out]').textContent(), /16 January 2027/); // MFLO s. 7: 90 days
+	await i.locator('[data-mz="shafii"]').click();
+	assert.match(await i.locator('[data-out]').textContent(), /28 December 2026/);
+	await i.locator('[data-mz="ahlehadith"]').click();
+	await i.locator('[data-ik="kind"][data-v="khula"]').click();
+	assert.match(await i.locator('[data-out]').textContent(), /8 November 2026/);
+	await i.locator('input[data-i="consummated"]').uncheck();
+	assert.match(await i.locator('[data-out]').textContent(), /No iddat/);
+	assert.deepEqual(errors, []);
+	await ctx.close();
+});
+
+test('qurbani: wajib above the silver nisab, not for a traveller, sunnah in other madhabs', async () => {
+	const { page, ctx, errors } = await open();
+	const q = page.locator('.myzt-qurbani');
+	const nisab = Math.round(612.3496995 * 57.116001 * 277.33821319 / 31.1034768);
+	await q.locator('input[data-q="cash"]').fill('100000');
+	assert.match(await q.locator('[data-out]').textContent(), /not wajib/);
+	await q.locator('input[data-q="extra"]').fill('250000');
+	const out = await q.locator('[data-out]').textContent();
+	assert.match(out, /Qurbani is wajib on you/);
+	assert.ok(out.replace(/\D/g, '').includes(String(nisab)), 'shows the silver nisab ' + nisab);
+	await q.locator('input[data-qt]').check();
+	assert.match(await q.locator('[data-out]').textContent(), /not wajib.*traveller/s);
+	await q.locator('[data-mz="shafii"]').click();
+	assert.match(await q.locator('[data-out]').textContent(), /Sunnah, not wajib/);
+	assert.match(await q.textContent(), /Eid al-Adha/);
+	assert.deepEqual(errors, []);
 	await ctx.close();
 });
 

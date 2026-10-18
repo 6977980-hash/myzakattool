@@ -40,7 +40,7 @@ function words( $html ) {
 }
 
 // Footer links every tool on every page (MYZT_Installer::footer_links).
-$footer = array( 'calculators', 'fitrana-calculator', 'fidya-kaffara-calculator', 'zakat-date-calculator', 'ushr-calculator', 'khums-calculator', 'haq-mehr-calculator', 'diyat-calculator', 'wirasat-calculator', 'free-zakat-widget', 'zakat-calculator-urdu' );
+$footer = array( 'calculators', 'fitrana-calculator', 'fidya-kaffara-calculator', 'zakat-date-calculator', 'ushr-calculator', 'khums-calculator', 'haq-mehr-calculator', 'diyat-calculator', 'wirasat-calculator', 'qurbani-calculator', 'iddat-calculator', 'free-zakat-widget', 'zakat-calculator-urdu' );
 $inbound = array();
 
 foreach ( $pages as $slug => $p ) {
@@ -112,7 +112,7 @@ foreach ( array( 'virasat', 'warasat', 'mirath', 'faraid', 'inheritance calculat
 check( false !== strpos( $pages['wirasat-calculator-urdu']['content'], 'میراث کیلکولیٹر' ), 'Urdu wirasat page has a میراث H2' );
 
 // FIX-044: each newer tool has at least 8 linking pages (content and related blocks, plus the footer).
-foreach ( array( 'free-zakat-widget', 'fidya-kaffara-calculator', 'ushr-calculator', 'zakat-date-calculator', 'haq-mehr-calculator', 'diyat-calculator', 'wirasat-calculator' ) as $tool ) {
+foreach ( array( 'free-zakat-widget', 'fidya-kaffara-calculator', 'ushr-calculator', 'zakat-date-calculator', 'haq-mehr-calculator', 'diyat-calculator', 'wirasat-calculator', 'qurbani-calculator', 'iddat-calculator' ) as $tool ) {
 	$n = isset( $inbound[ $tool ] ) ? count( $inbound[ $tool ] ) : 0;
 	check( $n >= 4, "$tool has $n linking pages in content" );
 	check( in_array( $tool, $footer, true ), "$tool is in the footer" );
@@ -149,6 +149,21 @@ foreach ( array( 'haq-mehr-guide', 'fitrana-guide', 'zakat-kaise-nikalen' ) as $
 }
 check( false !== stripos( $pages['zakat-kaise-nikalen']['content'], '1 lakh par kitni zakat' ), 'Roman Urdu guide answers 1 lakh par kitni zakat' );
 check( false !== stripos( $pages['fitrana-calculator']['content'], 'zakat al fitr calculator' ), 'fitrana page names zakat al fitr calculator' );
+
+// Iddat and qurbani calculators (18 Oct 2026 keyword data): a widget, the searched phrases, and an Urdu twin.
+foreach ( array( 'iddat-calculator' => array( 'zakat_iddat', array( 'Iddat kitne din ki hoti hai', 'talaq ki iddat', 'khula ki iddat', 'bewa ki iddat', '130 days', 'Pakistan law' ) ), 'qurbani-calculator' => array( 'zakat_qurbani', array( 'Qurbani kis par wajib hai', 'nisab for qurbani', 'Eid al-Adha 2027', 'Qurbani on women' ) ) ) as $slug => $want ) {
+	check( false !== strpos( $pages[ $slug ]['content'], '[' . $want[0] ), "$slug shows [{$want[0]}]" );
+	foreach ( $want[1] as $phrase ) {
+		check( false !== stripos( $pages[ $slug ]['content'], $phrase ), "$slug mentions $phrase" );
+	}
+	$n = words( $pages[ $slug ]['content'] ) + words( implode( ' ', array_map( function ( $f ) { return $f['q'] . ' ' . $f['a']; }, $pages[ $slug ]['faq'] ) ) );
+	check( $n >= 1000, "$slug has $n words (want 1000)" );
+	check( isset( $pages[ $slug . '-urdu' ] ) && false !== strpos( $pages[ $slug . '-urdu' ]['content'], '[' . $want[0] ), "$slug-urdu shows [{$want[0]}]" );
+}
+foreach ( array( 'عدت کی مدت', 'طلاق کی عدت', 'بیوہ کی عدت' ) as $phrase ) {
+	check( false !== strpos( $pages['iddat-calculator-urdu']['content'], $phrase ), "Urdu iddat page mentions $phrase" );
+}
+check( false !== strpos( $pages['qurbani-calculator-urdu']['content'], 'قربانی کا نصاب' ), 'Urdu qurbani page mentions قربانی کا نصاب' );
 
 echo $fail ? "$fail check(s) failed\n" : 'Page checks OK (' . count( $pages ) . " pages)\n";
 exit( $fail ? 1 : 0 );

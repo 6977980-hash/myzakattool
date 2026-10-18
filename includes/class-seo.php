@@ -450,14 +450,14 @@ class MYZT_SEO {
 				}
 			}
 
-			if ( $post && preg_match( '/\[(zakat_calculator|zakat_fitrana|zakat_fidya|zakat_khums|zakat_hawl|zakat_ushr|zakat_mehr|zakat_diyat|zakat_wirasat)/', $post->post_content, $tool ) ) {
+			if ( $post && preg_match( '/\[(zakat_calculator|zakat_fitrana|zakat_fidya|zakat_khums|zakat_hawl|zakat_ushr|zakat_mehr|zakat_diyat|zakat_wirasat|zakat_iddat|zakat_qurbani)/', $post->post_content, $tool ) ) {
 				$app = array(
 					'@type'               => 'WebApplication',
 					'@id'                 => $url . '#app',
 					'name'                => get_the_title( $post ),
 					'url'                 => $url,
 					'description'         => $desc,
-					'applicationCategory' => 'FinanceApplication',
+					'applicationCategory' => 'zakat_iddat' === $tool[1] ? 'ReferenceApplication' : 'FinanceApplication',
 					'operatingSystem'     => 'Any',
 					'browserRequirements' => 'Requires JavaScript',
 					'isAccessibleForFree' => true,
@@ -746,6 +746,8 @@ class MYZT_SEO {
 			. "- Fitrana and fidya (Hanafi): half a sa' of wheat (about 1.75 to 2 kg) or one sa' of barley, dates or raisins per person or per fast; CII Pakistan 1447 minimum Rs 300 (wheat), Rs 1,600 (dates).\n"
 			. "- Haq mehr: 1 dirham = 3.0618 g silver; Hanafi minimum 10 dirham (30.62 g); Mehr-e-Fatimi 500 dirham (1,530.9 g, 131.25 tola).\n"
 			. "- Diyat (Pakistan Penal Code s.323): value of 30,630 g of silver; notified Rs 19,352,390 for fiscal year 2026-27.\n"
+			. "- Iddat: widow 4 lunar months and 10 days (130 days unless the death fell on the 1st of an Islamic month, Hanafi); divorce 3 quru' (3 periods in Hanafi, Hanbali and Ahl-e-Hadith fiqh, 3 purity intervals in Shafi'i, Maliki and Ja'fari fiqh), 3 months without periods; pregnant: until birth (Sistani: later of birth and 4 months 10 days for a widow); no divorce iddat before consummation. Pakistan: talaq takes effect 90 days after notice to the Union Council chairman (MFLO 1961 s.7).\n"
+			. "- Qurbani: wajib in Hanafi fiqh on an adult resident Muslim owning the nisab (612.35 g silver value) beyond basic needs on 10-12 Dhul Hijjah, no hawl, non-zakatable spare items count; sunnah mu'akkadah in Shafi'i, Maliki, Hanbali and most Ahl-e-Hadith fiqh; mustahabb for Shia (Sistani) except on Hajj.\n"
 			. "- Rates: international gold and silver spot prices and exchange rates, refreshed every hour on our server.\n\n";
 	}
 

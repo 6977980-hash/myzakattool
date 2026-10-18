@@ -580,8 +580,8 @@ HTML
 	/* ------------------------------------------------------------------ */
 	$p['calculators'] = array(
 		'title' => 'Zakat Calculators',
-		'seo'   => 'All Calculators: Zakat, Fitrana, Fidya, Ushr, Khums, Wirasat',
-		'desc'  => 'All free tools in one place: zakat on gold, business and savings, fitrana, fidya, zakat date, ushr, khums, haq mehr, diyat, wirasat (inheritance) and gold rate.',
+		'seo'   => 'All Calculators: Zakat, Fitrana, Qurbani, Iddat, Wirasat',
+		'desc'  => 'Free tools in one place: zakat on gold, business and savings, fitrana, fidya, zakat date, ushr, khums, haq mehr, diyat, wirasat, qurbani, iddat, gold rate.',
 		'nav'   => 'Calculators',
 		'blurb' => 'all tools',
 		'llms'  => true,
@@ -601,6 +601,8 @@ HTML
 <li><a href="/haq-mehr-calculator/">Haq mehr calculator</a> (Mehr-e-Fatimi and minimum mehr in today's money)</li>
 <li><a href="/diyat-calculator/">Diyat calculator</a> (Pakistan's notified diyat and its live silver value)</li>
 <li><a href="/wirasat-calculator/">Wirasat calculator</a> (Islamic inheritance by madhab, with a family tree; also in <a href="/wirasat-calculator-urdu/">Urdu</a>)</li>
+<li><a href="/qurbani-calculator/">Qurbani calculator</a> (is qurbani wajib on you, with today's nisab and the Eid date)</li>
+<li><a href="/iddat-calculator/">Iddat calculator</a> (the date iddat ends after talaq, khula or a husband's death)</li>
 <li><a href="/nisab/">Nisab today</a> and <a href="/gold-rate-today/">gold rate today</a></li>
 <li><a href="/free-zakat-widget/">Free nisab widget</a> for mosque and blog websites</li>
 <li><a href="/zakat-2027-pakistan/">Zakat 2027 Pakistan</a>: nisab, bank deduction, CZ-50 and fitrana dates for Ramadan 2027</li>
@@ -628,6 +630,8 @@ HTML
 <li><a href="/diyat-calculator-urdu/">دیت کیلکولیٹر</a> (diyat calculator in Urdu)</li>
 <li><a href="/khums-calculator-urdu/">خمس کیلکولیٹر</a> (khums calculator in Urdu)</li>
 <li><a href="/ushr-calculator-urdu/">عشر کیلکولیٹر</a> (ushr calculator in Urdu)</li>
+<li><a href="/qurbani-calculator-urdu/">قربانی کیلکولیٹر</a> (qurbani calculator in Urdu)</li>
+<li><a href="/iddat-calculator-urdu/">عدت کیلکولیٹر</a> (iddat calculator in Urdu)</li>
 </ul>
 <h2>Which tool should I use?</h2>
 <ul>
@@ -640,6 +644,8 @@ HTML
 <li><strong>Farmers and livestock owners:</strong> the <a href="/ushr-calculator/">ushr and livestock calculator</a>, with guides on <a href="/ushr-on-crops/">ushr on crops</a> and <a href="/zakat-on-livestock/">zakat on goats, cows and buffaloes</a>.</li>
 <li><strong>Fiqh-e-Jafaria:</strong> the <a href="/khums-calculator/">khums calculator</a> for the yearly surplus, next to the <a href="/shia-zakat-calculator/">Shia zakat calculator</a>.</li>
 <li><strong>Before a nikah:</strong> the <a href="/haq-mehr-calculator/">haq mehr calculator</a> turns Mehr-e-Fatimi and the minimum mehr into today's money.</li>
+<li><strong>Before Eid al-Adha:</strong> the <a href="/qurbani-calculator/">qurbani calculator</a> checks whether qurbani is wajib on you, counting spare things beyond your needs.</li>
+<li><strong>After a divorce, khula or a husband's death:</strong> the <a href="/iddat-calculator/">iddat calculator</a> gives the date the iddat ends for your madhab.</li>
 <li><strong>Lawyers and families in a diyat case:</strong> the <a href="/diyat-calculator/">diyat calculator</a> shows the amount notified for the year and its value at today's silver rate.</li>
 <li><strong>After a death in the family:</strong> the <a href="/wirasat-calculator/">wirasat calculator</a> divides cash, land and gold among the heirs by your madhab, compares all six madhabs and draws a shajra you can download. Our guides explain the <a href="/daughters-share-in-inheritance/">daughter's share</a>, the <a href="/wife-husband-share-in-inheritance/">wife's and husband's share</a>, <a href="/orphaned-grandchildren-inheritance/">orphaned grandchildren</a> and <a href="/zakat-on-inherited-wealth/">zakat on inherited wealth</a>.</li>
 </ul>
@@ -652,7 +658,7 @@ HTML
 			array( 'q' => 'Which gold rate do the calculators use?', 'a' => 'The international spot price, refreshed every hour. You can enter your own local rate instead.' ),
 			array( 'q' => 'Do the calculators work outside Pakistan?', 'a' => 'Yes. They support about 50 currencies, and grams and ounces as well as tola.' ),
 			array( 'q' => 'Kya yeh zakat calculator muft hain?', 'a' => 'Ji haan, sab calculator bilkul muft hain aur koi sign-up nahi. Sab hisab aap ke browser mein hota hai, aap ke figures hamein nahi bheje jate.' ),
-			array( 'q' => 'Urdu mein zakat calculator kahan hai?', 'a' => 'Is safhe par "Calculators in Urdu" ki list mein: zakat, sona, nisab, fitrana, haq mehr, wirasat, fidya aur kaffara, diyat, khums aur ushr ke Urdu safhe.' ),
+			array( 'q' => 'Urdu mein zakat calculator kahan hai?', 'a' => 'Is safhe par "Calculators in Urdu" ki list mein: zakat, sona, nisab, fitrana, haq mehr, wirasat, fidya aur kaffara, diyat, khums, ushr, qurbani aur iddat ke Urdu safhe.' ),
 		),
 	);
 
@@ -986,7 +992,7 @@ HTML
 <h2>Is my mehr enough? Check it</h2>
 <p>Type the amount written in your nikah nama in "Your agreed mehr". The calculator shows how much silver it buys today and what share of Mehr-e-Fatimi it is, and warns you if it is below the Hanafi minimum. If your mehr was fixed in gold, for example "5 tola gold", use the second box to see what it is worth today in 24K or 22K gold, or in silver.</p>
 <h2>Prompt and deferred mehr</h2>
-<p>Mu'ajjal (prompt) mehr is due as soon as the nikah takes place and the wife may ask for it at any time. Muwajjal (deferred) mehr is due at the time agreed, or at divorce or death. In Pakistan, section 10 of the Muslim Family Laws Ordinance 1961 says that if the nikah nama does not say how the mehr is to be paid, the whole of it is payable on demand. Unpaid mehr is a debt on the husband. If he dies before paying it, it is paid from his estate before the inheritance is divided; the <a href="/wirasat-calculator/">wirasat calculator</a> lets you enter it as a debt. The widow then also inherits her own share; see <a href="/wife-husband-share-in-inheritance/">the wife's and husband's share</a>.</p>
+<p>Mu'ajjal (prompt) mehr is due as soon as the nikah takes place and the wife may ask for it at any time. Muwajjal (deferred) mehr is due at the time agreed, or at divorce or death. In Pakistan, section 10 of the Muslim Family Laws Ordinance 1961 says that if the nikah nama does not say how the mehr is to be paid, the whole of it is payable on demand. Unpaid mehr is a debt on the husband. If he dies before paying it, it is paid from his estate before the inheritance is divided; the <a href="/wirasat-calculator/">wirasat calculator</a> lets you enter it as a debt. The widow then also inherits her own share; see <a href="/wife-husband-share-in-inheritance/">the wife's and husband's share</a>. After a divorce or a husband's death, the <a href="/iddat-calculator/">iddat calculator</a> gives the date her iddat ends.</p>
 <h2>Mehr and zakat</h2>
 <p>Mehr the wife has received is her own wealth and counts towards her zakat like any other savings or gold. Many Hanafi muftis say zakat is not due on unpaid mehr until she receives it. Use the <a href="/">zakat calculator</a> for her total, and see <a href="/nisab/">today's nisab</a>.</p>
 <p>This page gives figures from published fatwas and the live silver rate. It is not a fatwa; for a particular nikah, ask the imam or mufti who performs it.</p>
@@ -1314,7 +1320,7 @@ HTML
 [zakat_nisab]
 [myzt_reviewed rates="1"]
 [myzt_official type="bank-nisab"]
-<p>Own only a little gold? See <a href="/zakat-on-1-tola-gold/">how much zakat is due on 1 tola of gold</a> and <a href="/zakat-on-1-lakh-rupees/">on 1 lakh rupees</a>. Run a mosque or blog website? Show this nisab on it with our <a href="/free-zakat-widget/">free nisab widget</a>.</p>
+<p>Own only a little gold? See <a href="/zakat-on-1-tola-gold/">how much zakat is due on 1 tola of gold</a> and <a href="/zakat-on-1-lakh-rupees/">on 1 lakh rupees</a>. Run a mosque or blog website? Show this nisab on it with our <a href="/free-zakat-widget/">free nisab widget</a>. The same nisab, with no waiting year, decides whether qurbani is wajib on you: check it with the <a href="/qurbani-calculator/">qurbani calculator</a>.</p>
 <h2>Which nisab applies to you?</h2>
 <ul>
 <li><strong>Only gold:</strong> the gold nisab, 87.48 g (7.5 tola) of pure gold.</li>
@@ -1507,6 +1513,8 @@ HTML
 <li><strong><a href="/fitrana-calculator/">Fitrana</a> and <a href="/fidya-kaffara-calculator/">fidya and kaffara</a>:</strong> in Hanafi fiqh one fitrana or one day's fidya is half a sa' of wheat (about 1.75 to 2 kg) or one sa' of barley, dates or raisins, or its value; the other schools use one mudd (about 0.6 kg) for fidya. Kaffara is 60 days of fasting, or feeding 60 poor people only for someone who cannot fast (<a href="https://sunnah.com/bukhari:1936" rel="noopener" target="_blank">Bukhari 1936</a>, Muslim 1111). Enter the money amount announced by your scholars each Ramadan; the fitrana calculator may show amounts we have filled in from those announcements.</li>
 <li><strong><a href="/haq-mehr-calculator/">Haq mehr</a>:</strong> mehr is measured in silver dirhams, at 3.0618 g of silver to one shar'i dirham, the figure used by Indo-Pak muftis (10 dirham = 2 tola 7.5 masha = 30.618 g). The Hanafi minimum is 10 dirham (<em>al-Hidayah</em>), about 30.62 g; Maulana Ashraf Ali Thanwi and Mufti Rasheed Ahmad Ludhianvi gave about 34 g, which is shown too. Mehr-e-Fatimi is 500 dirham (131.25 tola, about 1,530.9 g) by default, from Sayyidah Aisha's report of twelve and a half uqiyah (Sahih Muslim 1426), the figure of Mufti Muhammad Shafi; 480 dirham (Sayyiduna Umar's report, Abu Dawud 2106 and Tirmidhi 1114) and 400 dirham (Ibn al-Humam) are shown as other views. The Maliki minimum is a quarter dinar or 3 dirham; the Shafi'i, Hanbali and Ja'fari schools set no minimum. Unpaid mehr is a debt, and in Pakistan section 10 of the Muslim Family Laws Ordinance 1961 makes it payable on demand when the nikah nama is silent. Values use the live international silver rate.</li>
 <li><strong><a href="/diyat-calculator/">Diyat</a>:</strong> section 323 of the Pakistan Penal Code sets diyat at no less than the value of 30,630 g of silver, close to the classical Hanafi 10,000 dirham (10,000 × 3.0618 g = 30,618 g). The rupee amount is the one the Finance Division notifies for each fiscal year: Rs 1,93,52,390 for 2026-27 (circular of 27 July 2026, in force from 1 July 2026). The calculator lists the earlier notified amounts with their sources and shows the live value of 30,630 g of silver for information only; for a court case the notified amount is the legal minimum. The madhab figures (100 camels, 1,000 dinar, 10,000 or 12,000 dirham) are listed on the diyat page; Surah an-Nisa 4:92 is the Quranic basis.</li>
+<li><strong><a href="/qurbani-calculator/">Qurbani</a>:</strong> Hanafi fiqh makes qurbani wajib on a sane, adult, resident Muslim who owns the zakat nisab on 10 to 12 Dhul Hijjah (<em>Bada'i al-Sana'i</em>). We use the same nisab test as for zakat (silver for mixed wealth, gold by weight when gold is all a person owns, debts due now deducted), with two differences: no lunar year is required, and things kept beyond basic needs count even when they carry no zakat. A traveller (musafir) is exempt. For the Shafi'i, Maliki and Hanbali schools and most Ahl-e-Hadith scholars it is a sunnah mu'akkadah, and for Ayatollah Sistani a recommended act, so the tool states the ruling and shows the Hanafi test for information. The Eid date is 10 Dhul Hijjah by the Umm al-Qura calendar.</li>
+<li><strong><a href="/iddat-calculator/">Iddat</a>:</strong> a widow waits four months and ten days (al-Baqarah 2:234), counted by the moon when the death fell on the 1st of an Islamic month and as 130 days otherwise, Imam Abu Hanifa's rule for a broken month, which we apply to every school (others may differ by a day or two). A divorcee waits three quru' (2:228): three complete periods in the Hanafi, Hanbali and Ahl-e-Hadith settings, three purities in the Shafi'i, Maliki and Ja'fari settings; three months (90 days off the 1st) without periods (65:4); until birth when pregnant (65:4), and for a Ja'fari widow the later of birth and four months ten days. There is no divorce iddat before consummation (33:49); for the Hanafi and Hanbali settings a valid private meeting counts as consummation. Khula takes one period in the Ahl-e-Hadith setting (Abu Dawud 2229). For a divorce the end date is projected from the woman's last period, cycle length and days of bleeding, so it is an estimate. The Pakistan date is 90 days from the talaq, assuming notice to the Union Council chairman the same day (MFLO 1961 s. 7).</li>
 <li><strong><a href="/khums-calculator/">Khums</a>:</strong> 20% of the year's surplus income, split equally into sahm-e-imam and sahm-e-sadat, following Ayatollah Sistani's <em>Islamic Laws</em> (khums chapter, rulings 1769 onwards and 1851). Gifts count as income; inheritance and mahr do not.</li>
 </ul>
 <h2>What is not covered</h2>
@@ -1678,11 +1686,12 @@ HTML
 	);
 
 	// Zakat on salary, property, shares, provident fund, crypto, committee, expats and India (FIX-158, FIX-166).
-	return $p + myzt_content_assets_a() + myzt_content_assets_b();
+	return $p + myzt_content_assets_a() + myzt_content_assets_b() + myzt_content_iddat_qurbani();
 }
 
 require_once __DIR__ . '/content-assets-a.php';
 require_once __DIR__ . '/content-assets-b.php';
+require_once __DIR__ . '/content-iddat-qurbani.php';
 
 /** Guide articles, created as posts in the "Guides" category. */
 require_once __DIR__ . '/content-posts.php';

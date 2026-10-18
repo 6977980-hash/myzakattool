@@ -645,6 +645,124 @@
 		TZ: ['TZS', 'gram', 'shafii'], NP: ['NPR', 'gram', 'hanafi'], MV: ['MVR', 'gram', 'shafii'],
 	};
 
+	/* ---------- iddat ---------- */
+	var DAY_MS = 864e5;
+	function addDays(iso, n) { return new Date(Date.parse(iso + 'T00:00:00Z') + Math.round(n) * DAY_MS).toISOString().slice(0, 10); }
+	function daysBetween(a, b) { return Math.round((Date.parse(b + 'T00:00:00Z') - Date.parse(a + 'T00:00:00Z')) / DAY_MS); }
+
+	/** Hijri day, month and year of an ISO date (Umm al-Qura), or null where the runtime has no Islamic calendar. */
+	var hijriFmt = null;
+	function hijriParts(iso) {
+		try {
+			var o = {};
+			hijriFmt = hijriFmt || new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn', { day: 'numeric', month: 'numeric', year: 'numeric', timeZone: 'UTC' });
+			hijriFmt.formatToParts(new Date(iso + 'T00:00:00Z')).forEach(function (p) { o[p.type] = parseInt(p.value, 10); });
+			return o.day && o.month && o.year ? { day: o.day, month: o.month, year: o.year } : null;
+		} catch (e) { return null; }
+	}
+
+	/** The first day of the Hijri month n months after the month that starts on iso (iso must be the 1st). */
+	function addLunarMonths(iso, n) {
+		var h = hijriParts(iso);
+		if (!h) return null;
+		var target = (h.year * 12 + h.month - 1) + n;
+		for (var d = Math.round(n * 29.5) - 3; d <= Math.round(n * 29.5) + 3; d++) {
+			var c = addDays(iso, d), x = hijriParts(c);
+			if (x && x.day === 1 && x.year * 12 + x.month - 1 === target) return c;
+		}
+		return null;
+	}
+
+	/**
+	 * Months counted by the moon when the period starts on the 1st of a Hijri month; otherwise each
+	 * month is 30 days (Abu Hanifa: 130 days for a widow, 90 for a divorcee counting by months).
+	 */
+	function monthsFrom(iso, months, plusDays) {
+		var h = hijriParts(iso);
+		if (h && h.day === 1) {
+			var m = addLunarMonths(iso, months);
+			if (m) return { end: addDays(m, plusDays), basis: 'moon' };
+		}
+		return { end: addDays(iso, months * 30 + plusDays), basis: 'days' };
+	}
+
+	// quru' read as complete periods (haiz) or as purity between periods (tuhr). Ahl-e-Hadith scholars in the
+	// subcontinent mostly follow the haiz reading (Ibn al-Qayyim, Zad al-Ma'ad).
+	var IDDAT_QURU = { hanafi: 'haiz', hanbali: 'haiz', ahlehadith: 'haiz', shafii: 'tuhr', maliki: 'tuhr', jafari: 'tuhr' };
+
+	/**
+	 * End of iddat. input: {
+	 *   madhab, kind: 'death'|'talaq'|'khula', start: ISO date of death, talaq or khula,
+	 *   pregnant, consummated (divorce only), periods: 'regular'|'none'|'menopause' (divorce only),
+	 *   lastPeriod: ISO start of the last period on or before start, cycle: days from one period to the next, length: days of bleeding
+	 * }
+	 * Returns { none, byBirth, end, basis, days, notes, law } (end and law are ISO dates or null).
+	 */
+	function iddat(input) {
+		var i = input || {}, mz = IDDAT_QURU[i.madhab] ? i.madhab : 'hanafi', notes = [];
+		var out = { madhab: mz, none: false, byBirth: false, end: null, basis: '', days: 0, notes: notes, law: null };
+		if (!i.start || isNaN(Date.parse(i.start + 'T00:00:00Z'))) return out;
+		function finish(r) {
+			out.end = r.end;
+			out.basis = r.basis;
+			out.days = daysBetween(i.start, r.end);
+			return out;
+		}
+		if (i.kind === 'death') {
+			notes.push('death_any');
+			if (i.pregnant) {
+				if (mz === 'jafari') {
+					// Sistani: the later of the birth and four months and ten days.
+					notes.push('jafari_later');
+					out.byBirth = true;
+					return finish(monthsFrom(i.start, 4, 10));
+				}
+				out.byBirth = true;
+				return out;
+			}
+			return finish(monthsFrom(i.start, 4, 10));
+		}
+		// Talaq and khula. Pakistan: a talaq takes effect 90 days after notice to the Union Council chairman
+		// (MFLO 1961 s. 7(3)); for a pregnant wife, at the later of those 90 days and the birth (s. 7(5)).
+		out.law = addDays(i.start, 90);
+		if (!i.consummated) {
+			out.none = true;
+			notes.push(mz === 'hanafi' || mz === 'hanbali' ? 'khalwa' : 'unconsummated');
+			return out;
+		}
+		if (i.pregnant) { out.byBirth = true; return out; }
+		var oneCycle = i.kind === 'khula' && mz === 'ahlehadith';
+		if (oneCycle) notes.push('khula_one');
+		if (i.kind === 'khula' && mz === 'hanbali') notes.push('khula_hanbali');
+		if (i.periods === 'menopause' || i.periods === 'none') {
+			if (mz === 'jafari' && i.periods === 'menopause') { out.none = true; notes.push('jafari_menopause'); return out; }
+			return finish(monthsFrom(i.start, oneCycle ? 1 : 3, 0));
+		}
+		var cyc = Math.max(15, Math.min(90, Math.round(num(i.cycle)) || 28));
+		var len = Math.max(1, Math.min(15, Math.round(num(i.length)) || 6));
+		var last = i.lastPeriod && !isNaN(Date.parse(i.lastPeriod + 'T00:00:00Z')) && i.lastPeriod <= i.start ? i.lastPeriod : null;
+		if (!last) { out.needPeriod = true; return out; }
+		// Period starts S(k) = last + k * cycle; k is the last period that began on or before the divorce.
+		var k = Math.floor(daysBetween(last, i.start) / cyc);
+		if (daysBetween(last, i.start) - k * cyc < len) notes.push('in_period');
+		notes.push('estimate');
+		var n = oneCycle ? 1 : 3;
+		var nth = addDays(last, (k + n) * cyc);
+		// haiz: ends when the nth complete period after the divorce is over; tuhr: when the nth period begins.
+		return finish(IDDAT_QURU[mz] === 'haiz' || oneCycle ? { end: addDays(nth, len), basis: 'haiz' } : { end: nth, basis: 'tuhr' });
+	}
+
+	/* ---------- qurbani ---------- */
+	/**
+	 * Is qurbani wajib (Hanafi)? Same nisab as zakat, but with no waiting year, and things owned beyond
+	 * basic needs count even if they are not zakatable (Bada'i al-Sana'i; Darul Uloom Deoband and Banuri Town fatwas).
+	 * input: { money, goldWorn, goldKept, silverWorn, silverKept, liabilities } as calculate(); put spare things in money.other.
+	 */
+	function qurbani(input, prices) {
+		var r = calculate('hanafi', input || {}, prices);
+		return { wajib: r.due, wealth: r.zakatable, nisab: r.nisab, nisabBasis: r.nisabBasis };
+	}
+
 	function countryDefaults(cc) {
 		var c = COUNTRIES[String(cc || '').toUpperCase()];
 		return c ? { currency: c[0], unit: c[1], madhab: c[2] } : { currency: 'USD', unit: 'gram', madhab: 'hanafi' };
@@ -658,6 +776,7 @@
 		calculate: calculate, compare: compare, family: family, fitrana: fitrana, fidya: fidya, kaffara: kaffara, khums: khums,
 		DIRHAM_G: DIRHAM_G, MEHR: MEHR, mehrGrams: mehrGrams, mehrCheck: mehrCheck, DIYAT_SILVER_G: DIYAT_SILVER_G, DIYAT_NOTIFIED: DIYAT_NOTIFIED, diyatValue: diyatValue,
 		hawlDates: hawlDates, hawlYearsBetween: hawlYearsBetween, missedZakat: missedZakat, ushr: ushr, livestock: livestock, WASQ5_KG: WASQ5_KG, SISTANI_CROP_KG: SISTANI_CROP_KG,
+		iddat: iddat, hijriParts: hijriParts, addDays: addDays, qurbani: qurbani,
 		parseText: parseText, countryDefaults: countryDefaults,
 	};
 });
