@@ -47,7 +47,7 @@ function myzt_content_pages() {
 </ul>
 <p>The calculator above does these steps for you with today's rate. In Pakistan, the <a href="/zakat-calculator-pakistan/">Pakistan zakat calculator</a> adds tola, rupees, committee, prize bonds and the bank's 1 Ramadan deduction. Not sure when your zakat is due? The <a href="/zakat-date-calculator/">zakat date calculator</a> finds your date and sets reminders.</p>
 <h2>More tools</h2>
-<p>The same live silver rate powers the <a href="/haq-mehr-calculator/">haq mehr calculator</a> (Mehr-e-Fatimi in today's money) and the <a href="/diyat-calculator/">diyat calculator</a> for Pakistan. To divide an estate among the heirs, the <a href="/wirasat-calculator/">wirasat (inheritance) calculator</a> works out every share by madhab and draws the family tree. See <a href="/calculators/">all calculators</a>, including fitrana, fidya, ushr and khums.</p>
+<p>The same live silver rate powers the <a href="/haq-mehr-calculator/">haq mehr calculator</a> (Mehr-e-Fatimi in today's money) and the <a href="/diyat-calculator/">diyat calculator</a> for Pakistan. To divide an estate among the heirs, the <a href="/wirasat-calculator/">wirasat (inheritance) calculator</a> works out every share by madhab, shows all six madhabs side by side and draws the family tree; once your share arrives, <a href="/zakat-on-inherited-wealth/">zakat on inherited wealth</a> explains what is due on it. See <a href="/calculators/">all calculators</a>, including fitrana, fidya, ushr and khums.</p>
 <h2>Is my data safe?</h2>
 <p>Yes. Everything is calculated inside your browser. Nothing you type is sent to our server or saved by us. You can download a PDF report or a data file for your own records.</p>
 [myzt_faq]
@@ -336,6 +336,8 @@ HTML,
 <h2>Try it with your own numbers</h2>
 <p>The calculator below shows your zakat in all six schools at once.</p>
 [zakat_calculator compare="open"]
+<h2>Inheritance differs too</h2>
+<p>The schools also divide an estate differently in some families: a grandfather with brothers, the case of al-Mushtaraka, or what is left when only a spouse survives. The <a href="/wirasat-calculator/">wirasat calculator</a> shows any family's shares in all six madhabs side by side.</p>
 <h2>Why there are differences</h2>
 <p>The schools read the hadiths about jewellery differently. Hanafi scholars take the reports in which the Prophet ﷺ asked women whether they paid zakat on their bracelets as a general rule; the other three schools consider permissible jewellery like personal belongings, citing companions such as Aishah and Asma who did not pay zakat on the jewellery of the girls in their care. On debts, the Shafi'i school treats zakat as a right tied to the wealth itself, so a debt owed to someone else does not remove it.</p>
 <p>All of these are legitimate scholarly positions. Follow the school you follow in your other worship, and ask your scholar when you are unsure.</p>
@@ -351,8 +353,8 @@ HTML
 	/* ------------------------------------------------------------------ */
 	$p['calculators'] = array(
 		'title' => 'Zakat Calculators',
-		'seo'   => 'All Calculators: Zakat, Fitrana, Fidya, Ushr, Khums, Mehr',
-		'desc'  => 'All free tools in one place: zakat on gold, business and savings, fitrana, fidya, zakat date, ushr, khums, haq mehr, diyat, nisab and gold rate.',
+		'seo'   => 'All Calculators: Zakat, Fitrana, Fidya, Ushr, Khums, Wirasat',
+		'desc'  => 'All free tools in one place: zakat on gold, business and savings, fitrana, fidya, zakat date, ushr, khums, haq mehr, diyat, wirasat (inheritance) and gold rate.',
 		'nav'   => 'Calculators',
 		'blurb' => 'all tools',
 		'llms'  => true,
@@ -370,7 +372,7 @@ HTML
 <li><a href="/khums-calculator/">Khums calculator</a></li>
 <li><a href="/haq-mehr-calculator/">Haq mehr calculator</a> (Mehr-e-Fatimi and minimum mehr in today's money)</li>
 <li><a href="/diyat-calculator/">Diyat calculator</a> (Pakistan's notified diyat and its live silver value)</li>
-<li><a href="/wirasat-calculator/">Wirasat calculator</a> (Islamic inheritance by madhab, with a family tree)</li>
+<li><a href="/wirasat-calculator/">Wirasat calculator</a> (Islamic inheritance by madhab, with a family tree; also in <a href="/wirasat-calculator-urdu/">Urdu</a>)</li>
 <li><a href="/nisab/">Nisab today</a> and <a href="/gold-rate-today/">gold rate today</a></li>
 <li><a href="/free-zakat-widget/">Free nisab widget</a> for mosque and blog websites</li>
 </ul>
@@ -386,7 +388,7 @@ HTML
 <li><strong>Fiqh-e-Jafaria:</strong> the <a href="/khums-calculator/">khums calculator</a> for the yearly surplus, next to the <a href="/shia-zakat-calculator/">Shia zakat calculator</a>.</li>
 <li><strong>Before a nikah:</strong> the <a href="/haq-mehr-calculator/">haq mehr calculator</a> turns Mehr-e-Fatimi and the minimum mehr into today's money.</li>
 <li><strong>Lawyers and families in a diyat case:</strong> the <a href="/diyat-calculator/">diyat calculator</a> shows the amount notified for the year and its value at today's silver rate.</li>
-<li><strong>After a death in the family:</strong> the <a href="/wirasat-calculator/">wirasat calculator</a> divides cash, land and gold among the heirs by your madhab and draws a shajra you can download.</li>
+<li><strong>After a death in the family:</strong> the <a href="/wirasat-calculator/">wirasat calculator</a> divides cash, land and gold among the heirs by your madhab, compares all six madhabs and draws a shajra you can download. Our guides explain the <a href="/daughters-share-in-inheritance/">daughter's share</a>, the <a href="/wife-husband-share-in-inheritance/">wife's and husband's share</a>, <a href="/orphaned-grandchildren-inheritance/">orphaned grandchildren</a> and <a href="/zakat-on-inherited-wealth/">zakat on inherited wealth</a>.</li>
 </ul>
 <p>Every tool runs in your browser, so nothing you enter is sent to us, and each one can produce a short PDF of your own figures for your records.</p>
 [myzt_faq]
@@ -476,6 +478,8 @@ HTML
 <p>The nisab of gold is 87.48 g (7.5 tola), about [myzt_rate type="nisab-gold" currency="PKR"] today. If you own only gold and nothing else, zakat is due only when your pure gold reaches this weight. If you also have cash or silver, Hanafi scholars add everything together and use the silver nisab.</p>
 <h2>Worn jewellery</h2>
 <p>Hanafi and Ahl-e-Hadith: zakatable. Shafi'i, Maliki and Hanbali: exempt if permissible and worn. See <a href="/zakat-on-jewellery/">zakat on jewellery in the 4 madhabs</a>.</p>
+<h2>Inherited gold</h2>
+<p>Gold you inherit is counted like gold you bought, from the time your share is yours; see <a href="/zakat-on-inherited-wealth/">zakat on inherited wealth</a> for when the zakat year starts. If the estate is not divided yet, the <a href="/wirasat-calculator/">wirasat calculator</a> shows each heir's share of the gold in tola and grams.</p>
 [myzt_faq]
 HTML
 		. $author . '[myzt_related slugs="gold-rate-today,nisab,zakat-on-jewellery,zakat-on-1-tola-gold"]',
@@ -651,7 +655,7 @@ HTML
 <h2>Is my mehr enough? Check it</h2>
 <p>Type the amount written in your nikah nama in "Your agreed mehr". The calculator shows how much silver it buys today and what share of Mehr-e-Fatimi it is, and warns you if it is below the Hanafi minimum. If your mehr was fixed in gold, for example "5 tola gold", use the second box to see what it is worth today in 24K or 22K gold, or in silver.</p>
 <h2>Prompt and deferred mehr</h2>
-<p>Mu'ajjal (prompt) mehr is due as soon as the nikah takes place and the wife may ask for it at any time. Muwajjal (deferred) mehr is due at the time agreed, or at divorce or death. In Pakistan, section 10 of the Muslim Family Laws Ordinance 1961 says that if the nikah nama does not say how the mehr is to be paid, the whole of it is payable on demand. Unpaid mehr is a debt on the husband. If he dies before paying it, it is paid from his estate before the inheritance is divided; the <a href="/wirasat-calculator/">wirasat calculator</a> lets you enter it as a debt.</p>
+<p>Mu'ajjal (prompt) mehr is due as soon as the nikah takes place and the wife may ask for it at any time. Muwajjal (deferred) mehr is due at the time agreed, or at divorce or death. In Pakistan, section 10 of the Muslim Family Laws Ordinance 1961 says that if the nikah nama does not say how the mehr is to be paid, the whole of it is payable on demand. Unpaid mehr is a debt on the husband. If he dies before paying it, it is paid from his estate before the inheritance is divided; the <a href="/wirasat-calculator/">wirasat calculator</a> lets you enter it as a debt. The widow then also inherits her own share; see <a href="/wife-husband-share-in-inheritance/">the wife's and husband's share</a>.</p>
 <h2>Mehr and zakat</h2>
 <p>Mehr the wife has received is her own wealth and counts towards her zakat like any other savings or gold. Many Hanafi muftis say zakat is not due on unpaid mehr until she receives it. Use the <a href="/">zakat calculator</a> for her total, and see <a href="/nisab/">today's nisab</a>.</p>
 <p>This page gives figures from published fatwas and the live silver rate. It is not a fatwa; for a particular nikah, ask the imam or mufti who performs it.</p>
@@ -710,61 +714,84 @@ HTML
 	$p['wirasat-calculator'] = array(
 		'title' => 'Wirasat Calculator (Islamic Inheritance) with Family Tree',
 		'seo'   => 'Wirasat Calculator: Islamic Inheritance by Madhab, with Shajra',
-		'desc'  => "Islamic inheritance calculator for Hanafi, Shafi'i, Maliki, Hanbali, Ahl-e-Hadith and Shia: each heir's share of cash, land and gold, with a family tree.",
+		'desc'  => "Islamic inheritance (wirasat) calculator for all six madhabs: each heir's share in rupees, kanal-marla and gold, a patwari-style shajra and a PDF report.",
 		'nav'   => 'Wirasat',
 		'blurb' => 'inheritance shares',
 		'hub'   => 'calculators',
 		'llms'  => true,
+		'features' => array( 'Inheritance shares for Hanafi, Shafi\'i, Maliki, Hanbali, Ahl-e-Hadith and Shia Ja\'fari fiqh', 'Fill the form from a typed question in Urdu or Roman Urdu', 'All six madhabs side by side', 'Shares of cash, land (kanal, marla, square feet), gold and silver (tola and grams, with today\'s value)', 'Patwari-style family tree (shajra nasab)', 'Worked sheet with asl-e-masla, \'awl and radd', 'Pakistani law (MFLO 1961 section 4) next to the fiqh result', 'What-if: change one relative and compare', 'Share link and WhatsApp', 'Istifta draft for a dar al-ifta', 'PDF report' ),
 		'content' => <<<'HTML'
 [myzt_answer q="How is inheritance (wirasat) divided in Islam?"]First the funeral costs and all debts (including unpaid mehr) are paid from what the person left, then any will for non-heirs up to one third. The rest is divided among the heirs by the shares fixed in the Qur'an (al-Nisa 4:11, 4:12 and 4:176): for example a wife gets 1/8 when there are children, parents 1/6 each, and sons get twice what daughters get. Choose your madhab below and the calculator works out every heir's share, in rupees, land and gold.[/myzt_answer]
+<p>This free wirasat (also written virasat or warasat) calculator divides an estate the way a mufti or a patwari in Pakistan would: by the fiqh you follow, with land in kanal and marla, gold in tola and a family tree you can print. It covers the Hanafi (Deobandi and Barelvi), Shafi'i, Maliki, Hanbali, Ahl-e-Hadith and Shia Ja'fari schools, and works for families anywhere, not only in Pakistan. The calculator itself is in Urdu; this page explains it in English, and the same guide is on the <a href="/wirasat-calculator-urdu/">Urdu wirasat page</a>.</p>
 [zakat_wirasat]
 <h2>How to use the calculator</h2>
 <p><strong>Quickest way:</strong> type or paste the question in the "سوال سے حساب" box at the top, in Urdu or Roman Urdu, for example "ek aurat fout hui, shohar, maa, do haqeeqi behnen". The page recognises the relatives and fills the form; check it and press calculate. Or fill the form step by step:</p>
 <ol>
-<li><strong>Enter what was left:</strong> cash and bank balance (with debts and funeral costs), land in kanal, marla and feet, gold and silver in tola.</li>
+<li><strong>Enter what was left:</strong> cash and bank balance (with debts and funeral costs), land or a house in kanal, marla and feet, and gold and silver in tola.</li>
 <li><strong>Enter the deceased:</strong> man or woman, and the name.</li>
-<li><strong>Add the family:</strong> father, mother, wife or husband, sons and daughters, and if needed grandparents, brothers and sisters and uncles. For each one say whether they are alive, died <em>before</em> the deceased, or died <em>after</em>. Someone who died first does not inherit (their children are asked for where the law can give them a share), while someone who died after has already inherited and their share passes to their own heirs.</li>
+<li><strong>Add the family:</strong> father, mother, wife or husband, sons and daughters. If those are few, open "other relatives" for the paternal and maternal grandparents (dada, dadi, nana, nani), full and half brothers and sisters, and uncles and aunts on both sides: chacha and taya, phuphi, mamu and khala. For each one say whether they are alive, died <em>before</em> the deceased, or died <em>after</em>. Someone who died first does not inherit (their children are asked for where the law can give them a share), while someone who died after has already inherited and their share passes to their own heirs.</li>
 <li><strong>Choose the madhab:</strong> Hanafi (Deobandi and Barelvi), Shafi'i, Maliki, Hanbali, Ahl-e-Hadith or Shia Ja'fari, check the summary and press the button.</li>
 </ol>
-<p>The result shows each heir's share as a fraction, the cash in rupees, the land in kanal, marla and feet (worked in marla, or in feet when feet are entered; 1 kanal = 20 marla, 1 marla = 272 sq ft), gold in tola and the percentage, with the reason. Relatives who do not inherit are listed with the reason too. A family tree (shajra nasab) like the one a patwari draws is made from your entries, and the PDF report puts it alone on the first page with space below for the patwari. The calculator is in Urdu.</p>
+<h2>What you get after pressing calculate</h2>
+<ul>
+<li><strong>Every heir's share:</strong> the fraction, the cash in rupees, the land in kanal, marla and square feet (1 kanal = 20 marla, 1 marla = 272 sq ft), gold and silver in tola and grams with an estimate of today's value from the <a href="/gold-rate-today/">live gold and silver rate</a>, and the percentage, each with the reason in plain words.</li>
+<li><strong>Who does not inherit, and why:</strong> for example "excluded because a son is alive" or "died before the deceased".</li>
+<li><strong>A shajra nasab:</strong> the family tree a patwari draws, made from your entries. A large family is fitted to the screen and can be enlarged.</li>
+<li><strong>The worked sheet (hisab ki kaapi):</strong> the base number of the case (asl-e-masla), how many parts each heir gets, and the steps of <em>'awl</em> or <em>radd</em> when they apply, set out the way a mufti checks a case.</li>
+<li><strong>Six madhabs side by side:</strong> one table with the same family worked out by all six schools, so you can see at once whether your case is one where they differ.</li>
+<li><strong>"What if" (agar yeh hota to):</strong> change one relative, for instance as if the father were alive or a brother did not exist, and see how the shares move without touching your main result.</li>
+<li><strong>Fiqh and Pakistani law together:</strong> when a son or daughter died before the deceased and left children, Pakistani law can give a different result from the fiqh. The calculator then shows both, in two tabs: Pakistani law (what the patwari and the courts record) and your madhab's fiqh.</li>
+<li><strong>Share and ask a mufti:</strong> copy a link or send it on WhatsApp so a relative or a mufti sees the same family and result. The link carries your entries in the address itself; nothing is saved on our server. A ready istifta (written question) for a dar al-ifta can be copied or sent in one tap.</li>
+<li><strong>PDF report:</strong> the shajra alone on the first page (turned sideways for a big family) with space below for the patwari's report, then the share table, the reasons and the worked sheet.</li>
+</ul>
 <h2>The order: debts, will, then heirs</h2>
-<p>Before anything is divided, the estate pays for a simple funeral, then every debt the person owed. Unpaid mehr is a debt to the wife and is paid in full, like any other loan. Only after that can a will (wasiyyat) be carried out, and only for people who are not heirs and only up to one third of what is left. A larger will needs the consent of the adult heirs. Whatever remains is the inheritance.</p>
+<p>Before anything is divided, the estate pays for a simple funeral, then every debt the person owed. Unpaid mehr is a debt to the wife and is paid in full, like any other loan; the <a href="/haq-mehr-calculator/">haq mehr calculator</a> shows what a mehr fixed in silver or gold is worth today. Only after that can a will (wasiyyat) be carried out, and only for people who are not heirs and only up to one third of what is left. A larger will needs the consent of the adult heirs. Whatever remains is the inheritance.</p>
+<p>Two religious debts often come up at this stage: zakat the person did not pay, and fasts they missed. In the Hanafi school both are paid from the estate only if the person left a will for them, from up to one third; in the Shafi'i and Hanbali schools they come out of the estate before it is divided. See <a href="/missed-zakat-past-years/">missed zakat</a> and <a href="/roza-fidya/">fidya for a deceased person</a>.</p>
 <h2>The fixed shares in the Qur'an</h2>
 <ul>
 <li><strong>Husband:</strong> 1/2, or 1/4 if the wife left children.</li>
-<li><strong>Wife:</strong> 1/4, or 1/8 if the husband left children. Two, three or four wives share this one portion equally.</li>
+<li><strong>Wife:</strong> 1/4, or 1/8 if the husband left children. Two, three or four wives share this one portion equally. More in <a href="/wife-husband-share-in-inheritance/">the wife's and husband's share</a>.</li>
 <li><strong>Father:</strong> 1/6 when there is a son; 1/6 and whatever is left when there are only daughters; everything left when there are no children.</li>
 <li><strong>Mother:</strong> 1/6 when there are children or two or more brothers or sisters, otherwise 1/3. When only the spouse and both parents are heirs, the mother gets a third of what is left after the spouse (al-Umariyyatan).</li>
-<li><strong>Daughters:</strong> one daughter alone 1/2, two or more 2/3. With a son, children share the rest, a son getting twice a daughter.</li>
+<li><strong>Daughters:</strong> one daughter alone 1/2, two or more 2/3. With a son, children share the rest, a son getting twice a daughter. More in <a href="/daughters-share-in-inheritance/">the daughter's share</a>.</li>
 <li><strong>Sisters</strong> (when there are no children and no father): one 1/2, two or more 2/3; with daughters, sisters take what is left.</li>
 <li><strong>Brothers and sisters through the mother only:</strong> one 1/6, two or more share 1/3 equally.</li>
 </ul>
-<p>When the fixed shares add up to more than the whole, each is reduced in proportion (<em>'awl</em>). When they add up to less and there is no residuary heir, the rest goes back to the sharers except the husband or wife (<em>radd</em>). The calculator does both and tells you when it has.</p>
+<p>When the fixed shares add up to more than the whole, each is reduced in proportion (<em>'awl</em>). When they add up to less and there is no residuary heir, the rest goes back to the sharers except the husband or wife (<em>radd</em>). The calculator does both, tells you when it has, and shows the steps in the worked sheet.</p>
+<h3>When only distant relatives are left</h3>
+<p>If there is no sharer and no residuary heir (for example only a mamu, a khala or a phuphi), the Hanafi, Hanbali and Ahl-e-Hadith schools, and the later Shafi'i and Maliki scholars, give the estate to the relatives through women (<em>dhawu al-arham</em>). In Ja'fari fiqh uncles and aunts on both sides are the third class of heirs. How these relatives divide the estate is detailed and disputed, so the calculator marks such results for a mufti to confirm.</p>
 <h2>Where the madhabs differ</h2>
 <ul>
 <li><strong>Grandfather with brothers.</strong> Hanafi scholars (following Abu Hanifa and Abu Bakr) and Ahl-e-Hadith scholars treat the paternal grandfather like the father: he excludes the brothers and sisters. The Shafi'i, Maliki and Hanbali schools follow Zayd ibn Thabit: the grandfather shares with them and gets the best of an equal share, one third, or one sixth. This includes the famous case of al-Akdariyya.</li>
 <li><strong>Al-Mushtaraka.</strong> When a woman leaves a husband, a mother, two or more half-siblings through the mother and full brothers, nothing is left for the full brothers. Shafi'i and Maliki scholars let them share the third with the half-siblings; Hanafi and Hanbali scholars do not.</li>
 <li><strong>Paternal grandmother.</strong> In the Hanbali school she inherits even while her son, the father, is alive.</li>
+<li><strong>Radd to the husband or wife.</strong> When nobody else is left, later Hanafi scholars and Ahl-e-Hadith scholars return the rest to the spouse; the Shafi'i, Maliki and Hanbali schools do not.</li>
 <li><strong>Shia Ja'fari fiqh</strong> works in three classes: parents and children first, then grandparents and siblings, then uncles and aunts. There is no <em>'awl</em>; grandchildren and nephews take the place of a parent who died first; and a wife inherits from the value of buildings and trees but not from land. The calculator shows a wife's share of land as zero in Ja'fari mode and divides the land among the other heirs.</li>
 </ul>
+<p>Open "six madhabs side by side" under your result to see which of these applies to your family. Zakat also differs between the schools; the <a href="/madhab-comparison/">madhab comparison</a> sets that out.</p>
 <h2>Orphaned grandchildren and Pakistani law</h2>
-<p>In all four Sunni schools a grandchild whose parent died first does not inherit while a son of the deceased is alive. Pakistan's Muslim Family Laws Ordinance 1961, section 4, changed this: the children of a predeceased son or daughter receive the share their parent would have received. The Federal Shariat Court held the section against Islamic injunctions, but an appeal is pending in the Supreme Court and courts still apply it. Because the fiqh and the law differ, the calculator follows the fiqh of your madhab and lets you turn on section 4 to see the legal position too.</p>
+<p>In all four Sunni schools a grandchild whose parent died first does not inherit while a son of the deceased is alive. Pakistan's Muslim Family Laws Ordinance 1961, section 4, changed this: the children of a predeceased son or daughter receive the share their parent would have received. The Federal Shariat Court held the section against Islamic injunctions, but an appeal is pending in the Supreme Court and courts still apply it. When your family has such a case, the calculator shows the result both ways, in two tabs. The full story, and what a grandfather can do through a will, is in <a href="/orphaned-grandchildren-inheritance/">orphaned grandchildren and section 4</a>.</p>
 <h2>Land, gold and the house</h2>
-<p>Shares are fractions of everything left, not of money alone. If the estate has 2 kanal 10 marla of land, a wife's 1/8 is 6.25 marla (6 marla 68 sq ft), and the calculator converts every share into kanal, marla and feet (1 kanal = 20 marla, 1 marla = 272 sq ft). Gold is shown in tola, with its value at today's rate. Heirs may also agree to sell a property and divide the money, or let one heir keep it and pay the others their share.</p>
+<p>Shares are fractions of everything left, not of money alone. If the estate has 2 kanal 10 marla of land, a wife's 1/8 is 6.25 marla (6 marla 68 sq ft), and the calculator converts every share into kanal, marla and feet (1 kanal = 20 marla, 1 marla = 272 sq ft). Gold and silver are shown in tola and grams with an estimate at today's rate (see <a href="/zakat-on-1-tola-gold/">what 1 tola is worth</a>). Heirs may also agree to sell a property and divide the money, or let one heir keep it and pay the others their share.</p>
+<h2>Zakat after you receive your share</h2>
+<p>Once your share is yours, it counts with the rest of your wealth for zakat. Inherited cash and gold join your savings; inherited jewellery follows the jewellery rule of your school; land you keep to live on or farm has no zakat, though its crops carry <a href="/ushr-calculator/">ushr</a>. The details, including when the zakat year starts, are in <a href="/zakat-on-inherited-wealth/">zakat on inherited wealth</a>, and the <a href="/">zakat calculator</a> works out the amount.</p>
 <h2>Daughters' right to inherit</h2>
-<p>A daughter's share is fixed by Allah in the Qur'an, and it cannot be taken away by family custom, by a "gift" of her share to her brothers under pressure, or by leaving land only to sons. Pakistani law also protects it: the Enforcement of Women's Property Rights Act 2020 lets a woman complain to the Ombudsperson when she is denied her inheritance.</p>
+<p>A daughter's share is fixed by Allah in the Qur'an, and it cannot be taken away by family custom, by a "gift" of her share to her brothers under pressure, or by leaving land only to sons. Pakistani law also protects it: depriving a woman of her inheritance by deceit is a crime under section 498A of the Pakistan Penal Code, and the Enforcement of Women's Property Rights Act 2020 lets a woman complain to the Ombudsperson. See <a href="/daughters-share-in-inheritance/">the daughter's share</a>.</p>
 <h2>Is it accurate?</h2>
-<p>The rules come from al-Sirajiyyah (the standard Hanafi text on fara'id), the main books of the other schools and Ayatollah Sistani's Islamic Laws for Ja'fari fiqh. The engine uses exact fractions, so the shares always add up to the whole estate, and it is tested against worked examples from these books. Inheritance cases can still be complicated, especially when distant relatives, missing persons or several deaths are involved. Show the result to a mufti before dividing, and use a lawyer for the transfer of property.</p>
-<p>Everything is calculated in your browser; the names and amounts you type are not sent to us. Related: <a href="/haq-mehr-calculator/">haq mehr calculator</a> (unpaid mehr is a debt on the estate) and the <a href="/">zakat calculator</a>.</p>
+<p>The rules come from al-Sirajiyyah (the standard Hanafi text on fara'id), the main books of the other schools and Ayatollah Sistani's Islamic Laws for Ja'fari fiqh. The engine uses exact fractions, so the shares always add up to the whole estate. It is tested on every change against 431 worked cases from these books, between 70 and 77 for each of the six schools, besides the famous named cases. Inheritance cases can still be complicated, especially when distant relatives, missing persons or several deaths are involved. Show the result to a mufti before dividing (the istifta button helps), and use a lawyer for the transfer of property. If a result looks wrong, please <a href="/contact/">tell us</a>; the calculator has the same link. How we choose our sources is on the <a href="/methodology/">methodology</a> page.</p>
+<p>Everything is calculated in your browser; the names and amounts you type are not sent to us. Related: <a href="/haq-mehr-calculator/">haq mehr calculator</a> (unpaid mehr is a debt on the estate), <a href="/diyat-calculator/">diyat calculator</a> (diyat is divided among the heirs by these same shares) and the <a href="/">zakat calculator</a>.</p>
 [myzt_faq]
 HTML
-		. $author . '[myzt_related slugs="wirasat-calculator-urdu,haq-mehr-calculator,diyat-calculator,calculators"]',
+		. $author . '[myzt_related slugs="wirasat-calculator-urdu,daughters-share-in-inheritance,zakat-on-inherited-wealth,haq-mehr-calculator"]',
 		'faq'   => array(
 			array( 'q' => 'Beti ka wirasat mein kitna hissa hai?', 'a' => 'Agar beta bhi ho to beti ko bete ka aadha milta hai. Sirf aik beti ho to aadha tarka, do ya zyada betiyan hon to mil kar do tihai.' ),
 			array( 'q' => 'Biwi ka hissa kitna hai?', 'a' => 'Shohar ki olad ho to aathwan hissa (1/8), na ho to chautha (1/4). Aik se zyada biwiyan ye hissa barabar baant leti hain.' ),
-			array( 'q' => 'Do grandchildren inherit if their father died before their grandfather?', 'a' => 'In Sunni fiqh, not while a son of the deceased is alive. Under section 4 of Pakistan\'s Muslim Family Laws Ordinance 1961 they get their father\'s share. In Ja\'fari fiqh they take their parent\'s place only when no child of the deceased is alive.' ),
+			array( 'q' => 'Do grandchildren inherit if their father died before their grandfather?', 'a' => 'In Sunni fiqh, not while a son of the deceased is alive. Under section 4 of Pakistan\'s Muslim Family Laws Ordinance 1961 they get their father\'s share; the calculator then shows the fiqh and the law in two tabs. In Ja\'fari fiqh they take their parent\'s place only when no child of the deceased is alive.' ),
 			array( 'q' => 'What if an heir died after the deceased but before the estate was divided?', 'a' => 'They had already inherited, so their share becomes part of their own estate and is divided among their own heirs (munasakha). Mark them as "died after" and their share is shown with this note.' ),
 			array( 'q' => 'Is unpaid mehr paid before inheritance?', 'a' => 'Yes. Unpaid mehr is a debt on the husband and is paid from his estate before it is divided. The widow then also gets her inheritance share.' ),
+			array( 'q' => 'Mamu, khala ya phuphi ko wirasat milti hai?', 'a' => 'Sirf tab jab koi hissa daar ya asaba (jaise beta, bhai, chacha) na ho. Sunni fiqh mein ye zawil arham hain; fiqh-e-Jafaria mein teesra tabqa. Calculator inhein "dusre rishtedar" mein shamil karta hai aur aise nateeje par mufti sahib se tasdeeq ka note deta hai.' ),
+			array( 'q' => 'Can I see the result for every madhab at once?', 'a' => 'Yes. Open "six madhabs side by side" under the result: the same family is worked out by Hanafi, Shafi\'i, Maliki, Hanbali, Ahl-e-Hadith and Shia Ja\'fari fiqh in one table.' ),
+			array( 'q' => 'How do I send the case to a mufti?', 'a' => 'Under the result, "share and ask a mufti" gives a link and a WhatsApp button that open the same family and result, and a ready istifta (written question) you can copy for a dar al-ifta. The worked sheet shows the steps the mufti will check.' ),
 			array( 'q' => 'Kya ye calculator fatwa hai?', 'a' => 'Nahi. Ye har maslak ke shaye shuda usool se andaza deta hai. Taqseem se pehle mufti sahib se tasdeeq karein.' ),
 		),
 	);
@@ -992,12 +1019,12 @@ HTML
 	/* ------------------------------------------------------------------ */
 	$p['guides'] = array(
 		'title' => 'Zakat Guides',
-		'seo'   => 'Zakat Guides: Gold, Fidya, Ushr, Khums, Bank Deduction',
-		'desc'  => 'Sourced zakat guides: gold and jewellery, 1 lakh rupees, bank deduction, savings certificates, hawl, missed zakat, fidya, kaffara, ushr, livestock and khums.',
+		'seo'   => 'Zakat and Wirasat Guides: Gold, Fidya, Ushr, Khums, Inheritance',
+		'desc'  => 'Sourced guides: zakat on gold and jewellery, bank deduction, hawl, missed zakat, fidya, ushr, khums, and inheritance shares of daughters, wives and grandchildren.',
 		'nav'   => 'Guides',
 		'blurb' => 'answers',
 		'llms'  => true,
-		'content' => '<p>Clear answers to the zakat questions people ask most, with sources for the main rulings and a link to the calculator so you can check your own numbers. Rulings differ between the schools, so every guide says which madhab a statement belongs to.</p><h2>All guides</h2>[myzt_guides]<h2>Start here</h2><p>New to zakat? Read <a href="/nisab/">what the nisab is</a>, then <a href="/who-can-receive-zakat/">who can receive zakat</a>, and use the <a href="/">calculator</a>. For the differences between schools see the <a href="/madhab-comparison/">madhab comparison</a>, and for rates see <a href="/gold-rate-today/">gold rate today</a>.</p>' . $author,
+		'content' => '<p>Clear answers to the zakat questions people ask most, with sources for the main rulings and a link to the calculator so you can check your own numbers. Rulings differ between the schools, so every guide says which madhab a statement belongs to.</p><h2>All guides</h2>[myzt_guides]<h2>Start here</h2><p>New to zakat? Read <a href="/nisab/">what the nisab is</a>, then <a href="/who-can-receive-zakat/">who can receive zakat</a>, and use the <a href="/">calculator</a>. For the differences between schools see the <a href="/madhab-comparison/">madhab comparison</a>, and for rates see <a href="/gold-rate-today/">gold rate today</a>.</p><h2>Inheritance (wirasat)</h2><p>After a death in the family, start with the <a href="/wirasat-calculator/">wirasat calculator</a>, then read about the <a href="/daughters-share-in-inheritance/">daughter\'s share</a>, the <a href="/wife-husband-share-in-inheritance/">wife\'s and husband\'s share</a>, <a href="/orphaned-grandchildren-inheritance/">orphaned grandchildren and section 4</a> and <a href="/zakat-on-inherited-wealth/">zakat on inherited wealth</a>.</p>' . $author,
 		'faq'   => array(),
 	);
 
@@ -1018,6 +1045,7 @@ HTML
 <ul>
 <li>A <a href="/">zakat calculator</a> with a version for each school: <a href="/hanafi-zakat-calculator/">Hanafi</a>, <a href="/shafi-zakat-calculator/">Shafi'i</a>, <a href="/maliki-zakat-calculator/">Maliki</a>, <a href="/hanbali-zakat-calculator/">Hanbali</a>, <a href="/ahl-e-hadith-zakat-calculator/">Ahl-e-Hadith</a> and <a href="/shia-zakat-calculator/">Shia (Ja'fari)</a>, and a <a href="/madhab-comparison/">side-by-side comparison</a>.</li>
 <li>Tools for <a href="/fitrana-calculator/">fitrana</a>, <a href="/fidya-kaffara-calculator/">fidya and kaffara</a>, your <a href="/zakat-date-calculator/">zakat date</a>, <a href="/ushr-calculator/">ushr and livestock</a> and <a href="/khums-calculator/">khums</a>, plus a <a href="/free-zakat-widget/">free nisab widget</a> for mosque websites.</li>
+<li>Family tools: the <a href="/haq-mehr-calculator/">haq mehr calculator</a>, the <a href="/diyat-calculator/">diyat calculator</a> and the <a href="/wirasat-calculator/">wirasat (inheritance) calculator</a> with a family tree for all six madhabs.</li>
 <li>Today's <a href="/nisab/">nisab</a> and <a href="/gold-rate-today/">gold rate</a> in about 50 currencies, and <a href="/guides/">guides</a> to common questions.</li>
 <li>Pages in Urdu, starting with the <a href="/zakat-calculator-urdu/">Urdu zakat calculator</a>.</li>
 </ul>
@@ -1076,6 +1104,7 @@ HTML,
 <h2>The other tools</h2>
 <ul>
 <li><strong><a href="/zakat-date-calculator/">Zakat date and missed years</a>:</strong> the next zakat date is one lunar year of 354.367 days after the day wealth reached the nisab ("no zakat until a year passes", <a href="https://sunnah.com/abudawud:1573" rel="noopener" target="_blank">Abu Dawud 1573</a>). Hijri dates are shown from the Umm al-Qura calendar, so local moon sighting can differ by a day. For missed years the Hanafi option treats each earlier year's unpaid zakat as a debt that lowers the next year's wealth (<em>al-Hidayah</em>).</li>
+<li><strong><a href="/wirasat-calculator/">Wirasat (inheritance)</a>:</strong> the Qur'anic shares (al-Nisa 4:11, 4:12, 4:176) with 'awl and radd in exact fractions. Hanafi rules follow <em>al-Sirajiyyah</em> and Ibn Abidin's <em>Radd al-Muhtar</em>; the Shafi'i, Maliki and Hanbali rules follow the main texts of each school, including Zayd ibn Thabit's method for the grandfather with brothers; the Ahl-e-Hadith rules treat the grandfather as the father (the view of Abu Bakr and Ibn Abbas) and follow Ibn Taymiyyah on radd to the spouse; Ja'fari rules follow Ayatollah Sistani's <em>Islamic Laws</em> (three classes, no 'awl, a wife's share from buildings and not from land). Pakistani law (Muslim Family Laws Ordinance 1961, section 4) is shown as a separate result. The engine is tested against 431 worked cases, 70 to 77 for each school. Results with distant relatives (dhawu al-arham) carry a note to confirm with a mufti.</li>
 <li><strong><a href="/ushr-calculator/">Ushr</a>:</strong> 10% for land watered by rain or rivers and 5% for costly irrigation (<a href="https://sunnah.com/bukhari:1483" rel="noopener" target="_blank">Bukhari 1483</a>). Imam Abu Hanifa set no minimum; the other schools require 5 wasq, about 653 kg (Muslim 979). Ayatollah Sistani's minimum is higher (about 847 kg) and covers wheat, barley, dates and raisins only.</li>
 <li><strong>Livestock:</strong> goats, sheep and camels up to 120 follow the letter of Abu Bakr (<a href="https://sunnah.com/bukhari:1454" rel="noopener" target="_blank">Bukhari 1454</a>); cows and buffaloes follow the hadith of Mu'adh (one tabi' for every 30, one musinnah for every 40). Camels above 120 and the Ja'fari tables are not calculated: ask a scholar.</li>
 <li><strong><a href="/fitrana-calculator/">Fitrana</a> and <a href="/fidya-kaffara-calculator/">fidya and kaffara</a>:</strong> in Hanafi fiqh one fitrana or one day's fidya is half a sa' of wheat (about 1.75 to 2 kg) or one sa' of barley, dates or raisins, or its value; the other schools use one mudd (about 0.6 kg) for fidya. Kaffara is 60 days of fasting, or feeding 60 poor people only for someone who cannot fast (<a href="https://sunnah.com/bukhari:1936" rel="noopener" target="_blank">Bukhari 1936</a>, Muslim 1111). Enter the money amount announced by your scholars each Ramadan; the fitrana calculator may show amounts we have filled in from those announcements.</li>
@@ -1094,6 +1123,7 @@ HTML,
 </ul>
 <h2>Changes</h2>
 <ul>
+<li><strong>18 October 2026 (inheritance):</strong> the <a href="/wirasat-calculator/">wirasat calculator</a> page now describes every feature of the calculator (six madhabs side by side, the worked sheet, what-if, share link and istifta, mamu, khala, phuphi and nana), and four guides were added on the <a href="/daughters-share-in-inheritance/">daughter's share</a>, the <a href="/wife-husband-share-in-inheritance/">wife's and husband's share</a>, <a href="/orphaned-grandchildren-inheritance/">orphaned grandchildren</a> and <a href="/zakat-on-inherited-wealth/">zakat on inherited wealth</a>. No calculation result changed.</li>
 <li><strong>17 October 2026 (accessibility and privacy):</strong> the calculator now works fully in Urdu (Urdu madhab names, units and an Urdu font), screen readers hear only the zakat total once you stop typing, and a <em>Delete saved data</em> button removes everything the calculators kept in your browser. Urdu names in the PDF report are spelled in Roman letters. No calculation result changed.</li>
 <li><strong>17 October 2026 (Urdu):</strong> added Urdu pages for the <a href="/zakat-calculator-urdu/">zakat calculator</a>, <a href="/nisab-urdu/">nisab</a>, <a href="/zakat-on-gold-urdu/">zakat on gold</a> and <a href="/fitrana-calculator-urdu/">fitrana</a>, with worked examples on several English pages. They use the same rules as the English pages; no calculation result changed.</li>
 <li><strong>17 October 2026:</strong> the silver nisab is now shown everywhere as 612.35 g, the figure the calculator uses (52.5 tola of 11.6638 g); results did not change.</li>
@@ -1198,7 +1228,7 @@ HTML,
 <h2>PDF reports</h2>
 <p>PDF reports are created in your browser and downloaded directly. We never receive them.</p>
 <h2>Fonts</h2>
-<p>The inheritance calculator pages load the Gulzar and Noto Naskh Arabic Urdu fonts from Google Fonts so the family tree looks the same on every device. Your browser requests it from Google, which receives your IP address. Nothing you type in the calculator is sent.</p>
+<p>The inheritance calculator pages load the Gulzar and Noto Naskh Arabic Urdu fonts from Google Fonts so the family tree looks the same on every device. Your browser requests it from Google, which receives your IP address. Nothing you type in the calculator is sent. If you use its share link, the family, names and amounts you entered are written into the link itself (after the # sign, which browsers do not send to our server); anyone you give the link to can see them, so share it only with people you trust.</p>
 <h2>Server logs</h2>
 <p>Like every website, our hosting provider records technical logs (IP address, browser, pages requested, time) for security and to keep the site running. These are kept for a limited time.</p>
 <h2>Cookies, analytics and advertising</h2>

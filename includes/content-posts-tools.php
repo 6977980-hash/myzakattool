@@ -66,7 +66,7 @@ function myzt_content_posts_tools() {
 <p>Salaries, bonuses, gifts and committee (BC) payouts arrive throughout the year. Do they each need their own year?</p>
 <ul>
 <li><strong>Hanafi:</strong> no. New money of the same kind joins your existing hawl and is counted on your zakat date, even if it arrived the day before. Cash, gold, silver and trade goods are all one kind for this purpose. This is called <em>damm al-mal al-mustafad</em>, joining acquired wealth to the nisab you already own.</li>
-<li><strong>Shafi'i and Hanbali:</strong> money that comes from outside (salary, a gift, an inheritance) starts its own year from the day you receive it. Profit on trade goods and the young of grazing animals follow the year of the original.</li>
+<li><strong>Shafi'i and Hanbali:</strong> money that comes from outside (salary, a gift, an inheritance) starts its own year from the day you receive it. Profit on trade goods and the young of grazing animals follow the year of the original. More on inheritances in <a href="/zakat-on-inherited-wealth/">zakat on inherited wealth</a>.</li>
 <li><strong>Maliki:</strong> similar. New, unrelated wealth (fa'ida) starts its own year; trading profit joins the year of its capital.</li>
 </ul>
 <p>Tracking a separate year for every salary payment is impractical, so many Shafi'i and Hanbali scholars advise a simpler route: pay on everything you own on your one zakat date. For money that has not yet completed its own year, that payment counts as early zakat, which both schools allow (see below).</p>
@@ -241,7 +241,7 @@ HTML
 <li><strong>Shafi'i and Hanbali:</strong> unpaid zakat is a debt owed to Allah and is paid from the estate before inheritance is divided and before bequests, whether or not the person left a will. They point to the hadith "the debt of Allah is more deserving to be paid" (Sahih al-Bukhari 1953, Sahih Muslim 1148).</li>
 <li><strong>Maliki and Ja'fari:</strong> have their own detailed rules; ask a scholar before dividing the estate.</li>
 </ul>
-<p>Because this affects every heir's share, get a ruling from a mufti before the property is distributed.</p>
+<p>Because this affects every heir's share, get a ruling from a mufti before the property is distributed. After the debts and any will, the <a href="/wirasat-calculator/">wirasat calculator</a> divides what is left among the heirs by your madhab, and <a href="/zakat-on-inherited-wealth/">zakat on inherited wealth</a> explains what each heir then owes on their share.</p>
 <h2>Common mistakes</h2>
 <ul>
 <li><strong>Thinking old zakat expires.</strong> It does not, however many years pass.</li>
@@ -374,7 +374,7 @@ HTML
 <li><strong>Shafi'i:</strong> the fidya of one mudd per day is paid from the estate before inheritance is divided, whether or not there is a will. Following the hadith "Whoever dies owing fasts, his guardian fasts on his behalf" (Sahih al-Bukhari 1952, Sahih Muslim 1147), many Shafi'i scholars also allow a close relative to fast for the deceased instead.</li>
 <li><strong>Hanbali:</strong> for missed Ramadan fasts, fidya is paid from the estate; the relative fasting on their behalf applies to vowed (nadhr) fasts.</li>
 </ul>
-<p>Fidya for the dead uses the same rate and recipients as fidya for the living. Settle debts owed to people first, then the will.</p>
+<p>Fidya for the dead uses the same rate and recipients as fidya for the living. Settle debts owed to people first, then the will; what remains is divided among the heirs, which the <a href="/wirasat-calculator/">wirasat calculator</a> works out by madhab.</p>
 <h2>What if the person recovers?</h2>
 <p>Fidya stands in for a fast only while there is no hope of fasting. If someone paid fidya believing their illness was permanent and later recovers enough to fast, the Hanafi ruling is clear: they must make up those fasts, and the fidya they paid counts as voluntary charity, with its reward. This applies to a person whose illness was misjudged as permanent, which happens more often than people expect after a successful operation or a change of medicine. The other schools discuss this case in more detail, especially for the very elderly; if it applies to you, ask a scholar of your school.</p>
 <h2>Common mistakes</h2>
@@ -590,6 +590,7 @@ HTML
 
 <h2>Who pays: owner, tenant, or both?</h2>
 <h3>Batai (crop sharing)</h3>
+<p>The same applies when land is inherited and the heirs farm it together: each heir owes ushr on their share of the crop (the <a href="/wirasat-calculator/">wirasat calculator</a> gives each share of the land in kanal and marla).</p>
 <p>When land is farmed on shares, for example half to the owner and half to the cultivator, each person pays ushr on their own share. If the harvest is 100 maund of wheat on tube well land and it is split 50-50, the owner pays 2.5 maund on his 50 and the tenant pays 2.5 maund on his 50.</p>
 <h3>Cash rent (theka or ijara of land)</h3>
 <p>If the land is leased for a fixed cash rent, the schools differ:</p>
