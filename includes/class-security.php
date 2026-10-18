@@ -208,13 +208,19 @@ class MYZT_Security {
 
 	public static function block_author_scan() {
 		if ( ! is_user_logged_in() && ( isset( $_GET['author'] ) || is_author() ) ) { // phpcs:ignore
-			wp_safe_redirect( home_url( '/' ), 301 );
+			wp_safe_redirect( MYZT_Frontend::author_page(), 301 );
+			exit;
+		}
+		// /author/ and /author/<any-name>/ go to the author's bio rather than a 404 (FIX-132).
+		$path = trim( (string) wp_parse_url( isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '', PHP_URL_PATH ), '/' ); // phpcs:ignore
+		if ( is_404() && preg_match( '#^author(/[a-z0-9-]+)?$#', $path ) ) {
+			wp_safe_redirect( MYZT_Frontend::author_page(), 301 );
 			exit;
 		}
 	}
 
 	public static function author_link() {
-		return MYZT_Frontend::page_url( 'about' );
+		return MYZT_Frontend::author_page();
 	}
 
 	public static function author_name( $name ) {

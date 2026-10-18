@@ -77,7 +77,7 @@ HTML
 			'blurb'   => 'biwi shohar ka hissa',
 			'content' => <<<'HTML'
 [myzt_answer q="How much does a wife inherit from her husband?"]A wife inherits one quarter (1/4) of her husband's estate if he left no children, and one eighth (1/8) if he left a child, by her or by another wife. A husband inherits half (1/2) of his wife's estate if she left no children, and one quarter (1/4) if she did. Several wives share the one quarter or one eighth equally (al-Nisa 4:12).[/myzt_answer]
-<p>The spouse's share is the simplest in the law of inheritance, and the one most often mixed up with mehr, dowry and the family house. This guide explains the share itself, what is paid to the widow before it, and the cases in which the schools differ. The <a href="/wirasat-calculator/">wirasat calculator</a> works out the share in rupees, land and gold for your own family.</p>
+<p>The spouse's share, fixed in Surah an-Nisa 4:12, is the simplest in the law of inheritance, and the one most often mixed up with mehr, dowry and the family house. This guide explains the share itself, what is paid to the widow before it, and the cases in which the schools differ. The <a href="/wirasat-calculator/">wirasat calculator</a> works out the share in rupees, land and gold for your own family.</p>
 <h2>The shares</h2>
 <figure class="wp-block-table"><table><thead><tr><th>Heir</th><th>No children</th><th>With a child</th></tr></thead><tbody>
 <tr><td>Husband (from his wife)</td><td>1/2</td><td>1/4</td></tr>
@@ -87,7 +87,7 @@ HTML
 <h3>Worked example</h3>
 <p>Imran dies leaving Rs 48,00,000, a wife, his mother, a son and a daughter. The wife takes 1/8 (Rs 6,00,000) and the mother 1/6 (Rs 8,00,000). The remaining Rs 34,00,000 goes to the children, the son twice the daughter: Rs 22,66,667 and Rs 11,33,333. A mufti writes this case on a base of 72 parts (wife 9, mother 12, son 34, daughter 17); the calculator's worked sheet shows the same parts.</p>
 <h2>Paid to the widow before inheritance: mehr</h2>
-<p>Unpaid mehr is a debt the husband owed his wife. It is paid in full from his estate before anything is divided, just like a bank loan, and only then does she take her 1/8 or 1/4 of what remains. A mehr fixed in silver or gold is paid at its value today; the <a href="/haq-mehr-calculator/">haq mehr calculator</a> converts it at the live rate.</p>
+<p>Unpaid mehr is a debt the husband owed his wife (the Quran tells husbands to give it, Surah an-Nisa 4:4). It is paid in full from his estate before anything is divided, just like a bank loan, and only then does she take her 1/8 or 1/4 of what remains. A mehr fixed in silver or gold is paid at its value today; the <a href="/haq-mehr-calculator/">haq mehr calculator</a> converts it at the live rate.</p>
 <p>When a wife dies, the mehr her husband still owed her becomes part of her own estate. He pays it into her estate, and it is then divided among all her heirs, including him.</p>
 <h2>What is not part of the estate</h2>
 <p>The wife's jewellery, dowry and gifts are her own property, not her husband's estate, unless they were clearly his. In the same way, a house in the wife's name belongs to her. Only what the deceased owned is divided.</p>
@@ -172,13 +172,13 @@ HTML
 			'blurb'   => 'wirasat par zakat',
 			'content' => <<<'HTML'
 [myzt_answer q="Is zakat due on inherited money and gold?"]Inheritance itself is not taxed by zakat. Once your share is yours, inherited cash, gold, silver and trade goods count with the rest of your wealth, and zakat is due on them at 2.5% when your zakatable wealth is at or above the nisab and a lunar year has passed. Land or a house you keep to live in, rent out or farm has no zakat on its value.[/myzt_answer]
-<p>After a death the family has two questions in quick succession: how to divide what was left, and what each heir now owes in zakat. The first is answered by the <a href="/wirasat-calculator/">wirasat calculator</a>, which gives each heir's share of cash, land and gold. This guide answers the second, and the <a href="/">zakat calculator</a> does the arithmetic once you know your share.</p>
+<p>After a death the family has two questions in quick succession: how to divide what was left (the shares of Surah an-Nisa 4:11-12), and what each heir now owes in zakat. The first is answered by the <a href="/wirasat-calculator/">wirasat calculator</a>, which gives each heir's share of cash, land and gold. This guide answers the second, and the <a href="/">zakat calculator</a> does the arithmetic once you know your share.</p>
 <h2>First: the deceased's own zakat</h2>
 <p>If the person who died had not paid zakat for some years, the schools differ on whether it is taken from the estate before division. In the Hanafi school it is paid only if they left a will for it, from up to one third; in the Shafi'i and Hanbali schools it is a debt to Allah paid from the estate before inheritance, will or no will. The details, and how to estimate missed years, are in <a href="/missed-zakat-past-years/">missed zakat for past years</a>. Missed fasts work in a similar way; see <a href="/roza-fidya/">fidya for a deceased person</a>.</p>
 <h2>When does your zakat year start?</h2>
 <ul>
 <li><strong>If you already own the nisab (Hanafi):</strong> inherited cash, gold, silver and trade goods join your existing zakat year, just like a salary or a gift, and are counted on your next zakat date even if they arrived the week before. This is the Hanafi rule of joining acquired wealth to the nisab you own (see <a href="/hawl-zakat-due-date/">hawl and your zakat date</a>).</li>
-<li><strong>If you already own the nisab (Shafi'i, Maliki, Hanbali):</strong> wealth that comes from outside, including an inheritance, starts its own lunar year. Many people simply pay on everything on their usual zakat date; Shafi'i and Hanbali scholars allow that as paying early.</li>
+<li><strong>If you already own the nisab (Shafi'i, Maliki, Hanbali):</strong> wealth that comes from outside, including an inheritance, starts its own lunar year ("no zakat is due on wealth until a year passes over it", Abu Dawud 1573). Many people simply pay on everything on their usual zakat date; Shafi'i and Hanbali scholars allow that as paying early.</li>
 <li><strong>If the inheritance is what brings you to the nisab:</strong> your zakat year starts then, and your first zakat is due one lunar year later. The <a href="/zakat-date-calculator/">zakat date calculator</a> works out that date and sets a reminder.</li>
 </ul>
 <h2>When the estate takes years to divide</h2>

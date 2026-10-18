@@ -330,6 +330,13 @@ class MYZT_SEO {
 					'height' => 512,
 				),
 				'founder' => array( '@id' => $per_id ),
+				'contactPoint' => array(
+					'@type'             => 'ContactPoint',
+					'contactType'       => 'customer support',
+					'email'             => $s['contact_email'],
+					'url'               => MYZT_Frontend::page_url( 'contact' ),
+					'availableLanguage' => array( 'English', 'Urdu' ),
+				),
 			);
 			$graph[] = array(
 				'@type'      => 'WebSite',
@@ -340,14 +347,19 @@ class MYZT_SEO {
 				'inLanguage' => get_bloginfo( 'language' ),
 				'publisher'  => array( '@id' => $org_id ),
 			);
+			// FIX-132: url is the bio on /about/; the LinkedIn profile stays in sameAs.
 			$person = array(
-				'@type' => 'Person',
-				'@id'   => $per_id,
-				'name'  => $s['author_name'],
-				'email' => $s['contact_email'],
+				'@type'       => 'Person',
+				'@id'         => $per_id,
+				'name'        => $s['author_name'],
+				'url'         => MYZT_Frontend::author_page(),
+				'email'       => $s['contact_email'],
+				'jobTitle'    => 'Founder and editor, My Zakat Tool',
+				'description' => 'Builds and maintains My Zakat Tool and writes its guides from published fatwas and texts. Not a scholar or mufti; the rules are sourced and open to correction.',
+				'knowsAbout'  => array( 'Zakat calculation', 'Nisab', 'Islamic inheritance (wirasat)', 'Fitrana and fidya' ),
+				'worksFor'    => array( '@id' => $org_id ),
 			);
 			if ( $s['author_url'] ) {
-				$person['url']    = $s['author_url'];
 				$person['sameAs'] = array( $s['author_url'] );
 			}
 			$graph[] = $person;
@@ -548,7 +560,7 @@ class MYZT_SEO {
 		$n = (string) MYZT_Settings::get( 'author_name' );
 		if ( '' !== $n ) {
 			$data['author_name'] = $n;
-			$data['author_url']  = MYZT_Frontend::page_url( 'about' );
+			$data['author_url']  = MYZT_Frontend::author_page();
 		}
 		return $data;
 	}
@@ -722,9 +734,23 @@ class MYZT_SEO {
 		exit;
 	}
 
+	/** FIX-108: the figures an AI answer most often needs, stated once. */
+	private static function llms_facts() {
+		return "## Key facts\n\n"
+			. "- Zakat: 2.5% of zakatable wealth held for one lunar year (354 days) at or above the nisab.\n"
+			. "- Nisab: gold 87.48 g (7.5 tola), silver 612.35 g (52.5 tola); 1 tola = 11.6638 g. Shia (Sistani) coin nisab: gold 69.12 g, silver 483.84 g.\n"
+			. "- Jewellery: zakatable when worn in Hanafi and Ahl-e-Hadith (Saudi Permanent Committee) fiqh; permissible worn jewellery exempt in Shafi'i, Maliki and Hanbali fiqh; not zakatable for Shia (Sistani) while gold is not used as currency.\n"
+			. "- Debts due now: deducted in Hanafi, Maliki and Hanbali fiqh; not deducted in Shafi'i fiqh and in the Ahl-e-Hadith setting.\n"
+			. "- Cash nisab: silver by default in Hanafi, Maliki, Hanbali and Ahl-e-Hadith settings; gold by default in Shafi'i (user may switch).\n"
+			. "- Fitrana and fidya (Hanafi): half a sa' of wheat (about 1.75 to 2 kg) or one sa' of barley, dates or raisins per person or per fast; CII Pakistan 1447 minimum Rs 300 (wheat), Rs 1,600 (dates).\n"
+			. "- Haq mehr: 1 dirham = 3.0618 g silver; Hanafi minimum 10 dirham (30.62 g); Mehr-e-Fatimi 500 dirham (1,530.9 g, 131.25 tola).\n"
+			. "- Diyat (Pakistan Penal Code s.323): value of 30,630 g of silver; notified Rs 19,352,390 for fiscal year 2026-27.\n"
+			. "- Rates: international gold and silver spot prices and exchange rates, refreshed every hour on our server.\n\n";
+	}
+
 	private static function llms() {
 		$out   = '# ' . get_bloginfo( 'name' ) . "\n\n> " . get_bloginfo( 'description' ) . "\n\n";
-		$out  .= "Free zakat calculator that calculates zakat according to each school of thought (Hanafi, Shafi'i, Maliki, Hanbali, Ahl-e-Hadith, Shia Ja'fari) with live international gold and silver rates in 50 currencies. Rules are cited from published fatwas. Not a fatwa.\n\n## Main pages\n\n";
+		$out  .= "Free zakat calculator that calculates zakat according to each school of thought (Hanafi, Shafi'i, Maliki, Hanbali, Ahl-e-Hadith, Shia Ja'fari) with live international gold and silver rates in 50 currencies. Rules are based on published fatwas and texts; some points are our reading (see " . MYZT_Frontend::page_url( 'methodology' ) . "). Not a fatwa. Made by " . MYZT_Settings::get( 'author_name' ) . ' (' . MYZT_Frontend::author_page() . "), who is not a scholar.\n\n" . self::llms_facts() . "## Main pages\n\n";
 		foreach ( MYZT_Installer::pages() as $slug => $p ) {
 			if ( empty( $p['llms'] ) || ! empty( $p['hidden'] ) ) {
 				continue;

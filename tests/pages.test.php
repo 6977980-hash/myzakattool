@@ -12,6 +12,7 @@ function esc_attr( $s ) {
 }
 require __DIR__ . '/../includes/content.php';
 require __DIR__ . '/../includes/content-urdu.php';
+require __DIR__ . '/../includes/class-cite.php';
 
 $pages = array_merge( myzt_content_pages(), myzt_content_urdu() );
 foreach ( myzt_content_posts() as $slug => $post ) {
@@ -97,6 +98,17 @@ foreach ( array( 'free-zakat-widget', 'fidya-kaffara-calculator', 'ushr-calculat
 	check( $n >= 4, "$tool has $n linking pages in content" );
 	check( in_array( $tool, $footer, true ), "$tool is in the footer" );
 }
+
+// FIX-130: every rule page links at least two of its sources once MYZT_Cite has run.
+$rule_pages = array( 'hanafi-zakat-calculator', 'shafi-zakat-calculator', 'maliki-zakat-calculator', 'hanbali-zakat-calculator', 'ahl-e-hadith-zakat-calculator', 'shia-zakat-calculator', 'madhab-comparison', 'methodology', 'zakat-on-jewellery', 'fitrana-calculator', 'fidya-kaffara-calculator', 'roza-fidya', 'kaffara-for-breaking-a-fast', 'haq-mehr-calculator', 'diyat-calculator', 'wirasat-calculator', 'daughters-share-in-inheritance', 'wife-husband-share-in-inheritance', 'orphaned-grandchildren-inheritance', 'zakat-on-inherited-wealth', 'hawl-zakat-due-date', 'missed-zakat-past-years', 'ushr-on-crops', 'zakat-on-livestock', 'khums-who-must-pay', 'who-can-receive-zakat' );
+foreach ( $rule_pages as $slug ) {
+	$n = MYZT_Cite::count( MYZT_Cite::link( $pages[ $slug ]['content'] ) );
+	check( $n >= 2, "$slug links $n external sources (want 2)" );
+}
+$linked = MYZT_Cite::link( 'See Bukhari (1936), Muslim 1111 and 4:11. <a href="/x/">Bukhari 1936</a> <h2>Abu Dawud 1573</h2> [myzt_answer q="q"]Tirmidhi 678[/myzt_answer]' );
+check( 2 === substr_count( $linked, 'sunnah.com' ) && false !== strpos( $linked, 'https://quran.com/4/11' ), 'MYZT_Cite links hadith and verses' );
+check( false === strpos( $linked, 'abudawud' ) && false === strpos( $linked, 'tirmidhi' ), 'MYZT_Cite leaves headings and quick answers alone' );
+check( false !== strpos( $linked, '>Bukhari (1936)</a>' ), 'MYZT_Cite keeps brackets inside the link text' );
 
 echo $fail ? "$fail check(s) failed\n" : 'Page checks OK (' . count( $pages ) . " pages)\n";
 exit( $fail ? 1 : 0 );
