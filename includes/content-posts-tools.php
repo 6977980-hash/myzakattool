@@ -277,7 +277,7 @@ HTML
 
 		'roza-fidya' => array(
 			'title'   => 'Roza Fidya: How Much to Pay for Missed Fasts and Who Pays It',
-			'seo'     => 'Roza Fidya Kitna Hai? Who Pays & How Much ({year})',
+			'seo'     => 'Roza Fidya Kitna Hai? Who Pays & How Much ({fyear})',
 			'desc'    => 'Who may pay fidya instead of fasting, how much it is in the Hanafi and other schools, how to turn it into rupees, and worked examples for 10, 30 and 60 fasts.',
 			'nav'     => 'Roza fidya guide',
 			'blurb'   => 'roza fidya',
@@ -328,7 +328,7 @@ HTML
 <h3>Shafi'i, Maliki and Hanbali</h3>
 <p>The fidya is one mudd of the main staple food of the place for each day, about 0.6 kg. In Pakistan the staple is wheat flour or rice; in the Gulf and Malaysia it is usually rice. Scholars of these schools generally prefer giving the food itself, although many contemporary bodies accept the value. One mudd is roughly a quarter of a sa', so the amount is much smaller than the Hanafi one.</p>
 <h3>Shia (Ja'fari)</h3>
-<p>For readers who follow Ayatollah Sistani, his rulings set the fidya at one mudd, about 750 grams, of food such as wheat, barley or bread for each day. The details on who pays it are in his <em>Islamic Laws</em> on sistani.org.</p>
+<p>For readers who follow Ayatollah Sistani, his rulings set the fidya at one mudd, about 750 grams, of food such as wheat, barley or bread for each day. The difference from the 0.6 kg above is only in converting the mudd, a measure of volume, into weight; scholars' estimates range from about 0.5 to 0.75 kg. The details on who pays it are in his <em>Islamic Laws</em> on sistani.org.</p>
 <h2>How to work out fidya in rupees</h2>
 <p>Do not rely on a figure from a forwarded message or last year's poster. The amount changes with flour prices, and each city's prices differ. Here is the method:</p>
 <ol>
@@ -337,16 +337,16 @@ HTML
 <li><strong>Count the fasts.</strong> Count only the fasts the person truly cannot make up. A full Ramadan is 29 or 30 days.</li>
 <li><strong>Multiply.</strong> Number of fasts times the amount for one fast. That is the whole sum.</li>
 </ol>
-<p>For example, <em>if</em> the announced wheat amount in your city is Rs X per person, then 30 fasts come to 30 times X. As a purely hypothetical illustration, if X were Rs 300, the fidya for 30 fasts would be Rs 9,000. That Rs 300 is not an official rate; replace it with the amount announced this year. If no amount has been announced where you live, use the local price of 2 kg of flour. For the Shafi'i, Maliki and Hanbali amount, use the price of about 0.6 kg of your staple food instead.</p>
+<p>For example, for Ramadan 1447 (February 2026) the Council of Islamic Ideology, Pakistan, gave a minimum of Rs 300 per person by wheat and Rs 1,600 by dates. At Rs 300, the fidya for 30 fasts is Rs 9,000. When the amounts for the coming Ramadan are announced, use those instead. Some charities quote a higher figure per fast (Alkhidmat, for example, gave Rs 600 in 2026). That is not a contradiction: Rs 300 is the CII's minimum by wheat, and an organisation may base its figure on a better food or on local prices. Paying more is allowed; paying less than the minimum is not enough. If no amount has been announced where you live, use the local price of 2 kg of flour. For the Shafi'i, Maliki and Hanbali amount, use the price of about 0.6 kg of your staple food instead.</p>
 <p>The <a href="/fidya-kaffara-calculator/">fidya calculator</a> does this multiplication for you: enter the number of fasts and the amount for one fast. The <a href="/fitrana-calculator/">fitrana calculator</a> uses the same per-person amounts, which helps if you are paying fitrana and fidya together before Eid.</p>
 <h2>Worked examples: 10, 30 and 60 fasts</h2>
-<p>The table uses hypothetical amounts for one fast, chosen only to show the arithmetic. They are not announced rates. Put this year's figures in their place.</p>
+<p>The table uses the CII amounts for Ramadan 1447 (February 2026) for the Hanafi columns, and an example price for one mudd. Put the amounts for your year and city in their place.</p>
 <figure class="wp-block-table"><table>
-<thead><tr><th>Fasts</th><th>Hanafi, wheat (example Rs 300 each)</th><th>Hanafi, dates (example Rs 1,500 each)</th><th>Other schools, 1 mudd (example Rs 90 each)</th></tr></thead>
+<thead><tr><th>Fasts</th><th>Hanafi, wheat (CII 1447: Rs 300 each)</th><th>Hanafi, dates (CII 1447: Rs 1,600 each)</th><th>Other schools, 1 mudd (example Rs 90 each)</th></tr></thead>
 <tbody>
-<tr><td>10</td><td>Rs 3,000</td><td>Rs 15,000</td><td>Rs 900</td></tr>
-<tr><td>30 (one Ramadan)</td><td>Rs 9,000</td><td>Rs 45,000</td><td>Rs 2,700</td></tr>
-<tr><td>60 (two Ramadans)</td><td>Rs 18,000</td><td>Rs 90,000</td><td>Rs 5,400</td></tr>
+<tr><td>10</td><td>Rs 3,000</td><td>Rs 16,000</td><td>Rs 900</td></tr>
+<tr><td>30 (one Ramadan)</td><td>Rs 9,000</td><td>Rs 48,000</td><td>Rs 2,700</td></tr>
+<tr><td>60 (two Ramadans)</td><td>Rs 18,000</td><td>Rs 96,000</td><td>Rs 5,400</td></tr>
 </tbody>
 </table></figure>
 <h3>Example 1: an elderly father</h3>
@@ -488,7 +488,7 @@ HTML
 <h2>Kaffara in rupees: a worked example</h2>
 <p>The numbers below are <strong>hypothetical</strong>, only to show the method. Use the fitrana amount your scholars announce this Ramadan, or the local price of about 2 kg of wheat flour.</p>
 <h3>Example 1: fitrana method</h3>
-<p>Imagine the announced fitrana for wheat is Rs 300 per person. One kaffara by feeding is 60 × Rs 300 = <strong>Rs 18,000</strong>. If the person can afford it, paying by the dates or raisins rate (say Rs 1,500 per person in this example) gives 60 × Rs 1,500 = Rs 90,000, which carries more reward but is not required.</p>
+<p>For Ramadan 1447 (February 2026) the Council of Islamic Ideology gave Rs 300 per person by wheat. One kaffara by feeding is 60 × Rs 300 = <strong>Rs 18,000</strong>. If the person can afford it, paying by the dates rate (Rs 1,600 per person) gives 60 × Rs 1,600 = Rs 96,000, which carries more reward but is not required. Use the amounts announced for your year.</p>
 <h3>Example 2: meals method</h3>
 <p>Suppose a simple meal costs Rs 250. Two meals for 60 people is 60 × 2 × Rs 250 = <strong>Rs 30,000</strong>.</p>
 <h3>Example 3: three broken fasts</h3>
@@ -520,7 +520,7 @@ HTML
 			'faq'     => array(
 				array( 'q' => 'Roza todne ka kaffara kya hai?', 'a' => 'Lagatar 60 roze rakhna. Jo shakhs waqai itne roze na rakh sake, wo 60 miskeenon ko do waqt khana khilaye ya har aik ko aik fitrane ke barabar de. Toote hue roze ki qaza alag se rakhni hai.' ),
 				array( 'q' => 'Kya kaffara paison mein de sakte hain?', 'a' => 'Hanafi fiqh mein sirf us shakhs ke liye jo 60 roze na rakh sake: har miskeen ko fitrane ki qeemat, yani 60 fitrane. Jo roze rakh sakta hai us ke liye paise dena kafi nahi.' ),
-				array( 'q' => 'How much is kaffara in rupees?', 'a' => 'Sixty times the fitrana amount announced for the year. For example, at a hypothetical Rs 300 per person, one kaffara is Rs 18,000.' ),
+				array( 'q' => 'How much is kaffara in rupees?', 'a' => 'Sixty times the fitrana amount announced for the year. For example, at the CII 1447 (2026) wheat amount of Rs 300 per person, one kaffara is Rs 18,000.' ),
 				array( 'q' => 'Does breaking a fast by eating need kaffara?', 'a' => 'In the Hanafi and Maliki schools, yes, if it was deliberate and without excuse. In the Shafi\'i and Hanbali schools, no: qada and repentance only.' ),
 				array( 'q' => 'I broke two fasts this Ramadan. Do I owe two kaffaras?', 'a' => 'In the Hanafi view one kaffara is enough if you have not paid one yet, plus two qada fasts. In the Shafi\'i, Maliki and Hanbali views each day needs its own kaffara.' ),
 				array( 'q' => 'Can a woman pause her 60 fasts for her period?', 'a' => 'Yes. Menstruation does not break the sequence; she continues after it ends without starting again.' ),
@@ -558,7 +558,7 @@ HTML
 <li><strong>Go by the majority.</strong> If most of the season's watering came from rain, pay 10%; if most came from the tube well, pay 5%. In the Hanafi school this is the main rule.</li>
 <li><strong>If the two are about equal,</strong> the Shafi'i and Hanbali schools give three quarters of a tenth, which is 7.5%.</li>
 </ul>
-<p>In the Shafi'i, Maliki and Hanbali modes our <a href="/ushr-calculator/">calculator</a> offers a "mixed" option at 7.5% (it is not shown in Hanafi mode, where the source used for most of the season decides). That is the right answer when the watering was roughly half and half. If one source clearly dominated, choose "rain" or "irrigated" instead, following the majority rule. Some scholars prefer to split the rate in exact proportion (for example, two thirds rain and one third tube well), which gives a figure between 5% and 10%; that is also a recognised view.</p>
+<p>In the Shafi'i, Maliki and Hanbali modes our <a href="/ushr-calculator/">ushr calculator</a> offers a "mixed" option at 7.5% (it is not shown in Hanafi mode, where the source used for most of the season decides). That is the right answer when the watering was roughly half and half. If one source clearly dominated, choose "rain" or "irrigated" instead, following the majority rule. Some scholars prefer to split the rate in exact proportion (for example, two thirds rain and one third tube well), which gives a figure between 5% and 10%; that is also a recognised view.</p>
 
 <h2>Is there a minimum (nisab) for ushr?</h2>
 <p>This is the biggest difference between the schools, and it matters for small farmers.</p>

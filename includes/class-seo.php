@@ -134,8 +134,29 @@ class MYZT_SEO {
 
 	/* ---------- titles and descriptions ---------- */
 
-	private static function fill( $s ) {
-		return str_replace( '{year}', (string) MYZT_Installer::season_year(), (string) $s );
+	/**
+	 * Placeholders in titles and descriptions: {year} the coming zakat season, {cyear} this calendar
+	 * year (live-rate pages, FIX-142), {fyear} the year of the fitrana amounts in use, and
+	 * {rate:TYPE} today's figure from [myzt_rate] (FIX-164). $live false (stored excerpts) writes
+	 * "today's rate" instead of a number that would go stale.
+	 */
+	public static function fill( $s, $live = true ) {
+		$s = strtr(
+			(string) $s,
+			array(
+				'{year}'  => (string) MYZT_Installer::season_year(),
+				'{cyear}' => gmdate( 'Y' ),
+				'{fyear}' => (string) MYZT_Frontend::fitrana_year(),
+			)
+		);
+		return preg_replace_callback(
+			'/\{rate:([a-z0-9-]+)\}/',
+			function ( $m ) use ( $live ) {
+				$v = $live ? MYZT_Frontend::rate_inline( array( 'type' => $m[1] ) ) : '—';
+				return '—' === $v ? "today's rate" : html_entity_decode( $v, ENT_QUOTES, 'UTF-8' );
+			},
+			$s
+		);
 	}
 
 	public static function page_title( $post_id ) {
