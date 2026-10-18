@@ -98,6 +98,15 @@ test('phone width: no sideways scroll outside the shajra box', async () => {
 	await f.waitForSelector('#resultSec:not([hidden])');
 	const over = await f.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
 	assert.ok(over <= 1, 'page overflow ' + over + 'px');
+	// A long name for the deceased makes every status option longer; the inputs and the plus and minus buttons stay on screen.
+	await f.fill('#dname', 'چوہدری محمد اسلم خان صاحب ولد چوہدری غلام رسول');
+	await f.click('[data-step^="r-son-"][data-d="1"]'); // the rows are drawn again with the name in their options
+	const out = await f.evaluate(() => {
+		const w = document.documentElement.clientWidth;
+		return [...document.querySelectorAll('.form input, .form select, .form .step button')].filter((e) => { const r = e.getBoundingClientRect(); return r.width && (r.left < -1 || r.right > w + 1); })
+			.map((e) => (e.dataset.step || e.dataset.status || e.dataset.name || e.id) + ' ' + Math.round(e.getBoundingClientRect().left) + '..' + Math.round(e.getBoundingClientRect().right));
+	});
+	assert.deepEqual(out, [], 'form controls off screen with a long name');
 	// On a phone the shajra opens full size (shrunk to fit it cannot be read), scrolling sideways inside its own box;
 	// "پورا شجرہ دکھائیں" shrinks it to fit, and the button brings the full size back.
 	const fits = () => f.evaluate(() => { const b = document.getElementById('tree').parentNode; return b.scrollWidth - b.clientWidth; });

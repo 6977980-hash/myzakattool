@@ -72,8 +72,11 @@ input.num { direction: ltr; text-align: right; font-variant-numeric: tabular-num
 .people { display: grid; gap: 6px; padding-inline-start: 12px; border-inline-start: 3px solid var(--accent-soft); }
 .p { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; }
 .p .idx { font-size: 12.5px; color: var(--muted); min-width: 52px; }
-.p input.in { flex: 1 1 130px; width: auto; }
-.p select.in { flex: 1 1 210px; width: auto; }
+/* min-width 0: a select is as wide as its longest option ("<name> کی وفات سے پہلے فوت"), so with a long name it pushed
+   the row past a phone's screen and hid the minus button. The rows and the select now shrink to the screen instead. */
+.row > *, .people > * { min-width: 0; }
+.p input.in { flex: 1 1 130px; width: auto; min-width: 0; max-width: 100%; }
+.p select.in { flex: 1 1 210px; width: auto; min-width: 0; max-width: 100%; text-overflow: ellipsis; }
 .kids { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; background: var(--warn-soft); border-radius: 8px; padding: 6px 10px; font-size: 13px; flex-basis: 100%; }
 .group { font-family: var(--display); font-size: 17px; color: var(--muted); padding-top: 6px; }
 details.more > summary { cursor: pointer; font-weight: 600; min-height: 36px; display: flex; align-items: center; }
