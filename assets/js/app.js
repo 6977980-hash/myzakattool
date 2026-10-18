@@ -104,6 +104,7 @@
 			k_total: 'Khums (20%)', k_surplus: 'Surplus', k_imam: 'Sahm-e-Imam (10%)', k_sadat: 'Sahm-e-Sadat (10%)',
 			perGram: 'per gram', perTola: 'per tola', perOz: 'per ounce', purity: 'Purity',
 			err_negative: 'Amounts cannot be negative. Enter debts under Debts / Bills. This value is not counted.',
+			err_negative_any: 'Amounts cannot be negative. This value is not counted.',
 			err_invalid: 'Please type a plain number, for example 250000 or 2,50,000. This value is not counted.',
 			fineness: 'Fineness', fine999: 'Pure (999)', fine925: 'Sterling (925)', fine900: '900',
 			c_toPay: 'Still to pay',
@@ -211,6 +212,7 @@
 			k_total: 'خمس (20%)', k_surplus: 'بچت', k_imam: 'سہمِ امام (10%)', k_sadat: 'سہمِ سادات (10%)',
 			perGram: 'فی گرام', perTola: 'فی تولہ', perOz: 'فی اونس', purity: 'خالصیت',
 			err_negative: 'رقم منفی نہیں ہو سکتی۔ قرض "قرض/بل" والے حصے میں لکھیں۔ یہ رقم شامل نہیں کی گئی۔',
+			err_negative_any: 'رقم منفی نہیں ہو سکتی۔ یہ رقم شامل نہیں کی گئی۔',
 			err_invalid: 'صرف عدد لکھیں، مثلاً 250000 یا 2,50,000۔ یہ رقم شامل نہیں کی گئی۔',
 			fineness: 'خالصیت', fine999: 'خالص (999)', fine925: 'اسٹرلنگ (925)', fine900: '900',
 			c_toPay: 'ابھی ادا کرنی ہے',
@@ -262,7 +264,9 @@
 			if (el.id) { msg.id = el.id + '-err'; el.setAttribute('aria-describedby', msg.id); }
 			box.appendChild(msg);
 		}
-		msg.textContent = t('err_' + r.error);
+		// Only the main calculator has a Debts / Bills section to point to (FIX-125).
+		var w = el.closest('.myzt[data-widget]');
+		msg.textContent = t(r.error === 'negative' && !(w && w.dataset.widget === 'calculator') ? 'err_negative_any' : 'err_' + r.error);
 		return false;
 	}
 	function isNumberBox(el) { return el && el.tagName === 'INPUT' && /^(decimal|numeric)$/.test(el.getAttribute('inputmode') || ''); }

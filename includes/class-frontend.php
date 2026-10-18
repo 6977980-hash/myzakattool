@@ -287,7 +287,7 @@ class MYZT_Frontend {
 		$s    = MYZT_Settings::get();
 		$date = strtotime( $s['rules_reviewed'] . ' 12:00:00' );
 		$who  = $s['author_name'] . ( $s['reviewer'] ? ', reviewed by ' . $s['reviewer'] : '' );
-		$h    = '<p class="myzt-reviewed" style="font-size:13px;color:#5d736e;border-top:1px solid #dfe9e6;padding-top:8px">';
+		$h    = '<p class="myzt-reviewed" lang="en" dir="ltr" style="font-size:13px;color:#5d736e;border-top:1px solid #dfe9e6;padding-top:8px">';
 		if ( $date ) {
 			// FIX-048: without a named scholar, make clear the check was the site owner's, not a scholar review.
 			$h .= 'Rules last checked: <time datetime="' . esc_attr( gmdate( 'Y-m-d', $date ) ) . '">' . esc_html( wp_date( 'j F Y', $date ) ) . '</time> by ' . esc_html( $who ) .

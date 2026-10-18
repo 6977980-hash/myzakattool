@@ -108,10 +108,11 @@ class MYZT_SEO {
 		return $out;
 	}
 
-	/** <html lang="ur"> on the Urdu pages. Direction stays with the content box, so the theme's menu is not mirrored. */
+	/** <html lang="ur" dir="rtl"> on the Urdu pages, so the heading, text and breadcrumb read right to left (FIX-113). */
 	public static function html_lang( $output ) {
 		if ( self::is_ur() ) {
-			$output = preg_replace( '/lang="[^"]*"/', 'lang="ur"', $output );
+			$output = preg_replace( '/\s*dir="[^"]*"/', '', $output );
+			$output = preg_replace( '/lang="[^"]*"/', 'lang="ur" dir="rtl"', $output );
 		}
 		return $output;
 	}
