@@ -38,7 +38,7 @@ class MYZT_Settings {
 			'override_at'     => '',
 			'security_email'  => '',
 			'login_slug'      => '',
-			'rules_reviewed'  => '2026-10-04',
+			'rules_reviewed'  => '2026-10-18',
 			'gsc_verify'      => '',
 			'bing_verify'     => '',
 		);

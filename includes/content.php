@@ -143,7 +143,7 @@ HTML,
 <h2>Shafi'i zakat rules used in this calculator</h2>
 <ul>
 <li><strong>Jewellery:</strong> no zakat on permissible jewellery that is worn. If it goes beyond the customary amount (200 mithqal: about 850 g at 4.25 g per mithqal; the calculator uses the 860 g figure we read in MUIS guidance, pending verification) it becomes zakatable, as do pieces kept for investment (MUIS Office of the Mufti, citing Imam al-Nawawi's <em>al-Majmu'</em>).</li>
-<li><strong>Debts:</strong> in the relied-upon position, debts do not prevent or reduce zakat.</li>
+<li><strong>Debts:</strong> in the relied-upon position, debts do not prevent or reduce zakat (SeekersGuidance, "Which debts affect zakat").</li>
 <li><strong>Gold and silver:</strong> treated as two separate classes; each is checked against its own nisab.</li>
 <li><strong>Cash and trade goods:</strong> valued against a nisab standard. Official bodies in Malaysia and Singapore use the gold standard; you can switch to silver in the calculator.</li>
 <li><strong>Money owed to you:</strong> zakat is paid every year on loans you are sure to get back.</li>
@@ -170,7 +170,7 @@ HTML,
 <h2>Maliki zakat rules used in this calculator</h2>
 <ul>
 <li><strong>Jewellery:</strong> no zakat on permissible jewellery that is used and worn (Mufti of Wilayah Persekutuan, Irsyad Fatwa 38, summarising the Maliki, Shafi'i and Hanbali view).</li>
-<li><strong>Debts:</strong> debts reduce zakat on "hidden" wealth: cash, gold, silver and trade goods. They do not reduce zakat on crops and livestock (see the <a href="/ushr-calculator/">ushr and livestock calculator</a>).</li>
+<li><strong>Debts:</strong> debts reduce zakat on "hidden" wealth: cash, gold, silver and trade goods. They do not reduce zakat on crops and livestock (see the <a href="/ushr-calculator/">ushr and livestock calculator</a>). Source: SeekersGuidance, "Which debts affect zakat".</li>
 <li><strong>Gold and silver:</strong> may be combined to reach the nisab.</li>
 <li><strong>Money owed to you:</strong> a merchant pays yearly on trade debts; for a cash loan, zakat is paid when it is received.</li>
 <li><strong>Nisab for cash:</strong> the calculator starts with silver and lets you switch to gold. Ask a local scholar which your community uses.</li>
@@ -216,7 +216,7 @@ HTML,
 <ul>
 <li><strong>Jewellery:</strong> "Zakat is not required on permitted jewellery that is ready to be used or lent out" (<em>Akhsar al-Mukhtasarat</em>, Book of Zakat).</li>
 <li><strong>Combining:</strong> gold and silver are added together to complete the nisab.</li>
-<li><strong>Nisab for cash and trade goods:</strong> the standard that is best for the poor, which today is silver.</li>
+<li><strong>Nisab for cash and trade goods:</strong> the standard that is best for the poor, which today is silver. The two nisabs, 20 dinars of gold and 200 dirhams of silver held for a year, come from the hadith of Ali (Abu Dawud 1573).</li>
 <li><strong>Debts:</strong> subtracted before checking the nisab.</li>
 </ul>
 <p>Some well-known scholars in Saudi Arabia, such as the Permanent Committee, hold that jewellery is zakatable. If you follow that view, use the <a href="/ahl-e-hadith-zakat-calculator/">Ahl-e-Hadith calculator</a>, which applies it.</p>
@@ -558,9 +558,9 @@ HTML
 [myzt_answer q="How much is fitrana?"]Fitrana is paid for every member of the family before the Eid prayer. In Hanafi fiqh it is half a sa' of wheat (about 1.75 to 2 kg) or one sa' of barley, dates or raisins (about 4 kg), or their value. Scholars announce the amount in money each Ramadan.[/myzt_answer]
 [zakat_fitrana]
 <h2>Who must pay fitrana?</h2>
-<p>In Hanafi fiqh, which the amounts above follow, fitrana is wajib on every Muslim who at dawn on Eid day owns wealth equal to the nisab over and above basic needs and debts. This wealth does not need to have been held for a year or be zakatable wealth (<em>al-Hidayah</em>, Sadaqat al-Fitr). The person pays for himself and his young children; many also pay for their wife and other dependants. The Shafi'i, Maliki and Hanbali schools set a lower bar: anyone who has more than the food the family needs for the day and night of Eid pays.</p>
+<p>In Hanafi fiqh, which the amounts above follow, fitrana is wajib on every Muslim (Bukhari 1503) who at dawn on Eid day owns wealth equal to the nisab over and above basic needs and debts. This wealth does not need to have been held for a year or be zakatable wealth (<em>al-Hidayah</em>, Sadaqat al-Fitr). The person pays for himself and his young children; many also pay for their wife and other dependants. The Shafi'i, Maliki and Hanbali schools set a lower bar: anyone who has more than the food the family needs for the day and night of Eid pays.</p>
 <h2>When to pay</h2>
-<p>Before the Eid prayer, so that the poor can celebrate Eid. Paying it during Ramadan is allowed and makes it easier to reach people in need.</p>
+<p>Before the Eid prayer, so that the poor can celebrate Eid; the Prophet ﷺ called it a purification for the fasting person and food for the poor, accepted as fitrana when paid before the prayer (Abu Dawud 1609). Paying it during Ramadan is allowed and makes it easier to reach people in need.</p>
 <h2>Which item to choose</h2>
 <p>You may pay the value of any of the four items. Those who can afford it are encouraged to pay by the more expensive items (dates or raisins), as this gives more to the poor.</p>
 <h2>Worked example: a family of five</h2>
@@ -603,9 +603,9 @@ HTML
 [myzt_answer q="How much is fidya for one fast?"]In the Hanafi madhab the fidya for one missed fast is the same as one fitrana: half a sa' of wheat (about 1.75 to 2 kg) or its value, given to a poor person. Kaffara for a fast broken on purpose is fasting 60 days in a row, or, for someone who cannot, feeding 60 poor people, which is 60 times that amount.[/myzt_answer]
 [zakat_fidya]
 <h2>Fidya: who pays it</h2>
-<p>Fidya is for a person who cannot fast and has no hope of fasting later, such as someone very old or with a long-term illness. They pay one fidya for each fast. Someone who missed fasts because of travel, a short illness, pregnancy or breastfeeding makes the fasts up later (qada) and does not pay fidya instead. If a person who could have made up their fasts dies without doing so, and left a will (wasiyyat), the fidya is paid from up to one third of what they left.</p>
+<p>Fidya is for a person who cannot fast and has no hope of fasting later (Surah al-Baqarah 2:184), such as someone very old or with a long-term illness. They pay one fidya for each fast. Someone who missed fasts because of travel, a short illness, pregnancy or breastfeeding makes the fasts up later (qada) and does not pay fidya instead. If a person who could have made up their fasts dies without doing so, and left a will (wasiyyat), the fidya is paid from up to one third of what they left.</p>
 <h2>Kaffara: when it is due</h2>
-<p>In Hanafi fiqh kaffara is due when an adult deliberately breaks a Ramadan fast by eating, drinking or marital relations without a valid excuse. The kaffara is to fast 60 days in a row. Only a person who truly cannot do that may feed 60 poor people (two meals each) or give each of them the amount of one fitrana. Several fasts broken in the same Ramadan need one kaffara in the Hanafi view, as long as the first kaffara has not been paid yet. Each broken fast is also made up with one qada fast.</p>
+<p>In Hanafi fiqh kaffara is due when an adult deliberately breaks a Ramadan fast by eating, drinking or marital relations without a valid excuse. The kaffara is to fast 60 days in a row. Only a person who truly cannot do that may feed 60 poor people (Bukhari 1936, Muslim 1111) (two meals each) or give each of them the amount of one fitrana. Several fasts broken in the same Ramadan need one kaffara in the Hanafi view, as long as the first kaffara has not been paid yet. Each broken fast is also made up with one qada fast.</p>
 <h2>Other schools</h2>
 <p>In the Shafi'i, Maliki and Hanbali schools the fidya and each kaffara meal are one mudd of the local staple food (about 0.6 kg), which is less than the Hanafi half sa'. The Shafi'i and Hanbali schools require kaffara only for breaking the fast with marital relations; eating or drinking deliberately needs qada and repentance. Use the amount your own scholars announce.</p>
 <h2>How much in rupees?</h2>
@@ -683,7 +683,7 @@ HTML
 [myzt_answer q="What is the diyat amount in Pakistan?"]For the fiscal year 2026-27 the Federal Government has notified diyat at [myzt_diyat type="notified"], in force from 1 July 2026. The law fixes diyat at the value of 30,630 g of silver; at today's international silver rate that is about [myzt_diyat type="live"].[/myzt_answer]
 [zakat_diyat]
 <h2>What is diyat?</h2>
-<p>Diyat is the compensation paid to the heirs of a person who has been killed. Islamic law sets it at 100 camels, or its equivalent of 1,000 dinar of gold or, in the Hanafi madhab, 10,000 dirham of silver. In Pakistan it is part of the Pakistan Penal Code (Qisas and Diyat law), and it applies in cases of qatl-i-khata (killing by mistake), qatl shibh-i-amd, and in qatl-i-amd where qisas is not enforced.</p>
+<p>Diyat is the compensation paid to the heirs of a person who has been killed. Islamic law sets it at 100 camels (the Quran orders diyat for a killing by mistake, Surah an-Nisa 4:92), or its equivalent of 1,000 dinar of gold or, in the Hanafi madhab, 10,000 dirham of silver. In Pakistan it is part of the Pakistan Penal Code (Qisas and Diyat law), and it applies in cases of qatl-i-khata (killing by mistake), qatl shibh-i-amd, and in qatl-i-amd where qisas is not enforced.</p>
 <h2>How the amount is fixed</h2>
 <p>Section 323 of the Pakistan Penal Code says the court fixes the diyat, but it may not be less than the value of 30,630 grams of silver. The Finance Division works out that value and notifies it for each fiscal year, from 1 July to 30 June. The silver weight never changes; only the rupee figure does, because the silver price and the rupee move. 30,630 g is very close to the classical 10,000 dirham of the Hanafi madhab (10,000 × 3.0618 g = 30,618 g).</p>
 <h2>Why the amount almost doubled in 2026</h2>
@@ -1039,8 +1039,10 @@ HTML
 <p>My Zakat Tool is a free website that helps Muslims calculate zakat according to their own school of thought, with today's gold and silver rate built in.</p>
 <h2>Why we built it</h2>
 <p>Most zakat calculators follow one view only and ask you to look up the gold rate yourself. Many Muslims follow a different madhab, and the answer can change a lot, especially for jewellery and debts. We wanted one calculator that shows every school's answer with its source, in plain language, in English and Urdu.</p>
-<h2>Who is behind it</h2>
-<p>The site is made and maintained by <strong>Ali Ahmad</strong> (<a href="https://www.linkedin.com/in/ali-ahmad-chaudhry-12777486/" rel="noopener" target="_blank">LinkedIn</a>). The rules are taken from published fatwas and classical texts listed on our <a href="/methodology/">methodology</a> page. We are not a fatwa-issuing body.</p>
+<h2 id="ali-ahmad">Who is behind it: Ali Ahmad</h2>
+<p>The site is made and maintained by <strong>Ali Ahmad</strong>, its founder and editor (<a href="https://www.linkedin.com/in/ali-ahmad-chaudhry-12777486/" rel="me noopener" target="_blank">LinkedIn</a>). He designed the calculators, writes the guides, and checks every rule against the published fatwas and classical texts listed on the <a href="/methodology/">methodology</a> page before it goes live.</p>
+<p>He started the site after finding that most zakat calculators follow one madhab only and leave the gold rate to the user, while Muslims follow different schools and the answer for jewellery and debts changes a lot between them. The same gap led to the <a href="/wirasat-calculator/">wirasat calculator</a>: dividing an estate by hand is where families most often go wrong.</p>
+<p><strong>Ali Ahmad is not a scholar or a mufti</strong>, and the site does not issue fatwas. Each rule names its source; where we found no specific source, the methodology page says the point is <em>our reading</em>. The rules are open to correction: write to <a href="mailto:contact@myzakattool.com">contact@myzakattool.com</a> and every correction is dated in the change list.</p>
 <h2>What you will find here</h2>
 <ul>
 <li>A <a href="/">zakat calculator</a> with a version for each school: <a href="/hanafi-zakat-calculator/">Hanafi</a>, <a href="/shafi-zakat-calculator/">Shafi'i</a>, <a href="/maliki-zakat-calculator/">Maliki</a>, <a href="/hanbali-zakat-calculator/">Hanbali</a>, <a href="/ahl-e-hadith-zakat-calculator/">Ahl-e-Hadith</a> and <a href="/shia-zakat-calculator/">Shia (Ja'fari)</a>, and a <a href="/madhab-comparison/">side-by-side comparison</a>.</li>
@@ -1059,7 +1061,8 @@ HTML
 <p>The site is free. It may show a small number of clearly marked advertisements. We do not collect zakat or donations, and we never see the numbers you enter: every calculation runs in your own browser.</p>
 <h2>Contact</h2>
 <p>Found an error or have a suggestion? Email <a href="mailto:contact@myzakattool.com">contact@myzakattool.com</a> or see the <a href="/contact/">contact page</a>.</p>
-HTML,
+HTML
+		. $author,
 		'faq'   => array(),
 	);
 
@@ -1071,7 +1074,7 @@ HTML,
 		'blurb' => 'sources',
 		'llms'  => true,
 		'content' => <<<'HTML'
-<p>This page explains every rule the calculator uses and where it comes from. Where we have no specific source for a rule, we say it is <em>our reading</em>. If you think something is wrong, please <a href="mailto:contact@myzakattool.com">tell us</a>.</p>
+<p>This page explains the rules every calculator on this site uses (zakat, ushr, fitrana, fidya and kaffara, khums, haq mehr, diyat and wirasat) and where each comes from. Where we have no specific source for a rule, we say it is <em>our reading</em>. If you think something is wrong, please <a href="mailto:contact@myzakattool.com">tell us</a>.</p>
 [myzt_reviewed]
 <h2>Common to all Sunni schools</h2>
 <ul>
@@ -1096,7 +1099,7 @@ HTML,
 <h2 id="ahlehadith">Ahl-e-Hadith</h2>
 <p>Jewellery zakatable if it reaches the nisab; cash combined with gold and silver; lower nisab; debts not deducted. Sources: Permanent Committee (al-Lajnah ad-Da'imah), Shaykh Ibn Baz and Shaykh Ibn Uthaymeen via IslamQA answers <a href="https://islamqa.info/en/answers/19901" rel="noopener" target="_blank">19901</a>, <a href="https://islamqa.info/en/answers/201807" rel="noopener" target="_blank">201807</a> and <a href="https://islamqa.info/en/answers/22426" rel="noopener" target="_blank">22426</a>. We have not found a written fatwa from a Pakistani Ahl-e-Hadith institution on every point; this is our best reading. On adding gold and silver together these scholars differ: Shaykh Ibn Baz added them, while Shaykh Ibn Uthaymeen kept them separate. The calculator adds them.</p>
 <h2 id="jafari">Shia (Ja'fari)</h2>
-<p>Following Ayatollah Sistani, <a href="https://www.sistani.org/english/book/48/" rel="noopener" target="_blank"><em>Islamic Laws</em></a>, rulings 1912-1916: zakat on gold and silver only for coins used as currency (gold 69.12 g, silver 483.84 g); paper money and jewellery not zakatable today; khums applies to the yearly surplus.</p>
+<p>Following Ayatollah Sistani, <a href="https://www.sistani.org/english/book/48/" rel="noopener" target="_blank"><em>Islamic Laws</em></a>, <a href="https://www.sistani.org/english/book/48/2317/" rel="noopener" target="_blank">ruling 1912</a> (gold) and <a href="https://www.sistani.org/english/book/48/2318/" rel="noopener" target="_blank">rulings 1913-1916</a> (silver, currency and jewellery): zakat on gold and silver only for coins used as currency (gold 69.12 g, silver 483.84 g); paper money and jewellery not zakatable today; khums applies to the yearly surplus.</p>
 <h2>Gold, silver and currency rates</h2>
 <p>Gold and silver spot prices in US dollars per troy ounce come from gold-api.com, with a daily fallback from the open currency-api by Fawaz Ahmed. Exchange rates come from the same currency-api. Our server refreshes them every hour and caches them; your browser never contacts these services. All values are international rates; you can enter your own local rate.</p>
 <h2>Already paid and bank deduction</h2>
@@ -1108,6 +1111,8 @@ HTML,
 <li><strong><a href="/ushr-calculator/">Ushr</a>:</strong> 10% for land watered by rain or rivers and 5% for costly irrigation (<a href="https://sunnah.com/bukhari:1483" rel="noopener" target="_blank">Bukhari 1483</a>). Imam Abu Hanifa set no minimum; the other schools require 5 wasq, about 653 kg (Muslim 979). Ayatollah Sistani's minimum is higher (about 847 kg) and covers wheat, barley, dates and raisins only.</li>
 <li><strong>Livestock:</strong> goats, sheep and camels up to 120 follow the letter of Abu Bakr (<a href="https://sunnah.com/bukhari:1454" rel="noopener" target="_blank">Bukhari 1454</a>); cows and buffaloes follow the hadith of Mu'adh (one tabi' for every 30, one musinnah for every 40). Camels above 120 and the Ja'fari tables are not calculated: ask a scholar.</li>
 <li><strong><a href="/fitrana-calculator/">Fitrana</a> and <a href="/fidya-kaffara-calculator/">fidya and kaffara</a>:</strong> in Hanafi fiqh one fitrana or one day's fidya is half a sa' of wheat (about 1.75 to 2 kg) or one sa' of barley, dates or raisins, or its value; the other schools use one mudd (about 0.6 kg) for fidya. Kaffara is 60 days of fasting, or feeding 60 poor people only for someone who cannot fast (<a href="https://sunnah.com/bukhari:1936" rel="noopener" target="_blank">Bukhari 1936</a>, Muslim 1111). Enter the money amount announced by your scholars each Ramadan; the fitrana calculator may show amounts we have filled in from those announcements.</li>
+<li><strong><a href="/haq-mehr-calculator/">Haq mehr</a>:</strong> mehr is measured in silver dirhams, at 3.0618 g of silver to one shar'i dirham, the figure used by Indo-Pak muftis (10 dirham = 2 tola 7.5 masha = 30.618 g). The Hanafi minimum is 10 dirham (<em>al-Hidayah</em>), about 30.62 g; Maulana Ashraf Ali Thanwi and Mufti Rasheed Ahmad Ludhianvi gave about 34 g, which is shown too. Mehr-e-Fatimi is 500 dirham (131.25 tola, about 1,530.9 g) by default, from Sayyidah Aisha's report of twelve and a half uqiyah (Sahih Muslim 1426), the figure of Mufti Muhammad Shafi; 480 dirham (Sayyiduna Umar's report, Abu Dawud 2106 and Tirmidhi 1114) and 400 dirham (Ibn al-Humam) are shown as other views. The Maliki minimum is a quarter dinar or 3 dirham; the Shafi'i, Hanbali and Ja'fari schools set no minimum. Unpaid mehr is a debt, and in Pakistan section 10 of the Muslim Family Laws Ordinance 1961 makes it payable on demand when the nikah nama is silent. Values use the live international silver rate.</li>
+<li><strong><a href="/diyat-calculator/">Diyat</a>:</strong> section 323 of the Pakistan Penal Code sets diyat at no less than the value of 30,630 g of silver, close to the classical Hanafi 10,000 dirham (10,000 × 3.0618 g = 30,618 g). The rupee amount is the one the Finance Division notifies for each fiscal year: Rs 1,93,52,390 for 2026-27 (circular of 27 July 2026, in force from 1 July 2026). The calculator lists the earlier notified amounts with their sources and shows the live value of 30,630 g of silver for information only; for a court case the notified amount is the legal minimum. The madhab figures (100 camels, 1,000 dinar, 10,000 or 12,000 dirham) are listed on the diyat page; Surah an-Nisa 4:92 is the Quranic basis.</li>
 <li><strong><a href="/khums-calculator/">Khums</a>:</strong> 20% of the year's surplus income, split equally into sahm-e-imam and sahm-e-sadat, following Ayatollah Sistani's <em>Islamic Laws</em> (khums chapter, rulings 1769 onwards and 1851). Gifts count as income; inheritance and mahr do not.</li>
 </ul>
 <h2>What is not covered</h2>
@@ -1124,6 +1129,7 @@ HTML,
 </ul>
 <h2>Changes</h2>
 <ul>
+<li><strong>18 October 2026 (sources):</strong> the hadith, verses, fatwas, books and laws cited on our pages now link to their source (sunnah.com, quran.com, the fatwa pages, Ayatollah Sistani's rulings and the Finance Division circular); this page now also explains the haq mehr and diyat rules; the About page has a fuller note on who writes the site; guides label their published and updated dates. No calculation result changed.</li>
 <li><strong>18 October 2026 (accuracy):</strong> the Ahl-e-Hadith rule on returning the remainder to a lone husband or wife is now marked as an open question; the fidya and kaffara examples use the Council of Islamic Ideology's 1447 amounts (Rs 300 by wheat, Rs 1,600 by dates); quick answers with a live rupee figure show the time of the rate; the inheritance engine is described as checked against 425 cases plus 6 open questions. No calculation result changed.</li>
 <li><strong>18 October 2026 (inheritance):</strong> the <a href="/wirasat-calculator/">wirasat calculator</a> page now describes every feature of the calculator (six madhabs side by side, the worked sheet, what-if, share link and istifta, mamu, khala, phuphi and nana), and four guides were added on the <a href="/daughters-share-in-inheritance/">daughter's share</a>, the <a href="/wife-husband-share-in-inheritance/">wife's and husband's share</a>, <a href="/orphaned-grandchildren-inheritance/">orphaned grandchildren</a> and <a href="/zakat-on-inherited-wealth/">zakat on inherited wealth</a>. No calculation result changed.</li>
 <li><strong>17 October 2026 (accessibility and privacy):</strong> the calculator now works fully in Urdu (Urdu madhab names, units and an Urdu font), screen readers hear only the zakat total once you stop typing, and a <em>Delete saved data</em> button removes everything the calculators kept in your browser. Urdu names in the PDF report are spelled in Roman letters. No calculation result changed.</li>
@@ -1170,7 +1176,8 @@ HTML
 <li>We cannot see or recover the figures you entered; they never leave your device.</li>
 </ul>
 <p>Prefer Urdu? Write to us in Urdu or Roman Urdu, or use the <a href="/zakat-calculator-urdu/">Urdu calculator</a>.</p>
-HTML,
+HTML
+		. $author,
 		'faq'   => array(),
 	);
 
@@ -1213,7 +1220,8 @@ HTML,
 <p>If you believe a rule or reference is wrong, please <a href="/contact/">contact us</a>. We review reports and correct errors.</p>
 <h2>10. Changes</h2>
 <p>We may update this disclaimer at any time. Continued use of the site means you accept the current version.</p>
-HTML,
+HTML
+		. $author,
 		'faq'   => array(),
 	);
 
@@ -1241,7 +1249,8 @@ HTML,
 <p>This site is not directed at children and does not knowingly collect their data.</p>
 <h2>Contact</h2>
 <p><a href="mailto:contact@myzakattool.com">contact@myzakattool.com</a></p>
-HTML,
+HTML
+		. $author,
 		'faq'   => array(),
 		'privacy' => true,
 	);
@@ -1268,7 +1277,8 @@ HTML,
 <p>These terms are governed by the laws of Pakistan.</p>
 <h2>Contact</h2>
 <p><a href="mailto:contact@myzakattool.com">contact@myzakattool.com</a></p>
-HTML,
+HTML
+		. $author,
 		'faq'   => array(),
 	);
 

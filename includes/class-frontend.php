@@ -44,6 +44,7 @@ class MYZT_Frontend {
 		add_action( 'wp_footer', array( __CLASS__, 'late_enqueue' ), 1 );
 		add_action( 'init', array( __CLASS__, 'no_emoji' ) );
 		add_action( 'wp_head', array( __CLASS__, 'contrast_css' ), 99 );
+		add_filter( 'generate_post_date_output', array( __CLASS__, 'post_dates' ) );
 	}
 
 	/**
@@ -436,13 +437,35 @@ class MYZT_Frontend {
 		) : array();
 	}
 
+	/** GeneratePress prints two unlabelled dates under a guide's title: label them "Published … · Updated …" (FIX-133). */
+	public static function post_dates( $output ) {
+		$post = get_post();
+		if ( ! $post ) {
+			return $output;
+		}
+		$ur   = MYZT_SEO::is_ur();
+		$time = function ( $class, $iso, $text, $prop ) {
+			return '<time class="' . $class . '" datetime="' . esc_attr( $iso ) . '" itemprop="' . $prop . '" style="display:inline">' . esc_html( $text ) . '</time>';
+		};
+		$out  = ( $ur ? 'شائع: ' : 'Published ' ) . $time( 'entry-date published', get_the_date( 'c', $post ), get_the_date( 'j F Y', $post ), 'datePublished' );
+		if ( get_the_modified_date( 'Y-m-d', $post ) !== get_the_date( 'Y-m-d', $post ) ) {
+			$out .= ' · ' . ( $ur ? 'تازہ ترین: ' : 'Updated ' ) . $time( 'updated', get_the_modified_date( 'c', $post ), get_the_modified_date( 'j F Y', $post ), 'dateModified' );
+		}
+		return '<span class="posted-on">' . $out . '</span> ';
+	}
+
+	/** The author's bio on the About page (FIX-132). */
+	public static function author_page() {
+		return self::page_url( 'about' ) . '#ali-ahmad';
+	}
+
 	public static function author() {
 		self::enqueue();
 		$s        = MYZT_Settings::get();
 		$post     = get_post();
 		$modified = $post ? get_the_modified_date( 'j F Y', $post ) : '';
 		$initials = strtoupper( substr( $s['author_name'], 0, 1 ) );
-		$name     = $s['author_url'] ? '<a href="' . esc_url( $s['author_url'] ) . '" rel="author noopener" target="_blank">' . esc_html( $s['author_name'] ) . '</a>' : esc_html( $s['author_name'] );
+		$name     = '<a href="' . esc_url( self::author_page() ) . '" rel="author">' . esc_html( $s['author_name'] ) . '</a>';
 		$ur       = MYZT_SEO::is_ur();
 		$l        = $ur
 			? array( 'by' => 'تحریر:', 'reviewed' => 'نظرِ ثانی:', 'updated' => 'تازہ ترین:', 'how' => 'ہم حساب کیسے کرتے ہیں' )
