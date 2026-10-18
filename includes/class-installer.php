@@ -16,6 +16,8 @@ class MYZT_Installer {
 
 	private static $pages = null;
 
+	private static $changed = array();
+
 	public static function init() {
 		add_action( 'admin_init', array( __CLASS__, 'maybe_upgrade' ) );
 		add_shortcode( 'myzt_guides', array( __CLASS__, 'guides_list' ) );
@@ -23,6 +25,10 @@ class MYZT_Installer {
 		add_action( 'after_switch_theme', array( __CLASS__, 'menu' ) );
 		add_action( 'after_switch_theme', array( __CLASS__, 'logo' ) );
 		add_action( 'wp_head', array( __CLASS__, 'logo_css' ), 20 );
+		add_filter( 'generate_logo_output', array( __CLASS__, 'logo_small' ) );
+		add_filter( 'generate_copyright', array( __CLASS__, 'copyright' ) );
+		add_filter( 'widget_display_callback', array( __CLASS__, 'hide_default_widgets' ), 10, 2 );
+		add_action( 'generate_before_right_sidebar_content', array( __CLASS__, 'sidebar_links' ) );
 	}
 
 	/** Zakat season year: the year of the coming Ramadan (Ramadan starts in February in 2026-2027 and in January in 2028-2030, always before May). */
@@ -78,6 +84,7 @@ class MYZT_Installer {
 		update_option( 'myzt_version', MYZAKATTOOL_VERSION );
 		// Menu and footer changes show on every page, so the page cache starts fresh.
 		do_action( 'litespeed_purge_all' );
+		MYZT_Cache::released( self::$changed );
 		MYZT_Rates::ensure_schedule();
 		if ( ! MYZT_Rates::get() ) {
 			MYZT_Rates::refresh();
@@ -135,6 +142,8 @@ class MYZT_Installer {
 				);
 				self::meta( $existing->ID, $def );
 				update_post_meta( $existing->ID, '_myzt_hash', md5( get_post_field( 'post_content', $existing->ID ) ) );
+				update_post_meta( $existing->ID, '_myzt_src', md5( $def['content'] ) );
+				self::$changed[] = $existing->ID;
 				$ids[ $slug ] = $existing->ID;
 				++$created;
 				continue;
@@ -164,6 +173,8 @@ class MYZT_Installer {
 			}
 			self::meta( $id, $def );
 			update_post_meta( $id, '_myzt_hash', md5( get_post_field( 'post_content', $id ) ) );
+			update_post_meta( $id, '_myzt_src', md5( $def['content'] ) );
+			self::$changed[] = $id;
 			$ids[ $slug ] = $id;
 			++$created;
 		}
@@ -212,19 +223,38 @@ class MYZT_Installer {
 		if ( ! $untouched ) {
 			return false;
 		}
-		if ( $post->post_content !== $def['content'] ) {
+		// The page's date (dateModified, sitemap lastmod, "Updated") moves only when its text in the plugin
+		// changes (FIX-104). Comparing the stored post_content is not enough: WordPress filters it on save,
+		// so it never matched and every release re-saved and re-dated every page. _myzt_src remembers the
+		// plugin text last written. Pages without it (first run of 1.14.1) just record it: 1.14.0 wrote them minutes before.
+		$src     = md5( $def['content'] );
+		$written = get_post_meta( $post->ID, '_myzt_src', true );
+		$excerpt = isset( $def['desc'] ) ? MYZT_SEO::fill( $def['desc'], false ) : '';
+		if ( $written && ! hash_equals( $written, $src ) ) {
 			wp_update_post(
 				array(
 					'ID'           => $post->ID,
 					'post_content' => $def['content'],
 					'post_title'   => $def['title'],
-					'post_excerpt' => isset( $def['desc'] ) ? MYZT_SEO::fill( $def['desc'], false ) : '',
+					'post_excerpt' => $excerpt,
 				)
 			);
+			self::$changed[] = $post->ID;
+		} elseif ( $post->post_title !== $def['title'] || $post->post_excerpt !== $excerpt ) {
+			// A new title or description is not a content change: write it without touching the date.
+			global $wpdb;
+			$wpdb->update( $wpdb->posts, array( 'post_title' => $def['title'], 'post_excerpt' => $excerpt ), array( 'ID' => $post->ID ) );
+			clean_post_cache( $post->ID );
 		}
+		update_post_meta( $post->ID, '_myzt_src', $src );
 		self::meta( $post->ID, $def );
 		update_post_meta( $post->ID, '_myzt_hash', md5( get_post_field( 'post_content', $post->ID ) ) );
 		return true;
+	}
+
+	/** IDs of pages created or rewritten by this run (for IndexNow). */
+	public static function changed() {
+		return self::$changed;
 	}
 
 	private static function meta( $id, $def ) {
@@ -457,5 +487,58 @@ class MYZT_Installer {
 		if ( $out ) {
 			echo '<nav class="myzt-footer-links" aria-label="Site information" style="text-align:center;font-size:13px;padding:14px 16px;line-height:2">' . ( $tl ? implode( ' · ', $tl ) . '<br>' : '' ) . implode( ' · ', $out ) . '<br><span style="color:#556a65">Estimates only, not a fatwa. © ' . esc_html( gmdate( 'Y' ) ) . ' My Zakat Tool</span></nav>'; // phpcs:ignore
 		}
+	}
+
+	/** The header shows the logo at 44 px: serve a 96 px file (2x) instead of the 512 px upload (FIX-123). */
+	public static function logo_small( $html ) {
+		if ( (int) get_theme_mod( 'custom_logo' ) !== (int) get_option( 'myzt_logo_id' ) ) {
+			return $html;
+		}
+		return '<div class="site-logo"><a href="' . esc_url( home_url( '/' ) ) . '" rel="home"><img class="header-image is-logo-image" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" src="' . esc_url( MYZAKATTOOL_URL . 'assets/img/logo-96.png?ver=' . MYZAKATTOOL_VERSION ) . '" width="44" height="44"></a></div>';
+	}
+
+	/** Our footer already carries the copyright; drop the theme's "Built with GeneratePress" link on every page (FIX-106). */
+	public static function copyright() {
+		return '';
+	}
+
+	/**
+	 * WordPress's starter sidebar blocks (search, recent posts, "Recent Comments: No comments to show",
+	 * archives, categories) are hidden; widgets the owner adds still show (FIX-107).
+	 */
+	public static function hide_default_widgets( $instance, $widget ) {
+		if ( is_array( $instance ) && 'block' === $widget->id_base && ! empty( $instance['content'] )
+			&& preg_match( '/<!-- wp:(search|latest-posts|latest-comments|archives|categories)[ \/]/', $instance['content'] ) ) {
+			return false;
+		}
+		return $instance;
+	}
+
+	/** A fixed list of the main tools and guides at the top of the sidebar, in place of the rotating "Recent Posts" (FIX-107). */
+	public static function sidebar_links() {
+		$groups = array(
+			'Calculators'    => array( 'home', 'zakat-calculator-pakistan', 'zakat-on-gold-calculator', 'business-zakat-calculator', 'fitrana-calculator', 'wirasat-calculator', 'nisab', 'gold-rate-today', 'calculators' ),
+			'Popular guides' => array( 'zakat-2027-pakistan', 'who-can-receive-zakat', 'zakat-on-jewellery', 'bank-zakat-deduction-pakistan', 'zakat-on-1-tola-gold', 'missed-zakat-past-years', 'daughters-share-in-inheritance', 'guides' ),
+		);
+		$pages = self::pages();
+		$here  = untrailingslashit( (string) get_permalink( get_queried_object_id() ) );
+		$out   = '';
+		foreach ( $groups as $label => $slugs ) {
+			$li = '';
+			foreach ( $slugs as $slug ) {
+				if ( empty( $pages[ $slug ] ) || ! get_page_by_path( $slug, OBJECT, empty( $pages[ $slug ]['is_post'] ) ? 'page' : 'post' ) ) {
+					continue;
+				}
+				$url  = 'home' === $slug ? home_url( '/' ) : MYZT_Frontend::page_url( $slug );
+				$text = 'calculators' === $slug ? 'All calculators' : ( 'guides' === $slug ? 'All guides' : $pages[ $slug ]['nav'] );
+				$cur  = untrailingslashit( $url ) === $here ? ' aria-current="page"' : '';
+				$li  .= '<li><a href="' . esc_url( $url ) . '"' . $cur . '>' . esc_html( $text ) . '</a></li>';
+			}
+			if ( 'Calculators' === $label && get_page_by_path( 'zakat-calculator-urdu' ) ) {
+				$li .= '<li><a href="' . esc_url( MYZT_Frontend::page_url( 'zakat-calculator-urdu' ) ) . '" lang="ur" hreflang="ur">زکوٰۃ کیلکولیٹر اردو</a></li>';
+			}
+			$out .= '<p style="font-weight:600;margin:0 0 6px">' . esc_html( $label ) . '</p><ul style="margin:0 0 18px 1.1em;line-height:1.9">' . $li . '</ul>';
+		}
+		echo '<aside class="widget inner-padding myzt-side"><nav aria-label="Calculators and guides">' . $out . '</nav></aside>'; // phpcs:ignore WordPress.Security.EscapeOutput
 	}
 }

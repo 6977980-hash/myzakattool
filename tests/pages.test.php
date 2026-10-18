@@ -54,11 +54,11 @@ foreach ( $pages as $slug => $p ) {
 	}
 	if ( isset( $p['seo'] ) ) {
 		$t = fill( $p['seo'] );
-		check( mb_strlen( $t ) <= 70, "$slug title is " . mb_strlen( $t ) . ' characters' );
+		check( mb_strlen( $t ) <= 60, "$slug title is " . mb_strlen( $t ) . ' characters' );
 	}
 	if ( isset( $p['desc'] ) ) {
 		$d = fill( $p['desc'] );
-		check( mb_strlen( $d ) <= 165, "$slug description is " . mb_strlen( $d ) . ' characters' );
+		check( mb_strlen( $d ) <= 160, "$slug description is " . mb_strlen( $d ) . ' characters' );
 	}
 	preg_match_all( '#href="/([a-z0-9-]*)/?"#', $p['content'], $m );
 	foreach ( $m[1] as $target ) {

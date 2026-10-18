@@ -3,8 +3,9 @@
  * Live gold, silver and currency rates.
  *
  * Fetched on the server (WP-Cron, hourly) and cached in an option, so visitors never call
- * the APIs and free limits are never reached. After each refresh the LiteSpeed page cache is
- * purged so server-rendered numbers match, and the REST route is never page-cached. Fallback chain:
+ * the APIs and free limits are never reached. After each refresh the pages that print rates are
+ * purged from the LiteSpeed page cache so server-rendered numbers match (MYZT_Cache), and the
+ * REST route is never page-cached. Fallback chain:
  *   metals: gold-api.com -> fawazahmed0 currency-api (xau/xag) -> last saved
  *   fx:     fawazahmed0 currency-api (jsDelivr) -> Cloudflare Pages mirror -> last saved
  *
@@ -55,6 +56,7 @@ class MYZT_Rates {
 	public static function unschedule() {
 		wp_clear_scheduled_hook( self::CRON );
 		wp_clear_scheduled_hook( self::CRON . '_once' );
+		wp_unschedule_hook( MYZT_Cache::WARM );
 	}
 
 	/** Saved rates: goldUsdOz, silverUsdOz, fx (map lowercase code => per USD), updated, sources. */
@@ -181,8 +183,8 @@ class MYZT_Rates {
 		}
 		delete_transient( 'myzt_refresh_lock' );
 		if ( $metals || $fxdata ) {
-			// Pages print rates in their HTML; drop cached copies so every page shows this snapshot.
-			do_action( 'litespeed_purge_all' );
+			// Pages that print rates in their HTML drop their cached copy; the rest stay cached (FIX-120).
+			MYZT_Cache::rates_changed();
 			delete_transient( 'myzt_rates_alerted' );
 		} else {
 			self::maybe_alert();

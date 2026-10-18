@@ -17,7 +17,7 @@ function myzt_content_posts() {
 	return myzt_content_posts_tools() + myzt_content_posts_wirasat() + array(
 		'who-can-receive-zakat'         => array(
 			'title'   => 'Who Can Receive Zakat? The 8 Categories Explained',
-			'seo'     => 'Who Can Receive Zakat? The 8 Groups of Quran 9:60 & Who Cannot',
+			'seo'     => 'Who Can Receive Zakat? 8 Groups of Quran 9:60 & Who Cannot',
 			'desc'    => 'Zakat goes to 8 groups (Quran 9:60), mainly the poor, the needy and those in debt. It cannot go to your parents, children, wife or (Sunni schools) Sayyids.',
 			'nav'     => 'Who can receive zakat',
 			'blurb'   => 'masarif-e-zakat',
