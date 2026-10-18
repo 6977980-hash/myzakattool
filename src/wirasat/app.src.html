@@ -272,7 +272,8 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
   var W = window.MYZT_WIRASAT;
   // English UI on the English page (?lang=en, FIX-114); Urdu everywhere else. In the preview the header button switches.
   var EN = /[?&]lang=en(?:&|$)/.test(location.search);
-  try { if (window.parent === window && localStorage.getItem('wirasat-proto-lang') === 'en') EN = true; } catch (e) {}
+  // Preview only: the header's English button remembers the choice here. The site build drops this line, so there the page's ?lang= decides.
+  try { if (window.name === 'wirasat-en' || localStorage.getItem('wirasat-proto-lang') === 'en') EN = true; } catch (e) {}
   function tr(ur, en) { return EN ? en : ur; }
   var U = EN ? /*EN*/ : /*UR*/;
   var SEP = tr('، ', ', ');
@@ -288,7 +289,8 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
     var b = document.getElementById('langBtn');
     if (!b) return;
     b.textContent = tr('English', 'اردو');
-    b.onclick = function () { try { localStorage.setItem('wirasat-proto-lang', EN ? 'ur' : 'en'); } catch (e) {} location.reload(); };
+    // window.name too: it survives the reload even where the sandbox blocks storage.
+    b.onclick = function () { window.name = EN ? '' : 'wirasat-en'; try { localStorage.setItem('wirasat-proto-lang', EN ? 'ur' : 'en'); } catch (e) {} location.reload(); };
   })();
   var MADHABS = [['hanafi', tr('حنفی', 'Hanafi')], ['shafii', tr('شافعی', "Shafi'i")], ['maliki', tr('مالکی', 'Maliki')], ['hanbali', tr('حنبلی', 'Hanbali')], ['ahlehadith', tr('اہلِ حدیث', 'Ahl-e-Hadith')], ['jafari', tr('فقہ جعفری', "Shia Ja'fari")]];
   var ASSETS = [['cash', tr('نقد / بینک', 'Cash / bank')], ['land', tr('زمین / مکان', 'Land / house')], ['gold', tr('سونا', 'Gold')], ['silver', tr('چاندی', 'Silver')]];
