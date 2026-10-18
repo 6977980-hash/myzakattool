@@ -10,8 +10,11 @@
 # CSS and JS are loaded with ?ver=<plugin version>, so a new release gets a new URL:
 # browsers may keep them for a year. Images keep a shorter lifetime because their URLs do not change.
 <IfModule mod_headers.c>
-	<FilesMatch "\.(css|js)$">
+	# The wirasat frame (assets/wirasat/app.html) is also loaded with ?ver= (FIX-123).
+	# LiteSpeed's browser cache adds a 7-day Expires; Cache-Control wins, so drop it to avoid mixed signals.
+	<FilesMatch "\.(css|js|html)$">
 		Header set Cache-Control "public, max-age=31536000, immutable"
+		Header unset Expires
 	</FilesMatch>
 	<FilesMatch "\.(png|svg|ico|webp|jpg)$">
 		Header set Cache-Control "public, max-age=2592000"

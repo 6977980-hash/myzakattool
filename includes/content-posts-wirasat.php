@@ -124,7 +124,7 @@ HTML
 
 		'orphaned-grandchildren-inheritance' => array(
 			'title'   => 'Orphaned Grandchildren and Inheritance: Fiqh and MFLO Section 4',
-			'seo'     => 'Orphaned Grandchildren Inheritance: Section 4 MFLO (Yateem Pota)',
+			'seo'     => 'Orphaned Grandchildren Inheritance: MFLO Section 4 (Pota)',
 			'desc'    => 'Does a grandchild inherit if their parent died first? The fiqh of every madhab, section 4 of the Muslim Family Laws Ordinance, and what a will can do.',
 			'nav'     => 'Orphaned grandchildren',
 			'blurb'   => 'yateem pota',
@@ -166,8 +166,8 @@ HTML
 
 		'zakat-on-inherited-wealth' => array(
 			'title'   => 'Zakat on Inherited Money, Gold and Property',
-			'seo'     => 'Zakat on Inherited Money, Gold and Property (Wirasat par Zakat)',
-			'desc'    => 'Is zakat due on an inheritance? When the zakat year starts, inherited gold and jewellery, land and houses, the deceased\'s own unpaid zakat and zakat before division.',
+			'seo'     => 'Zakat on Inherited Money, Gold and Property (Wirasat)',
+			'desc'    => 'Is zakat due on an inheritance? When the zakat year starts, inherited gold, land and houses, the deceased\'s own unpaid zakat and zakat before division.',
 			'nav'     => 'Zakat on inherited wealth',
 			'blurb'   => 'wirasat par zakat',
 			'content' => <<<'HTML'

@@ -683,7 +683,7 @@ HTML
 
 	$p['zakat-2027-pakistan'] = array(
 		'title' => 'Zakat 2027 Pakistan: Dates, Nisab and Fitrana',
-		'seo'   => 'Zakat 2027 Pakistan: Bank Deduction Date, CZ-50, Nisab & Fitrana',
+		'seo'   => 'Zakat 2027 Pakistan: Bank Deduction, CZ-50, Nisab, Fitrana',
 		'desc'  => 'Ramadan 2027 in Pakistan: bank zakat deduction on 1 Ramadan (about 8 Feb), CZ-50 deadline, when the nisab and fitrana are announced, and last year\'s figures.',
 		'nav'   => 'Zakat 2027 Pakistan',
 		'blurb' => 'dates & updates',
@@ -1012,7 +1012,7 @@ HTML
 
 	$p['wirasat-calculator'] = array(
 		'title' => 'Wirasat Calculator (Islamic Inheritance) with Family Tree',
-		'seo'   => 'Wirasat Calculator: Islamic Inheritance by Madhab, with Shajra',
+		'seo'   => 'Wirasat Calculator: Islamic Inheritance by Madhab + Shajra',
 		'desc'  => "Islamic inheritance (wirasat) calculator for all six madhabs: each heir's share in rupees, kanal-marla and gold, a patwari-style shajra and a PDF report.",
 		'nav'   => 'Wirasat',
 		'blurb' => 'inheritance shares',
@@ -1102,7 +1102,7 @@ HTML
 	$p['zakat-date-calculator'] = array(
 		'title' => 'Zakat Date Calculator and Hawl Tracker',
 		'seo'   => 'When Is My Zakat Due? Zakat Date Calculator {year}',
-		'desc'  => 'Zakat is due one lunar year (about 354 days) after your wealth first reached the nisab. Enter that day to get your zakat date in Hijri and Gregorian, with reminders.',
+		'desc'  => 'Zakat is due one lunar year (354 days) after your wealth first reached the nisab. Enter that day for your zakat date in Hijri and Gregorian, with reminders.',
 		'nav'   => 'Zakat date',
 		'blurb' => 'hawl, reminders',
 		'hub'   => 'calculators',
@@ -1376,8 +1376,8 @@ HTML
 	/* ------------------------------------------------------------------ */
 	$p['guides'] = array(
 		'title' => 'Zakat Guides',
-		'seo'   => 'Zakat and Wirasat Guides: Gold, Fidya, Ushr, Khums, Inheritance',
-		'desc'  => 'Sourced guides: zakat on gold and jewellery, bank deduction, hawl, missed zakat, fidya, ushr, khums, and inheritance shares of daughters, wives and grandchildren.',
+		'seo'   => 'Zakat and Wirasat Guides: Gold, Fidya, Ushr, Khums, Shares',
+		'desc'  => 'Sourced guides: zakat on gold and jewellery, bank deduction, hawl, missed zakat, fidya, ushr, khums and inheritance shares of daughters, wives, grandchildren.',
 		'nav'   => 'Guides',
 		'blurb' => 'answers',
 		'llms'  => true,
