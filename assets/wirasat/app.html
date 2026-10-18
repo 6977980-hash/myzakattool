@@ -102,6 +102,9 @@ details.more[open] > summary { margin-bottom: 6px; }
 .tree svg path.dbl2 { stroke: var(--surface); stroke-width: 1.6; }
 .trow { display: flex; justify-content: center; align-items: flex-start; gap: 14px; }
 .trow.start { justify-content: flex-start; }
+/* The deceased's own family (spouses, children, grandchildren) on the right, brothers, sisters, uncles and aunts with their children on the left, so no line crosses another family's. */
+.trow.split { justify-content: center; gap: 44px; }
+.blk { display: grid; gap: 34px; align-content: start; }
 .thead { text-align: center; display: grid; gap: 6px; }
 .tree h3 { margin: 0; font-family: var(--display); font-weight: 400; font-size: 26px; }
 .blanks { display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 4px 22px; font-size: 15px; }
@@ -146,6 +149,17 @@ details.more[open] > summary { margin-bottom: 6px; }
 .amt .pc { color: var(--muted); font-size: 11.5px; }
 .amt .lnd { font-weight: 600; }
 .tbl { overflow-x: auto; }
+a.go { display: inline-flex; align-items: center; text-decoration: none; box-sizing: border-box; }
+details.tool { border: 1px solid var(--line); border-radius: 10px; padding: 4px 14px; margin-top: 14px; }
+details.tool > summary { cursor: pointer; font-family: var(--display); font-size: 20px; min-height: 44px; display: flex; align-items: center; gap: 8px; }
+details.tool[open] > summary { margin-bottom: 6px; }
+td.df { background: var(--warn-soft); color: var(--warn); font-weight: 700; }
+th.me, td.me { background: var(--accent-soft); }
+.plus { color: var(--accent); font-weight: 700; }
+.minus { color: var(--warn); font-weight: 700; }
+.wi { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: end; }
+.wi label.f { flex: 1 1 200px; }
+textarea.in { width: 100%; box-sizing: border-box; font: inherit; line-height: 1.9; border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; background: var(--surface); }
 table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: 14px; }
 th, td { border-bottom: 1px solid var(--line); padding: 6px 8px; text-align: start; vertical-align: top; white-space: nowrap; }
 td.why { white-space: normal; min-width: 220px; color: var(--muted); font-size: 13px; }
@@ -224,7 +238,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
     <section class="sec wide" aria-labelledby="h-o">
       <h2 id="h-o"><span class="no">7</span>دیگر رشتہ دار</h2>
       <details class="more" id="moreBox">
-        <summary>دادا دادی، نانی، بہن بھائی، چچا: صرف تب ضروری جب اوپر والے وارث کم ہوں</summary>
+        <summary>دادا دادی، نانا نانی، بہن بھائی، چچا، پھوپھی، ماموں، خالہ: صرف تب ضروری جب اوپر والے وارث کم ہوں</summary>
         <div id="others"></div>
       </details>
     </section>
@@ -354,15 +368,18 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
 
 	function Result(persons) {
 		var r = { shares: {}, notes: [], awl: false, radd: false, unassigned: ZERO };
-		persons.forEach(function (p) { r.shares[p.id] = { f: ZERO, why: null, ref: null, blocked: null }; });
+		persons.forEach(function (p) { r.shares[p.id] = { f: ZERO, why: null, ref: null, blocked: null, parts: {} }; });
 		return r;
 	}
+	// Which step a share comes from, so the page can show "1/6 fixed + 1/3 residue = 1/2": fard, asaba, radd or dhawi.
+	var PHASE = 'fard';
 	function give(r, ids, f, why, ref) {
 		if (!ids.length) return;
 		var each = div(f, Q(ids.length));
 		ids.forEach(function (id) {
 			var s = r.shares[id];
 			s.f = add(s.f, each);
+			s.parts[PHASE] = add(s.parts[PHASE] || ZERO, each);
 			if (!s.why) { s.why = why; s.ref = ref || REFS[why] || null; }
 		});
 	}
@@ -614,13 +631,17 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
 			var lcm = fards.reduce(function (m, x) { return m / gcd(m, x.f.d) * x.f.d; }, 1);
 			r.awlFrom = { from: lcm, to: total.n * lcm / total.d };
 		}
+		// The fixed shares as the books write the mas'ala (before 'awl), and who took the rest: the page's worked sheet.
+		r.fards = fards.map(function (x) { return { ids: x.ids || x.units.map(function (u) { return u.id; }), f: x.f, why: x.why }; });
 		fards.forEach(function (x) {
 			var f = mul(x.f, scale);
 			if (x.units) give21(r, x.units, f, x.why, x.ref || REFS[x.why]);
 			else give(r, x.ids, f, x.why, x.ref || REFS[x.why]);
 		});
 		var rest = r.awl ? ZERO : sub(ONE, total);
+		PHASE = 'asaba';
 		if (asaba) {
+			if (!isZero(rest)) r.asabaGroup = { ids: asaba.units.map(function (u) { return u.id; }), why: asaba.why, f: rest };
 			if (!isZero(rest)) give21(r, asaba.units, rest, asaba.why, REFS[asaba.why === 'children' ? 'children' : asaba.why === 'maalGhayr' ? 'maalGhayr' : asaba.why === 'muqasama' ? 'muqasama' : 'asaba']);
 			else asaba.units.forEach(function (u) { if (!r.shares[u.id].why) r.shares[u.id].blocked = 'nothingLeft'; });
 			return r;
@@ -634,6 +655,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
 			var ids = x.ids || x.units.map(function (u) { return u.id; });
 			if (!ids.some(function (id) { return spouseIds[id]; })) sharers.push(x);
 		});
+		PHASE = 'radd';
 		if (sharers.length) {
 			var base = sum(sharers.map(function (x) { return x.f; }));
 			sharers.forEach(function (x) {
@@ -647,6 +669,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
 			return r;
 		}
 		// Dhawi al-arham before radd to a spouse.
+		PHASE = 'dhawi';
 		if (persons && dhawi(r, persons, H, map, rest)) {
 			if (madhab === 'shafii' || madhab === 'maliki') r.notes.push('raddLater');
 			return r;
@@ -655,9 +678,10 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
 		// Radd to a spouse: the later Hanafi fatwa (and Ibn Taymiyya's choice, for Ahl-e-Hadith).
 		// Shafi'i, Maliki and Hanbali: the rest goes to the bayt al-mal, so it stays unassigned here.
 		if (sp.length && (madhab === 'hanafi' || madhab === 'ahlehadith' || !madhab)) {
+			PHASE = 'radd';
 			give(r, sp.map(function (p) { return p.id; }), rest, 'radd');
 			r.radd = true;
-			r.notes.push('raddSpouse');
+			r.notes.push(madhab === 'ahlehadith' ? 'raddSpouseAeh' : 'raddSpouse');
 			return r;
 		}
 		r.unassigned = rest;
@@ -773,6 +797,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
 				var pTotal = sum(pf.map(function (x) { return x.f; }));
 				if (sons.length) {
 					pf.forEach(function (x) { give(r, [x.id], x.f, x.why); });
+					PHASE = 'asaba';
 					give21(r, kids, sub(rest, pTotal), 'children', REFS.children);
 				} else {
 					var dF = kids.length === 1 ? Q(1, 2) : Q(2, 3);
@@ -785,8 +810,11 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
 						var extra = sub(rest, need);
 						var shareRadd = [{ f: dF, kids: true }].concat(pf.filter(function (x) { return !x.noRadd; }));
 						var base = sum(shareRadd.map(function (x) { return x.f; }));
-						pf.forEach(function (x) { give(r, [x.id], x.noRadd ? x.f : add(x.f, mul(extra, div(x.f, base))), x.why); });
-						give21(r, kids, add(dF, mul(extra, div(dF, base))), 'daughters', REFS.daughters, true);
+						pf.forEach(function (x) { give(r, [x.id], x.f, x.why); });
+						give21(r, kids, dF, 'daughters', REFS.daughters, true);
+						PHASE = 'radd';
+						pf.forEach(function (x) { if (!x.noRadd) give(r, [x.id], mul(extra, div(x.f, base)), x.why); });
+						give21(r, kids, mul(extra, div(dF, base)), 'daughters', REFS.daughters, true);
 						r.radd = true;
 						r.notes.push('radd');
 					}
@@ -851,12 +879,15 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
 	/**
 	 * persons: [{ id, rel, status: 'alive' | 'before' | 'after', parent }]
 	 * opt: { madhab, deceasedSex: 'm' | 'f', sec4: bool }
-	 * Returns { shares: { id: { f: {n,d}, why, ref, blocked, pass } }, notes, awl, radd, unassigned, landShares?, base }
+	 * Returns { shares: { id: { f: {n,d}, why, ref, blocked, pass, parts: { fard, asaba, radd, dhawi } } }, notes, awl, awlFrom?,
+ *   radd, unassigned, landShares?, base, fards? (fixed shares before 'awl), asabaGroup? (who took the rest) }
 	 */
 	function calculate(persons, opt) {
 		opt = opt || {};
 		var list = (persons || []).filter(function (p) { return p && REL[p.rel]; });
+		PHASE = 'fard';
 		var r = opt.madhab === 'jafari' ? jafari(list, opt) : sunni(list, opt);
+		PHASE = 'fard';
 		list.forEach(function (p) {
 			var s = r.shares[p.id];
 			if (p.status === 'before' && s.why !== 'passed') { s.blocked = 'diedBefore'; s.f = ZERO; }
@@ -954,17 +985,17 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
 <script>
 (function () {
   var W = window.MYZT_WIRASAT;
-  var U = {"m_hanafi":"حنفی","m_shafii":"شافعی","m_maliki":"مالکی","m_hanbali":"حنبلی","m_ahlehadith":"اہلِ حدیث","m_jafari":"شیعہ (جعفری)","r_husband":"شوہر","r_wife":"بیوی","r_father":"والد","r_mother":"والدہ","r_dada":"دادا","r_dadi":"دادی","r_nana":"نانا","r_nani":"نانی","r_son":"بیٹا","r_daughter":"بیٹی","r_grandson":"پوتا / نواسا","r_granddaughter":"پوتی / نواسی","r_brother":"سگا بھائی","r_sister":"سگی بہن","r_pbrother":"علاتی بھائی (باپ شریک)","r_psister":"علاتی بہن (باپ شریک)","r_mbrother":"اخیافی بھائی (ماں شریک)","r_msister":"اخیافی بہن (ماں شریک)","r_nephew":"بھتیجا / بھانجا","r_niece":"بھتیجی / بھانجی","r_chacha":"چچا / تایا","r_phuphi":"پھوپھی","r_mamu":"ماموں","r_khala":"خالہ","r_cousin":"چچا زاد بھائی","st_alive":"زندہ","st_before":"%s کی وفات سے پہلے فوت ہوئے","st_after":"%s کی وفات کے بعد فوت ہوئے","n_sec4":"پاکستانی قانون (دفعہ 4) لگایا گیا: پہلے فوت ہونے والے بیٹے یا بیٹی کی اولاد نے ان کا حصہ لیا۔","n_mushtaraka":"مسئلہ مشترکہ: سگے بھائی ماں شریک بہن بھائیوں کے ساتھ تہائی میں شریک ہوئے (شافعی، مالکی)۔","n_akdariyya":"مسئلہ اکدریہ: حضرت زید بن ثابت کا مشہور فیصلہ۔","n_zayd":"دادا بھائیوں کے ساتھ: انہیں بھائی جتنا حصہ، ایک تہائی یا چھٹا حصہ، جو زیادہ ہو، ملتا ہے (زید بن ثابت)۔","n_radd":"رد: مقررہ حصوں کے بعد بچا ہوا مال انہی حصہ داروں کو لوٹایا گیا (شوہر یا بیوی کو نہیں)۔","n_raddSpouse":"کوئی اور رشتہ دار نہیں، اس لیے باقی بھی شوہر یا بیوی کو ملا (متاخرین احناف کا فتویٰ)۔","n_dhawi":"ذوی الارحام: کوئی حصہ دار یا عصبہ نہیں بچا، اس لیے عورتوں کے واسطے والے رشتہ دار وارث بنے۔ ان کی تقسیم میں اختلاف ہے: مفتی صاحب سے تصدیق کریں۔","n_unassigned":"ترکے کے ایک حصے کا اس فہرست میں کوئی وارث نہیں۔ مفتی صاحب سے پوچھیں۔","n_imam":"فقہ جعفری: اکیلی بیوی کو چوتھائی ملتا ہے؛ باقی امام کا حق ہے۔ اپنے مرجع کے دفتر سے پوچھیں۔","n_hajib":"فقہ جعفری: والد زندہ ہیں، اس لیے بھائی بہنوں نے والدہ کا حصہ کم کر دیا۔","n_class3":"فقہ جعفری، تیسرا طبقہ: چچا پھوپھی اور ماموں خالہ کی تقسیم اپنے مرجع کے دفتر سے تصدیق کریں۔","n_awl":"عول: مقررہ حصے ترکے سے زیادہ ہو گئے، اس لیے سب کے حصے ایک ہی نسبت سے کم ہوئے۔","n_landWife":"فقہ جعفری: بیوی کو زمین سے حصہ نہیں ملتا، صرف عمارت اور درختوں کی قیمت سے۔ مکان میں اس کا حصہ عمارت کی قیمت سے ہے۔","why_husband":"شوہر: آدھا، اولاد ہو تو چوتھائی","why_wife":"بیوی: چوتھائی، اولاد ہو تو آٹھواں (بیویاں آپس میں بانٹیں)","why_father":"والد","why_mother":"والدہ: تہائی، اولاد یا دو بہن بھائی ہوں تو چھٹا","why_grandfather":"دادا، والد کی جگہ","why_grandmother":"دادی/نانی: چھٹا حصہ","why_daughters":"بیٹیاں: ایک ہو تو آدھا، دو یا زیادہ ہوں تو دو تہائی","why_sondaughter":"پوتی: ایک بیٹی کے ساتھ چھٹا حصہ","why_children":"اولاد: باقی سب، بیٹے کا بیٹی سے دگنا","why_asaba":"عصبہ: باقی مال لیتا ہے","why_maalGhayr":"بیٹیوں کے ساتھ بہنیں باقی لیتی ہیں","why_sisters":"بہنیں: ایک ہو تو آدھا، دو یا زیادہ تو دو تہائی","why_consSister":"علاتی بہن: سگی بہن کے ساتھ چھٹا","why_uterine":"ماں کی طرف: برابر تقسیم","why_muqasama":"دادا کے ساتھ شریک","why_mushtaraka":"مسئلہ مشترکہ","why_akdariyya":"مسئلہ اکدریہ","why_radd":"رد","why_dhawi":"ذوی الارحام","why_rep":"پہلے فوت ہونے والے والد/والدہ کا حصہ","why_uncles":"چچا، پھوپھی، ماموں، خالہ","why_passed":"پہلے فوت ہوئے: حصہ ان کی اولاد کو","b_son":"بیٹے کی موجودگی میں محروم","b_grandson":"پوتے کی موجودگی میں محروم","b_father":"والد کی موجودگی میں محروم","b_grandfather":"دادا کی موجودگی میں محروم","b_mother":"والدہ کی موجودگی میں محروم","b_brother":"سگے بھائی کی موجودگی میں محروم","b_sister":"سگی بہن کی موجودگی میں محروم","b_twoDaughters":"دو بیٹیاں پورا دو تہائی لے چکیں","b_twoSisters":"دو سگی بہنیں پورا دو تہائی لے چکیں","b_descendant":"اولاد کی موجودگی میں محروم","b_higherAsaba":"زیادہ قریبی رشتہ دار باقی لیتا ہے","b_notSharer":"قریبی وارثوں کی موجودگی میں وارث نہیں","b_nothingLeft":"مقررہ حصوں کے بعد کچھ نہیں بچا","b_diedBefore":"پہلے فوت ہوئے، اس لیے وارث نہیں","b_parentAlive":"ان کے والد/والدہ زندہ ہیں","b_class1":"پہلے طبقے (والدین، اولاد) کی موجودگی میں محروم","b_class2":"دوسرے طبقے (بہن بھائی، دادا نانا) کی موجودگی میں محروم","b_fullSibling":"سگے بہن بھائیوں کی موجودگی میں محروم","n_raddLater":"شافعی اور مالکی فقہ کا اصل قول یہ ہے کہ بچا ہوا مال بیت المال کو جائے؛ یہاں بعد کے فقہا کا فتویٰ لیا گیا ہے، جس میں یہ حصہ داروں کو لوٹایا جاتا ہے یا ذوی الارحام کو دیا جاتا ہے۔","n_baitulmal":"اس فقہ میں شوہر یا بیوی کو بچا ہوا مال واپس نہیں ملتا (رد نہیں ہوتا)؛ یہ حصہ بیت المال کا ہے۔ عمل سے پہلے مفتی صاحب سے پوچھیں۔"};
+  var U = {"m_hanafi":"حنفی","m_shafii":"شافعی","m_maliki":"مالکی","m_hanbali":"حنبلی","m_ahlehadith":"اہلِ حدیث","m_jafari":"شیعہ (جعفری)","r_husband":"شوہر","r_wife":"بیوی","r_father":"والد","r_mother":"والدہ","r_dada":"دادا","r_dadi":"دادی","r_nana":"نانا","r_nani":"نانی","r_son":"بیٹا","r_daughter":"بیٹی","r_grandson":"پوتا / نواسا","r_granddaughter":"پوتی / نواسی","r_brother":"سگا بھائی","r_sister":"سگی بہن","r_pbrother":"علاتی بھائی (باپ شریک)","r_psister":"علاتی بہن (باپ شریک)","r_mbrother":"اخیافی بھائی (ماں شریک)","r_msister":"اخیافی بہن (ماں شریک)","r_nephew":"بھتیجا / بھانجا","r_niece":"بھتیجی / بھانجی","r_chacha":"چچا / تایا","r_phuphi":"پھوپھی","r_mamu":"ماموں","r_khala":"خالہ","r_cousin":"چچا زاد بھائی","st_alive":"زندہ","st_before":"%s کی وفات سے پہلے فوت ہوئے","st_after":"%s کی وفات کے بعد فوت ہوئے","n_sec4":"پاکستانی قانون (دفعہ 4) لگایا گیا: پہلے فوت ہونے والے بیٹے یا بیٹی کی اولاد نے ان کا حصہ لیا۔","n_mushtaraka":"مسئلہ مشترکہ: سگے بھائی ماں شریک بہن بھائیوں کے ساتھ تہائی میں شریک ہوئے (شافعی، مالکی)۔","n_akdariyya":"مسئلہ اکدریہ: حضرت زید بن ثابت کا مشہور فیصلہ۔","n_zayd":"دادا بھائیوں کے ساتھ: انہیں بھائی جتنا حصہ، ایک تہائی یا چھٹا حصہ، جو زیادہ ہو، ملتا ہے (زید بن ثابت)۔","n_radd":"رد: مقررہ حصوں کے بعد بچا ہوا مال انہی حصہ داروں کو لوٹایا گیا (شوہر یا بیوی کو نہیں)۔","n_raddSpouseAeh":"کوئی اور رشتہ دار نہیں، اس لیے باقی بھی شوہر یا بیوی کو لوٹایا گیا (امام ابن تیمیہ کا قول، جسے اہلِ حدیث علماء لیتے ہیں)۔ اس میں اختلاف ہے: عمل سے پہلے مفتی صاحب سے پوچھیں۔","n_raddSpouse":"کوئی اور رشتہ دار نہیں، اس لیے باقی بھی شوہر یا بیوی کو ملا (متاخرین احناف کا فتویٰ)۔","n_dhawi":"ذوی الارحام: کوئی حصہ دار یا عصبہ نہیں بچا، اس لیے عورتوں کے واسطے والے رشتہ دار وارث بنے۔ ان کی تقسیم میں اختلاف ہے: مفتی صاحب سے تصدیق کریں۔","n_unassigned":"ترکے کے ایک حصے کا اس فہرست میں کوئی وارث نہیں۔ مفتی صاحب سے پوچھیں۔","n_imam":"فقہ جعفری: اکیلی بیوی کو چوتھائی ملتا ہے؛ باقی امام کا حق ہے۔ اپنے مرجع کے دفتر سے پوچھیں۔","n_hajib":"فقہ جعفری: والد زندہ ہیں، اس لیے بھائی بہنوں نے والدہ کا حصہ کم کر دیا۔","n_class3":"فقہ جعفری، تیسرا طبقہ: چچا پھوپھی اور ماموں خالہ کی تقسیم اپنے مرجع کے دفتر سے تصدیق کریں۔","n_awl":"عول: مقررہ حصے ترکے سے زیادہ ہو گئے، اس لیے سب کے حصے ایک ہی نسبت سے کم ہوئے۔","n_landWife":"فقہ جعفری: بیوی کو زمین سے حصہ نہیں ملتا، صرف عمارت اور درختوں کی قیمت سے۔ مکان میں اس کا حصہ عمارت کی قیمت سے ہے۔","why_husband":"شوہر: آدھا، اولاد ہو تو چوتھائی","why_wife":"بیوی: چوتھائی، اولاد ہو تو آٹھواں (بیویاں آپس میں بانٹیں)","why_father":"والد","why_mother":"والدہ: تہائی، اولاد یا دو بہن بھائی ہوں تو چھٹا","why_grandfather":"دادا، والد کی جگہ","why_grandmother":"دادی/نانی: چھٹا حصہ","why_daughters":"بیٹیاں: ایک ہو تو آدھا، دو یا زیادہ ہوں تو دو تہائی","why_sondaughter":"پوتی: ایک بیٹی کے ساتھ چھٹا حصہ","why_children":"اولاد: باقی سب، بیٹے کا بیٹی سے دگنا","why_asaba":"عصبہ: باقی مال لیتا ہے","why_maalGhayr":"بیٹیوں کے ساتھ بہنیں باقی لیتی ہیں","why_sisters":"بہنیں: ایک ہو تو آدھا، دو یا زیادہ تو دو تہائی","why_consSister":"علاتی بہن: سگی بہن کے ساتھ چھٹا","why_uterine":"ماں کی طرف: برابر تقسیم","why_muqasama":"دادا کے ساتھ شریک","why_mushtaraka":"مسئلہ مشترکہ","why_akdariyya":"مسئلہ اکدریہ","why_radd":"رد","why_dhawi":"ذوی الارحام","why_rep":"پہلے فوت ہونے والے والد/والدہ کا حصہ","why_uncles":"چچا، پھوپھی، ماموں، خالہ","why_passed":"پہلے فوت ہوئے: حصہ ان کی اولاد کو","b_son":"بیٹے کی موجودگی میں محروم","b_grandson":"پوتے کی موجودگی میں محروم","b_father":"والد کی موجودگی میں محروم","b_grandfather":"دادا کی موجودگی میں محروم","b_mother":"والدہ کی موجودگی میں محروم","b_brother":"سگے بھائی کی موجودگی میں محروم","b_sister":"سگی بہن کی موجودگی میں محروم","b_twoDaughters":"دو بیٹیاں پورا دو تہائی لے چکیں","b_twoSisters":"دو سگی بہنیں پورا دو تہائی لے چکیں","b_descendant":"اولاد کی موجودگی میں محروم","b_higherAsaba":"زیادہ قریبی رشتہ دار باقی لیتا ہے","b_notSharer":"قریبی وارثوں کی موجودگی میں وارث نہیں","b_nothingLeft":"مقررہ حصوں کے بعد کچھ نہیں بچا","b_diedBefore":"پہلے فوت ہوئے، اس لیے وارث نہیں","b_parentAlive":"ان کے والد/والدہ زندہ ہیں","b_class1":"پہلے طبقے (والدین، اولاد) کی موجودگی میں محروم","b_class2":"دوسرے طبقے (بہن بھائی، دادا نانا) کی موجودگی میں محروم","b_fullSibling":"سگے بہن بھائیوں کی موجودگی میں محروم","n_raddLater":"شافعی اور مالکی فقہ کا اصل قول یہ ہے کہ بچا ہوا مال بیت المال کو جائے؛ یہاں بعد کے فقہا کا فتویٰ لیا گیا ہے، جس میں یہ حصہ داروں کو لوٹایا جاتا ہے یا ذوی الارحام کو دیا جاتا ہے۔","n_baitulmal":"اس فقہ میں شوہر یا بیوی کو بچا ہوا مال واپس نہیں ملتا (رد نہیں ہوتا)؛ یہ حصہ بیت المال کا ہے۔ عمل سے پہلے مفتی صاحب سے پوچھیں۔"};
   var MADHABS = [['hanafi', 'حنفی'], ['shafii', 'شافعی'], ['maliki', 'مالکی'], ['hanbali', 'حنبلی'], ['ahlehadith', 'اہلِ حدیث'], ['jafari', 'فقہ جعفری']];
   var ASSETS = [['cash', 'نقد / بینک'], ['land', 'زمین / مکان'], ['gold', 'سونا'], ['silver', 'چاندی']];
   // Rows for section 7: rel, label, max, sub-label.
   var OTHERS = [
-    ['g', 'دادا دادی، نانی'], ['dada', 'دادا', 1], ['dadi', 'دادی', 1], ['nani', 'نانی', 1],
+    ['g', 'دادا دادی، نانا نانی'], ['dada', 'دادا', 1], ['dadi', 'دادی', 1], ['nana', 'نانا', 1], ['nani', 'نانی', 1],
     ['g', 'بہن بھائی'], ['brother', 'سگے بھائی', 9], ['sister', 'سگی بہنیں', 9], ['pbrother', 'باپ شریک بھائی', 9], ['psister', 'باپ شریک بہنیں', 9], ['mbrother', 'ماں شریک بھائی', 9], ['msister', 'ماں شریک بہنیں', 9],
-    ['g', 'دیگر'], ['chacha', 'چچا / تایا', 9]
+    ['g', 'چچا، پھوپھی، ماموں، خالہ'], ['chacha', 'چچا / تایا', 9], ['phuphi', 'پھوپھیاں', 9], ['mamu', 'ماموں', 9], ['khala', 'خالائیں', 9]
   ];
   var KIDS = { son: ['grandson', 'granddaughter', 'بیٹے', 'بیٹیاں'], daughter: ['grandson', 'granddaughter', 'بیٹے', 'بیٹیاں'], brother: ['nephew', 'niece', 'بیٹے', 'بیٹیاں'], sister: ['nephew', 'niece', 'بیٹے', 'بیٹیاں'], pbrother: ['nephew', 'niece', 'بیٹے', 'بیٹیاں'], psister: ['nephew', 'niece', 'بیٹے', 'بیٹیاں'], chacha: ['cousin', null, 'بیٹے', ''] };
-  var SHORT = { husband: 'شوہر', wife: 'بیوی', father: 'والد', mother: 'والدہ', son: 'بیٹا', daughter: 'بیٹی', dada: 'دادا', dadi: 'دادی', nani: 'نانی', brother: 'سگا بھائی', sister: 'سگی بہن', pbrother: 'باپ شریک بھائی', psister: 'باپ شریک بہن', mbrother: 'ماں شریک بھائی', msister: 'ماں شریک بہن', chacha: 'چچا', cousin: 'چچا زاد', grandson: 'پوتا', granddaughter: 'پوتی', nephew: 'بھتیجا', niece: 'بھتیجی' };
+  var SHORT = { husband: 'شوہر', wife: 'بیوی', father: 'والد', mother: 'والدہ', son: 'بیٹا', daughter: 'بیٹی', dada: 'دادا', dadi: 'دادی', nani: 'نانی', brother: 'سگا بھائی', sister: 'سگی بہن', pbrother: 'باپ شریک بھائی', psister: 'باپ شریک بہن', mbrother: 'ماں شریک بھائی', msister: 'ماں شریک بہن', chacha: 'چچا', phuphi: 'پھوپھی', mamu: 'ماموں', khala: 'خالہ', nana: 'نانا', cousin: 'چچا زاد', grandson: 'پوتا', granddaughter: 'پوتی', nephew: 'بھتیجا', niece: 'بھتیجی' };
   var KEY = 'myzt_wirasat_v2'; // myzt_ prefix: "Delete saved data" on the site removes it
   var FT = 272; // square feet in one marla (land record), 20 marla = 1 kanal
   var WHY = { father: 'والد: اولاد ہو تو چھٹا حصہ؛ صرف بیٹیاں ہوں تو چھٹا اور بچا ہوا بھی؛ اولاد نہ ہو تو عصبہ' };
@@ -998,6 +1029,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
   var st;
   try { st = JSON.parse(localStorage.getItem(KEY)); } catch (e) { st = null; }
   if (!st || !st.people) { st = blank(); var qm = (location.search.match(/[?&]madhab=(\w+)/) || [])[1]; if (qm && MADHABS.some(function (m) { return m[0] === qm; })) st.madhab = qm; }
+
   var stale = false;
   function save() { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} }
 
@@ -1107,7 +1139,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
     if (!p) { p = { id: newId(), rel: rel, name: '', status: 'before' }; st.people.push(p); }
     var w = rel === 'father' ? 'والد' : 'والدہ';
     var h = '<div class="cards" data-parent="' + p.id + '">' +
-      [['alive', 'زندہ', w + ' کو ان کا شرعی حصہ دیا جائے گا'], ['before', MW() + ' سے پہلے فوت', 'وارث نہیں، حصہ نہیں جائے گا'], ['after', MW() + ' کے بعد فوت', 'حصہ ملے گا، پھر ان کی اپنی وراثت ہوگی']].map(function (o) {
+      [['alive', 'زندہ', w + ' کو ان کا شرعی حصہ دیا جائے گا'], ['before', MW() + ' سے پہلے فوت', 'یا وفات کے وقت زندہ نہیں تھے: وارث نہیں، حصہ نہیں جائے گا'], ['after', MW() + ' کے بعد فوت', 'حصہ ملے گا، پھر ان کی اپنی وراثت ہوگی']].map(function (o) {
         return '<button type="button" class="card" data-v="' + o[0] + '" aria-pressed="' + (p.status === o[0] ? 'true' : 'false') + '"><b>' + esc(o[1]) + '</b><span>' + esc(o[2]) + '</span></button>';
       }).join('') + '</div>';
     return h + '<div style="margin-top:10px">' + nameInput(p, w + ' کا نام (اختیاری)') + '</div>';
@@ -1287,30 +1319,38 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
       h += '<div class="banner">پہلے فوت ہونے والے بیٹے یا بیٹی کی اولاد کی وجہ سے فقہ اور پاکستانی قانون (عائلی قوانین 1961، دفعہ 4) کا نتیجہ مختلف ہے۔ پٹواری اور عدالت قانون والا حصہ لکھتے ہیں۔</div>' +
         '<div class="tabs" id="view"><button type="button" class="chip" data-v="law" aria-pressed="' + (view === 'law') + '">پاکستانی قانون (پٹواری)</button><button type="button" class="chip" data-v="fiqh" aria-pressed="' + (view === 'fiqh') + '">فقہ ' + esc(madhabName()) + '</button></div>';
     }
-    h += '<div class="fitbar"><span class="hint">پورا شجرہ اسکرین میں سما دیا گیا ہے۔ نام چھوٹے لگیں تو بڑا کر کے دیکھیں۔</span><button type="button" class="chip" id="zoom" aria-pressed="false">شجرہ بڑا کریں</button></div>' + tree(r, 'tree') + table(r) + noShare(r) + notes(r) +
+    h += '<div class="fitbar"><span class="hint" id="fitHint"></span><button type="button" class="chip" id="zoom" aria-pressed="false">شجرہ بڑا کریں</button></div>' + tree(r, 'tree') + table(r) + noShare(r) + notes(r) + tools(r) + report(r) +
       '<div class="actions" style="margin-top:14px"><button type="button" class="go" id="pdf">پی ڈی ایف رپورٹ ڈاؤن لوڈ کریں</button><span class="hint" id="pdfMsg"></span></div>';
     el.innerHTML = h;
     var v = $('view');
     if (v) v.onclick = function (e) { var b = e.target.closest('[data-v]'); if (b && !stale) { st.view = b.dataset.v; save(); calc(); } };
     $('pdf').onclick = makePdf;
-    $('zoom').onclick = function () { big = !big; fitTree(); };
+    $('zoom').onclick = function () { big = !isBig(); fitTree(); };
     requestAnimationFrame(fitTree);
+    bindTools(r);
   }
   // The whole shajra fits the screen width (shrunk with CSS zoom) so it can be read without scrolling.
   // "شجرہ بڑا کریں" shows it at full size instead, scrolled to the deceased's column.
-  var big = false;
+  // On a phone a large shajra shrunk to fit cannot be read, so there it opens full size, scrolled to the deceased.
+  var big = null, shrink = 1;
+  function isBig() { return big === null ? shrink < 0.6 : big; }
   function fitTree() {
     var t = $('tree'), z = $('zoom');
     if (!t) return;
     var tb = t.parentNode;
     t.style.zoom = '';
     drawLinks(t);
-    var room = tb.clientWidth - 2, w = t.offsetWidth, k = Math.min(1, room / w);
-    if (z) { z.hidden = k >= 1; z.setAttribute('aria-pressed', String(big)); z.textContent = big ? 'پورا شجرہ دکھائیں' : 'شجرہ بڑا کریں'; }
-    tb.classList.toggle('fit', !big && k < 1);
-    if (!big && k < 1) { t.style.zoom = k; return; }
-    var extra = tb.scrollWidth - tb.clientWidth;
-    if (extra > 0) { tb.scrollLeft = -extra / 2; if (tb.scrollLeft === 0) tb.scrollLeft = extra / 2; }
+    var room = tb.clientWidth - 2, w = t.offsetWidth, k = Math.min(1, room / w), b = (shrink = k, isBig());
+    if (z) { z.hidden = k >= 1; z.setAttribute('aria-pressed', String(b)); z.textContent = b ? 'پورا شجرہ دکھائیں' : 'شجرہ بڑا کریں'; }
+    var hint = $('fitHint');
+    if (hint) hint.textContent = k >= 1 ? '' : b ? 'شجرہ اصل سائز میں ہے: انگلی سے دائیں بائیں سرکا کر دیکھیں۔' : 'پورا شجرہ اسکرین میں سما دیا گیا ہے۔ نام چھوٹے لگیں تو بڑا کر کے دیکھیں۔';
+    tb.classList.toggle('fit', !b && k < 1);
+    if (!b && k < 1) { t.style.zoom = k; return; }
+    var me = t.querySelector('[data-node="self"]');
+    if (me && tb.scrollWidth > tb.clientWidth) {
+      var sr = me.getBoundingClientRect(), br = tb.getBoundingClientRect();
+      tb.scrollLeft += (sr.left + sr.width / 2) - (br.left + br.width / 2);
+    }
   }
   // Brings the shajra into view. In the site's frame the page around it does the scrolling.
   function reveal(el) {
@@ -1334,12 +1374,25 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
       var q = e.land * lf.n / lf.d;
       out.push({ land: true, t: landText(q, e.ft), sub: landTotal(q, e.ft) });
     }
-    if (e.cash != null) out.push(rs(e.cash * v));
+    if (e.cash != null) out.push(rs(cash(r)[id]));
     if (e.gold != null) out.push(metalOut('gold', e.gold * v));
     if (e.silver != null) out.push(metalOut('silver', e.silver * v));
     return out;
   }
   function heir(r, p) { return r.shares[p.id] && r.shares[p.id].f.n > 0; }
+  // Whole rupees per heir that add up exactly to the estate: each gets the rupees below their exact share, and the
+  // rupees left over go one each to the largest fractions (largest remainder). r.cashFix marks that this happened.
+  function cash(r) {
+    if (r.cashBy) return r.cashBy;
+    var e = estate(), by = {}, ids = Object.keys(r.shares), left = 0, rest = [];
+    var given = r.unassigned && r.unassigned.n ? 1 - r.unassigned.n / r.unassigned.d : 1;
+    ids.forEach(function (id) { var f = r.shares[id].f, x = (e.cash || 0) * f.n / f.d; by[id] = Math.floor(x + 1e-7); left += x; rest.push([id, x - by[id]]); });
+    left = Math.round(Math.round((e.cash || 0) * given * 100) / 100) - ids.reduce(function (a, id) { return a + by[id]; }, 0);
+    rest.sort(function (a, b) { return b[1] - a[1]; });
+    for (var i = 0; i < rest.length && left > 0; i++) if (rest[i][1] > 1e-7) { by[rest[i][0]] += 1; left--; }
+    r.cashFix = ids.some(function (id) { var f = r.shares[id].f; return by[id] !== Math.round((e.cash || 0) * f.n / f.d); });
+    return (r.cashBy = by);
+  }
 
   var TRI = '<svg viewBox="0 0 132 72" preserveAspectRatio="none" aria-hidden="true"><polygon points="66,2 130,70 2,70"></polygon></svg>';
   // A woman whose wirasat it is: a daughter of her parents (triangle), and a wife too (leaf inside) when a husband is entered.
@@ -1351,7 +1404,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
   function node(r, p, cls) {
     var s = r.shares[p.id], has = s && s.f.n > 0;
     // Daughters and sisters are triangles, wives are leaves; a woman who is both (the mother when her own mother, nani, is drawn) gets both.
-    var shape = ['daughter', 'granddaughter', 'niece', 'sister', 'psister', 'msister'].indexOf(p.rel) >= 0 ? 'tri' : ['wife', 'mother', 'dadi', 'nani'].indexOf(p.rel) >= 0 ? 'leaf' : '';
+    var shape = ['daughter', 'granddaughter', 'niece', 'sister', 'psister', 'msister', 'phuphi', 'khala'].indexOf(p.rel) >= 0 ? 'tri' : ['wife', 'mother', 'dadi', 'nani'].indexOf(p.rel) >= 0 ? 'leaf' : '';
     if (p.rel === 'mother' && of('nani').length) shape = 'tri tl';
     var isTri = shape.indexOf('tri') === 0;
     var nmLen = (p.name || rel(p)).length, nmCls = nmLen > 14 ? ' xs' : nmLen > 8 ? ' sm' : '';
@@ -1370,21 +1423,28 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
     // Everyone the user entered is drawn; those without a share say so in their box.
     // Every box without a share is dashed, whether the person died first or is excluded by a nearer heir.
     var via = function (p) { return !heir(r, p); };
-    var pick = function (rels) { return P.filter(function (p) { return !p.parent && rels.indexOf(p.rel) >= 0; }); };
-    var gp = pick(['dada', 'dadi', 'nani']);
+    // Grouped and in a fixed order, so a couple stands side by side: dada dadi over the father, nana nani over the mother.
+    var pick = function (rels) { return P.filter(function (p) { return !p.parent && rels.indexOf(p.rel) >= 0; }).sort(function (a, b) { return rels.indexOf(a.rel) - rels.indexOf(b.rel); }); };
+    var gp = pick(['dada', 'dadi', 'nana', 'nani']);
     var top = pick(['father', 'mother']);
-    var sibs = pick(['brother', 'sister', 'pbrother', 'psister', 'mbrother', 'msister', 'chacha']);
+    var sibs = pick(['brother', 'sister', 'pbrother', 'psister', 'mbrother', 'msister']);
+    var pat = pick(['chacha', 'phuphi']), mat = pick(['mamu', 'khala']);
     var sp = pick(['husband', 'wife']);
     var ch = pick(['son', 'daughter']);
-    var low = P.filter(function (p) { return p.parent; });
+    // Children under their own parent's side: grandchildren under the children, nephews and cousins under the siblings and uncles.
+    var under = function (parents) { return P.filter(function (p) { return p.parent && parents.indexOf(byId(p.parent)) >= 0; }).sort(function (a, b) { return parents.indexOf(byId(a.parent)) - parents.indexOf(byId(b.parent)); }); };
+    var low = under(ch), sibLow = under(sibs), patLow = under(pat);
     function nodes(list) { return list.map(function (p) { return node(r, p, via(p) ? 'via' : ''); }).join(''); }
+    function row(x) { return '<div class="trow">' + x + '</div>'; }
     var h = '<div class="treebox"><div class="tree" id="' + id + '"><svg class="links" aria-hidden="true"></svg>' + treeHead();
-    if (gp.length) h += '<div class="trow">' + nodes(gp) + '</div>';
-    if (top.length) h += '<div class="trow">' + nodes(top) + '</div>';
-    // The deceased starts the row on the right, then the spouse, then brothers and sisters.
-    h += '<div class="trow' + (sibs.length ? ' start' : '') + '">' + selfNode() + nodes(sp) + nodes(sibs) + '</div>';
-    if (ch.length) h += '<div class="trow">' + nodes(ch) + '</div>';
-    if (low.length) h += '<div class="trow">' + nodes(low) + '</div>';
+    if (gp.length) h += row(nodes(gp));
+    if (top.length) h += row(nodes(top));
+    // Side by side, so no family's lines cross another's: the father's brothers and sisters on the father's side (right),
+    // then the deceased with spouse, children and grandchildren, then brothers and sisters, then the mother's side (left).
+    var own = row(selfNode() + nodes(sp)) + (ch.length ? row(nodes(ch)) : '') + (low.length ? row(nodes(low)) : '');
+    var blk = function (a, b) { return a.length ? '<div class="blk">' + row(nodes(a)) + (b && b.length ? row(nodes(b)) : '') + '</div>' : ''; };
+    if (sibs.length || pat.length || mat.length) h += '<div class="trow split">' + blk(pat, patLow) + '<div class="blk">' + own + '</div>' + blk(sibs, sibLow) + blk(mat) + '</div>';
+    else h += own;
     return h + '<p class="legend">— — ڈیش والے خانے: جن کا حصہ نہیں بنتا (وجہ خانے کے نیچے)</p></div></div>';
   }
   // Patwari style heading; ولدیت، قوم، موضع، تحصیل، ضلع are left blank to be written by hand on the print.
@@ -1402,41 +1462,97 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
     var box = t.getBoundingClientRect(), paths = [];
     function pt(id) { var nd = t.querySelector('[data-node="' + id + '"]'), n = nd && nd.querySelector('.shape'); if (!n) return null; var b = n.getBoundingClientRect(); return { x: b.left + b.width / 2 - box.left, top: b.top - box.top, bot: nd.getBoundingClientRect().bottom - box.top + 4, l: b.left - box.left, r: b.right - box.left, mid: b.top + b.height / 2 - box.top }; }
     function elbow(a, b) { var y = b.top - 16; paths.push('<path d="M' + a.x + ' ' + a.bot + ' V' + y + ' H' + b.x + ' V' + b.top + '"></path>'); }
+    function dbl(d) { paths.push('<path class="dbl" d="' + d + '"></path><path class="dbl2" d="' + d + '"></path>'); }
+    // A couple: double line between the two, one line from its middle down to their child.
+    function couple(A, B, K, y) {
+      var a1 = Math.min(A.r, B.r), a2 = Math.max(A.l, B.l), mx = (a1 + a2) / 2;
+      dbl('M' + a1 + ' ' + A.mid + ' H' + a2);
+      paths.push('<path d="M' + mx + ' ' + A.mid + ' V' + y + ' H' + K.x + ' V' + K.top + '"></path>');
+    }
+    // Line heights above a row, so two families' lines never run along each other: the father's side and the
+    // deceased's parents higher, the mother's side and the wives lower.
+    function hi(K) { return K.top - 22; }
+    function lo(K) { return K.top - 8; }
     var self = pt('self');
+    var spouses = st.people.filter(function (p) { return !p.parent && (p.rel === 'wife' || p.rel === 'husband'); }).map(function (p) { return pt(p.id); }).filter(Boolean);
+    var PAIR = { father: ['father', 'mother', 'self'], dada: ['dada', 'dadi', 'father'], nana: ['nana', 'nani', 'mother'] };
+    PAIR.mother = PAIR.father; PAIR.dadi = PAIR.dada; PAIR.nani = PAIR.nana;
+    // Uncles and aunts hang from their own parent's line: chacha and phuphi beside the father, mamu and khala beside the mother.
+    var SIDE = { chacha: 'father', phuphi: 'father', mamu: 'mother', khala: 'mother' };
     st.people.forEach(function (p) {
       var me = pt(p.id);
       if (!me) return;
       if (p.parent) { var par = pt(p.parent); if (par) elbow(par, me); return; }
       if (p.rel === 'son' || p.rel === 'daughter') elbow(self, me);
-      else if (p.rel === 'father' || p.rel === 'mother') {
-        // Father and mother as a couple: double line between them, one line down to the deceased.
-        var fa = of('father')[0], mo = of('mother')[0], F = fa && pt(fa.id), M = mo && pt(mo.id);
-        if (F && M) {
-          if (p.rel === 'mother') return;
-          var a1 = Math.min(F.r, M.r), a2 = Math.max(F.l, M.l), mx = (a1 + a2) / 2;
-          paths.push('<path class="dbl" d="M' + a1 + ' ' + F.mid + ' H' + a2 + '"></path><path class="dbl2" d="M' + a1 + ' ' + F.mid + ' H' + a2 + '"></path>');
-          paths.push('<path d="M' + mx + ' ' + F.mid + ' V' + (self.top - 16) + ' H' + self.x + ' V' + self.top + '"></path>');
-        } else elbow(me, self);
+      else if (PAIR[p.rel]) {
+        // Parents and grandparents: a couple when both are drawn, else a single line to their child.
+        var pr = PAIR[p.rel], A = of(pr[0])[0], B = of(pr[1])[0], K = pr[2] === 'self' ? self : of(pr[2])[0] && pt(of(pr[2])[0].id);
+        A = A && pt(A.id); B = B && pt(B.id);
+        if (!K) return;
+        var y = pr[0] === 'nana' ? lo(K) : hi(K);
+        if (A && B) { if (p.rel === pr[0]) couple(A, B, K, y); }
+        else paths.push('<path d="M' + me.x + ' ' + me.bot + ' V' + y + ' H' + K.x + ' V' + K.top + '"></path>');
       }
       else if (p.rel === 'wife' || p.rel === 'husband') {
-        var x1 = Math.min(self.r, me.r), x2 = Math.max(self.l, me.l);
-        paths.push('<path class="dbl" d="M' + x1 + ' ' + self.mid + ' H' + x2 + '"></path><path class="dbl2" d="M' + x1 + ' ' + self.mid + ' H' + x2 + '"></path>');
-      } else if (['dada', 'dadi', 'nani'].indexOf(p.rel) >= 0) {
-        // Grandparents hang above their own child: dada and dadi over the father, nani over the mother.
-        var kid = of(p.rel === 'nani' ? 'mother' : 'father')[0], K = kid && pt(kid.id);
-        if (K) elbow(me, K);
+        // One spouse: a double line beside the deceased. Several wives: a double line over the row with a drop to each,
+        // so no wife's line runs behind another wife's box.
+        if (spouses.length === 1) { dbl('M' + Math.min(self.r, me.r) + ' ' + self.mid + ' H' + Math.max(self.l, me.l)); return; }
+        var yb = lo(self), sx = self.l + 16;
+        if (me === spouses[0] || me.x === spouses[0].x) {
+          var far = spouses.reduce(function (a, b) { return Math.abs(b.x - sx) > Math.abs(a.x - sx) ? b : a; });
+          dbl('M' + sx + ' ' + self.top + ' V' + yb + ' H' + far.x);
+        }
+        dbl('M' + me.x + ' ' + yb + ' V' + me.top);
+      } else if (SIDE[p.rel] && of(SIDE[p.rel])[0] && pt(of(SIDE[p.rel])[0].id)) {
+        var S = pt(of(SIDE[p.rel])[0].id), ys = SIDE[p.rel] === 'father' ? hi(S) : lo(S);
+        paths.push('<path d="M' + S.x + ' ' + S.top + ' V' + ys + ' H' + me.x + ' V' + me.top + '"></path>');
       } else {
-        var y = self.top - 16; paths.push('<path d="M' + self.x + ' ' + self.top + ' V' + y + ' H' + me.x + ' V' + me.top + '"></path>');
+        paths.push('<path d="M' + self.x + ' ' + self.top + ' V' + hi(self) + ' H' + me.x + ' V' + me.top + '"></path>');
       }
     });
     svg.innerHTML = paths.join('');
   }
   window.addEventListener('resize', function () { requestAnimationFrame(fitTree); });
 
+  function F(f) { return f ? W.Q(f.n, f.d) : W.ZERO; }
+  function isQ(f, n, d) { return f && f.n * d === n * f.d; }
+  // The fixed part as the books write it, before 'awl reduced it.
+  function fard0(r, s) { var f = s.parts && s.parts.fard; return f && r.awlFrom ? W.mul(f, W.Q(r.awlFrom.to, r.awlFrom.from)) : f; }
+  // This heir's own case, not the general rule: why the father or mother got what they got.
+  function caseWhy(r, p) {
+    var s = r.shares[p.id], pa = s.parts || {}, j = st.madhab === 'jafari';
+    if (p.rel === 'father' && !j) {
+      if (pa.fard && pa.asaba) return 'والد: اولاد میں صرف بیٹیاں (یا پوتیاں) ہیں، اس لیے چھٹا حصہ مقررہ، اور مقررہ حصوں کے بعد بچا ہوا بھی عصبہ کے طور پر';
+      if (pa.fard && !pa.radd) return Object.keys(r.shares).some(function (id) { return r.shares[id].why === 'children'; }) ? 'والد: بیٹا (یا پوتا) موجود ہے، اس لیے صرف چھٹا حصہ' : 'والد: اولاد ہے، اس لیے چھٹا حصہ؛ مقررہ حصوں کے بعد کچھ نہیں بچا';
+      if (pa.asaba) return 'والد: اولاد نہیں، اس لیے عصبہ: مقررہ حصوں کے بعد بچا ہوا سارا';
+    }
+    var f0 = fard0(r, s);
+    if (p.rel === 'husband' && f0) return isQ(f0, 1, 4) ? 'شوہر: اولاد ہے، اس لیے چوتھائی' : 'شوہر: اولاد نہیں، اس لیے آدھا';
+    if (p.rel === 'wife' && f0 && wives(r).length < 2) return isQ(f0, 1, 8) ? 'بیوی: اولاد ہے، اس لیے آٹھواں' : 'بیوی: اولاد نہیں، اس لیے چوتھائی';
+    if (p.rel === 'daughter' && s.why === 'daughters') { var nd = Object.keys(r.shares).filter(function (id) { return r.shares[id].why === 'daughters' && byId(id) && byId(id).rel === 'daughter'; }).length; return nd > 1 ? 'بیٹیاں: بیٹا نہیں اور ' + (NUM[nd] || nd) + ' بیٹیاں ہیں، اس لیے مل کر دو تہائی' : 'بیٹی: بیٹا نہیں اور ایک ہی بیٹی ہے، اس لیے آدھا'; }
+    if (p.rel === 'mother') {
+      if (s.ref === W.REFS.umariyyatan) return 'والدہ (عمریتین): اولاد نہیں اور والد زندہ ہیں، اس لیے ' + (st.sex === 'f' ? 'شوہر' : 'بیوی') + ' کا حصہ نکال کر باقی کا تہائی، یعنی پورے ترکے کا ' + frac(fard0(r, s));
+      if (isQ(f0, 1, 6)) return 'والدہ: ' + (Object.keys(r.shares).some(function (id) { var x = r.shares[id]; return ['children', 'daughters', 'sondaughter'].indexOf(x.why) >= 0 || x.why === 'passed'; }) ? 'اولاد ہے' : 'دو یا زیادہ بہن بھائی ہیں') + '، اس لیے چھٹا حصہ';
+      if (isQ(f0, 1, 3)) return 'والدہ: اولاد نہیں اور دو بہن بھائی بھی نہیں، اس لیے تہائی';
+    }
+    return '';
+  }
+  // The arithmetic of one share: "مقررہ 1/6 + عصبہ 1/3 = 1/2", with the 'awl and radd steps when there are any.
+  function arith(r, p) {
+    var s = r.shares[p.id], pa = s.parts || {}, seg = [];
+    if (s.why === 'rep' || s.why === 'dhawi') return '';
+    if (pa.fard) seg.push('مقررہ ' + frac(fard0(r, s)) + (r.awlFrom ? ' (عول کے بعد ' + frac(pa.fard) + ')' : ''));
+    if (pa.asaba) seg.push((p.rel === 'father' || p.rel === 'dada' ? 'بچا ہوا (عصبہ) ' : 'عصبہ ') + frac(pa.asaba));
+    if (pa.radd) seg.push('رد ' + frac(pa.radd));
+    if (seg.length < 2 && !r.awlFrom) return '';
+    return 'حساب: ' + seg.join(' + ') + (seg.length > 1 ? ' = ' + frac(s.f) : '');
+  }
   function whyText(r, p) {
-    var s = r.shares[p.id], w = WHY[s.why] || U['why_' + s.why] || '';
+    var s = r.shares[p.id], w = caseWhy(r, p) || WHY[s.why] || U['why_' + s.why] || '';
     if (p.parent && cur && cur.view === 'law') w = 'دفعہ 4: ' + label(byId(p.parent)) + ' کا حصہ ان کی اولاد میں، بیٹے کا بیٹی سے دگنا';
     if (s.why === 'wife' && wives(r).length > 1) w = 'بیوی: ' + NUM[wives(r).length] + ' بیویاں ' + (cut(r) ? 'ایک آٹھواں' : 'ایک چوتھائی') + ' حصہ آپس میں برابر بانٹتی ہیں، دوگنا نہیں ہوتا';
+    var a = arith(r, p);
+    if (a) w += (w ? '۔ ' : '') + a;
     if (p.status === 'after') w += (w ? '۔ ' : '') + statusText('after') + '، اس لیے یہ حصہ ان کی اپنی وراثت میں تقسیم ہوگا';
     return w;
   }
@@ -1456,6 +1572,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
       h += '<tr><td><b>' + esc(label(p)) + '</b>' + (p.name ? ' <span class="hint">' + esc(rel(p)) + '</span>' : '') + '</td><td class="f">' + frac(s.f) + '</td>' + gets(r, p.id).map(function (g) { return g.land || g.metal ? '<td><b>' + esc(g.t) + '</b><br><span class="hint">' + esc(g.sub) + '</span></td>' : '<td>' + esc(g) + '</td>'; }).join('') + '<td class="hint">' + pct(s.f) + '</td><td class="why">' + esc(whyText(r, p)) + '</td></tr>';
     });
     h += '</tbody></table></div>' + wivesNote(r) + awlNote(r) + rateNote();
+    if (estate().cash != null && rows.length && (cash(r), r.cashFix)) h += '<p class="hint">رقم پورے روپوں میں ہے۔ کسر کی وجہ سے کسی وارث کی رقم میں ایک روپے کا فرق رکھا گیا ہے، تاکہ سب کی رقم کا جوڑ پورے ترکے کے برابر رہے۔ اصل حصہ کسر والے خانے میں ہے۔</p>';
     if (estate().short) h += '<p class="err">قرض نقد رقم سے زیادہ ہے۔ باقی قرض زمین یا سونے کی قیمت سے ادا ہوگا؛ یہ کٹوتی اس حساب میں شامل نہیں، اس لیے زمین اور سونے کے حصے قرض سے پہلے کے ہیں۔</p>';
     return h;
   }
@@ -1518,6 +1635,144 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
     return n.length ? '<ul class="notes">' + n.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>' : '';
   }
 
+  /* ---------- tools under the result: worked sheet, six schools, what if, share and istifta ---------- */
+  function lcmN(a, b) { return a / gcdN(a, b) * b; }
+  function names(ids, r) { return ids.map(function (id) { var q = byId(id); return !q ? id : label(q) + (r && r.shares[id] && r.shares[id].why === 'passed' ? ' (پہلے فوت: حصہ اولاد کو)' : ''); }).join('، '); }
+  function tools(r) {
+    return '<details class="tool" open><summary>حساب کی کاپی (مفتی صاحب کی تصدیق کے لیے)</summary>' + sheet(r) + '</details>' +
+      '<details class="tool"><summary>چھ مسلک ساتھ ساتھ</summary><div id="six"></div></details>' +
+      '<details class="tool"><summary>اگر یہ ہوتا تو؟</summary><p class="hint">کسی رشتہ دار کا حال بدل کر دیکھیں کہ حصے کیسے بدلتے ہیں۔ اوپر کا فارم اور نتیجہ نہیں بدلتا۔</p>' +
+      '<div class="wi"><label class="f">رشتہ دار<select class="in" id="wiP">' + st.people.map(function (p) { return '<option value="' + p.id + '">' + esc(label(p)) + ' (' + esc(ST[p.status || 'alive']) + ')</option>'; }).join('') + '</select></label>' +
+      '<label class="f">اگر<select class="in" id="wiA"><option value="alive">زندہ ہوتے</option><option value="before">' + esc(MW()) + ' سے پہلے فوت ہو چکے ہوتے</option><option value="none">موجود ہی نہ ہوتے</option></select></label></div><div id="wiOut"></div></details>' +
+      '<details class="tool"><summary>شیئر کریں اور مفتی صاحب سے پوچھیں</summary><p class="hint">لنک میں یہی خاندان اور ترکہ ہے (نام بھی، اگر لکھے ہیں)؛ جسے بھیجیں وہ اسی صفحے پر یہی حساب دیکھ سکے گا۔ لنک کسی سرور پر محفوظ نہیں ہوتا۔</p>' +
+      '<div class="actions"><button type="button" class="go ghost" id="shCopy">لنک کاپی کریں</button><a class="go ghost" id="shWa" target="_blank" rel="noopener">واٹس ایپ پر بھیجیں</a><button type="button" class="go ghost" id="istGo">استفتاء کا مسودہ بنائیں</button></div>' +
+      '<input class="in num" id="shLink" readonly aria-label="شیئر لنک" style="margin-top:8px"><p class="hint" id="shMsg" aria-live="polite"></p>' +
+      '<div id="istBox" hidden><p class="hint">دارالافتاء کو بھیجنے کے لیے سوال تیار ہے۔ ضرورت ہو تو بدل لیں، پھر کاپی کریں یا واٹس ایپ پر بھیجیں۔</p><textarea class="in" id="istText" rows="14"></textarea>' +
+      '<div class="actions" style="margin-top:8px"><button type="button" class="go ghost" id="istCopy">مسودہ کاپی کریں</button><a class="go ghost" id="istWa" target="_blank" rel="noopener">واٹس ایپ پر بھیجیں</a></div></div></details>';
+  }
+  // The mas'ala as the books write it: the base (asl), each group's fixed share in sihaam, 'awl or radd, then every heir's final sihaam.
+  function sheet(r) {
+    var e = estate(), h = '', all = 0;
+    if (r.fards) {
+      var asl = r.fards.reduce(function (m, x) { return lcmN(m, x.f.d); }, 1);
+      var rows = r.fards.map(function (x) { return [names(x.ids, r), U['why_' + x.why] ? U['why_' + x.why].split(':')[0] : '', frac(x.f), x.f.n * asl / x.f.d]; });
+      var fixed = rows.reduce(function (a, x) { return a + x[3]; }, 0);
+      if (r.asabaGroup) rows.push([names(r.asabaGroup.ids, r), 'عصبہ (باقی)', 'باقی', r.asabaGroup.f.n * asl / r.asabaGroup.f.d]);
+      all = lcmN(r.awlFrom ? r.awlFrom.to : asl, r.base);
+      h += '<p><b>اصل مسئلہ: ' + asl + '</b>' + (r.awlFrom ? ' · عول سے ' + r.awlFrom.to + ' ہوا' : '') + ' · آخری تقسیم: کل ' + all + ' سہام</p>';
+      h += '<div class="tbl"><table><thead><tr><th>وارث</th><th>کس حیثیت سے</th><th>حصہ</th><th>سہام (' + asl + ' میں سے)</th></tr></thead><tbody>' +
+        rows.map(function (x) { return '<tr><td>' + esc(x[0]) + '</td><td class="hint">' + esc(x[1]) + '</td><td class="f">' + x[2] + '</td><td>' + x[3] + '</td></tr>'; }).join('') +
+        '<tr><td colspan="3"><b>میزان</b></td><td><b>' + (r.asabaGroup ? asl : fixed) + '</b></td></tr></tbody></table></div>';
+      if (r.awlFrom) h += '<p class="hint">مقررہ سہام ' + r.awlFrom.to + ' ہوئے جبکہ مسئلہ ' + asl + ' کا تھا، اس لیے عول کیا گیا: ہر حصہ دار کو ' + r.awlFrom.to + ' میں سے اتنے ہی سہام ملے۔</p>';
+      else if (!r.asabaGroup && fixed < asl) h += '<p class="hint">مقررہ سہام ' + fixed + ' ہیں اور ' + (asl - fixed) + ' بچے۔ ' + (r.radd ? 'یہ بچے ہوئے سہام رد کے ذریعے حصہ داروں کو (شوہر یا بیوی کے سوا، جب کوئی اور ہو) انہی کی نسبت سے لوٹائے گئے۔' : (r.unassigned && r.unassigned.n ? 'ان کا اس فہرست میں کوئی وارث نہیں۔' : 'یہ ذوی الارحام کو دیے گئے۔')) + '</p>';
+    } else {
+      h += '<p class="hint">' + (st.madhab === 'jafari' ? 'فقہ جعفری میں حساب طبقات سے ہوتا ہے، عول نہیں ہوتا؛ نیچے ہر وارث کے آخری سہام ہیں۔' : 'اس مسئلے (اکدریہ / دادا اور بہن بھائی) کا حساب حضرت زید بن ثابت کے فیصلے کے مطابق ہے؛ نیچے آخری سہام ہیں۔') + '</p>';
+    }
+    var heirs = st.people.filter(function (p) { return heir(r, p); }), base = all || r.base;
+    h += '<div class="tbl"><table><thead><tr><th>وارث</th><th>آخری حصہ</th><th>سہام (' + base + ' میں سے)</th>' + (e.cash != null ? '<th>رقم</th>' : '') + '</tr></thead><tbody>' +
+      heirs.map(function (p) { var f = r.shares[p.id].f; return '<tr><td>' + esc(label(p)) + '</td><td class="f">' + frac(f) + '</td><td>' + (f.n * base / f.d) + '</td>' + (e.cash != null ? '<td>' + rs(cash(r)[p.id]) + '</td>' : '') + '</tr>'; }).join('') +
+      (r.unassigned && r.unassigned.n ? '<tr><td>بغیر وارث (بیت المال / مفتی صاحب سے پوچھیں)</td><td class="f">' + frac(r.unassigned) + '</td><td>' + (r.unassigned.n * base / r.unassigned.d) + '</td>' + (e.cash != null ? '<td></td>' : '') + '</tr>' : '') +
+      '<tr><td><b>میزان</b></td><td class="f">1</td><td><b>' + base + '</b></td>' + (e.cash != null ? '<td><b>' + rs(heirs.reduce(function (a, p) { return a + cash(r)[p.id]; }, 0)) + '</b></td>' : '') + '</tr></tbody></table></div>';
+    return h;
+  }
+  // Where a user tells us about a mistake in the shajra or the shares; the share link lets us open the same family.
+  var CONTACT = 'https://myzakattool.com/contact/';
+  function report() {
+    return '<p class="note-box"><b>کوئی غلطی نظر آئی؟</b> اگر آپ کو لگے کہ حساب، حصوں یا شجرے میں کوئی غلطی یا خرابی ہے تو ہمارے <a href="' + CONTACT + '" target="_blank" rel="noopener">رابطہ صفحے</a> سے بتائیں۔ پیغام میں مسلک، رشتہ دار اور وہ حصہ لکھیں جو آپ کے خیال میں درست ہے؛ اوپر "شیئر کریں" والا لنک بھی ساتھ بھیج دیں تو ہم یہی خاندان کھول کر دیکھ لیں گے۔</p>';
+  }
+  function persons0() { return st.people.map(function (p) { return { id: p.id, rel: p.rel, status: p.status, parent: p.parent, name: p.name }; }); }
+  // The same family in all six schools (fiqh, without the s.4 option); cells that differ from the chosen school are marked.
+  function six() {
+    var P = persons0(), res = MADHABS.map(function (m) { return W.calculate(P, { madhab: m[0], deceasedSex: st.sex, sec4: false }); });
+    var mine = MADHABS.map(function (m) { return m[0]; }).indexOf(st.madhab);
+    var h = '<p class="hint">ہر خانے میں اسی خاندان کا حصہ اس مسلک کی فقہ کے مطابق ہے (پاکستانی قانون کی دفعہ 4 کے بغیر)۔ جو حصہ آپ کے چنے ہوئے مسلک سے مختلف ہے وہ رنگین ہے۔</p><div class="tbl"><table><thead><tr><th>رشتہ دار</th>' +
+      MADHABS.map(function (m, i) { return '<th' + (i === mine ? ' class="me"' : '') + '>' + esc(m[1]) + '</th>'; }).join('') + '</tr></thead><tbody>';
+    st.people.forEach(function (p) {
+      if (!res.some(function (x) { return x.shares[p.id].f.n > 0; })) return;
+      var my = res[mine].shares[p.id].f;
+      h += '<tr><td>' + esc(label(p)) + '</td>' + res.map(function (x, i) { var f = x.shares[p.id].f, d = f.n * my.d !== my.n * f.d; return '<td class="f' + (i === mine ? ' me' : d ? ' df' : '') + '">' + (f.n ? frac(f) : '—') + '</td>'; }).join('') + '</tr>';
+    });
+    if (res.some(function (x) { return x.unassigned && x.unassigned.n; })) h += '<tr><td>بغیر وارث</td>' + res.map(function (x, i) { return '<td class="f' + (i === mine ? ' me' : '') + '">' + (x.unassigned && x.unassigned.n ? frac(x.unassigned) : '—') + '</td>'; }).join('') + '</tr>';
+    return h + '</tbody></table></div>';
+  }
+  function whatIf(r) {
+    var id = $('wiP').value, act = $('wiA').value, P = persons0(), gone = [id];
+    if (act === 'none') { for (var i = 0; i < gone.length; i++) P.forEach(function (q) { if (q.parent === gone[i] && gone.indexOf(q.id) < 0) gone.push(q.id); }); P = P.filter(function (q) { return gone.indexOf(q.id) < 0; }); }
+    else P.forEach(function (q) { if (q.id === id) q.status = act; });
+    // Children are asked only for a parent who died first; with the parent alive they inherit nothing anyway.
+    var r2 = W.calculate(P, { madhab: st.madhab, deceasedSex: st.sex, sec4: cur.view === 'law' && st.madhab !== 'jafari' });
+    var rows = st.people.map(function (p) {
+      var a = r.shares[p.id].f, b = r2.shares[p.id] ? r2.shares[p.id].f : W.ZERO;
+      return a.n * b.d === b.n * a.d ? '' : '<tr><td>' + esc(label(p)) + '</td><td class="f">' + (a.n ? frac(a) : '—') + '</td><td class="f">' + (b.n ? frac(b) : '—') + '</td><td class="' + (b.n / b.d > a.n / a.d ? 'plus' : 'minus') + '">' + (b.n / b.d > a.n / a.d ? 'بڑھا' : 'کم ہوا') + '</td></tr>';
+    }).join('');
+    $('wiOut').innerHTML = rows ? '<div class="tbl"><table><thead><tr><th>رشتہ دار</th><th>ابھی</th><th>تب</th><th></th></tr></thead><tbody>' + rows + '</tbody></table></div>' + (r2.unassigned && r2.unassigned.n ? '<p class="hint">تب ' + frac(r2.unassigned) + ' حصے کا اس فہرست میں کوئی وارث نہ ہوتا۔</p>' : '') : '<p class="hint">اس سے کسی کا حصہ نہیں بدلتا۔</p>';
+  }
+  // Share link: the family packed into the page address after #w=, read back when the page opens. Nothing is stored anywhere.
+  var STC = ['alive', 'before', 'after'];
+  function pack() {
+    var a = {};
+    Object.keys(st.assets).forEach(function (k) { if (st.assets[k].on) { a[k] = {}; Object.keys(st.assets[k]).forEach(function (x) { if (x !== 'on' && st.assets[k][x]) a[k][x] = st.assets[k][x]; }); } });
+    var o = { v: 1, x: st.sex, m: st.madhab, n: st.name || '', d: st.debts || '', a: a, p: st.people.map(function (p) { return [p.rel, STC.indexOf(p.status), p.parent ? st.people.indexOf(byId(p.parent)) : -1, p.name || '']; }) };
+    return btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  }
+  function unpack(code) {
+    try {
+      var o = JSON.parse(decodeURIComponent(escape(atob(code.replace(/-/g, '+').replace(/_/g, '/')))));
+      if (!o || o.v !== 1 || !Array.isArray(o.p) || o.p.length > 200) return null;
+      var s2 = blank();
+      s2.sex = o.x === 'f' ? 'f' : 'm';
+      if (MADHABS.some(function (m) { return m[0] === o.m; })) s2.madhab = o.m;
+      s2.name = String(o.n || '').slice(0, 60); s2.debts = String(o.d || '').slice(0, 20);
+      Object.keys(s2.assets).forEach(function (k) { var x = o.a && o.a[k]; s2.assets[k].on = !!x; if (x) Object.keys(s2.assets[k]).forEach(function (f) { if (f !== 'on' && x[f] != null) s2.assets[k][f] = String(x[f]).slice(0, 20); }); });
+      s2.people = [];
+      for (var i = 0; i < o.p.length; i++) {
+        var q = o.p[i], par = q[2];
+        if (!Array.isArray(q) || !SHORT[q[0]] || !(par < i)) return null;
+        s2.people.push({ id: 'p' + (i + 1), rel: q[0], status: STC[q[1]] || 'alive', name: String(q[3] || '').slice(0, 40) });
+        if (par >= 0) s2.people[i].parent = 'p' + (par + 1);
+      }
+      if (W.validate(s2.people, s2.sex).length) return null;
+      s2.seq = s2.people.length; s2.shown = true;
+      return s2;
+    } catch (e) { return null; }
+  }
+  // The address to share: the site page around the frame when it can be read, else this page, else the site's calculator page.
+  function pageUrl() {
+    try { if (window.parent !== window && window.parent.location.origin === location.origin) return window.parent.location.href.split('#')[0]; } catch (e) {}
+    if (window.parent === window && /^https?:/.test(location.protocol)) return location.href.split('#')[0];
+    return 'https://myzakattool.com/wirasat-calculator-urdu/';
+  }
+  function shareHash() { var h = ''; try { if (window.parent !== window && window.parent.location.origin === location.origin) h = window.parent.location.hash; } catch (e) {} return h || location.hash; }
+  function istifta(r) {
+    var lines = ['بسم اللہ الرحمن الرحیم', 'استفتاء', '',
+      'کیا فرماتے ہیں علمائے کرام و مفتیان عظام اس مسئلے کے بارے میں کہ ' + dname() + ' (' + (st.sex === 'f' ? 'عورت' : 'مرد') + ') کا انتقال ہو گیا۔ ان کے رشتہ دار یہ ہیں:'];
+    st.people.forEach(function (p) { lines.push('- ' + label(p) + ': ' + statusText(p.status)); });
+    var a = assetLine().map(function (x) { return x[0] + ' ' + x[1]; });
+    if (a.length) lines.push('', 'ترکہ: ' + a.join('، ') + (num(st.debts) ? ' (قرض اور کفن دفن ' + rs(num(st.debts)) + ' نکال کر)' : ''));
+    lines.push('مسلک: ' + madhabName(), '', 'براہ کرم بتائیں کہ ترکہ کس طرح تقسیم ہوگا اور ہر وارث کا کتنا حصہ ہے۔', '',
+      'myzakattool.com کے وراثت کیلکولیٹر کا حساب' + (cur.view === 'law' ? ' (پاکستانی قانون، عائلی قوانین 1961 دفعہ 4 کے ساتھ)' : ' (فقہ ' + madhabName() + ')') + '، تصدیق کے لیے:');
+    st.people.forEach(function (p) { if (heir(r, p)) lines.push('- ' + label(p) + ': ' + frac(r.shares[p.id].f)); });
+    if (r.unassigned && r.unassigned.n) lines.push('- بغیر وارث: ' + frac(r.unassigned));
+    lines.push('', 'سائل: ____________   رابطہ: ____________');
+    return lines.join('\n');
+  }
+  function copy(text, el, msg) {
+    var done = function () { el.textContent = msg; }, fall = function () { el.textContent = 'خود سے کاپی کر لیں (خانے کو دبا کر سب چن لیں)۔'; };
+    try { navigator.clipboard.writeText(text).then(done, fall); } catch (e) { fall(); }
+  }
+  function bindTools(r) {
+    var sx = $('six'); if (sx) sx.closest('details').addEventListener('toggle', function () { if (this.open && !sx.innerHTML) sx.innerHTML = six(); });
+    $('wiP').onchange = $('wiA').onchange = function () { if (!stale) whatIf(r); };
+    var url = pageUrl() + '#w=' + pack();
+    $('shLink').value = url;
+    $('shLink').onfocus = function () { this.select(); };
+    $('shWa').href = 'https://wa.me/?text=' + encodeURIComponent('وراثت کا حساب اور شجرہ: ' + url);
+    $('shCopy').onclick = function () { copy(url, $('shMsg'), 'لنک کاپی ہو گیا۔'); };
+    $('istGo').onclick = function () { var t = istifta(r); $('istText').value = t; $('istBox').hidden = false; $('istWa').href = 'https://wa.me/?text=' + encodeURIComponent(t); };
+    $('istText').oninput = function () { $('istWa').href = 'https://wa.me/?text=' + encodeURIComponent(this.value); };
+    $('istCopy').onclick = function () { copy($('istText').value, $('shMsg'), 'مسودہ کاپی ہو گیا۔'); };
+  }
+
   /* ---------- PDF report: user's data first, our note small at the bottom ---------- */
   var libs = null;
   function loadLibs() {
@@ -1536,8 +1791,8 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
     return '<div id="rp2"><div class="rhd"><div><h1>وراثت کی رپورٹ</h1><div class="hint">' + esc(dname()) + ' کی وراثت · ' + esc(basis) + '</div></div><div class="hint" style="text-align:left">رپورٹ کی تاریخ<br><b style="color:#111">' + date + '</b></div></div>' +
       '<div class="box" style="display:flex;gap:40px;flex-wrap:wrap">' + (assets || '<div class="hint">ترکہ درج نہیں کیا، صرف حصے</div>') + '</div>' +
       '<div class="box"><span class="hint">وارثین</span><br>' + heirsLine + '</div>' +
-      table(r) + noShare(r) + notes(r) +
-      '<div class="small">یہ رپورٹ myzakattool.com کے وراثت کیلکولیٹر سے بنی ہے۔ یہ فتویٰ، قانونی مشورہ یا سرکاری دستاویز نہیں۔ تقسیم سے پہلے کسی مستند مفتی اور ریونیو / قانونی ماہر سے تصدیق کریں۔</div></div>';
+      table(r) + noShare(r) + notes(r) + '<h2 class="sub">حساب کی کاپی</h2>' + sheet(r) +
+      '<div class="small">یہ رپورٹ myzakattool.com کے وراثت کیلکولیٹر سے بنی ہے۔ یہ فتویٰ، قانونی مشورہ یا سرکاری دستاویز نہیں۔ تقسیم سے پہلے کسی مستند مفتی اور ریونیو / قانونی ماہر سے تصدیق کریں۔ حساب یا شجرے میں غلطی لگے تو myzakattool.com/contact پر بتائیں۔</div></div>';
   }
   function makePdf() {
     if (!cur || stale) return;
@@ -1552,11 +1807,16 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
       var p1 = $('rp1'), p2 = $('rp2');
       var shot = function (el) { return window.html2canvas(el, { scale: 2, backgroundColor: '#ffffff', windowWidth: Math.max(794, el.scrollWidth + 40) }); };
       return Promise.all([shot(p1), shot(p2)]).then(function (cv) {
-        var jsPDF = window.jspdf.jsPDF, doc = new jsPDF({ unit: 'pt', format: 'a4' });
-        var pw = doc.internal.pageSize.getWidth(), ph = doc.internal.pageSize.getHeight(), m = 24;
-        // Page 1: the whole shajra in the top 60%, shrunk to fit (bottom 40% left blank for the patwari's report and witnesses) when there are many heirs (never enlarged past print size).
-        var c1 = cv[0], k = Math.min((pw - 2 * m) / c1.width, (ph * 0.6 - m) / c1.height, (pw - 2 * m) / (794 * 2));
+        // Page 1: the whole shajra, shrunk to fit when there are many heirs (never enlarged past print size), with room left
+        // below for the patwari's report and witnesses: the top 60% of a portrait page. A wide shajra (a large family) prints
+        // bigger across a landscape page (top 75%), so a shajra wider than 1200px makes page 1 landscape; the report pages after it stay portrait.
+        var jsPDF = window.jspdf.jsPDF, A4 = [595.28, 841.89], m = 24, c1 = cv[0];
+        var fit = function (w, h, part) { return Math.min((w - 2 * m) / c1.width, (h * part - m) / c1.height, (w - 2 * m) / (794 * 2)); };
+        var kp = fit(A4[0], A4[1], 0.6), kl = fit(A4[1], A4[0], 0.75), land = c1.width / 2 > 1200 && kl > kp * 1.15, k = land ? kl : kp;
+        var doc = new jsPDF({ unit: 'pt', format: 'a4', orientation: land ? 'landscape' : 'portrait' });
+        var pw = doc.internal.pageSize.getWidth(), ph = doc.internal.pageSize.getHeight();
         doc.addImage(c1.toDataURL('image/jpeg', 0.95), 'JPEG', (pw - c1.width * k) / 2, m, c1.width * k, c1.height * k);
+        pw = A4[0]; ph = A4[1];
         // Following pages: report details, table and notes, sliced page by page.
         // Following pages keep a margin on every side.
         var canvas = cv[1], M = 36, cw = pw - 2 * M, pageH = Math.floor(canvas.width * (ph - 2 * M) / cw), y = 0;
@@ -1564,7 +1824,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
           var h = Math.min(pageH, canvas.height - y), part = document.createElement('canvas');
           part.width = canvas.width; part.height = h;
           var g = part.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, part.width, h); g.drawImage(canvas, 0, y, canvas.width, h, 0, 0, canvas.width, h);
-          doc.addPage();
+          doc.addPage('a4', 'portrait');
           doc.addImage(part.toDataURL('image/jpeg', 0.92), 'JPEG', M, M, cw, h * cw / canvas.width);
           y += h;
         }
@@ -1602,6 +1862,10 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
       ['sister', '(?:حقیقی |سگی |سگے )?(?:بہنیں|بہنوں|بہن)|(?:haqeeqi |haqiqi |sagi |sagay )?(?:behnen|behnain|behne|behnon|behn|behan|bahan)|(?:full )?sisters?', 'بہنیں|بہنوں|behnen|behnain|behne|behnon|sisters'],
       ['husband', 'شوہر|خاوند|shohar|shauhar|shoher|khawand|khaavind|husband', ''],
       ['wife', 'بیویاں|بیوی|بیوہ|زوجہ|biwiyan|biwi|bivi|bv|bewa|beva|zoja|zauja|widow|wives|wife', 'بیویاں|biwiyan|wives'],
+      ['nana', 'نانا|nana|maternal grandfather', ''],
+      ['phuphi', 'پھوپھیوں|پھوپھیاں|پھوپھی|پھپھو|phuphiyan|phuphi|phupho|phuppo|phuphu|paternal aunts?', 'پھوپھیوں|پھوپھیاں|phuphiyan|aunts'],
+      ['mamu', 'ماموؤں|ماموں|mamuon|mamun|mamu|mamoo|maternal uncles?', 'ماموؤں|mamuon|uncles'],
+      ['khala', 'خالاؤں|خالائیں|خالہ|khalaon|khalain|khala|maternal aunts?', 'خالاؤں|خالائیں|khalaon|khalain|aunts'],
       ['dada', 'دادا|dada|paternal grandfather', ''],
       ['dadi', 'دادی|dadi|paternal grandmother', ''],
       ['nani', 'نانی|nani|maternal grandmother', ''],
@@ -1694,7 +1958,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
 
     // Grandchildren, nephews and nieces hang under a parent who died first (that is when the form asks for them).
     var VIA = { grandson: ['son', 'grandson'], granddaughter: ['son', 'granddaughter'], dson: ['daughter', 'grandson'], ddaughter: ['daughter', 'granddaughter'], bnephew: ['brother', 'nephew'], bniece: ['brother', 'niece'], snephew: ['sister', 'nephew'], sniece: ['sister', 'niece'] };
-    var MAX = { wife: 4, husband: 1, son: 12, daughter: 12, dada: 1, dadi: 1, nani: 1 };
+    var MAX = { wife: 4, husband: 1, son: 12, daughter: 12, dada: 1, dadi: 1, nana: 1, nani: 1 };
     function apply(p) {
       var s = blank();
       s.sex = p.sex || 'm';
@@ -1734,7 +1998,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
   window.WIRASAT_ASK = ASK;
 
   function askSummary(p) {
-    var names = { husband: 'شوہر', wife: 'بیوی', father: 'والد', mother: 'والدہ', son: 'بیٹے', daughter: 'بیٹیاں', brother: 'سگے بھائی', sister: 'سگی بہنیں', pbrother: 'باپ شریک بھائی', psister: 'باپ شریک بہنیں', mbrother: 'ماں شریک بھائی', msister: 'ماں شریک بہنیں', dada: 'دادا', dadi: 'دادی', nani: 'نانی', chacha: 'چچا', grandson: 'پوتے', granddaughter: 'پوتیاں', dson: 'نواسے', ddaughter: 'نواسیاں', bnephew: 'بھتیجے', bniece: 'بھتیجیاں', snephew: 'بھانجے', sniece: 'بھانجیاں' };
+    var names = { husband: 'شوہر', wife: 'بیوی', father: 'والد', mother: 'والدہ', son: 'بیٹے', daughter: 'بیٹیاں', brother: 'سگے بھائی', sister: 'سگی بہنیں', pbrother: 'باپ شریک بھائی', psister: 'باپ شریک بہنیں', mbrother: 'ماں شریک بھائی', msister: 'ماں شریک بہنیں', dada: 'دادا', dadi: 'دادی', nana: 'نانا', nani: 'نانی', chacha: 'چچا', phuphi: 'پھوپھیاں', mamu: 'ماموں', khala: 'خالائیں', grandson: 'پوتے', granddaughter: 'پوتیاں', dson: 'نواسے', ddaughter: 'نواسیاں', bnephew: 'بھتیجے', bniece: 'بھتیجیاں', snephew: 'بھانجے', sniece: 'بھانجیاں' };
     var st2 = { alive: '', before: ' (پہلے فوت)', after: ' (بعد میں فوت)' };
     var got = [];
     if (p.sex) got.push(p.sex === 'f' ? 'متوفیہ: عورت' : 'متوفی: مرد');
@@ -1766,6 +2030,9 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
 
   $('reset').addEventListener('click', function () { st = sample(); save(); renderTop(); renderPeople(); summary(); $('resultSec').hidden = true; cur = null; });
   $('clear').addEventListener('click', function () { st = blank(); save(); renderTop(); renderPeople(); summary(); $('resultSec').hidden = true; cur = null; });
+  // A shared link (#w=...) opens that family and its result, in place of what this browser had saved.
+  var hw = (shareHash().match(/[#&]w=([\w-]+)/) || [])[1], fromLink = hw && unpack(hw);
+  if (fromLink) { st = fromLink; save(); }
   renderTop(); renderPeople(); summary();
   if (st.shown) calc();
 })();

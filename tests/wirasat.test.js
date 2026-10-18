@@ -144,6 +144,33 @@ test('spouse alone: radd to the spouse when no relative is left', () => {
 	assert.ok(r.notes.includes('raddSpouse'));
 });
 
+test('Ahl-e-Hadith: radd to a lone spouse is noted as Ibn Taymiyya\'s view, not the Hanafi fatwa', () => {
+	const { s, r } = shares(fam([['husband']]), 'ahlehadith', 'f');
+	assert.deepEqual(s, { husband: '1/1' });
+	assert.ok(r.notes.includes('raddSpouseAeh') && !r.notes.includes('raddSpouse'));
+});
+
+test('each share says which step it came from (fixed, residue, radd), and the fixed shares are kept for the worked sheet', () => {
+	const f = (x) => x && (x.d === 1 ? String(x.n) : x.n + '/' + x.d);
+	const parts = (r, p) => Object.fromEntries(Object.entries(r.shares[p.id].parts).map(([k, v]) => [k, f(v)]));
+	// Father with one daughter: 1/6 fixed + 1/3 residue.
+	let p = fam([['father'], ['daughter']]);
+	let r = W.calculate(p, { madhab: 'hanafi', deceasedSex: 'f' });
+	assert.deepEqual(parts(r, p[0]), { fard: '1/6', asaba: '1/3' });
+	assert.deepEqual(r.fards.map((x) => f(x.f)), ['1/6', '1/2']);
+	assert.equal(f(r.asabaGroup.f), '1/3');
+	// Husband and daughter: the daughter's 1/2 + radd 1/4; the husband keeps his 1/4.
+	p = fam([['husband'], ['daughter']]);
+	r = W.calculate(p, { madhab: 'hanafi', deceasedSex: 'f' });
+	assert.deepEqual(parts(r, p[1]), { fard: '1/2', radd: '1/4' });
+	assert.deepEqual(parts(r, p[0]), { fard: '1/4' });
+	// Ja'fari radd keeps the same totals, split into its two steps.
+	p = fam([['mother'], ['daughter']]);
+	r = W.calculate(p, { madhab: 'jafari', deceasedSex: 'm' });
+	assert.deepEqual(parts(r, p[1]), { fard: '1/2', radd: '1/4' });
+	assert.equal(f(r.shares[p[1].id].f), '3/4');
+});
+
 test('a person who died first inherits nothing; one who died after keeps the share', () => {
 	const p = fam([['son'], ['daughter', 1, 'after'], ['father', 1, 'before']]);
 	const { s, r } = shares(p, 'hanafi', 'm');

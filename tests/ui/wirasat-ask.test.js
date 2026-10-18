@@ -16,7 +16,8 @@ const CASES =
 	{ name: 'Aadmi, biwi, 2 betay 3 betiyan, tarka', text: 'ek aadmi fout hua, biwi, 2 betay aur 3 betiyan, walida zinda, walid pehle fout. tarka 20 lakh rupay aur 4 kanal zameen', expect: { 'بیوی': '1/8', 'والدہ': '1/6', 'بیٹا 1': '17/84', 'بیٹی 1': '17/168' } },
 	{ name: 'Walidain aur ek beti', text: 'Ek shakhs ka inteqal hua. Waris: walidain zinda, ek beti.', expect: { 'والد': '1/3', 'والدہ': '1/6', 'بیٹی': '1/2' } },
 	{ name: 'Bewa, teen betiyan, saga bhai', text: 'مرحوم کی بیوہ، تین بیٹیاں، اور ایک سگا بھائی ہے', expect: { 'بیوی': '1/8', 'بیٹی 1': '2/9', 'سگا بھائی': '5/24' } },
-	{ name: 'Na-maloom rishta (khala)', text: 'ایک آدمی فوت ہوا، بیوی، ایک بیٹا، اور ایک خالہ', expect: { 'بیوی': '1/8', 'بیٹا': '7/8' }, unknown: true },
+	{ name: 'Na-maloom rishta (sala)', text: 'ایک آدمی فوت ہوا، بیوی، ایک بیٹا، اور ایک سالا', expect: { 'بیوی': '1/8', 'بیٹا': '7/8' }, unknown: true },
+	{ name: 'Khala aur mamu (zawil arham)', text: 'ek aurat fout hui, ek khala aur ek mamu, walidain pehle fout', expect: { 'ماموں': '2/3', 'خالہ': '1/3' } },
 	{ name: 'Shafi\'i maslak + dada aur bhai', text: 'ek mard fout hua, shafi maslak. dada zinda, do sagay bhai, walid pehle fout ho gaye', expect: { 'دادا': '1/3', 'سگا بھائی 1': '1/3' } },
 ];
 
