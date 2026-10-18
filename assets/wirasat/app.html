@@ -7,7 +7,13 @@
 <script>try{if(localStorage.getItem("myzt_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
 <title>وراثت کیلکولیٹر اور شجرہ</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gulzar&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap">
+<!-- Fonts are served with the page, subset to Urdu (FIX-121): no Google request, nothing render-blocking.
+     The body font is preloaded for the Urdu page only; the English page uses system fonts. -->
+<script>if (!/[?&]lang=en\b/.test(location.search)) { var pl = document.createElement('link'); pl.rel = 'preload'; pl.as = 'font'; pl.type = 'font/woff2'; pl.crossOrigin = ''; pl.href = 'fonts/naskh-urdu.woff2'; document.head.appendChild(pl); }</script>
+<style>
+@font-face { font-family: 'Noto Naskh Arabic'; src: url(fonts/naskh-urdu.woff2) format('woff2'); font-weight: 400 700; font-display: swap; unicode-range: U+0600-06FF, U+0750-077F, U+200C-200F, U+2010-2014, U+FD3E-FD3F; }
+@font-face { font-family: 'Gulzar'; src: url(fonts/gulzar-urdu.woff2) format('woff2'); font-display: swap; unicode-range: U+0600-06FF, U+0750-077F, U+200C-200F, U+FD3E-FD3F; }
+</style>
 <style>
 /* Layout: one page register. Every question (tarka, mutawaffi, walid, walida, spouse, aulad, others, maslak)
    sits in its own numbered card, then a summary and one "hisab lagayen" button; results, shajra and the PDF report come after. */
