@@ -386,3 +386,32 @@ test('diyat: notified amount and live silver value in rupees', async () => {
 	assert.equal(await d.locator('tbody tr').count(), 4);
 	await ctx.close();
 });
+
+test('small widgets announce their result after typing, silent on load (FIX-115)', async () => {
+	const { page, ctx } = await open();
+	for (const w of ['goldrate', 'nisab', 'fitrana', 'fidya', 'khums', 'hawl', 'ushr', 'mehr']) {
+		const live = page.locator(`.myzt-${w} + .myzt-sr[role="status"][aria-live="polite"]`);
+		assert.equal(await live.count(), 1, `${w} has a live region`);
+		assert.equal(await live.textContent(), '', `${w} silent on load`);
+	}
+	await page.locator('#myzt-fp').fill('3');
+	await page.locator('#myzt-fa').fill('300');
+	const fit = page.locator('.myzt-fitrana + .myzt-sr');
+	await page.waitForFunction(() => document.querySelector('.myzt-fitrana + .myzt-sr').textContent.length > 0);
+	assert.match(await fit.textContent(), /900/);
+	await page.locator('#myzt-k-savings').fill('100000');
+	await page.waitForFunction(() => document.querySelector('.myzt-khums + .myzt-sr').textContent.length > 0);
+	assert.match(await page.locator('.myzt-khums + .myzt-sr').textContent(), /20,000/);
+	await ctx.close();
+});
+
+test('field borders reach 3:1; small labels and links have a 44 px tap area (FIX-116, FIX-117)', async () => {
+	const { page, ctx } = await open();
+	const border = await page.locator('#myzt-fp').evaluate((el) => getComputedStyle(el).borderTopColor);
+	assert.equal(border, 'rgb(107, 138, 131)');
+	for (const sel of ['.myzt-calculator .myzt-check', '.myzt-calculator .myzt-add', '.myzt-hawl .myzt-check']) {
+		const box = await page.locator(sel).first().boundingBox();
+		assert.ok(box && box.height >= 44, `${sel} is ${box && box.height}px high`);
+	}
+	await ctx.close();
+});

@@ -1,5 +1,5 @@
 /* My Zakat Tool: calculator and widgets. Scoped under .myzt so the theme is not affected. */
-.myzt{--z-bg:#f7faf9;--z-card:#fff;--z-ink:#14302b;--z-mute:#556a65;--z-line:#dfe9e6;--z-teal:#0f766e;--z-teal2:#e6f4f1;--z-acc:#0b5d56;--z-warn:#fbf7ee;--z-ok:#1e7a3c;--z-okbg:#e7f6ec;
+.myzt{--z-bg:#f7faf9;--z-card:#fff;--z-ink:#14302b;--z-mute:#556a65;--z-line:#dfe9e6;--z-field:#6b8a83;--z-teal:#0f766e;--z-tealbg:#0f766e;--z-teal2:#e6f4f1;--z-acc:#0b5d56;--z-warn:#fbf7ee;--z-ok:#1e7a3c;--z-okbg:#e7f6ec;
 	font-family:inherit;color:var(--z-ink);font-size:15px;line-height:1.5;margin:0 0 24px;box-sizing:border-box}
 .myzt *,.myzt *::before,.myzt *::after{box-sizing:border-box}
 .myzt button{font:inherit;cursor:pointer}
@@ -13,7 +13,7 @@
 .myzt-link{background:none;border:0;color:var(--z-teal);font-weight:600;padding:0;text-decoration:underline;text-underline-offset:2px}
 .myzt-ctxform{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
 .myzt-ctxform label{font-size:12.5px;color:var(--z-mute);display:block}
-.myzt-sel,.myzt-inp{width:100%;border:1.5px solid var(--z-line);border-radius:9px;padding:10px 12px;font-size:16px;background:var(--z-card);min-height:44px}
+.myzt-sel,.myzt-inp{width:100%;border:1.5px solid var(--z-field);border-radius:9px;padding:10px 12px;font-size:16px;background:var(--z-card);min-height:44px}
 /* .myzt input (0,1,1) above sets font:inherit (15px); 16px keeps iOS from zooming on focus (FIX-112). */
 .myzt .myzt-inp,.myzt .myzt-sel{font-size:16px}
 .myzt-inp:focus,.myzt-sel:focus{outline:2px solid var(--z-teal);outline-offset:1px;border-color:var(--z-teal)}
@@ -21,10 +21,10 @@
 .myzt-rates strong{color:var(--z-ink)}
 .myzt-own{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
 .myzt-quick{display:flex;gap:8px;margin:12px 0 16px}
-.myzt-quick .myzt-inp{border-style:dashed;border-color:#9ccfc7}
-.myzt-btn{border:1.5px solid var(--z-line);background:var(--z-card);border-radius:9px;padding:9px 12px;font-size:14px;font-weight:600;color:var(--z-ink);min-height:44px}
+.myzt-quick .myzt-inp{border-style:dashed}
+.myzt-btn{border:1.5px solid var(--z-field);background:var(--z-card);border-radius:9px;padding:9px 12px;font-size:14px;font-weight:600;color:var(--z-ink);min-height:44px}
 .myzt-btn:hover{border-color:var(--z-teal)}
-.myzt-btn.p{background:var(--z-teal);border-color:var(--z-teal);color:#fff}
+.myzt-btn.p{background:var(--z-tealbg);border-color:var(--z-tealbg);color:#fff}
 .myzt-q{font-weight:700;margin:4px 0 10px}
 .myzt-q small{font-weight:400;color:var(--z-mute)}
 .myzt-tiles{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-bottom:8px}
@@ -38,9 +38,9 @@
 .myzt-help{color:var(--z-mute);font-weight:400;font-size:12.5px}
 .myzt-row{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap}
 .myzt-row .myzt-inp{flex:1 1 120px}
-.myzt-seg{display:inline-flex;border:1.5px solid var(--z-line);border-radius:9px;overflow:hidden;font-size:13px}
+.myzt-seg{display:inline-flex;border:1.5px solid var(--z-field);border-radius:9px;overflow:hidden;font-size:13px}
 .myzt-seg button{border:0;background:var(--z-card);padding:10px 11px;color:var(--z-ink);min-height:44px}
-.myzt-seg button[aria-pressed="true"]{background:var(--z-teal);color:#fff}
+.myzt-seg button[aria-pressed="true"]{background:var(--z-tealbg);color:#fff}
 .myzt-people{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0 4px;align-items:center}
 .myzt-person{border:1.5px solid var(--z-line);background:var(--z-card);border-radius:20px;padding:6px 12px;font-size:13px}
 .myzt-person[aria-pressed="true"]{border-color:var(--z-teal);background:var(--z-teal2);color:var(--z-acc);font-weight:600}
@@ -51,7 +51,7 @@
 .myzt-badge.no{background:var(--z-bg);color:var(--z-mute)}
 .myzt-line{display:flex;justify-content:space-between;gap:10px;font-size:14px;padding:7px 0;border-bottom:1px dashed var(--z-line)}
 .myzt-line.off span:last-child{text-decoration:line-through;color:var(--z-mute)}
-.myzt-why{font-size:12px;margin-left:6px}
+.myzt-why{font-size:12px;margin:-12px 0 -12px 6px;display:inline-flex;align-items:center;min-height:44px;min-width:44px;justify-content:center;vertical-align:middle}
 .myzt-whytxt{font-size:12.5px;color:var(--z-mute);background:var(--z-bg);border-radius:8px;padding:8px 10px;margin:4px 0}
 .myzt-note{font-size:12.5px;background:var(--z-warn);border-radius:8px;padding:8px 10px;margin-top:8px}
 .myzt-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
@@ -75,7 +75,7 @@
 .myzt-faq summary{font-weight:600;cursor:pointer}
 .myzt-faq details p{margin:8px 0 0}
 .myzt-author{display:flex;gap:12px;align-items:center;background:var(--z-card);border:1px solid var(--z-line);border-radius:10px;padding:12px 14px;font-size:13.5px;margin:20px 0}
-.myzt-author .av{flex:0 0 44px;height:44px;border-radius:50%;background:var(--z-teal);color:#fff;display:grid;place-items:center;font-weight:700}
+.myzt-author .av{flex:0 0 44px;height:44px;border-radius:50%;background:var(--z-tealbg);color:#fff;display:grid;place-items:center;font-weight:700}
 .myzt-answer{background:var(--z-card);border-left:4px solid var(--z-teal);border-radius:10px;padding:14px 16px;margin:16px 0;border-top:1px solid var(--z-line);border-right:1px solid var(--z-line);border-bottom:1px solid var(--z-line)}
 .myzt-answer .k{font-size:12px;color:var(--z-teal);font-weight:700;letter-spacing:.5px;text-transform:uppercase}
 .myzt-related{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0 24px}
@@ -100,7 +100,7 @@
 	.myzt-calc{min-height:1100px}
 	.myzt-related{grid-template-columns:1fr 1fr}
 	.myzt-ad-sidebar{display:none}
-	.myzt-sticky{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:9999;background:var(--z-teal);color:#fff;padding:12px 18px;justify-content:space-between;align-items:center;font-size:14px;box-shadow:0 -4px 14px rgba(0,0,0,.15)}
+	.myzt-sticky{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:9999;background:var(--z-tealbg);color:#fff;padding:12px 18px;justify-content:space-between;align-items:center;font-size:14px;box-shadow:0 -4px 14px rgba(0,0,0,.15)}
 	.myzt-sticky b{font-size:20px}
 	.myzt-sticky[hidden]{display:none}
 	body.myzt-has-sticky{padding-bottom:60px}
@@ -125,7 +125,7 @@
 .wp-block-table{overflow-x:auto;-webkit-overflow-scrolling:touch}
 /* Keyboard focus ring inside segmented buttons (the group clips outlines with overflow:hidden). */
 .myzt-seg button:focus-visible{outline:2px solid var(--z-acc);outline-offset:-3px;box-shadow:inset 0 0 0 4px #fff}
-.myzt-seg button[aria-pressed="true"]:focus-visible{outline-color:#fff;box-shadow:inset 0 0 0 4px var(--z-teal)}
+.myzt-seg button[aria-pressed="true"]:focus-visible{outline-color:#fff;box-shadow:inset 0 0 0 4px var(--z-tealbg)}
 /* At least a 24x24 px hit area for the language toggle and the Change link. */
 .myzt-ctx .myzt-link{display:inline-block;min-width:24px;min-height:24px;padding:4px 6px;line-height:16px}
 .myzt-err{font-size:12.5px;color:#b42318;margin-top:4px}
@@ -150,3 +150,8 @@ html[lang=ur] .inside-article{direction:rtl}
 html[lang=ur] .entry-content .myzt.alignwide{margin-left:0;margin-right:-40px}
 @media (max-width:768px){html[lang=ur] .entry-content .myzt.alignwide{margin-right:-30px}}
 html[lang=ur] .full-width-content .entry-content .myzt.alignwide{margin-right:0}
+/* Phase 5 (accessibility, 18 Oct audit). Form field borders reach 3:1 (FIX-116): --z-field; the teal behind white text is
+   --z-tealbg and stays dark in dark mode, while --z-teal (text, outlines) is lighter there (FIX-118). Small labels and links get a
+   44 px tap area (FIX-117). */
+.myzt .myzt-check{display:flex;align-items:center;min-height:44px;margin:0;cursor:pointer}
+.myzt-people .myzt-add{display:inline-flex;align-items:center;min-height:44px;padding:0 6px}

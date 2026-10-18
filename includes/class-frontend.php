@@ -335,7 +335,7 @@ class MYZT_Frontend {
 			'<p style="font-size:12px">Nisab by <a href="' . home_url( '/nisab/' ) . '">My Zakat Tool</a></p>';
 		self::enqueue();
 		return '<div class="myzt myzt-embed-demo">' . $code . '<p><label for="myzt-embed-code"><strong>Copy this code:</strong></label></p>' .
-			'<textarea id="myzt-embed-code" readonly rows="4" style="width:100%;font:13px monospace;padding:10px;border:1px solid #dfe9e6;border-radius:8px" onclick="this.select()">' . esc_textarea( $code ) . '</textarea>' .
+			'<textarea id="myzt-embed-code" readonly rows="4" style="width:100%;font:13px monospace;padding:10px;border:1px solid #6b8a83;border-radius:8px" onclick="this.select()">' . esc_textarea( $code ) . '</textarea>' .
 			'<p class="myzt-small">Change <code>data-currency="' . esc_html( $cur ) . '"</code> to USD, GBP, SAR, AED, INR, BDT or any of about 50 currencies.</p></div>';
 	}
 
