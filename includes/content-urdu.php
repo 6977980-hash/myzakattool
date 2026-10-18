@@ -341,5 +341,8 @@ HTML
 		),
 	);
 
-	return $p;
+	return $p + myzt_content_urdu_tools();
 }
+
+/** Urdu fidya, diyat, khums, ushr, jewellery and masarif-e-zakat pages (FIX-157). */
+require_once __DIR__ . '/content-urdu-tools.php';

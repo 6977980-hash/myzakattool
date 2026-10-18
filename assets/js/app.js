@@ -346,6 +346,44 @@
 		}
 		['input', 'change', 'click'].forEach(function (ev) { root.addEventListener(ev, check); });
 	}
+	/*
+	 * A PDF button under a small widget (FIX-126): the fields as entered and the result lines, read
+	 * from the widget itself so every tool shares one report. English pages only, because the PDF
+	 * fonts have no Urdu letters.
+	 */
+	function pdfButton(root, title) {
+		if (lang === 'ur' || !CFG.pdfUrl || root.closest('.myzt-ur')) return;
+		var wrap = document.createElement('div'), btn = document.createElement('button');
+		wrap.className = 'myzt myzt-pdfrow';
+		btn.type = 'button';
+		btn.className = 'myzt-btn';
+		btn.textContent = '🖨 ' + t('pdf');
+		wrap.appendChild(btn);
+		// After the live region, which stays right after the widget (FIX-115).
+		var after = root.nextElementSibling && root.nextElementSibling.classList.contains('myzt-sr') ? root.nextElementSibling : root;
+		after.parentNode.insertBefore(wrap, after.nextSibling);
+		function labelOf(l) { var c = l.cloneNode(true); c.querySelectorAll('.myzt-help').forEach(function (h) { h.remove(); }); return textOf(c); }
+		btn.addEventListener('click', function () {
+			var data = { title: title, inputs: [], results: [] };
+			root.querySelectorAll('.myzt-field').forEach(function (f) {
+				var l = f.querySelector('label'), i = f.querySelector('input:not([type=checkbox]), select'), on = f.querySelectorAll('[aria-pressed="true"]');
+				var v = i ? i.value : [].map.call(on, textOf).join(', ');
+				if (l && v) data.inputs.push([labelOf(l), v]);
+			});
+			root.querySelectorAll('.myzt-line, .myzt-due, tbody tr').forEach(function (el) {
+				if (el.classList.contains('myzt-due')) {
+					var amt = el.nextElementSibling;
+					if (amt && amt.classList.contains('myzt-amt')) data.results.push([textOf(el), textOf(amt), true]);
+				} else if (el.children.length > 1) {
+					data.results.push([textOf(el.children[0]), [].slice.call(el.children, 1).map(textOf).join('  ·  ')]);
+				}
+			});
+			btn.disabled = true;
+			btn.textContent = t('making');
+			var done = function () { btn.disabled = false; btn.textContent = '🖨 ' + t('pdf'); };
+			loadPdf().then(function (P) { return P.simple(data); }).then(done, done);
+		});
+	}
 	/** The text of the first element matching sel inside root, or ''. */
 	function outText(root, sel) { var el = root.querySelector(sel); return el ? textOf(el) : ''; }
 	function unitGrams(u) { return u === 'tola' ? E.GRAMS_PER_TOLA : u === 'oz' ? E.GRAMS_PER_OZ : 1; }
@@ -591,9 +629,17 @@
 		var DRAFT_TTL = 396 * 864e5;
 		var savedAt = +load(DRAFT_KEY + '_at', 0);
 		if (savedAt && Date.now() - savedAt > DRAFT_TTL) clearDraft();
-		var st;
+		var st, fresh = !load(DRAFT_KEY, null);
 		try { st = sanitize(load(DRAFT_KEY, null)); } catch (e) { st = defaults(); clearDraft(); }
 		if (opts.madhab && E.MADHABS[opts.madhab]) st.madhab = opts.madhab;
+		// Asset pages (salary, plot, India...) open their own tiles and currency on a first visit (FIX-158).
+		if (fresh) {
+			if (opts.currency && /^[A-Z]{3}$/.test(opts.currency)) st.currency = opts.currency;
+			if (UNITS.indexOf(opts.unit) >= 0) st.unit = opts.unit;
+			(opts.tiles || '').split(',').forEach(function (k) {
+				if (TILES.some(function (tile) { return tile[0] === k; })) st.persons[0].tiles[k] = true;
+			});
+		}
 		if (currencies().indexOf(st.currency) < 0) st.currency = currencies().indexOf(cd.currency) >= 0 ? cd.currency : 'USD';
 		var ui = { ctx: false, compare: opts.compare === 'open', why: {}, pdf: false, msg: '' };
 
@@ -1132,6 +1178,7 @@
 		});
 		render();
 		speaker(root, function () { return t('fitranaTotal') + ': ' + outText(root, '[data-out]'); });
+		pdfButton(root, 'Fitrana (Sadaqat al-Fitr)');
 	}
 
 	function Fidya(root) {
@@ -1176,6 +1223,7 @@
 		});
 		render();
 		speaker(root, function () { return outText(root, '[data-out]'); });
+		pdfButton(root, 'Fidya and kaffara');
 	}
 
 	function Khums(root) {
@@ -1222,6 +1270,7 @@
 		root.addEventListener('change', function (e) { if (e.target.dataset.cur !== undefined) { cur = e.target.value; render(); } });
 		render();
 		speaker(root, function () { return outText(root, '[data-out]'); });
+		pdfButton(root, 'Khums');
 	}
 
 	function Hawl(root) {
@@ -1303,6 +1352,7 @@
 			var next = root.querySelector('[data-out] .myzt-line'), amt = root.querySelector('[data-missed] .myzt-amt');
 			return [next ? t('h_next') + ': ' + textOf(next) : '', amt ? t('h_missedTotal') + ': ' + textOf(amt) : ''].filter(Boolean).join('. ');
 		});
+		pdfButton(root, 'Zakat date (hawl)');
 		freshRates(function () { if (!st.nisab) render(); });
 	}
 
@@ -1364,6 +1414,7 @@
 		root.addEventListener('change', function (e) { if (e.target.dataset.cur !== undefined) { cur = e.target.value; render(); } });
 		render();
 		speaker(root, function () { return outText(root, '[data-out]'); });
+		pdfButton(root, 'Ushr and livestock zakat');
 	}
 
 	function Mehr(root) {
@@ -1427,6 +1478,7 @@
 		root.addEventListener('change', function (e) { if (e.target.dataset.cur !== undefined) { cur = e.target.value; st.mine = 0; render(); } });
 		render();
 		speaker(root, function () { return [outText(root, '[data-mine]'), outText(root, '[data-metal-out]')].filter(Boolean).join('. '); });
+		pdfButton(root, 'Haq mehr');
 		freshRates(render);
 	}
 
@@ -1447,6 +1499,7 @@
 		}
 		render();
 		freshRates(render);
+		pdfButton(root, 'Diyat (Pakistan)');
 	}
 
 	/*

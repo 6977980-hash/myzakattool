@@ -129,5 +129,26 @@ check( 2 === substr_count( $linked, 'sunnah.com' ) && false !== strpos( $linked,
 check( false === strpos( $linked, 'abudawud' ) && false === strpos( $linked, 'tirmidhi' ), 'MYZT_Cite leaves headings and quick answers alone' );
 check( false !== strpos( $linked, '>Bukhari (1936)</a>' ), 'MYZT_Cite keeps brackets inside the link text' );
 
+// Phase 7 of the 18 Oct 2026 audit (FIX-157, 158, 166): new Urdu pages, asset pages and guides.
+foreach ( array( 'fidya-kaffara-calculator-urdu' => 'zakat_fidya', 'diyat-calculator-urdu' => 'zakat_diyat', 'khums-calculator-urdu' => 'zakat_khums', 'ushr-calculator-urdu' => 'zakat_ushr', 'zakat-on-jewellery-urdu' => '', 'who-can-receive-zakat-urdu' => '' ) as $slug => $widget ) {
+	check( isset( $pages[ $slug ] ) && 'ur' === $pages[ $slug ]['lang'], "Urdu page $slug exists" );
+	check( '' === $widget || false !== strpos( $pages[ $slug ]['content'], "[$widget" ), "$slug shows [$widget]" );
+}
+foreach ( array( 'zakat-on-salary', 'zakat-on-property', 'zakat-on-shares', 'zakat-on-provident-fund', 'zakat-on-crypto', 'zakat-on-committee', 'zakat-for-overseas-pakistanis', 'zakat-calculator-india' ) as $slug ) {
+	$c = isset( $pages[ $slug ] ) ? $pages[ $slug ]['content'] : '';
+	check( (bool) preg_match( '/\[zakat_calculator tiles="[a-z,]+"/', $c ), "$slug opens a calculator preset" );
+	foreach ( array( 'Hanafi', "Shafi'i", 'Maliki', 'Hanbali', 'Ahl-e-Hadith', 'khums' ) as $school ) {
+		check( false !== strpos( $c, $school ), "$slug gives the $school rule" );
+	}
+	check( words( $c ) >= 800, "$slug has " . words( $c ) . ' words (want 800)' );
+	check( isset( $inbound[ $slug ]['calculators'] ), "calculators hub links $slug" );
+}
+check( false !== strpos( $pages['zakat-calculator-india']['content'], 'currency="INR"' ), 'India page shows rupees in INR' );
+foreach ( array( 'haq-mehr-guide', 'fitrana-guide', 'zakat-kaise-nikalen' ) as $slug ) {
+	check( isset( $pages[ $slug ] ) && words( $pages[ $slug ]['content'] ) >= 1000, "guide $slug has 1,000+ words" );
+}
+check( false !== stripos( $pages['zakat-kaise-nikalen']['content'], '1 lakh par kitni zakat' ), 'Roman Urdu guide answers 1 lakh par kitni zakat' );
+check( false !== stripos( $pages['fitrana-calculator']['content'], 'zakat al fitr calculator' ), 'fitrana page names zakat al fitr calculator' );
+
 echo $fail ? "$fail check(s) failed\n" : 'Page checks OK (' . count( $pages ) . " pages)\n";
 exit( $fail ? 1 : 0 );

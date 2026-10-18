@@ -193,9 +193,15 @@ class MYZT_Frontend {
 	}
 
 	public static function calculator( $atts ) {
-		$a = shortcode_atts( array( 'madhab' => '', 'compare' => '' ), $atts, 'zakat_calculator' );
+		$a = shortcode_atts( array( 'madhab' => '', 'compare' => '', 'tiles' => '', 'currency' => '', 'unit' => '' ), $atts, 'zakat_calculator' );
 		$a['madhab'] = sanitize_key( $a['madhab'] );
-		return self::widget( 'calculator', array( 'madhab' => $a['madhab'], 'compare' => sanitize_key( $a['compare'] ) ) ) . self::ad_after_calculator();
+		// Asset pages open the tiles they are about, in the visitor's first visit only (FIX-158).
+		$preset = array(
+			'tiles'    => preg_replace( '/[^a-z,]/', '', strtolower( $a['tiles'] ) ),
+			'currency' => strtoupper( preg_replace( '/[^A-Za-z]/', '', $a['currency'] ) ),
+			'unit'     => sanitize_key( $a['unit'] ),
+		);
+		return self::widget( 'calculator', array( 'madhab' => $a['madhab'], 'compare' => sanitize_key( $a['compare'] ) ) + $preset ) . self::ad_after_calculator();
 	}
 
 	private static function ad_after_calculator() {

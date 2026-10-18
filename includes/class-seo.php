@@ -95,7 +95,8 @@ class MYZT_SEO {
 		}
 		$out = array();
 		if ( $en && $ur ) {
-			$en_post = get_page_by_path( $en );
+			// An Urdu page may pair with an English guide post (FIX-157), so look the English one up by its type.
+			$en_post = get_page_by_path( $en, OBJECT, empty( $pages[ $en ]['is_post'] ) ? 'page' : 'post' );
 			$ur_post = get_page_by_path( $ur );
 			if ( $en_post && $ur_post && 'publish' === $en_post->post_status && 'publish' === $ur_post->post_status ) {
 				$out = array(

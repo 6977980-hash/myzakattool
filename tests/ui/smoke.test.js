@@ -415,3 +415,42 @@ test('field borders reach 3:1; small labels and links have a 44 px tap area (FIX
 	}
 	await ctx.close();
 });
+
+// Phase 7 of the 18 Oct 2026 audit: small-tool PDFs and calculator presets on the asset pages.
+test('every small tool has a PDF button that downloads a report (FIX-126)', async () => {
+	const { page, ctx, errors } = await open();
+	for (const w of ['fitrana', 'fidya', 'khums', 'hawl', 'ushr', 'mehr', 'diyat']) {
+		const has = await page.evaluate((w) => {
+			let el = document.querySelector(`.myzt[data-widget="${w}"]`).nextElementSibling;
+			if (el && el.classList.contains('myzt-sr')) el = el.nextElementSibling;
+			return !!(el && el.classList.contains('myzt-pdfrow') && el.querySelector('button'));
+		}, w);
+		assert.ok(has, `${w} has a PDF button`);
+	}
+	await page.locator('.myzt[data-widget="fitrana"] input[data-f="persons"]').fill('4');
+	const [dl] = await Promise.all([page.waitForEvent('download'), page.locator('.myzt[data-widget="fitrana"] + .myzt-sr + .myzt-pdfrow button').click()]);
+	assert.match(dl.suggestedFilename(), /^fitrana-sadaqat-al-fitr-\d{4}-\d{2}-\d{2}\.pdf$/);
+	assert.deepEqual(errors, []);
+	await ctx.close();
+});
+
+test('an asset page preset opens its tiles and currency on a first visit only (FIX-158)', async () => {
+	const ctx = await browser.newContext({ locale: 'en-US', timezoneId: 'Asia/Karachi' });
+	const page = await ctx.newPage();
+	await page.addInitScript(() => {
+		document.addEventListener('DOMContentLoaded', () => {
+			const c = document.querySelector('.myzt-calculator');
+			c.dataset.tiles = 'shares,committee,nope';
+			c.dataset.currency = 'INR';
+			c.dataset.unit = 'gram';
+		});
+	});
+	await page.goto(base);
+	await page.waitForSelector('.myzt-calculator .myzt-res');
+	const c = page.locator('.myzt-calculator');
+	assert.equal(await c.locator('[data-tile="shares"]').getAttribute('aria-pressed'), 'true');
+	assert.equal(await c.locator('[data-tile="committee"]').getAttribute('aria-pressed'), 'true');
+	assert.equal(await c.locator('[data-tile="cash"]').getAttribute('aria-pressed'), 'false');
+	assert.match(await c.locator('.myzt-ctx').textContent(), /INR/);
+	await ctx.close();
+});
