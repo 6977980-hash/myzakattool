@@ -151,7 +151,7 @@ class MYZT_Installer {
 				'post_title'     => $def['title'],
 				'post_name'      => $slug,
 				'post_content'   => $def['content'],
-				'post_excerpt'   => isset( $def['desc'] ) ? str_replace( '{year}', (string) self::season_year(), $def['desc'] ) : '',
+				'post_excerpt'   => isset( $def['desc'] ) ? MYZT_SEO::fill( $def['desc'], false ) : '',
 				'comment_status' => 'closed',
 				'ping_status'    => 'closed',
 			);
@@ -218,7 +218,7 @@ class MYZT_Installer {
 					'ID'           => $post->ID,
 					'post_content' => $def['content'],
 					'post_title'   => $def['title'],
-					'post_excerpt' => isset( $def['desc'] ) ? str_replace( '{year}', (string) self::season_year(), $def['desc'] ) : '',
+					'post_excerpt' => isset( $def['desc'] ) ? MYZT_SEO::fill( $def['desc'], false ) : '',
 				)
 			);
 		}

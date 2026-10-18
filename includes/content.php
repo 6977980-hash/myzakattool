@@ -1,7 +1,7 @@
 <?php
 /**
  * Page definitions: slug => title, SEO title, meta description, content, FAQ.
- * {year} in titles and descriptions is replaced with the coming zakat season year at runtime.
+ * {year}, {cyear}, {fyear} and {rate:TYPE} in titles and descriptions are filled at runtime (MYZT_SEO::fill).
  *
  * @package MyZakatTool
  */
@@ -133,11 +133,11 @@ HTML,
 			'key'   => 'shafii',
 			'question' => "How is zakat calculated in the Shafi'i madhab?",
 			'title' => "Shafi'i Zakat Calculator",
-			'seo'   => "Shafi'i Zakat Calculator {year}: Gold, Jewellery & Cash",
+			'seo'   => "Shafi'i Zakat Calculator {year}: Worn Jewellery Is Exempt",
 			'desc'  => "Calculate zakat by Shafi'i fiqh: worn jewellery exempt, debts not deducted, gold and silver checked separately. Live rates, choice of gold or silver nisab.",
 			'nav'   => "Shafi'i",
-			'blurb' => 'Malaysia, Indonesia, Egypt',
-			'intro' => "<p>This calculator follows the Shafi'i madhab, followed in Malaysia, Indonesia, Singapore, Brunei, Egypt, Yemen, Somalia, Kenya and Sri Lanka.</p>",
+			'blurb' => 'Malaysia, Indonesia, Yemen',
+			'intro' => "<p>This calculator follows the Shafi'i madhab, followed in Malaysia, Indonesia, Singapore, Brunei, Yemen, Somalia, Kenya and Sri Lanka, and by many in Egypt, where the Hanafi, Shafi'i and Maliki schools are all followed.</p>",
 			'answer' => "In Shafi'i fiqh permissible jewellery that a woman wears is exempt, debts do not reduce zakat, and gold and silver are separate classes that are not added together to reach the nisab.",
 			'body'  => <<<'HTML'
 <h2>Shafi'i zakat rules used in this calculator</h2>
@@ -276,7 +276,7 @@ HTML,
 			'desc'  => "Shia Ja'fari zakat explained by Ayatollah Sistani's rulings: which assets carry zakat, the gold and silver nisab in mithqal, and when khums applies instead.",
 			'nav'   => 'Shia (Ja\'fari)',
 			'blurb' => 'Sistani rulings',
-			'intro' => "<p>This calculator follows the rulings of Ayatollah Sistani in <em>Islamic Laws</em> (Taudhih al-Masa'il), the most widely followed marja'.</p>",
+			'intro' => "<p>This calculator follows the rulings of Ayatollah Sistani in <em>Islamic Laws</em> (Taudhih al-Masa'il), one of the leading marja's today, followed by many Shia Muslims in Pakistan, India and Iraq.</p>",
 			'answer' => 'According to Ayatollah Sistani, zakat on gold and silver applies only to coins used as currency, so paper money, bank balances and jewellery carry no zakat today. Khums (20%) on the yearly surplus applies instead.',
 			'body'  => <<<'HTML'
 <h2>Zakat in Ja'fari fiqh (Sistani)</h2>
@@ -421,7 +421,7 @@ HTML
 <li><strong>Gold:</strong> local jewellery is usually 21K or 22K; choose the karat so only the pure gold is counted.</li>
 </ul>
 <h2>Bank deduction on 1 Ramadan</h2>
-<p>Under Pakistan's zakat law, banks deduct 2.5% from savings accounts whose balance is at or above the government's nisab on 1 Ramadan. Current accounts are not deducted. People who are exempt on grounds of fiqh can submit a CZ-50 declaration to their bank before Ramadan. Read the <a href="/bank-zakat-deduction-pakistan/">full guide</a>.</p>
+<p>Under Pakistan's zakat law, banks deduct 2.5% from savings accounts whose balance is at or above the government's nisab on 1 Ramadan. Current accounts are not deducted. People who are exempt on grounds of fiqh can submit a CZ-50 declaration to their bank before Ramadan. Read the <a href="/bank-zakat-deduction-pakistan/">bank zakat deduction guide</a>.</p>
 <h2>International rate vs. sarafa rate</h2>
 <p>The calculator uses the international gold rate converted to rupees. The local sarafa rate can be a little higher or lower; if you want to use it, tick <em>Use my own local rate</em>.</p>
 <h2>Zakat kaise nikalein: 5 steps</h2>
@@ -449,7 +449,7 @@ HTML
 			array( 'q' => 'Committee ke paison par zakat hai?', 'a' => 'Haan, committee mein jitni raqam aap jama kara chuke hain wo aap ki milkiyat hai aur us par zakat hai.' ),
 			array( 'q' => 'Is zakat due on a plot in Pakistan?', 'a' => 'Only if it was bought with the intention to sell. Then its current market value is zakatable. A plot or house for living has no zakat.' ),
 			array( 'q' => 'Does the bank deduction count as my zakat?', 'a' => 'Calculate your full zakat and subtract what the bank has already deducted. Ask your scholar about your case.' ),
-			array( 'q' => 'Zakat kis par farz hai?', 'a' => 'Hanafi fiqh mein har aqil baligh Muslim par jis ke paas zaroorat se zyada maal nisab ke barabar ya us se zyada ho aur us par aik qamri saal guzar jaye. Baqi maslakon mein bachon aur deewanon ke maal par bhi zakat hai, jo un ka wali ada karta hai.' ),
+			array( 'q' => 'Zakat kis par farz hai?', 'a' => 'Hanafi fiqh mein har aqil baligh Muslim par jis ke paas zaroorat se zyada maal nisab ke barabar ya us se zyada ho aur us par aik qamri saal guzar jaye. Shafi\'i, Maliki, Hanbali aur Ahl-e-Hadith ke nazdeek bachon aur deewanon ke maal par bhi zakat hai, jo un ka wali ada karta hai. Fiqh-e-Jafari (Sistani) mein bache ke sone, chandi aur naqdi par zakat nahi.' ),
 			array( 'q' => 'Kya yeh calculator Urdu mein hai?', 'a' => 'Haan. Calculator ke upar "اردو" dabayein, poora calculator Urdu mein ho jata hai. Raqam lakh aur crore mein dikhayi jati hai.' ),
 			array( 'q' => 'Savings certificates (NSC, Behbood) par zakat kaise lagegi?', 'a' => 'Jitni raqam lagayi hai usay "Savings certificates" field mein likhein. Agar un se zakat kat chuki hai to woh "Already paid" mein likhein.' ),
 		),
@@ -548,7 +548,7 @@ HTML
 
 	$p['fitrana-calculator'] = array(
 		'title' => 'Fitrana Calculator (Zakat al-Fitr)',
-		'seo'   => 'Fitrana Calculator {year}: Sadqa-e-Fitr per Person',
+		'seo'   => 'Fitrana Calculator {fyear}: Sadqa-e-Fitr per Person',
 		'desc'  => 'Calculate fitrana (sadaqat al-fitr) for your family: number of people times the amount for wheat, barley, dates or raisins. Who must pay and when.',
 		'nav'   => 'Fitrana',
 		'blurb' => 'per person',
@@ -593,7 +593,7 @@ HTML
 
 	$p['fidya-kaffara-calculator'] = array(
 		'title' => 'Fidya and Kaffara Calculator',
-		'seo'   => 'Fidya Calculator {year}: Roza Fidya & Kaffara in Rupees',
+		'seo'   => 'Fidya Calculator {fyear}: Roza Fidya & Kaffara in Rupees',
 		'desc'  => 'Work out fidya for fasts you cannot make up and kaffara for a fast broken on purpose: number of fasts times the daily amount, with the Hanafi rules explained.',
 		'nav'   => 'Fidya & Kaffara',
 		'blurb' => 'roza fidya',
@@ -624,7 +624,7 @@ HTML
 
 	$p['haq-mehr-calculator'] = array(
 		'title' => 'Haq Mehr Calculator',
-		'seo'   => 'Haq Mehr Calculator {year}: Mehr-e-Fatimi in Rupees Today',
+		'seo'   => 'Haq Mehr Calculator {cyear}: Mehr-e-Fatimi in Rupees Today',
 		'desc'  => "Mehr-e-Fatimi and the minimum mehr in today's money from the live silver rate: grams, tola and rupees, other scholars' views, and a check for your own mehr.",
 		'nav'   => 'Haq Mehr',
 		'blurb' => 'mehr-e-fatimi today',
@@ -673,8 +673,8 @@ HTML
 
 	$p['diyat-calculator'] = array(
 		'title' => 'Diyat Calculator Pakistan',
-		'seo'   => 'Diyat Amount {year} Pakistan: Notified & Live Value',
-		'desc'  => 'Diyat in Pakistan for 2026-27 is Rs 19,352,390, the value of 30,630 g of silver. See the live value at today\'s silver rate and every year\'s notified amount.',
+		'seo'   => 'Diyat Amount 2026-27 Pakistan: Notified & Live Value',
+		'desc'  => 'Diyat in Pakistan for 2026-27 is Rs 1,93,52,390, the value of 30,630 g of silver. See the live value at today\'s silver rate and every year\'s notified amount.',
 		'nav'   => 'Diyat',
 		'blurb' => 'blood money in Pakistan',
 		'hub'   => 'calculators',
@@ -687,7 +687,7 @@ HTML
 <h2>How the amount is fixed</h2>
 <p>Section 323 of the Pakistan Penal Code says the court fixes the diyat, but it may not be less than the value of 30,630 grams of silver. The Finance Division works out that value and notifies it for each fiscal year, from 1 July to 30 June. The silver weight never changes; only the rupee figure does, because the silver price and the rupee move. 30,630 g is very close to the classical 10,000 dirham of the Hanafi madhab (10,000 × 3.0618 g = 30,618 g).</p>
 <h2>Why the amount almost doubled in 2026</h2>
-<p>The notified amount was Rs 9,828,670 for 2025-26 and Rs 19,352,390 for 2026-27, an increase of about 97%. The reason is the price of silver, which rose sharply in the year before the notification. The table in the calculator lists every notified amount we have checked, with its source, and the live value shows where the next notification may land if silver prices stay where they are.</p>
+<p>The notified amount was Rs 98,28,670 for 2025-26 and Rs 1,93,52,390 for 2026-27, an increase of about 97%. The reason is the price of silver, which rose sharply in the year before the notification. The table in the calculator lists every notified amount we have checked, with its source, and the live value shows where the next notification may land if silver prices stay where they are.</p>
 <h2>Live value or notified amount: which one counts?</h2>
 <p>For a court case, the amount notified for the year is the legal minimum. The live value on this page is for information: it shows what 30,630 g of silver is worth today at the international spot rate. Local bazaar silver rates in Pakistan are often a little higher than the spot rate.</p>
 <h2>How diyat is paid and shared</h2>
@@ -703,7 +703,7 @@ HTML
 HTML
 		. $author . '[myzt_related slugs="haq-mehr-calculator,gold-rate-today,nisab,calculators"]',
 		'faq'   => array(
-			array( 'q' => 'Diyat ki raqam 2026-27 mein kitni hai?', 'a' => 'Wafaqi hukoomat ne maali saal 2026-27 ke liye diyat Rs 19,352,390 notify ki hai, jo 1 July 2026 se naafiz hai.' ),
+			array( 'q' => 'Diyat ki raqam 2026-27 mein kitni hai?', 'a' => 'Wafaqi hukoomat ne maali saal 2026-27 ke liye diyat Rs 1,93,52,390 notify ki hai, jo 1 July 2026 se naafiz hai.' ),
 			array( 'q' => 'How is diyat calculated in Pakistan?', 'a' => 'It is the value of 30,630 grams of silver (Pakistan Penal Code, section 323). The Finance Division notifies the rupee value every year.' ),
 			array( 'q' => 'Can a court award less than the notified diyat?', 'a' => 'No. The court may award more, but not less than the notified value.' ),
 			array( 'q' => 'Can diyat be paid in instalments?', 'a' => 'Yes. It may be paid in instalments over up to three years from the final judgment (section 331).' ),
@@ -765,7 +765,7 @@ HTML
 <li><strong>Grandfather with brothers.</strong> Hanafi scholars (following Abu Hanifa and Abu Bakr) and Ahl-e-Hadith scholars treat the paternal grandfather like the father: he excludes the brothers and sisters. The Shafi'i, Maliki and Hanbali schools follow Zayd ibn Thabit: the grandfather shares with them and gets the best of an equal share, one third, or one sixth. This includes the famous case of al-Akdariyya.</li>
 <li><strong>Al-Mushtaraka.</strong> When a woman leaves a husband, a mother, two or more half-siblings through the mother and full brothers, nothing is left for the full brothers. Shafi'i and Maliki scholars let them share the third with the half-siblings; Hanafi and Hanbali scholars do not.</li>
 <li><strong>Paternal grandmother.</strong> In the Hanbali school she inherits even while her son, the father, is alive.</li>
-<li><strong>Radd to the husband or wife.</strong> When nobody else is left, later Hanafi scholars and Ahl-e-Hadith scholars return the rest to the spouse; the Shafi'i, Maliki and Hanbali schools do not.</li>
+<li><strong>Radd to the husband or wife.</strong> When nobody else is left, later Hanafi scholars return the rest to the spouse; the Shafi'i, Maliki and Hanbali schools do not. Our Ahl-e-Hadith setting follows Ibn Taymiyyah's view and returns it too, but many scholars do not give the remainder to a spouse; ask a mufti.</li>
 <li><strong>Shia Ja'fari fiqh</strong> works in three classes: parents and children first, then grandparents and siblings, then uncles and aunts. There is no <em>'awl</em>; grandchildren and nephews take the place of a parent who died first; and a wife inherits from the value of buildings and trees but not from land. The calculator shows a wife's share of land as zero in Ja'fari mode and divides the land among the other heirs.</li>
 </ul>
 <p>Open "six madhabs side by side" under your result to see which of these applies to your family. Zakat also differs between the schools; the <a href="/madhab-comparison/">madhab comparison</a> sets that out.</p>
@@ -778,7 +778,7 @@ HTML
 <h2>Daughters' right to inherit</h2>
 <p>A daughter's share is fixed by Allah in the Qur'an, and it cannot be taken away by family custom, by a "gift" of her share to her brothers under pressure, or by leaving land only to sons. Pakistani law also protects it: depriving a woman of her inheritance by deceit is a crime under section 498A of the Pakistan Penal Code, and the Enforcement of Women's Property Rights Act 2020 lets a woman complain to the Ombudsperson. See <a href="/daughters-share-in-inheritance/">the daughter's share</a>.</p>
 <h2>Is it accurate?</h2>
-<p>The rules come from al-Sirajiyyah (the standard Hanafi text on fara'id), the main books of the other schools and Ayatollah Sistani's Islamic Laws for Ja'fari fiqh. The engine uses exact fractions, so the shares always add up to the whole estate. It is tested on every change against 431 worked cases from these books, between 70 and 77 for each of the six schools, besides the famous named cases. Inheritance cases can still be complicated, especially when distant relatives, missing persons or several deaths are involved. Show the result to a mufti before dividing (the istifta button helps), and use a lawyer for the transfer of property. If a result looks wrong, please <a href="/contact/">tell us</a>; the calculator has the same link. How we choose our sources is on the <a href="/methodology/">methodology</a> page.</p>
+<p>The rules come from al-Sirajiyyah (the standard Hanafi text on fara'id), the main books of the other schools and Ayatollah Sistani's Islamic Laws for Ja'fari fiqh. The engine uses exact fractions, so the shares always add up to the whole estate. It is checked on every change against 425 worked cases from these books, 69 to 77 for each of the six schools, besides the famous named cases; 6 more cases where scholars differ are kept as open questions. Inheritance cases can still be complicated, especially when distant relatives, missing persons or several deaths are involved. Show the result to a mufti before dividing (the istifta button helps), and use a lawyer for the transfer of property. If a result looks wrong, please <a href="/contact/">tell us</a>; the calculator has the same link. How we choose our sources is on the <a href="/methodology/">methodology</a> page.</p>
 <p>Everything is calculated in your browser; the names and amounts you type are not sent to us. Related: <a href="/haq-mehr-calculator/">haq mehr calculator</a> (unpaid mehr is a debt on the estate), <a href="/diyat-calculator/">diyat calculator</a> (diyat is divided among the heirs by these same shares) and the <a href="/">zakat calculator</a>.</p>
 [myzt_faq]
 HTML
@@ -798,8 +798,8 @@ HTML
 
 	$p['zakat-date-calculator'] = array(
 		'title' => 'Zakat Date Calculator and Hawl Tracker',
-		'seo'   => 'Zakat Date Calculator {year}: Hawl Date & Reminders',
-		'desc'  => 'Find your next zakat date from the day your wealth reached the nisab, see it in Hijri and Gregorian dates, get calendar reminders and add up missed years.',
+		'seo'   => 'When Is My Zakat Due? Zakat Date Calculator {year}',
+		'desc'  => 'Zakat is due one lunar year (about 354 days) after your wealth first reached the nisab. Enter that day to get your zakat date in Hijri and Gregorian, with reminders.',
 		'nav'   => 'Zakat date',
 		'blurb' => 'hawl, reminders',
 		'hub'   => 'calculators',
@@ -880,7 +880,7 @@ HTML
 <li>In WordPress, add a "Custom HTML" block (or a Custom HTML widget in your sidebar) and paste it. On other sites, paste it where you want the box to appear.</li>
 <li>Keep the small "Nisab by My Zakat Tool" line: it tells your visitors where the numbers come from.</li>
 </ol>
-<h2>Good to know</h2>
+<h2>About the numbers</h2>
 <ul>
 <li>The silver nisab is 52.5 tola (612.35 g) and the gold nisab 7.5 tola (87.48 g). Hanafi scholars use the silver nisab for cash.</li>
 <li>Prices are international spot rates; local jewellers' prices are a little higher.</li>
@@ -899,7 +899,7 @@ HTML
 <p>The box loads one small script from our site and reads the cached rate from our server. It sets no cookies, shows no ads, and does not collect anything about your visitors. It loads after the rest of your page, and if our server cannot be reached the box stays empty instead of breaking your page; the credit line still links to the live nisab page.</p>
 <h2>Who uses it</h2>
 <p>The widget is made for mosque and madrasa websites, Islamic centre newsletters, zakat committees and bloggers who write about zakat before Ramadan. Many mosques put it on their Ramadan or zakat page next to their own bank details for zakat collection; we do not collect or handle any zakat ourselves.</p>
-<h2>Good to know</h2>
+<h2>More tips for site owners</h2>
 <ul>
 <li>The widget shows the nisab only. For a full calculation, link visitors to the <a href="/">zakat calculator</a>, or in Pakistan to the <a href="/zakat-calculator-pakistan/">Pakistan calculator</a>.</li>
 <li>Silver is shown first because Hanafi scholars, and the Hanbali and Ahl-e-Hadith views, use the silver nisab for cash. Read <a href="/nisab/">which nisab applies</a>.</li>
@@ -964,7 +964,7 @@ HTML
 
 	$p['nisab'] = array(
 		'title' => 'Nisab Today: Gold and Silver Nisab for Zakat',
-		'seo'   => 'Zakat Nisab {year} Today: Gold & Silver Nisab Value',
+		'seo'   => 'Zakat Nisab {cyear} Today: Gold & Silver Nisab Value',
 		'desc'  => 'Today\'s zakat nisab in your currency: silver 612.35 g (52.5 tola) and gold 87.48 g (7.5 tola), from live international rates. Which nisab to use by madhab.',
 		'nav'   => 'Nisab Today',
 		'blurb' => 'in your currency',
@@ -1024,7 +1024,7 @@ HTML
 		'nav'   => 'Guides',
 		'blurb' => 'answers',
 		'llms'  => true,
-		'content' => '<p>Clear answers to the zakat questions people ask most, with sources for the main rulings and a link to the calculator so you can check your own numbers. Rulings differ between the schools, so every guide says which madhab a statement belongs to.</p><h2>All guides</h2>[myzt_guides]<h2>Start here</h2><p>New to zakat? Read <a href="/nisab/">what the nisab is</a>, then <a href="/who-can-receive-zakat/">who can receive zakat</a>, and use the <a href="/">calculator</a>. For the differences between schools see the <a href="/madhab-comparison/">madhab comparison</a>, and for rates see <a href="/gold-rate-today/">gold rate today</a>.</p><h2>Inheritance (wirasat)</h2><p>After a death in the family, start with the <a href="/wirasat-calculator/">wirasat calculator</a>, then read about the <a href="/daughters-share-in-inheritance/">daughter\'s share</a>, the <a href="/wife-husband-share-in-inheritance/">wife\'s and husband\'s share</a>, <a href="/orphaned-grandchildren-inheritance/">orphaned grandchildren and section 4</a> and <a href="/zakat-on-inherited-wealth/">zakat on inherited wealth</a>.</p>' . $author,
+		'content' => '<p>Clear answers to the zakat questions people ask most, with sources for the main rulings and a link to the calculator so you can check your own numbers. Rulings differ between the schools, so every guide says which madhab a statement belongs to.</p><h2>All guides</h2>[myzt_guides]<h2>Start here</h2><p>New to zakat? Read <a href="/nisab/">what the nisab is</a>, then <a href="/who-can-receive-zakat/">who can receive zakat</a>, and use the <a href="/">zakat calculator</a>. For the differences between schools see the <a href="/madhab-comparison/">madhab comparison</a>, and for rates see <a href="/gold-rate-today/">gold rate today</a>.</p><h2>Inheritance (wirasat)</h2><p>After a death in the family, start with the <a href="/wirasat-calculator/">wirasat calculator</a>, then read about the <a href="/daughters-share-in-inheritance/">daughter\'s share</a>, the <a href="/wife-husband-share-in-inheritance/">wife\'s and husband\'s share</a>, <a href="/orphaned-grandchildren-inheritance/">orphaned grandchildren and section 4</a> and <a href="/zakat-on-inherited-wealth/">zakat on inherited wealth</a>.</p>' . $author,
 		'faq'   => array(),
 	);
 
@@ -1104,7 +1104,7 @@ HTML,
 <h2>The other tools</h2>
 <ul>
 <li><strong><a href="/zakat-date-calculator/">Zakat date and missed years</a>:</strong> the next zakat date is one lunar year of 354.367 days after the day wealth reached the nisab ("no zakat until a year passes", <a href="https://sunnah.com/abudawud:1573" rel="noopener" target="_blank">Abu Dawud 1573</a>). Hijri dates are shown from the Umm al-Qura calendar, so local moon sighting can differ by a day. For missed years the Hanafi option treats each earlier year's unpaid zakat as a debt that lowers the next year's wealth (<em>al-Hidayah</em>).</li>
-<li><strong><a href="/wirasat-calculator/">Wirasat (inheritance)</a>:</strong> the Qur'anic shares (al-Nisa 4:11, 4:12, 4:176) with 'awl and radd in exact fractions. Hanafi rules follow <em>al-Sirajiyyah</em> and Ibn Abidin's <em>Radd al-Muhtar</em>; the Shafi'i, Maliki and Hanbali rules follow the main texts of each school, including Zayd ibn Thabit's method for the grandfather with brothers; the Ahl-e-Hadith rules treat the grandfather as the father (the view of Abu Bakr and Ibn Abbas) and follow Ibn Taymiyyah on radd to the spouse; Ja'fari rules follow Ayatollah Sistani's <em>Islamic Laws</em> (three classes, no 'awl, a wife's share from buildings and not from land). Pakistani law (Muslim Family Laws Ordinance 1961, section 4) is shown as a separate result. The engine is tested against 431 worked cases, 70 to 77 for each school. Results with distant relatives (dhawu al-arham) carry a note to confirm with a mufti.</li>
+<li><strong><a href="/wirasat-calculator/">Wirasat (inheritance)</a>:</strong> the Qur'anic shares (al-Nisa 4:11, 4:12, 4:176) with 'awl and radd in exact fractions. Hanafi rules follow <em>al-Sirajiyyah</em> and Ibn Abidin's <em>Radd al-Muhtar</em>; the Shafi'i, Maliki and Hanbali rules follow the main texts of each school, including Zayd ibn Thabit's method for the grandfather with brothers; the Ahl-e-Hadith rules treat the grandfather as the father (the view of Abu Bakr and Ibn Abbas) and follow Ibn Taymiyyah on radd to the spouse (an open question, below); Ja'fari rules follow Ayatollah Sistani's <em>Islamic Laws</em> (three classes, no 'awl, a wife's share from buildings and not from land). Pakistani law (Muslim Family Laws Ordinance 1961, section 4) is shown as a separate result. The engine is checked against 425 worked cases, with 6 more kept as open questions where scholars differ. Results with distant relatives (dhawu al-arham) carry a note to confirm with a mufti.</li>
 <li><strong><a href="/ushr-calculator/">Ushr</a>:</strong> 10% for land watered by rain or rivers and 5% for costly irrigation (<a href="https://sunnah.com/bukhari:1483" rel="noopener" target="_blank">Bukhari 1483</a>). Imam Abu Hanifa set no minimum; the other schools require 5 wasq, about 653 kg (Muslim 979). Ayatollah Sistani's minimum is higher (about 847 kg) and covers wheat, barley, dates and raisins only.</li>
 <li><strong>Livestock:</strong> goats, sheep and camels up to 120 follow the letter of Abu Bakr (<a href="https://sunnah.com/bukhari:1454" rel="noopener" target="_blank">Bukhari 1454</a>); cows and buffaloes follow the hadith of Mu'adh (one tabi' for every 30, one musinnah for every 40). Camels above 120 and the Ja'fari tables are not calculated: ask a scholar.</li>
 <li><strong><a href="/fitrana-calculator/">Fitrana</a> and <a href="/fidya-kaffara-calculator/">fidya and kaffara</a>:</strong> in Hanafi fiqh one fitrana or one day's fidya is half a sa' of wheat (about 1.75 to 2 kg) or one sa' of barley, dates or raisins, or its value; the other schools use one mudd (about 0.6 kg) for fidya. Kaffara is 60 days of fasting, or feeding 60 poor people only for someone who cannot fast (<a href="https://sunnah.com/bukhari:1936" rel="noopener" target="_blank">Bukhari 1936</a>, Muslim 1111). Enter the money amount announced by your scholars each Ramadan; the fitrana calculator may show amounts we have filled in from those announcements.</li>
@@ -1119,10 +1119,12 @@ HTML,
 <li>Shafi'i: adding cash to the chosen metal; the customary jewellery limit (850 or 860 g); 85 g or 87.48 g for the gold nisab.</li>
 <li>Maliki: setting debts against spare non-zakatable assets first.</li>
 <li>Ahl-e-Hadith: confirmation of each rule by a Pakistani Ahl-e-Hadith institution.</li>
+<li>Inheritance, Ahl-e-Hadith: returning the remainder (radd) to a lone husband or wife. Our setting follows Ibn Taymiyyah, who allowed it; many scholars do not.</li>
 <li>Fidya: the calculator uses the Hanafi amount (one fitrana a day); the Shafi'i, Maliki and Hanbali schools use one mudd (about 0.6 kg of food), which is less.</li>
 </ul>
 <h2>Changes</h2>
 <ul>
+<li><strong>18 October 2026 (accuracy):</strong> the Ahl-e-Hadith rule on returning the remainder to a lone husband or wife is now marked as an open question; the fidya and kaffara examples use the Council of Islamic Ideology's 1447 amounts (Rs 300 by wheat, Rs 1,600 by dates); quick answers with a live rupee figure show the time of the rate; the inheritance engine is described as checked against 425 cases plus 6 open questions. No calculation result changed.</li>
 <li><strong>18 October 2026 (inheritance):</strong> the <a href="/wirasat-calculator/">wirasat calculator</a> page now describes every feature of the calculator (six madhabs side by side, the worked sheet, what-if, share link and istifta, mamu, khala, phuphi and nana), and four guides were added on the <a href="/daughters-share-in-inheritance/">daughter's share</a>, the <a href="/wife-husband-share-in-inheritance/">wife's and husband's share</a>, <a href="/orphaned-grandchildren-inheritance/">orphaned grandchildren</a> and <a href="/zakat-on-inherited-wealth/">zakat on inherited wealth</a>. No calculation result changed.</li>
 <li><strong>17 October 2026 (accessibility and privacy):</strong> the calculator now works fully in Urdu (Urdu madhab names, units and an Urdu font), screen readers hear only the zakat total once you stop typing, and a <em>Delete saved data</em> button removes everything the calculators kept in your browser. Urdu names in the PDF report are spelled in Roman letters. No calculation result changed.</li>
 <li><strong>17 October 2026 (Urdu):</strong> added Urdu pages for the <a href="/zakat-calculator-urdu/">zakat calculator</a>, <a href="/nisab-urdu/">nisab</a>, <a href="/zakat-on-gold-urdu/">zakat on gold</a> and <a href="/fitrana-calculator-urdu/">fitrana</a>, with worked examples on several English pages. They use the same rules as the English pages; no calculation result changed.</li>

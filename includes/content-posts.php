@@ -17,8 +17,8 @@ function myzt_content_posts() {
 	return myzt_content_posts_tools() + myzt_content_posts_wirasat() + array(
 		'who-can-receive-zakat'         => array(
 			'title'   => 'Who Can Receive Zakat? The 8 Categories Explained',
-			'seo'     => 'Who Can Receive Zakat? 8 Categories (Zakat Kis Ko Dein)',
-			'desc'    => 'The eight groups who may receive zakat according to Surah at-Tawbah 9:60, who cannot receive it (parents, children, wife, Sayyids) and tips for paying.',
+			'seo'     => 'Who Can Receive Zakat? The 8 Groups of Quran 9:60 & Who Cannot',
+			'desc'    => 'Zakat goes to 8 groups (Quran 9:60), mainly the poor, the needy and those in debt. It cannot go to your parents, children, wife or (Sunni schools) Sayyids.',
 			'nav'     => 'Who can receive zakat',
 			'blurb'   => 'masarif-e-zakat',
 			'content' => <<<'HTML'
@@ -117,15 +117,15 @@ HTML
 
 		'zakat-on-1-tola-gold'          => array(
 			'title'   => 'How Much Zakat on 1 Tola Gold?',
-			'seo'     => 'Zakat on 1 Tola Gold Today (24K, 22K) in Pakistan',
-			'desc'    => 'Zakat on 1 tola of 24K and 22K gold at today\'s rate, when it is actually due (gold nisab vs silver nisab), and worked examples in rupees.',
+			'seo'     => 'Zakat on 1 Tola Gold Today: {rate:gold-tola-zakat} (24K), 22K Too',
+			'desc'    => 'Zakat on 1 tola of 24K gold today is {rate:gold-tola-zakat}, and {rate:gold22-tola-zakat} for 22K (2.5% of the live rate). When it is due, and worked examples.',
 			'nav'     => 'Zakat on 1 tola gold',
 			'blurb'   => '1 tola sone ki zakat',
 			'content' => <<<'HTML'
 [myzt_answer q="How much zakat on 1 tola of gold?"]Today 1 tola of 24K gold is worth about [myzt_rate type="gold-tola" currency="PKR"], so 2.5% is about [myzt_rate type="gold-tola-zakat" currency="PKR"]. For 22K gold it is about [myzt_rate type="gold22-tola-zakat" currency="PKR"]. Whether you actually owe it depends on what else you own.[/myzt_answer]
 <p>"1 tola par kitni zakat?" is one of the most searched zakat questions in Pakistan, and the honest answer has two parts: the amount, which is simple, and whether it is due at all, which depends on the rest of your wealth and your madhab.</p>
 <h2>The amount</h2>
-<p>Zakat is one fortieth (2.5%) of the value. 1 tola is 11.664 g. For 24K gold multiply today's tola rate by 0.025. For 22K gold first take 91.7% of the 24K price, because only the pure gold counts. The figures in the box above update with the international rate every hour.</p>
+<p>Zakat is one fortieth (2.5%) of the value. 1 tola is 11.664 g. For 24K gold multiply today's tola rate by 0.025. For 22K gold first multiply the 24K price by 22/24 (about 91.7%), because only the pure gold counts. The figures in the box above update with the international rate every hour.</p>
 <h2>Is zakat due on just 1 tola?</h2>
 <p><strong>If 1 tola of gold is all you own:</strong> no, in every Sunni school. It is below the gold nisab of 7.5 tola (87.48 g).</p>
 <p><strong>If you also have cash, savings, silver or business stock:</strong> in the Hanafi madhab you add everything together and compare the total with the silver nisab, which today is only about [myzt_rate type="nisab-silver" currency="PKR"]. Most families with any savings cross it, and then zakat is due on the 1 tola as well. Our Ahl-e-Hadith calculator, following the Permanent Committee, also adds gold to cash and uses the lower nisab, so the result is similar. Hanbali scholars do the same for a gold coin or bar, but exempt the 1 tola if it is jewellery that is worn.</p>
@@ -149,8 +149,8 @@ HTML
 
 		'zakat-on-1-lakh-rupees'        => array(
 			'title'   => 'Zakat on 1 Lakh Rupees: How Much?',
-			'seo'     => 'Zakat on 1 Lakh Rupees: Rs 2,500? (Table up to 50 Lakh)',
-			'desc'    => 'Zakat on Rs 1 lakh is Rs 2,500 if you are above the nisab. Table from Rs 50,000 to Rs 50 lakh, today\'s silver nisab and when 1 lakh alone is not zakatable.',
+			'seo'     => 'Zakat on 1 Lakh Rupees = Rs 2,500 (Table up to 50 Lakh)',
+			'desc'    => 'Zakat on Rs 1 lakh is Rs 2,500 (2.5%) when your total wealth is above the nisab, today {rate:nisab-silver}. Table from Rs 50,000 to Rs 50 lakh, and when none is due.',
 			'nav'     => 'Zakat on 1 lakh',
 			'blurb'   => '1 lakh ki zakat',
 			'content' => <<<'HTML'

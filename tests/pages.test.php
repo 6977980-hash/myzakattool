@@ -25,6 +25,13 @@ function check( $ok, $msg ) {
 		++$fail;
 	}
 }
+// Placeholders as MYZT_SEO::fill() fills them, with a long rupee figure for {rate:...}.
+function fill( $s ) {
+	$s = str_replace( array( '{year}', '{cyear}', '{fyear}' ), '2027', $s );
+	$s = preg_replace( '/\{rate:[a-z0-9-]+\}/', 'Rs 12,34,567', $s );
+	check( false === strpos( $s, '{' ), "unknown placeholder in: $s" );
+	return $s;
+}
 function words( $html ) {
 	$text = preg_replace( '/\[[^\]]*\]/', ' ', $html );
 	$text = html_entity_decode( strip_tags( $text ), ENT_QUOTES, 'UTF-8' );
@@ -45,11 +52,11 @@ foreach ( $pages as $slug => $p ) {
 		}
 	}
 	if ( isset( $p['seo'] ) ) {
-		$t = str_replace( '{year}', '2027', $p['seo'] );
+		$t = fill( $p['seo'] );
 		check( mb_strlen( $t ) <= 70, "$slug title is " . mb_strlen( $t ) . ' characters' );
 	}
 	if ( isset( $p['desc'] ) ) {
-		$d = str_replace( '{year}', '2027', $p['desc'] );
+		$d = fill( $p['desc'] );
 		check( mb_strlen( $d ) <= 165, "$slug description is " . mb_strlen( $d ) . ' characters' );
 	}
 	preg_match_all( '#href="/([a-z0-9-]*)/?"#', $p['content'], $m );

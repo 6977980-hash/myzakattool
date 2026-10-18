@@ -160,6 +160,12 @@ class MYZT_Frontend {
 		);
 	}
 
+	/** Year of the fitrana amounts in use: the coming season once the owner enters them, else 2026 (CII 1447). */
+	public static function fitrana_year() {
+		$c = self::fitrana_config( MYZT_Settings::get() );
+		return $c['fallback'] ? 2026 : MYZT_Installer::season_year();
+	}
+
 	public static function page_url( $slug ) {
 		$p = get_page_by_path( $slug );
 		return $p ? get_permalink( $p ) : home_url( '/' . $slug . '/' );
@@ -447,7 +453,22 @@ class MYZT_Frontend {
 	public static function answer( $atts, $content = '' ) {
 		self::enqueue();
 		$a = shortcode_atts( array( 'q' => '' ), $atts, 'myzt_answer' );
-		return '<div class="myzt myzt-answer"><div class="k">' . ( MYZT_SEO::is_ur() ? 'مختصر جواب' : 'Quick answer' ) . '</div><p><b>' . esc_html( $a['q'] ) . '</b> ' . wp_kses_post( do_shortcode( $content ) ) . '</p></div>';
+		return '<div class="myzt myzt-answer"><div class="k">' . ( MYZT_SEO::is_ur() ? 'مختصر جواب' : 'Quick answer' ) . '</div><p><b>' . esc_html( $a['q'] ) . '</b> ' . wp_kses_post( do_shortcode( $content ) ) . self::as_of( $content ) . '</p></div>';
+	}
+
+	/** " (rate of 18 Oct 2026, 11:45 GMT)" after a quick answer that quotes a live figure, so a copied snippet keeps its date (FIX-144). */
+	private static function as_of( $content ) {
+		if ( ! preg_match( '/\[myzt_(rate|mehr)\b|\[myzt_diyat[^\]]*live/', $content ) ) {
+			return '';
+		}
+		$t = (int) self::config()['rates']['updated'];
+		if ( ! $t ) {
+			return '';
+		}
+		$when = '<time datetime="' . esc_attr( gmdate( 'c', $t ) ) . '">' . esc_html( gmdate( 'j M Y, H:i', $t ) ) . ' GMT</time>';
+		return MYZT_SEO::is_ur()
+			? ' <span class="myzt-asof">(ریٹ: <span dir="ltr">' . $when . '</span>)</span>'
+			: ' <span class="myzt-asof">(rate of ' . $when . ')</span>';
 	}
 
 	public static function trust() {
