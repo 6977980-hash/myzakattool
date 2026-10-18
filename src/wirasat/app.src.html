@@ -45,6 +45,10 @@ button, input, select { font: inherit; color: var(--ink); }
 label.f { display: grid; gap: 2px; font-size: 13px; color: var(--muted); }
 input.in, select.in { min-height: 42px; border: 1px solid var(--line); border-radius: 8px; padding: 0 10px; background: var(--surface); width: 100%; box-sizing: border-box; }
 input.num { direction: ltr; text-align: right; font-variant-numeric: tabular-nums; }
+/* 16px so iOS does not zoom in when a box is tapped (FIX-112). */
+input.in, select.in, textarea.in { font-size: 16px; }
+input.in[aria-invalid="true"] { border-color: var(--warn); box-shadow: inset 0 0 0 1px var(--warn); }
+.fe { flex-basis: 100%; font-size: 13px; }
 .assets { display: grid; gap: 10px; }
 .asset { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: end; border-top: 1px dashed var(--line); padding-top: 10px; }
 .asset b { flex-basis: 100%; font-weight: 600; }
@@ -76,7 +80,7 @@ details.more[open] > summary { margin-bottom: 6px; }
 .go.ghost { background: var(--surface); color: var(--accent); border: 1.5px solid var(--accent); min-height: 44px; font-size: 15px; }
 .actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
 #result.stale > :not(.banner) { opacity: .35; }
-.ask textarea.in { width: 100%; box-sizing: border-box; font: inherit; line-height: 1.9; resize: vertical; }
+.ask textarea.in { width: 100%; box-sizing: border-box; font: inherit; font-size: 16px; line-height: 1.9; resize: vertical; }
 .ask .tag { font-size: 12px; font-family: var(--body); }
 .askout { display: grid; gap: 8px; }
 .askout p { margin: 0; }
@@ -150,7 +154,7 @@ th.me, td.me { background: var(--accent-soft); }
 .minus { color: var(--warn); font-weight: 700; }
 .wi { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: end; }
 .wi label.f { flex: 1 1 200px; }
-textarea.in { width: 100%; box-sizing: border-box; font: inherit; line-height: 1.9; border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; background: var(--surface); }
+textarea.in { width: 100%; box-sizing: border-box; font: inherit; font-size: 16px; line-height: 1.9; border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; background: var(--surface); }
 table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: 14px; }
 th, td { border-bottom: 1px solid var(--line); padding: 6px 8px; text-align: start; vertical-align: top; white-space: nowrap; }
 td.why { white-space: normal; min-width: 220px; color: var(--muted); font-size: 13px; }
@@ -186,7 +190,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
   <section class="sec wide ask" aria-labelledby="h-q">
       <h2 id="h-q"><span class="no">؟</span>سوال سے حساب <span class="tag">نیا</span></h2>
       <p class="hint">اپنا سوال اردو یا رومن اردو میں لکھیں یا کہیں سے پیسٹ کریں، جیسے: "ایک عورت فوت ہوئی، شوہر، ماں، دو حقیقی بہنیں…"۔ صفحہ رشتے پہچان کر نیچے کا فارم خود بھر دے گا۔ سوال کہیں نہیں بھیجا جاتا۔</p>
-      <textarea class="in" id="askText" rows="5" maxlength="2000" placeholder="مثلاً: ایک آدمی فوت ہوا، بیوی، دو بیٹے اور تین بیٹیاں، والدہ زندہ، والد پہلے فوت۔ ترکہ 20 لاکھ روپے اور 4 کنال زمین"></textarea>
+      <textarea class="in" id="askText" aria-labelledby="h-q" rows="5" maxlength="2000" placeholder="مثلاً: ایک آدمی فوت ہوا، بیوی، دو بیٹے اور تین بیٹیاں، والدہ زندہ، والد پہلے فوت۔ ترکہ 20 لاکھ روپے اور 4 کنال زمین"></textarea>
       <div class="actions"><button type="button" class="go" id="askGo">سوال سے فارم بھریں</button><button type="button" class="go ghost" id="askEx">مثال آزمائیں</button></div>
       <div id="askOut" aria-live="polite"></div>
     </section>
@@ -310,7 +314,26 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
   function save() { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} }
 
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
-  function num(v) { var n = parseFloat(String(v || '').replace(/[^0-9.]/g, '')); return isFinite(n) ? n : 0; }
+  // A typed amount: Urdu (۰-۹) and Arabic (٠-٩) digits, lakh commas and "Rs" are read (FIX-110).
+  // A negative or unreadable value counts as 0 and is flagged next to its box by checkNum() (FIX-111).
+  function parseNum(v) {
+    var t = String(v == null ? '' : v).replace(/[\u0660-\u0669\u06f0-\u06f9]/g, function (c) { var x = c.charCodeAt(0); return String(x >= 0x6f0 ? x - 0x6f0 : x - 0x660); })
+      .replace(/\u066b/g, '.').replace(/[\u066c,\s\u00a0]/g, '').replace(/^(rs\.?|pkr|روپے)|(rs\.?|pkr|روپے)$/i, '');
+    if (t === '') return { n: 0, ok: true };
+    if (/^[-\u2212]/.test(t)) return { n: 0, ok: false, e: 'رقم منفی نہیں ہو سکتی۔ یہ رقم شامل نہیں کی گئی۔' };
+    if (!/^\d*\.?\d+$|^\d+\.$/.test(t)) return { n: 0, ok: false, e: 'صرف عدد لکھیں، مثلاً 500000 یا 5,00,000۔ یہ رقم شامل نہیں کی گئی۔' };
+    return { n: parseFloat(t), ok: true };
+  }
+  function num(v) { return parseNum(v).n; }
+  function checkNum(el) {
+    var r = parseNum(el.value), id = el.id + '-err', msg = $(id);
+    if (r.ok) { el.removeAttribute('aria-invalid'); el.removeAttribute('aria-describedby'); if (msg) msg.remove(); return true; }
+    el.setAttribute('aria-invalid', 'true'); el.setAttribute('aria-describedby', id);
+    if (!msg) { el.parentNode.insertAdjacentHTML('afterend', '<span class="err fe" role="alert" id="' + id + '"></span>'); msg = $(id); }
+    msg.textContent = r.e;
+    return false;
+  }
+  function badNums() { return [].filter.call(document.querySelectorAll('#assets input.num'), function (el) { return !checkNum(el); }).length; }
   function rs(n) { return 'Rs ' + Math.round(n).toLocaleString('en-IN'); }
   function $(id) { return document.getElementById(id); }
   function of(rel) { return st.people.filter(function (p) { return p.rel === rel && !p.parent; }); }
@@ -373,6 +396,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
     if (a.gold.on) h += '<div class="asset"><b>سونا</b>' + inp('gold', 'tola', 'تولہ') + '</div>';
     if (a.silver.on) h += '<div class="asset"><b>چاندی</b>' + inp('silver', 'tola', 'تولہ') + '</div>';
     $('assets').innerHTML = h || '<p class="hint">کوئی چیز نہیں چنی۔ حصے پھر بھی کسر اور فیصد میں نظر آئیں گے۔</p>';
+    badNums();
     [].forEach.call(document.querySelectorAll('.mw'), function (el) { el.textContent = MW(); });
     $('spouseTitle').textContent = st.sex === 'f' ? 'شوہر' : 'بیویاں';
   }
@@ -381,6 +405,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
     var t = e.target;
     if (t.dataset.a) st.assets[t.dataset.a][t.dataset.k] = t.value;
     else if (t.dataset.debts !== undefined) st.debts = t.value;
+    if (t.classList.contains('num')) checkNum(t);
     changed();
   });
 
@@ -638,6 +663,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
   }
   function madhabName() { return MADHABS.filter(function (m) { return m[0] === st.madhab; })[0][1]; }
   $('go').addEventListener('click', function () {
+    $('goHint').textContent = badNums() ? 'ترکے کے جس خانے میں غلط رقم ہے وہ شامل نہیں کی گئی، اسے درست کریں۔' : '';
     st.shown = true; save(); calc(); summary();
     requestAnimationFrame(function () { var t = $('tree'); reveal(t ? t.parentNode : $('resultSec')); });
   });

@@ -172,3 +172,40 @@ test('gold: each share in tola and grams, with an estimate at the site rate', as
 	assert.deepEqual(errors, []);
 	await ctx.close();
 });
+
+test('Urdu and Arabic digits give the same rupees as 0-9; a negative is flagged and not counted (FIX-110, FIX-111)', async () => {
+	const { ctx, errors, f } = await open(1100);
+	async function shares(cash) {
+		await f.fill('#askText', 'ek aadmi fout hua, biwi aur ek beta');
+		await f.click('#askGo');
+		await f.fill('#a-cash-amount', cash);
+		await f.click('#go');
+		await f.waitForSelector('#resultSec:not([hidden])');
+		const rows = await f.$$eval('#result table tr', (trs) => trs.map((tr) => [...tr.querySelectorAll('td')].map((td) => td.textContent.trim())).filter((r) => r.length));
+		return ['بیوی', 'بیٹا'].map((h) => rows.find((r) => r[0] === h)[2]);
+	}
+	const plain = await shares('1000000');
+	assert.deepEqual(plain, ['Rs 1,25,000', 'Rs 8,75,000']);
+	assert.deepEqual(await shares('۱۰,۰۰,۰۰۰'), plain, 'Urdu digits with lakh commas');
+	assert.deepEqual(await shares('١٠٠٠٠٠٠'), plain, 'Arabic digits');
+
+	await f.fill('#a-debts', '-500000');
+	assert.equal(await f.getAttribute('#a-debts', 'aria-invalid'), 'true');
+	assert.match(await f.textContent('#a-debts-err'), /منفی/);
+	await f.click('#go');
+	assert.match(await f.textContent('#goHint'), /درست کریں/);
+	assert.equal((await f.textContent('#result')).includes('Rs 8,75,000'), true, 'the negative debt is not counted');
+	await f.fill('#a-debts', '');
+	assert.equal(await f.getAttribute('#a-debts', 'aria-invalid'), null);
+	assert.equal(await f.locator('#a-debts-err').count(), 0);
+	assert.deepEqual(errors, []);
+	await ctx.close();
+});
+
+test('every box is 16px (no iOS zoom) and the question box has a label (FIX-112, FIX-145)', async () => {
+	const { ctx, f } = await open(360);
+	const small = await f.evaluate(() => [...document.querySelectorAll('input:not([type=checkbox]):not([type=radio]), select, textarea')].filter((e) => e.offsetParent && parseFloat(getComputedStyle(e).fontSize) < 16).map((e) => e.id || e.className));
+	assert.deepEqual(small, []);
+	assert.equal(await f.getAttribute('#askText', 'aria-labelledby'), 'h-q');
+	await ctx.close();
+});
