@@ -16,7 +16,7 @@
 		Header set Cache-Control "public, max-age=31536000, immutable"
 		Header unset Expires
 	</FilesMatch>
-	<FilesMatch "\.(png|svg|ico|webp|jpg)$">
+	<FilesMatch "\.(png|svg|ico|webp|jpg|woff2)$">
 		Header set Cache-Control "public, max-age=2592000"
 	</FilesMatch>
 	# Other sites paste embed.js with a fixed ?ver, so fixes must still reach them.
