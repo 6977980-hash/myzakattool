@@ -317,6 +317,37 @@
 	}
 	/* Page language on a widget root: lang for screen readers and fonts, dir for layout (FIX-055). */
 	function setLang(el) { el.lang = lang; el.dir = lang === 'ur' ? 'rtl' : 'ltr'; }
+	/** The text of an element as one line, with a space between its parts (for screen readers). */
+	function textOf(el) {
+		var out = [], w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+		while (w.nextNode()) { var v = w.currentNode.nodeValue.trim(); if (v) out.push(v); }
+		return out.join(' ');
+	}
+	/*
+	 * The small widgets get a polite live region like the calculator's (FIX-054, FIX-115). Call it
+	 * after the widget's own listeners: once the visitor types or picks something and pauses, the
+	 * result text from read() is spoken if it changed. Page load and rate refreshes stay silent.
+	 */
+	function speaker(root, read) {
+		var live = document.createElement('div'), timer = 0, last = read();
+		live.className = 'myzt-sr';
+		live.setAttribute('role', 'status');
+		live.setAttribute('aria-live', 'polite');
+		root.parentNode.insertBefore(live, root.nextSibling);
+		function check() {
+			clearTimeout(timer);
+			timer = setTimeout(function () {
+				var text = read();
+				if (!text || text === last) return;
+				last = text;
+				setLang(live);
+				live.textContent = text;
+			}, 900);
+		}
+		['input', 'change', 'click'].forEach(function (ev) { root.addEventListener(ev, check); });
+	}
+	/** The text of the first element matching sel inside root, or ''. */
+	function outText(root, sel) { var el = root.querySelector(sel); return el ? textOf(el) : ''; }
 	function unitGrams(u) { return u === 'tola' ? E.GRAMS_PER_TOLA : u === 'oz' ? E.GRAMS_PER_OZ : 1; }
 	/** Calendar file with one all-day event per date and a reminder 3 days before. */
 	function icsFile(name, title, dates) {
@@ -660,7 +691,7 @@
 			} else {
 				html += '<div class="myzt-note">' + esc(t('rateMissing')) + '</div>';
 			}
-			html += '<label class="myzt-small"><input type="checkbox" data-act="own"' + (st.own.on || !live ? ' checked' : '') + (live ? '' : ' disabled') + '> ' + esc(t('ownRate')) + '</label>';
+			html += '<label class="myzt-small myzt-check"><input type="checkbox" data-act="own"' + (st.own.on || !live ? ' checked' : '') + (live ? '' : ' disabled') + '> ' + esc(t('ownRate')) + '</label>';
 			if (st.own.on || !live) {
 				var ug = unitGrams(st.unit);
 				html += '<div class="myzt-own"><label class="myzt-small">' + esc(t('ownGold')) + ' ' + unitLabel(st.unit) + '<input class="myzt-inp" inputmode="decimal" data-own="gold" value="' + esc(plain(round2(st.own.gold * ug), st.currency)) + '"></label>' +
@@ -673,7 +704,7 @@
 			// Family members.
 			html += '<div class="myzt-people">' + st.persons.map(function (pp, i) {
 				return '<button type="button" class="myzt-person" data-person="' + i + '" aria-pressed="' + (i === st.active) + '">' + esc(pp.name || (i === 0 ? t('me') : t('personName') + ' ' + (i + 1))) + '</button>';
-			}).join('') + '<button type="button" class="myzt-link" data-act="add">' + esc(t('addPerson')) + '</button></div>';
+			}).join('') + '<button type="button" class="myzt-link myzt-add" data-act="add">' + esc(t('addPerson')) + '</button></div>';
 			if (st.active > 0) {
 				html += '<div class="myzt-row"><input class="myzt-inp" data-pname value="' + esc(p.name) + '" placeholder="' + esc(t('personName')) + '" aria-label="' + esc(t('personName')) + '"><button type="button" class="myzt-btn" data-act="rm">' + esc(t('remove')) + '</button></div>';
 			}
@@ -1040,6 +1071,7 @@
 		}
 		root.addEventListener('change', function (e) { if (e.target.dataset.cur !== undefined) { cur = e.target.value; render(); } });
 		render();
+		speaker(root, function () { return outText(root, 'tbody tr'); });
 		freshRates(render);
 	}
 
@@ -1056,6 +1088,7 @@
 		}
 		root.addEventListener('change', function (e) { if (e.target.dataset.cur !== undefined) { cur = e.target.value; render(); } });
 		render();
+		speaker(root, function () { var b = outText(root, 'tbody'); return b ? t('nisab') + ': ' + b : ''; });
 		freshRates(render);
 	}
 
@@ -1098,6 +1131,7 @@
 			if (b) { st.item = b.dataset.item; st.amount = preset() || st.amount; render(); }
 		});
 		render();
+		speaker(root, function () { return t('fitranaTotal') + ': ' + outText(root, '[data-out]'); });
 	}
 
 	function Fidya(root) {
@@ -1141,6 +1175,7 @@
 			if (b) { st.item = b.dataset.item; st.amount = preset() || st.amount; render(); }
 		});
 		render();
+		speaker(root, function () { return outText(root, '[data-out]'); });
 	}
 
 	function Khums(root) {
@@ -1186,6 +1221,7 @@
 		});
 		root.addEventListener('change', function (e) { if (e.target.dataset.cur !== undefined) { cur = e.target.value; render(); } });
 		render();
+		speaker(root, function () { return outText(root, '[data-out]'); });
 	}
 
 	function Hawl(root) {
@@ -1237,7 +1273,7 @@
 					return '<button type="button" data-hbasis="' + b + '" aria-pressed="' + (st.basis === b) + '">' + esc(t(b === 'gold' ? 'basisGold' : 'basisSilver')) + '</button>';
 				}).join('') + '</span><span class="myzt-help">' + esc(t('h_nisabNote')) + '</span></div>' +
 				'<div class="myzt-field"><label for="myzt-hn">' + esc(t('h_nisabNow')) + '</label><input class="myzt-inp" id="myzt-hn" inputmode="decimal" data-h="nisab" value="' + esc(plain(st.nisab || nisabNow(), cur)) + '"></div>' +
-				'<label class="myzt-small"><input type="checkbox" data-h="sub"' + (st.sub ? ' checked' : '') + '> ' + esc(t('h_sub')) + '</label>' +
+				'<label class="myzt-small myzt-check"><input type="checkbox" data-h="sub"' + (st.sub ? ' checked' : '') + '> ' + esc(t('h_sub')) + '</label>' +
 				(n ? '<p class="myzt-small">' + esc(t('h_oldest')) + '</p>' : '') + rows + '<div data-missed>' + (n ? missedOut() : '') + '</div></div>' +
 				'<div class="myzt-disc">' + esc(t('disc')) + '</div></div>';
 		}
@@ -1263,6 +1299,10 @@
 			if (e.target.closest('[data-act="ics"]') && st.start) icsFile('zakat-dates.ics', t('calTitle'), zakatDates(st.start, 5, today));
 		});
 		render();
+		speaker(root, function () {
+			var next = root.querySelector('[data-out] .myzt-line'), amt = root.querySelector('[data-missed] .myzt-amt');
+			return [next ? t('h_next') + ': ' + textOf(next) : '', amt ? t('h_missedTotal') + ': ' + textOf(amt) : ''].filter(Boolean).join('. ');
+		});
 		freshRates(function () { if (!st.nisab) render(); });
 	}
 
@@ -1323,6 +1363,7 @@
 		});
 		root.addEventListener('change', function (e) { if (e.target.dataset.cur !== undefined) { cur = e.target.value; render(); } });
 		render();
+		speaker(root, function () { return outText(root, '[data-out]'); });
 	}
 
 	function Mehr(root) {
@@ -1385,6 +1426,7 @@
 		});
 		root.addEventListener('change', function (e) { if (e.target.dataset.cur !== undefined) { cur = e.target.value; st.mine = 0; render(); } });
 		render();
+		speaker(root, function () { return [outText(root, '[data-mine]'), outText(root, '[data-metal-out]')].filter(Boolean).join('. '); });
 		freshRates(render);
 	}
 

@@ -27,7 +27,7 @@ function base() {
 
 // Site changes, each must match exactly once so a source edit cannot silently drop one.
 const SITE = [
-	['<title>Wirasat Shajra Prototype</title>', '<!doctype html>\n<html lang="ur" dir="rtl" data-theme="light">\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<meta name="robots" content="noindex">\n<script>try{if(localStorage.getItem("myzt_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>\n<title>وراثت کیلکولیٹر اور شجرہ</title>'],
+	['<title>Wirasat Shajra Prototype</title>', '<!doctype html>\n<html lang="ur" dir="rtl" data-theme="light">\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<meta name="robots" content="noindex">\n<script>try{var s=localStorage.getItem("myzt_theme");if(s==="dark"||(!s&&matchMedia("(prefers-color-scheme: dark)").matches))document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>\n<title>وراثت کیلکولیٹر اور شجرہ</title>'],
 	// The WordPress page has its own heading, and the frame sits on the page's white background.
 	['[hidden] { display: none !important; }', '[hidden] { display: none !important; }\n.wrap > header { display: none; }\nhtml, body { margin: 0; background: transparent !important; }\n/* The page around the frame does all vertical scrolling. A scrollbar here would flash on the left (RTL) and jerk the form each time a row is added before the frame grows. */\nhtml { overflow: hidden; }\n.wrap { padding-block: 4px 8px !important; }'],
 	// On the site the language comes only from ?lang= (the English or Urdu page), never from the preview's button.
