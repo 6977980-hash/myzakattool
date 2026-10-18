@@ -209,3 +209,29 @@ test('every box is 16px (no iOS zoom) and the question box has a label (FIX-112,
 	assert.equal(await f.getAttribute('#askText', 'aria-labelledby'), 'h-q');
 	await ctx.close();
 });
+
+test('English page (?lang=en): the whole calculator and its result are in English, left to right (FIX-114)', async () => {
+	const ctx = await browser.newContext({ viewport: { width: 1100, height: 900 } });
+	const page = await ctx.newPage();
+	const errors = [];
+	page.on('pageerror', (e) => errors.push(e.message));
+	await page.route(/fonts\.(googleapis|gstatic)\.com/, (r) => r.abort());
+	await page.goto(base + 'assets/wirasat/app.html?lang=en&rates=%2Ftests%2Fui%2Frates.json');
+	await page.click('#reset');
+	await page.click('#go');
+	await page.waitForSelector('#tree');
+	await page.evaluate(() => document.querySelectorAll('details').forEach((d) => { d.open = true; }));
+	await page.click('#istGo');
+	assert.deepEqual(await page.evaluate(() => [document.documentElement.lang, document.documentElement.dir]), ['en', 'ltr']);
+	const urdu = await page.evaluate(() => {
+		const out = [], tw = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+		let n;
+		while ((n = tw.nextNode())) if (/[؀-ۿ]/.test(n.nodeValue) && !n.parentElement.closest('script, style, header')) out.push(n.nodeValue.trim());
+		document.querySelectorAll('[placeholder], [aria-label], textarea').forEach((e) => { for (const v of [e.placeholder, e.getAttribute('aria-label'), e.value]) if (v && /[؀-ۿ]/.test(v)) out.push(v); });
+		return out;
+	});
+	assert.deepEqual(urdu, []);
+	assert.match(await page.textContent('#result'), /Each heir's share/);
+	assert.deepEqual(errors, []);
+	await ctx.close();
+});
