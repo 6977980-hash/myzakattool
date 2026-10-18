@@ -2,6 +2,7 @@
 //
 //   src/wirasat/app.src.html  the page: layout, form, shajra, PDF report (edit this)
 //   src/wirasat/ur.json       Urdu notes and reasons shown with the shares
+//   src/wirasat/en.json       the same in English, for the English page (?lang=en)
 //   assets/js/wirasat.js      the share engine (also used by the tests)
 //
 // Output: assets/wirasat/app.html, the page the [zakat_wirasat] shortcode shows in a frame.
@@ -20,7 +21,8 @@ const OUT = 'assets/wirasat/app.html';
 function base() {
 	return read('src/wirasat/app.src.html')
 		.replace('/*ENGINE*/', () => read('assets/js/wirasat.js'))
-		.replace('/*UR*/', () => read('src/wirasat/ur.json').trim());
+		.replace('/*UR*/', () => read('src/wirasat/ur.json').trim())
+		.replace('/*EN*/', () => read('src/wirasat/en.json').trim());
 }
 
 // Site changes, each must match exactly once so a source edit cannot silently drop one.

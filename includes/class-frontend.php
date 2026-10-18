@@ -372,7 +372,7 @@ class MYZT_Frontend {
 	}
 
 	/**
-	 * [zakat_wirasat madhab=""]: the Urdu inheritance calculator with the shajra and PDF report.
+	 * [zakat_wirasat madhab=""]: the inheritance calculator with the shajra and PDF report, in Urdu on Urdu pages and in English elsewhere.
 	 * It is a page of its own (assets/wirasat/app.html, built from src/wirasat/ by tools/build-wirasat.js)
 	 * shown in a frame, so the theme's styles cannot change the shajra. The frame grows to the
 	 * calculator's height, which the page reports with postMessage (assets/js/wirasat-frame.js).
@@ -380,10 +380,12 @@ class MYZT_Frontend {
 	public static function wirasat( $atts ) {
 		$a   = shortcode_atts( array( 'madhab' => '' ), $atts, 'zakat_wirasat' );
 		// rates: the frame shows each heir's gold and silver at today's cached rate (same site only).
-		$src = add_query_arg( array_filter( array( 'ver' => MYZAKATTOOL_VERSION, 'madhab' => sanitize_key( $a['madhab'] ), 'rates' => rawurlencode( rest_url( 'myzakattool/v1/rates' ) ) ) ), MYZAKATTOOL_URL . 'assets/wirasat/app.html' );
+		$ur  = MYZT_SEO::is_ur();
+		// The English page gets the English calculator (FIX-114); Urdu pages keep the Urdu one.
+		$src = add_query_arg( array_filter( array( 'ver' => MYZAKATTOOL_VERSION, 'madhab' => sanitize_key( $a['madhab'] ), 'lang' => $ur ? '' : 'en', 'rates' => rawurlencode( rest_url( 'myzakattool/v1/rates' ) ) ) ), MYZAKATTOOL_URL . 'assets/wirasat/app.html' );
 		self::enqueue();
 		wp_enqueue_script( 'myzt-wirasat-frame', MYZAKATTOOL_URL . 'assets/js/wirasat-frame.js', array(), MYZAKATTOOL_VERSION, array( 'in_footer' => true ) );
-		return '<div class="myzt myzt-wirasat alignwide"><iframe class="myzt-wirasat-frame" src="' . esc_url( $src ) . '" title="وراثت کیلکولیٹر اور شجرہ" loading="lazy" scrolling="no"></iframe></div>';
+		return '<div class="myzt myzt-wirasat alignwide"><iframe class="myzt-wirasat-frame" src="' . esc_url( $src ) . '" ' . ( $ur ? 'title="وراثت کیلکولیٹر اور شجرہ" lang="ur"' : 'title="Islamic inheritance calculator and family tree" lang="en"' ) . ' loading="lazy" scrolling="no"></iframe></div>';
 	}
 
 	/** [myzt_mehr type="fatimi|minimum" currency="PKR"] and [myzt_diyat type="notified|live"]: one number inside text. */
