@@ -24,7 +24,7 @@ function myzt_content_posts() {
 			'content' => <<<'HTML'
 [myzt_answer q="Who can receive zakat?"]The Quran (9:60) names eight groups: the poor (fuqara), the needy (masakin), zakat workers, those whose hearts are to be reconciled, freeing captives, people in debt, in the cause of Allah, and stranded travellers. Your own parents and children cannot receive your zakat, and a husband cannot give his to his wife; whether a wife may give hers to a poor husband is disputed.[/myzt_answer]
 <p>Working out how much zakat you owe is half the job. The other half is making sure it reaches someone who is allowed to take it, because zakat given to the wrong person does not count as paid. Here is the list from the Quran, followed by the people scholars agree you should not give to, and the most common mistakes.</p>
-<h2>The eight categories (masarif-e-zakat)</h2>
+<h2>Who are the 8 categories of zakat (masarif-e-zakat)?</h2>
 <blockquote><p>"Zakat is only for the poor, the needy, those employed to collect it, those whose hearts are to be reconciled, freeing captives, those in debt, in the cause of Allah, and the traveller: an obligation from Allah." (Surah at-Tawbah 9:60)</p></blockquote>
 <ol>
 <li><strong>Fuqara (the poor):</strong> in Hanafi fiqh, a person who does not own wealth at the nisab level beyond basic needs (home, clothes, household goods, tools of work). A salaried person can still be eligible if, after basic needs, they hold less than the nisab.</li>
@@ -36,7 +36,7 @@ function myzt_content_posts() {
 <li><strong>In the cause of Allah (fi sabilillah):</strong> in classical Hanafi fiqh, a needy person striving in Allah's path, including a poor student of religious knowledge.</li>
 <li><strong>Stranded travellers (ibn as-sabil):</strong> someone who has run out of money away from home, even if they are well off at home.</li>
 </ol>
-<h2>Who cannot receive your zakat</h2>
+<h2>Who cannot receive your zakat?</h2>
 <ul>
 <li><strong>Your parents and grandparents, children and grandchildren.</strong> You already have a duty to support them, so help them from your other money.</li>
 <li><strong>Your wife.</strong> A husband may not give his zakat to his wife. Whether a wife may give her zakat to a poor husband is disputed: Imam Abu Hanifa said no, while Imam Abu Yusuf, Imam Muhammad and the Shafi'i school allow it, based on the hadith of Zaynab, the wife of Ibn Mas'ud.</li>
@@ -80,17 +80,17 @@ HTML
 			'content' => <<<'HTML'
 [myzt_answer q="Is zakat due on jewellery?"]In the Hanafi madhab and according to the Saudi Permanent Committee (which our Ahl-e-Hadith calculator follows), yes, even if it is worn. In the Shafi'i, Maliki and Hanbali madhabs permissible jewellery that is worn is exempt. According to Ayatollah Sistani it is exempt today.[/myzt_answer]
 <p>Jewellery is where the schools differ most, and it is often the biggest item in a family's zakat. A woman with 10 tola of 22K gold could owe a large amount in one madhab and nothing in another. Below is what each school says, with the source we rely on, and then the practical questions: how to weigh it, what price to use and whose zakat it is.</p>
-<h2>Hanafi</h2>
+<h2>Is worn jewellery zakatable for Hanafis?</h2>
 <p>Zakat is due on gold and silver jewellery whether it is worn every day or kept in a locker. Darul Uloom Deoband: "Zakah is wajib on them though they are used daily" (Fatwa 2310/H=713/th=1431). The Hanafi view rests on hadith such as the woman whose daughter wore gold bangles, whom the Prophet ﷺ asked whether she paid their zakat (Abu Dawud 1563).</p>
-<h2>Shafi'i</h2>
+<h2>Is worn jewellery exempt for Shafi'is?</h2>
 <p>No zakat on permissible jewellery that is worn, as long as it stays within what is customary (around 860 g of gold is the guideline used by MUIS, Singapore, citing al-Majmu'). Jewellery kept as an investment, or men's gold, is zakatable.</p>
-<h2>Maliki and Hanbali</h2>
+<h2>What do the Maliki and Hanbali schools say?</h2>
 <p>Permissible jewellery that is used or lent out is exempt (Irsyad Fatwa 38 for the Maliki school; <em>Akhsar al-Mukhtasarat</em> for the Hanbali). Jewellery bought to hold value or to trade is zakatable.</p>
-<h2>Ahl-e-Hadith</h2>
+<h2>Is jewellery zakatable for Ahl-e-Hadith?</h2>
 <p>"The more correct view is that zakat on jewellery is obligatory if it reaches the nisab" (IslamQA 19901, citing the Permanent Committee). Our Ahl-e-Hadith calculator follows this view; we have not found a Pakistani Ahl-e-Hadith fatwa on it, so check with your own scholar.</p>
-<h2>Shia (Sistani)</h2>
+<h2>Is there zakat on jewellery in Shia fiqh (Sistani)?</h2>
 <p>Women's gold and silver ornaments are not zakatable while gold and silver are not used as currency (Islamic Laws, ruling 1916). Khums may still apply to jewellery bought from income on which khums was not paid; see the <a href="/khums-calculator/">khums calculator</a>.</p>
-<h2>How to value your jewellery</h2>
+<h2>How do you value jewellery for zakat?</h2>
 <ul>
 <li><strong>Count only the gold or silver.</strong> Stones, pearls, lacquer and beads are not zakatable unless you trade in them. If a set weighs 3 tola including stones, ask the jeweller for the gold weight or estimate it.</li>
 <li><strong>Use the purity.</strong> 22K is 91.7% pure gold, 21K is 87.5% and 18K is 75%. The calculator applies this when you choose the karat.</li>
@@ -124,7 +124,7 @@ HTML
 			'content' => <<<'HTML'
 [myzt_answer q="How much zakat on 1 tola of gold?"]Today 1 tola of 24K gold is worth about [myzt_rate type="gold-tola" currency="PKR"], so 2.5% is about [myzt_rate type="gold-tola-zakat" currency="PKR"]. For 22K gold it is about [myzt_rate type="gold22-tola-zakat" currency="PKR"]. Whether you actually owe it depends on what else you own.[/myzt_answer]
 <p>"1 tola par kitni zakat?" is one of the most searched zakat questions in Pakistan, and the honest answer has two parts: the amount, which is simple, and whether it is due at all, which depends on the rest of your wealth and your madhab.</p>
-<h2>The amount</h2>
+<h2>How much zakat on 1 tola of gold?</h2>
 <p>Zakat is one fortieth (2.5%) of the value. 1 tola is 11.664 g. For 24K gold multiply today's tola rate by 0.025. For 22K gold first multiply the 24K price by 22/24 (about 91.7%), because only the pure gold counts. The figures in the box above update with the international rate every hour.</p>
 <h2>Is zakat due on just 1 tola?</h2>
 <p><strong>If 1 tola of gold is all you own:</strong> no, in every Sunni school. It is below the gold nisab of 7.5 tola (87.48 g).</p>
@@ -136,14 +136,41 @@ HTML
 <p>A student has a 1 tola chain and no savings. Nothing is due, because 1 tola is below the 7.5 tola gold nisab and there is nothing else to add to it.</p>
 <h2>Example 3: several tola</h2>
 <p>For 5 tola multiply the 1 tola figure by five. Remember to subtract debts that are due now if your madhab allows it; the <a href="/hanafi-zakat-calculator/">Hanafi calculator</a> does this for you.</p>
-<p>Enter your own numbers in the <a href="/zakat-on-gold-calculator/">zakat on gold calculator</a>, or see today's <a href="/gold-rate-today/">gold rate</a> and <a href="/nisab/">nisab</a>.</p>
+<h2>Zakat on 1 to 50 tola gold today</h2>
+<p>The table below is worked out from today's international rate ([myzt_rate_date]). It shows the value of 24K gold and the zakat due on it, and the zakat on the same weight of 22K jewellery, where only the pure gold (91.7%) is counted.</p>
+[myzt_tola_table currency="PKR"]
+<p>The table gives the zakat on the gold alone. Whether it is due depends on the rest of your wealth and your madhab, as the sections above explain.</p>
+<h2>How much zakat on 10 tola gold?</h2>
+<p>Zakat on 10 tola (116.64 g) of 24K gold is 0.25 tola of gold, or its value, about ten times the 1 tola figure: see the 10 tola row above. 10 tola is above the gold nisab of 7.5 tola, so in every Sunni school zakat is due on it once a lunar year has passed, even if you own nothing else. The exception is jewellery that is worn: in the Shafi'i, Maliki and Hanbali madhabs it is exempt, while Hanafi and Ahl-e-Hadith scholars count it. For 10 tola of 22K jewellery the pure gold is 9.17 tola, still above the nisab.</p>
+<h2>How much zakat on 7.5 tola gold?</h2>
+<p>7.5 tola is exactly the gold nisab (87.48 g of pure gold). If you own 7.5 tola of 24K gold and nothing else, zakat is due on it: 2.5% of its value, shown in the 7.5 tola row. If the 7.5 tola is 22K jewellery, it contains only 6.875 tola of pure gold, which is below the gold nisab when counted alone; many Hanafi muftis, however, count the full weight of jewellery that is mostly gold, so ask your scholar. If you have even a little cash or savings as well, the Hanafi silver nisab applies and zakat is due on all of it.</p>
+<h2>Paying in gold or in money</h2>
+<p>You may give the zakat as gold (one fortieth of the weight: 0.025 tola, or about 0.29 g, for each tola) or as its value in money. Most people pay money, which is easier for the person receiving it. Use the market value of the gold on your zakat date, not the price you paid.</p>
+<h2>1 tola in grams, masha and ratti</h2>
+<figure class="wp-block-table"><table><thead><tr><th>Unit</th><th>Equals</th></tr></thead><tbody>
+<tr><td>1 tola</td><td>11.664 g = 12 masha = 96 ratti</td></tr>
+<tr><td>1 masha</td><td>0.972 g = 8 ratti</td></tr>
+<tr><td>1 ratti</td><td>0.1215 g</td></tr>
+<tr><td>Zakat on 1 tola</td><td>0.025 tola = 0.29 g (about 2.4 ratti)</td></tr>
+</tbody></table></figure>
+<h2>Common mistakes</h2>
+<ul>
+<li><strong>Using the purchase price.</strong> Zakat is on today's value on your zakat date.</li>
+<li><strong>Counting 22K or 21K jewellery as 24K.</strong> Only the pure gold counts; choose the karat in the calculator.</li>
+<li><strong>Adding stones and making charges.</strong> These are not gold and are not counted.</li>
+<li><strong>Forgetting the rest of your wealth.</strong> In the Hanafi madhab a small amount of gold with some savings usually makes zakat due on both.</li>
+<li><strong>Paying for the wrong person.</strong> Zakat is due from the owner of the gold, often the wife, not the husband.</li>
+</ul>
+<p>Enter your own numbers in the <a href="/zakat-on-gold-calculator/">zakat on gold calculator</a>, or see today's <a href="/gold-rate-today/">gold rate</a> and <a href="/nisab/">nisab</a>. In Urdu, read <a href="/zakat-on-gold-urdu/">سونے پر زکوٰۃ</a>.</p>
 [myzt_faq]
 HTML
 			. $author . '[myzt_related slugs="zakat-on-gold-calculator,gold-rate-today,nisab,zakat-on-1-lakh-rupees"]',
 			'faq'     => array(
 				array( 'q' => 'Is zakat due on 1 tola gold?', 'a' => 'Only if, together with your cash and other zakatable wealth, you are above the nisab (in the Hanafi view, the silver nisab). 1 tola alone is below the gold nisab.' ),
 				array( 'q' => '1 tola mein kitne gram hote hain?', 'a' => '1 tola 11.664 gram ka hota hai.' ),
-				array( 'q' => 'How much zakat on 10 tola gold?', 'a' => 'Ten times the 1 tola figure above, if the year has passed and you are above the nisab.' ),
+				array( 'q' => 'How much zakat on 10 tola gold?', 'a' => 'A quarter tola of gold (0.25 tola) or its value, about ten times the 1 tola figure; see the 10 tola row in the table. 10 tola is above the 7.5 tola gold nisab, so it is due once the year has passed, unless it is worn jewellery and you follow the Shafi\'i, Maliki or Hanbali madhab.' ),
+				array( 'q' => '1 tola sone ki zakat kitni hoti hai?', 'a' => '1 tola sone ki aaj ki qeemat ka 2.5%, yani chalisvan hissa. Upar table mein 1 se 50 tola tak aaj ke rate se zakat di gayi hai. Agar sirf 1 tola sona ho aur kuch aur maal na ho to zakat farz nahi.' ),
+				array( 'q' => '10 tola sone par kitni zakat hai?', 'a' => 'Paa tola (0.25 tola) sona ya us ki qeemat. Table mein 10 tola wali line dekhein.' ),
 			),
 		),
 
@@ -193,14 +220,30 @@ HTML
 			'content' => <<<'HTML'
 [myzt_answer q="Do banks deduct zakat in Pakistan?"]Yes. Under Pakistan's Zakat and Ushr Ordinance 1980, banks deduct 2.5% on 1 Ramadan from savings and similar accounts whose balance is at or above the nisab announced by the government for that year. Current accounts are not deducted.[/myzt_answer]
 <p>Every year, the first day of Ramadan brings the same question in family WhatsApp groups: the bank cut money from my account, is my zakat paid? The short answer is that the deduction counts towards your zakat, but it rarely covers all of it.</p>
-<h2>Which accounts are affected</h2>
+<h2>Which bank accounts are deducted?</h2>
 <ul>
 <li>Savings and profit-and-loss sharing accounts, term deposits and some government savings certificates held by Muslim citizens.</li>
 <li>Only if the balance on 1 Ramadan is at or above the deduction nisab the government notifies shortly before Ramadan.</li>
 <li>Current accounts, and accounts of non-Muslims, are not deducted.</li>
 </ul>
+[myzt_official type="bank-nisab"]
 <h2>Exemption: the CZ-50 declaration</h2>
 <p>A Muslim who is exempt on grounds of their fiqh, most commonly followers of Fiqh-e-Jafaria, can submit a CZ-50 declaration to the bank. It is an affidavit on stamp paper, attested as the bank requires, and it must reach the bank before Ramadan; banks usually ask for it a few weeks early. Ask your branch for its current form and deadline. Our PDF report is a personal estimate and cannot be used for this or any other official purpose.</p>
+<h3>How to file the CZ-50 form, step by step</h3>
+<ol>
+<li><strong>Get the format</strong> from your bank's branch or website. Banks, the National Savings Centres, mutual funds and insurers each publish the same CZ-50 text under the Zakat and Ushr Ordinance 1980.</li>
+<li><strong>Print it on stamp paper.</strong> Most banks ask for Rs 50 stamp paper; check what your bank accepts.</li>
+<li><strong>Fill it in:</strong> your name, father's or husband's name, CNIC number, address, the account or certificate numbers, and the fiqh you follow.</li>
+<li><strong>Sign it before an oath commissioner or notary,</strong> with two witnesses if the format asks for them.</li>
+<li><strong>Submit the original to each institution</strong> that holds your money: one for each bank, and separate ones for savings certificates, funds and insurance. Some banks also accept it through their app or online banking.</li>
+<li><strong>Keep the acknowledgement.</strong> The State Bank tells banks to stamp, date and sign a photocopy for you; it is your proof if zakat is deducted by mistake.</li>
+</ol>
+<h3>CZ-50 deadline for Ramadan 2027</h3>
+<p>The deduction is made on the balance of 1 Ramadan 1448, expected around 8 February 2027. The declaration has to be on the bank's record before that day, and banks need time to mark the account, so file it in December or early January rather than in the last week. Your branch can tell you its own cut-off date. If zakat was deducted although you had filed in time, ask the bank for a refund with your acknowledged copy.</p>
+<p>Not eligible for CZ-50 but want to pay zakat yourself? Keeping savings in a current account avoids the automatic deduction; then pay your full zakat on your own date.</p>
+<h2>Bank nisab in past years</h2>
+[myzt_history type="bank-nisab"]
+<p>This figure only decides whether an account is deducted. Your own zakat uses the shar'i nisab on your zakat date; see <a href="/nisab/">nisab today</a> for the difference, and <a href="/zakat-2027-pakistan/">zakat 2027 Pakistan</a> for this season's dates.</p>
 <h2>Do I have to pay zakat again?</h2>
 <p>You pay the difference. Calculate your full zakat on all your wealth, then subtract what the bank already deducted. In our calculator, tap <strong>Already paid</strong> and enter the bank's deduction: it shows what is still left to pay. The bank looks at one account, on one fixed date, with the government's nisab. Your own zakat covers gold, cash at home, other accounts and business assets, on your own zakat date.</p>
 <h2>Example</h2>
@@ -220,6 +263,8 @@ HTML
 				array( 'q' => 'Is the bank deduction my full zakat?', 'a' => 'Usually not. It covers only that account. Calculate your total zakat and subtract the bank deduction.' ),
 				array( 'q' => 'Kya current account se zakat katti hai?', 'a' => 'Nahi. Bank sirf savings aur munafa wale accounts se 1 Ramazan ko zakat kaat-te hain.' ),
 				array( 'q' => 'Can I use the PDF from this site for CZ-50?', 'a' => 'No. It is a personal estimate, not an official or legal document.' ),
+				array( 'q' => 'What is the CZ-50 form?', 'a' => 'A sworn declaration under the Zakat and Ushr Ordinance 1980, on stamp paper, by which a Muslim exempt on grounds of fiqh asks the bank not to deduct zakat. It must reach each bank before 1 Ramadan.' ),
+				array( 'q' => 'CZ-50 form kab tak jama karana hai?', 'a' => '1 Ramazan se pehle, jab bank account ka balance dekhta hai. Ramazan 2027 ke liye December ya January ke shuru mein jama kara dein aur apni branch se un ki aakhri tareekh pooch lein.' ),
 			),
 		),
 	);
