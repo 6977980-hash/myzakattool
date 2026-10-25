@@ -526,7 +526,7 @@ class MYZT_SEO {
 		$html = '<nav class="myzt-crumb" aria-label="Breadcrumb" style="font-size:13px;margin:0 0 12px;color:#5d736e">';
 		$last = count( $c ) - 1;
 		foreach ( $c as $i => $item ) {
-			$html .= $i === $last ? '<span aria-current="page">' . esc_html( $item[0] ) . '</span>' : '<a href="' . esc_url( $item[1] ) . '">' . esc_html( $item[0] ) . '</a> › ';
+			$html .= $i === $last ? '<span aria-current="page">' . esc_html( $item[0] ) . '</span>' : '<a href="' . esc_url( $item[1] ) . '" style="display:inline-block;padding:4px 0">' . esc_html( $item[0] ) . '</a> › ';
 		}
 		return $html . '</nav>' . $content;
 	}

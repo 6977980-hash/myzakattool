@@ -606,3 +606,61 @@ test('the zakat date tool says when a due date has already passed (FIX-223)', as
 	assert.equal(await h.locator('[data-out] .myzt-note').count(), 0);
 	await ctx.close();
 });
+
+// Phase 4 (UX, 25 Oct audit).
+test('on a 375 px phone: no "Rs 0" bar before input, madhab comparison as cards, short placeholder (FIX-224)', async () => {
+	const { page, ctx, errors } = await open({ viewport: { width: 375, height: 800 } });
+	const c = calc(page);
+	assert.ok(await page.locator('.myzt-sticky').isHidden(), 'sticky bar hidden on first load');
+	assert.equal(await page.evaluate(() => document.body.classList.contains('myzt-has-sticky')), false);
+	assert.match(await c.locator('input[data-quick]').getAttribute('placeholder'), /^e\.g\./);
+	await enter(page, 'cash', { kind: 'money', key: 'cash' }, 500000);
+	assert.ok(await page.locator('.myzt-sticky').isVisible(), 'sticky bar shown once a figure is entered');
+	await c.locator('[data-act="compare"]').click();
+	const row = c.locator('.myzt-cmp tbody tr').first();
+	assert.equal(await row.evaluate((e) => getComputedStyle(e).display), 'flex');
+	// The zakat cell comes right after the madhab name and fits the screen.
+	const boxes = await row.locator('td').evaluateAll((tds) => tds.map((td) => ({ cls: td.className, top: td.getBoundingClientRect().top, right: td.getBoundingClientRect().right })));
+	boxes.sort((a, b) => a.top - b.top);
+	assert.equal(boxes[0].cls, 'm');
+	assert.equal(boxes[1].cls, 'z');
+	assert.ok(boxes.every((b) => b.right <= 375), 'no cell runs past the screen');
+	assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= 375), 'no sideways page scroll');
+	assert.deepEqual(errors, []);
+	await ctx.close();
+});
+
+test('a huge amount is flagged and not counted; fitrana people must be whole numbers (FIX-211)', async () => {
+	const { page, ctx } = await open();
+	const c = calc(page);
+	await enter(page, 'cash', { kind: 'money', key: 'cash' }, '999999999999999');
+	assert.equal(await c.locator('input[data-money="cash"]').getAttribute('aria-invalid'), 'true');
+	assert.match(await c.locator('.myzt-err').textContent(), /check this number/);
+	assert.equal(await amount(page), 0);
+	const f = page.locator('.myzt-fitrana');
+	const people = f.locator('input[data-f="persons"]');
+	await people.fill('2.5');
+	assert.match(await f.locator('.myzt-err').textContent(), /whole number/);
+	await people.fill('-1');
+	assert.equal(await people.getAttribute('aria-invalid'), 'true');
+	await people.fill('3');
+	assert.equal(await f.locator('.myzt-err').count(), 0);
+	assert.equal(digits(await f.locator('[data-out]').textContent()), 900);
+	await ctx.close();
+});
+
+test('tools share the currency picked in any of them; fitrana outside PKR offers kg × local price (FIX-230)', async () => {
+	const { page, ctx } = await open({ timezoneId: 'America/New_York' });
+	const f = page.locator('.myzt-fitrana');
+	assert.equal(await f.locator('select[data-cur]').inputValue(), 'USD');
+	assert.match(await f.textContent(), /about 2 kg of wheat/);
+	await f.locator('input[data-f="kg"]').fill('1.5');
+	assert.equal(await f.locator('input[data-f="amount"]').inputValue(), '3');
+	await calc(page).locator('[data-act="ctx"]').click();
+	await calc(page).locator('select[data-set="currency"]').selectOption('GBP');
+	await page.reload();
+	await page.waitForFunction(() => [...document.querySelectorAll('.myzt[data-widget]')].every((e) => e.children.length));
+	assert.equal(await page.locator('.myzt-fitrana select[data-cur]').inputValue(), 'GBP');
+	assert.equal(await page.locator('.myzt-khums select[data-cur]').inputValue(), 'GBP');
+	await ctx.close();
+});

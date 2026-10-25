@@ -63,7 +63,8 @@
 .myzt-table th{font-size:12.5px;color:var(--z-mute);font-weight:600}
 .myzt-table tr.sel{background:var(--z-teal2)}
 .myzt-table td.z{font-weight:700;white-space:nowrap}
-.myzt-scroll{overflow-x:auto}
+/* Tables wider than the screen scroll sideways; a soft shadow on the cut edge shows there is more (FIX-224). */
+.myzt-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;background:linear-gradient(to right,var(--z-card) 30%,rgba(255,255,255,0)) left center/32px 100% no-repeat local,linear-gradient(to left,var(--z-card) 30%,rgba(255,255,255,0)) right center/32px 100% no-repeat local,radial-gradient(farthest-side at 0 50%,rgba(0,0,0,.2),rgba(0,0,0,0)) left center/12px 100% no-repeat scroll,radial-gradient(farthest-side at 100% 50%,rgba(0,0,0,.2),rgba(0,0,0,0)) right center/12px 100% no-repeat scroll}
 .myzt-cmp{margin-top:20px}
 .myzt-cmp-h{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
 .myzt-trust{display:flex;gap:8px;flex-wrap:wrap;font-size:13px;color:var(--z-acc);margin:0 0 14px;padding:0;list-style:none}
@@ -81,7 +82,7 @@
 .myzt-answer .k{font-size:12px;color:var(--z-teal);font-weight:700;letter-spacing:.5px;text-transform:uppercase}
 .myzt-related{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0 24px}
 .myzt-related a{background:var(--z-card);border:1px solid var(--z-line);border-radius:10px;padding:12px;font-size:14px;font-weight:600;text-decoration:none;color:var(--z-ink)}
-.myzt-related a small{display:block;color:var(--z-mute);font-weight:400}
+.myzt-related a small{display:block;color:var(--z-mute);font-weight:400;font-size:13px;line-height:1.4;margin-top:2px}
 .myzt-related a:hover{border-color:var(--z-teal)}
 /* Ad slots: fixed height so nothing shifts; no border, label or colour, so an unfilled slot is just empty space. */
 .myzt-ad{display:block;width:100%;margin:24px 0;overflow:hidden;text-align:center;clear:both}
@@ -138,8 +139,8 @@
 .myzt-ur th,.myzt-ur td{text-align:right}
 /* Phase 7 (accessibility): links in tables on the light teal row reach 4.5:1 (FIX-052); */
 .myzt-table a{color:var(--z-acc)}
-/* a 20 px checkbox instead of the browser's 13 px (FIX-053); */
-.myzt input[type="checkbox"]{width:20px;height:20px;margin:0 6px 0 0;vertical-align:middle;accent-color:var(--z-teal)}
+/* a 24 px checkbox instead of the browser's 13 px (FIX-053, FIX-210); */
+.myzt input[type="checkbox"]{width:24px;height:24px;flex:0 0 24px;margin:0 6px 0 0;vertical-align:middle;accent-color:var(--z-teal)}
 .myzt[dir="rtl"] input[type="checkbox"]{margin:0 0 0 6px}
 /* the screen-reader-only live region for the calculator total (FIX-054). */
 .myzt-sr{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
@@ -158,3 +159,17 @@ html[lang=ur] .full-width-content .entry-content .myzt.alignwide{margin-right:0}
 .myzt-people .myzt-add{display:inline-flex;align-items:center;min-height:44px;padding:0 6px}
 .myzt-pdfrow{background:none;margin:8px 0 16px}
 .myzt-ask b{display:block;margin-bottom:6px}
+/* Phase 4 (UX, 25 Oct audit). On phones the madhab comparison is one card per madhab, the zakat amount right under the
+   madhab name, so nothing is cut at "Rs 73..." (FIX-224). */
+@media (max-width:480px){
+	.myzt-cmp .myzt-scroll{overflow:visible;background:none}
+	.myzt-cmp .myzt-table thead{display:none}
+	.myzt-cmp .myzt-table,.myzt-cmp .myzt-table tbody{display:block}
+	.myzt-cmp .myzt-table tr{display:flex;flex-direction:column;border:1px solid var(--z-line);border-radius:10px;padding:6px 12px;margin:8px 0}
+	.myzt-cmp .myzt-table td{display:flex;justify-content:space-between;gap:12px;padding:5px 0;border-bottom:1px dashed var(--z-line);text-align:end}
+	.myzt-cmp .myzt-table td:last-child{border-bottom:0}
+	.myzt-cmp .myzt-table td::before{content:attr(data-l);color:var(--z-mute);font-size:12.5px;font-weight:400;text-align:start}
+	.myzt-cmp .myzt-table td.m{order:-2;justify-content:flex-start;font-weight:700;color:var(--z-acc)}
+	.myzt-cmp .myzt-table td.m::before{content:none}
+	.myzt-cmp .myzt-table td.z{order:-1;white-space:normal;font-size:16px}
+}
