@@ -335,18 +335,38 @@ class MYZT_Frontend {
 		return self::widget( 'ushr', array() );
 	}
 
-	/** [myzt_embed_code currency="PKR"]: live preview of the embeddable widget plus the code to copy. */
+	/**
+	 * [myzt_embed_code currency="PKR" presets="GBP,USD"]: live preview of the embeddable widget plus the code to copy,
+	 * with a ready-made copy for each preset currency (SUG-03: mosques in Pakistan, the UK and elsewhere).
+	 */
 	public static function embed_code( $atts ) {
-		$a    = shortcode_atts( array( 'currency' => 'PKR' ), $atts, 'myzt_embed_code' );
-		$cur  = strtoupper( preg_replace( '/[^A-Za-z]/', '', $a['currency'] ) );
-		$src  = MYZAKATTOOL_URL . 'assets/js/embed.js?ver=' . MYZAKATTOOL_VERSION;
-		$code = '<div data-myzt-embed data-currency="' . $cur . '"></div>' . "\n" .
-			'<script src="' . $src . '" async></script>' . "\n" .
-			'<p style="font-size:12px">Nisab by <a href="' . home_url( '/nisab/' ) . '">My Zakat Tool</a></p>';
+		$a      = shortcode_atts( array( 'currency' => 'PKR', 'presets' => '' ), $atts, 'myzt_embed_code' );
+		$labels = array( 'PKR' => 'Masjid in Pakistan (rupees)', 'GBP' => 'Masjid in the UK (pounds)', 'USD' => 'Masjid in the US (dollars)', 'INR' => 'Masjid in India (rupees)', 'AED' => 'Masjid in the UAE (dirham)', 'SAR' => 'Masjid in Saudi Arabia (riyal)', 'CAD' => 'Masjid in Canada (dollars)', 'EUR' => 'Masjid in Europe (euro)' );
+		$list   = array( strtoupper( preg_replace( '/[^A-Za-z]/', '', $a['currency'] ) ) );
+		foreach ( explode( ',', $a['presets'] ) as $c ) {
+			$c = strtoupper( preg_replace( '/[^A-Za-z]/', '', $c ) );
+			if ( 3 === strlen( $c ) && ! in_array( $c, $list, true ) ) {
+				$list[] = $c;
+			}
+		}
+		$src   = MYZAKATTOOL_URL . 'assets/js/embed.js?ver=' . MYZAKATTOOL_VERSION;
+		$code  = function ( $cur ) use ( $src ) {
+			return '<div data-myzt-embed data-currency="' . $cur . '"></div>' . "\n" .
+				'<script src="' . $src . '" async></script>' . "\n" .
+				'<p style="font-size:12px">Nisab by <a href="' . home_url( '/nisab/' ) . '">My Zakat Tool</a></p>';
+		};
+		$boxes = '';
+		$areas = '';
+		foreach ( $list as $i => $cur ) {
+			$id     = $i ? 'myzt-embed-code-' . strtolower( $cur ) : 'myzt-embed-code';
+			$label  = isset( $labels[ $cur ] ) ? $labels[ $cur ] : $cur;
+			$boxes .= $i ? '<div data-myzt-embed data-currency="' . esc_attr( $cur ) . '"></div>' : $code( $cur );
+			$areas .= '<p><label for="' . $id . '"><strong>' . ( count( $list ) > 1 ? esc_html( $label ) . ': copy this code' : 'Copy this code:' ) . '</strong></label></p>' .
+				'<textarea id="' . $id . '" readonly rows="4" style="width:100%;font:13px monospace;padding:10px;border:1px solid #6b8a83;border-radius:8px" onclick="this.select()">' . esc_textarea( $code( $cur ) ) . '</textarea>';
+		}
 		self::enqueue();
-		return '<div class="myzt myzt-embed-demo">' . $code . '<p><label for="myzt-embed-code"><strong>Copy this code:</strong></label></p>' .
-			'<textarea id="myzt-embed-code" readonly rows="4" style="width:100%;font:13px monospace;padding:10px;border:1px solid #6b8a83;border-radius:8px" onclick="this.select()">' . esc_textarea( $code ) . '</textarea>' .
-			'<p class="myzt-small">Change <code>data-currency="' . esc_html( $cur ) . '"</code> to USD, GBP, SAR, AED, INR, BDT or any of about 50 currencies.</p></div>';
+		return '<div class="myzt myzt-embed-demo"><div style="display:flex;flex-wrap:wrap;gap:12px">' . $boxes . '</div>' . $areas .
+			'<p class="myzt-small">Change <code>data-currency="' . esc_html( $list[0] ) . '"</code> to USD, GBP, SAR, AED, INR, BDT or any of about 50 currencies.</p></div>';
 	}
 
 	public static function fidya() {

@@ -461,7 +461,7 @@ class MYZT_SEO {
 					'operatingSystem'     => 'Any',
 					'browserRequirements' => 'Requires JavaScript',
 					'isAccessibleForFree' => true,
-					'inLanguage'          => 'zakat_wirasat' === $tool[1] ? 'ur' : array( 'en', 'ur' ), // The inheritance calculator is in Urdu only.
+					'inLanguage'          => 'zakat_wirasat' === $tool[1] ? ( self::is_ur() ? 'ur' : 'en' ) : array( 'en', 'ur' ), // The inheritance calculator is English on /wirasat-calculator/ and Urdu on the Urdu page (FIX-205).
 					'offers'              => array(
 						'@type'         => 'Offer',
 						'price'         => '0',
