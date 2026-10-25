@@ -196,6 +196,8 @@ HTML
 <p>Both methods are recognised. If you follow a particular mufti or darul ifta, use their method. If you have no guidance and gold has risen, using today's price is the more cautious choice. The missed-years section of the <a href="/zakat-date-calculator/">zakat date calculator</a> works in money, so enter each year's wealth already converted at the price you have chosen.</p>
 <h3>Which nisab for old years?</h3>
 <p>The nisab was lower in rupees in earlier years, especially the silver nisab. The calculator fills in today's silver nisab (currently [myzt_rate type="nisab-silver" currency="PKR"]) and lets you edit it. If a year's wealth was close to the line, change the figure to that year's nisab; otherwise a year when you really owed zakat might show as zero. For gold-only wealth, Hanafi scholars apply the gold nisab of 7.5 tola, which today is [myzt_rate type="nisab-gold" currency="PKR"].</p>
+<p>To make that easier, the table below gives the nisab of each past year from that year's average gold and silver prices. In the calculator, choose rupees or US dollars and press <strong>Fill each year's nisab from past prices</strong>: it puts the right year's figure next to each missed year. A year's average can differ by a few percent from the price on your own zakat date, so if a year's wealth was very close to the line, check that day's rate.</p>
+[myzt_nisab_history]
 <h2>Does last year's unpaid zakat reduce this year's?</h2>
 <p>This point can make a real difference over several years, and the schools approach it differently.</p>
 <h3>The Hanafi view</h3>
@@ -731,8 +733,16 @@ HTML
 <tr><td>76 to 90</td><td>2 bint labun</td></tr>
 <tr><td>91 to 120</td><td>2 hiqqa</td></tr>
 </tbody></table></figure>
-<p><strong>Above 120 camels the schools differ.</strong> The Shafi'i and Hanbali schools follow the wording of Abu Bakr's letter: one bint labun for every 40 and one hiqqa for every 50. The Hanafi school starts the count again with goats and young camels on top of the 2 hiqqa, based on narrations from Ali and Ibn Mas'ud. The Maliki school has its own view on the range just above 120. Few families in Pakistan own herds this size, so our calculator stops at 120; if you do, ask a scholar of your madhab.</p>
-
+<p><strong>Above 120 camels the schools differ.</strong> The Shafi'i and Hanbali schools follow the wording of Abu Bakr's letter: one bint labun for every 40 and one hiqqa for every 50. The Hanafi school starts the count again with goats and young camels on top of the 2 hiqqa, based on narrations from Ali and Ibn Mas'ud. For 121 to 129 camels some Maliki scholars let the owner choose between 3 bint labun and 2 hiqqa. The livestock calculator now works these out for herds of any size: choose Hanafi, the other Sunni schools, or Ja'fari above the animal boxes.</p>
+<figure class="wp-block-table"><table><thead><tr><th>Camels</th><th>Shafi'i, Hanbali, Maliki, Ahl-e-Hadith</th><th>Hanafi (al-Hidayah)</th></tr></thead><tbody>
+<tr><td>121</td><td>3 bint labun</td><td>2 hiqqa</td></tr>
+<tr><td>125</td><td>3 bint labun</td><td>2 hiqqa + 1 goat</td></tr>
+<tr><td>130</td><td>2 bint labun + 1 hiqqa</td><td>2 hiqqa + 2 goats</td></tr>
+<tr><td>145</td><td>1 bint labun + 2 hiqqa</td><td>2 hiqqa + 1 bint makhad</td></tr>
+<tr><td>150</td><td>3 hiqqa</td><td>3 hiqqa</td></tr>
+<tr><td>186</td><td>4 bint labun</td><td>3 hiqqa + 1 bint labun</td></tr>
+<tr><td>200</td><td>4 hiqqa (or 5 bint labun)</td><td>4 hiqqa</td></tr>
+</tbody></table></figure>
 <h2>Which animal to give: age and quality</h2>
 <p>The animal you give should be of middle quality: not the best of your herd and not the worst. When the Prophet ﷺ sent Mu'adh to Yemen he told him, "beware of taking the best of their wealth" (Bukhari 1496). Abu Bakr's letter in turn says the collector should not take an old animal, one with a defect (such as a one-eyed animal), or the breeding male, unless the owner chooses to give it.</p>
 <ul>
@@ -782,7 +792,7 @@ HTML
 <p>A trader has 50 bakray bought for the Eid market when his zakat date comes, with an example market value of Rs 60,000 each. They are trade goods worth Rs 30,00,000, so zakat is 2.5% of that, Rs 75,000, added to the rest of his business zakat. The goat table does not apply.</p>
 
 <h2>A note on Shia Ja'fari rules</h2>
-<p>Ja'fari fiqh, as set out by Ayatollah Sistani, also requires zakat on grazing camels, cows and sheep that are not working animals and have been owned for a year, with similar but not identical tables. For example, sheep have an extra step: 301 to 399 sheep owe 4. Our calculator follows the Sunni tables, so followers of Ayatollah Sistani should check his <em>Islamic Laws</em> on sistani.org or ask his office.</p>
+<p>Ja'fari fiqh, as set out by Ayatollah Sistani, also requires zakat on grazing camels, cows and sheep that are not working animals and have been owned for a year, with similar but not identical tables. There are three differences from the Sunni tables: 25 camels give 5 goats and the young she-camel (bint makhad) starts at 26; 301 to 399 sheep or goats give 4, not 3; and above 120 camels the count is a bint labun per 40 or a hiqqa per 50. Cows are the same. The animals must graze freely for the whole year. Choose <em>Ja'fari (Sistani)</em> in the livestock calculator to apply these, and check his <em>Islamic Laws</em> on sistani.org or ask his office for anything unusual.</p>
 
 <h2>Common mistakes</h2>
 <ul>
@@ -817,9 +827,9 @@ HTML
 		),
 
 		'zakat-on-savings-certificates' => array(
-			'title'   => 'Zakat on Savings Certificates: NSC, DSC, Behbood and Prize Bonds',
-			'seo'     => 'Zakat on NSC, Behbood & DSC {year}: Deduction Rules',
-			'desc'    => 'Zakat on NSC, DSC and Behbood certificates in Pakistan: which schemes are deducted at source, which are exempt, the profit question and how not to pay twice.',
+			'title'   => 'Zakat on Savings Certificates: NSC, DSC, Behbood, Sukuk and Prize Bonds',
+			'seo'     => 'Zakat on NSC, Behbood, DSC & Sukuk {year}: Deduction Rules',
+			'desc'    => 'Zakat on NSC, DSC, Behbood and sukuk in Pakistan: which schemes are deducted at source, which are exempt, the profit question and how not to pay twice.',
 			'nav'     => 'Zakat on certificates',
 			'blurb'   => 'NSC, Behbood zakat',
 			'content' => <<<'HTML'
@@ -870,6 +880,21 @@ HTML
 <p>Follow the scholar you normally follow for halal and haram questions. If you hold View 1, enter only the principal in the calculator and give away the interest separately. If you hold View 2, enter the encashment value (principal plus accrued profit). If you are unsure, ask your scholar; the difference on large holdings can be significant, and the question of what to do with past interest matters more than the zakat figure.</p>
 <h3>Sarwa Islamic schemes</h3>
 <p>CDNS presents its Sarwa Islamic Savings and Term Accounts as shariah-compliant, invested in government projects under the supervision of a Sharia board. If you accept that structure, the profit is halal income, so it is simply your wealth: count the principal and any accrued, payable profit on your zakat date.</p>
+
+<h2>Sukuk: government Ijara Sukuk, Energy Sukuk and sukuk funds</h2>
+<p>A sukuk is not a loan certificate. It is a share in assets (for government Ijara Sukuk, assets the state has leased back, such as a motorway section or an airport), and the "profit" is your share of the rent. That is why sukuk are bought by people who avoid DSC and Behbood. For zakat, scholars treat them by what you hold them for:</p>
+<ul>
+<li><strong>Held to sell</strong> (trading sukuk on PSX or through your bank before maturity): count the market value on your zakat date, like trade goods.</li>
+<li><strong>Held to maturity for the rental income:</strong> the simple and safe way, used by most people and our calculator, is to count the face value (or the current market value, if lower) with your cash. The AAOIFI Shari'ah standard on zakat (No. 35) and some scholars allow counting only the zakatable part of the underlying assets, since leased buildings and roads are not zakatable themselves, plus the rent you hold; ask your scholar before using that lower figure.</li>
+<li><strong>Sukuk and Islamic income funds</strong> (mutual funds): count the redemption value of your units on your zakat date. Many Pakistani funds say in their offering documents that zakat is deducted from Muslim unit holders under the Zakat and Ushr Ordinance unless a CZ-50 is filed; check your fund statement and enter any deduction under Already paid.</li>
+</ul>
+<figure class="wp-block-table"><table><thead><tr><th>Instrument</th><th>Zakat deducted at source?</th><th>What to count</th></tr></thead><tbody>
+<tr><td>Government of Pakistan Ijara Sukuk (bank or IPS account, PSX)</td><td>Check your bank or broker statement</td><td>Face value, or market value if you trade them</td></tr>
+<tr><td>Pakistan Energy Sukuk</td><td>Check your statement</td><td>Face value, or market value if you trade them</td></tr>
+<tr><td>Sukuk and Islamic income funds</td><td>Often, under the Ordinance (see the fund's documents)</td><td>Redemption value of your units</td></tr>
+<tr><td>Corporate sukuk</td><td>Check your statement</td><td>Market value</td></tr>
+</tbody></table></figure>
+<p>The madhab differences are the same as for certificates above: the Hanafi silver nisab for most Pakistanis, the Maliki rule for money that comes back to you, and no zakat on paper money in the Ja'fari view (khums applies instead). In our calculator, enter sukuk in the <strong>Savings certificates</strong> field and sukuk fund units under <strong>Shares</strong>; see <a href="/zakat-on-shares/">zakat on shares and mutual funds</a>.</p>
 
 <h2>Prize bonds</h2>
 <p>A prize bond is a receipt for money lent to the government, refundable at face value at any National Savings Centre or bank. Count the face value of every bond you hold, whether ordinary or Premium, at your zakat date. A Rs 40,000 Premium bond is Rs 40,000 of wealth. National Savings does not deduct zakat on prize bonds, so the whole amount is for you to pay.</p>
@@ -942,6 +967,7 @@ HTML
 				array( 'q' => 'Behbood certificate par zakat hai?', 'a' => 'Haan. National Savings Behbood se zakat nahi kaat-ta, lekin agar aapka kul maal nisab se zyada hai to Behbood ki asal raqam par 2.5% zakat aap ko khud deni hogi.' ),
 				array( 'q' => 'Does National Savings deduct zakat from Defence Savings Certificates?', 'a' => 'Yes, CDNS says zakat on DSC is collected at source under the rules. Ask your centre for a statement of what was deducted and enter it under Already paid.' ),
 				array( 'q' => 'Is the profit on NSC certificates zakatable?', 'a' => 'Scholars differ. Many Pakistani scholars treat the profit on conventional schemes as riba to be given away, not counted as wealth; others count accrued profit. Ask your scholar.' ),
+				array( 'q' => 'Is zakat due on sukuk?', 'a' => 'Yes. Count sukuk held to sell at market value, and sukuk held to maturity at face value with your cash. Some scholars, following the AAOIFI zakat standard, allow counting only the zakatable part of the underlying assets; ask your scholar.' ),
 				array( 'q' => 'Kya prize bond par zakat hai?', 'a' => 'Haan, prize bond ki face value aap ka maal hai. Apne zakat ke din jitne bond aap ke paas hain unki poori qeemat shamil karen.' ),
 				array( 'q' => 'Are Regular Income Certificates exempt from zakat?', 'a' => 'They are exempt from compulsory deduction at source, not from zakat. If you are above the nisab, count the principal and pay the zakat yourself.' ),
 				array( 'q' => 'Can a Shia investor stop the deduction on certificates?', 'a' => 'A follower of Fiqh-e-Jafaria can file a CZ-50 declaration with the National Savings Centre or bank before the deduction date. Ask them for the current format and deadline.' ),

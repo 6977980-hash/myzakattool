@@ -30,6 +30,7 @@
 			fillCheck: 'Please check: %s? That is more than 1,000 tola, so it was not filled.',
 			askWorn_gold: 'Is this gold jewellery that is worn?', askWorn_silver: 'Is this silver jewellery that is worn?', askYes: 'Yes, worn', askNo: 'No, kept',
 			karatAssumed: 'Karat assumed: %sK. Tap the right one if different.', addPiece: '+ Add another piece', piece: 'Piece', removePiece: 'Remove',
+			exBtn_business: 'Fill in the cloth shop example from this page (rupees)', exFilled: 'Example figures filled in, in rupees. Replace them with your own.',
 			pageCur: 'This page works in %c. Your saved figures were in %o: change the currency above if needed.',
 			have: 'What do you own?', haveHint: '(tap all that apply)',
 			t_cash: 'Cash', t_bank: 'Bank', t_gold: 'Gold', t_silver: 'Silver', t_business: 'Business', t_shares: 'Shares / Crypto',
@@ -164,10 +165,12 @@
 			fileCur: 'This file was saved in %s, which is not available here. Its amounts are shown in %t: please check them.',
 			fileOk: 'Data file opened.',
 			f_noPreset: 'Enter the fitrana amount announced for your area this year.',
+			f_intl: 'Indicative cash value per person, for any item: %s, Ramadan 1447 (2026). Check with your local mosque; those who can may give more.', f_intlFidya: 'Indicative fidya per day: %s, Ramadan 1447 (2026). Check with your local mosque.',
 			f_fallback: 'Last announced amounts shown. Replace them with this year\'s amount for your area.',
 			h_oldest: 'Year 1 is the oldest unpaid year.', h_nisabY: 'Nisab that year (optional)',
+			h_hist: 'Fill each year\'s nisab from past prices', h_histDone: 'Filled the nisab for %y from that year\'s average gold and silver prices (LBMA; rupee at the year\'s average rate). It is approximate: the price on your own zakat date may differ by a few percent. Years we have no figure for use today\'s nisab.',
 			h_basis: 'Nisab standard for missed years', h_nisabNote: 'Hanafi uses the silver nisab; Shafi\'i and some others use gold. If you know the nisab of an earlier year, enter it for that year.',
-			a_madhabNote: 'Maliki fiqh also counts animals that are fed or used for work. Ja\'fari (Ayatollah Sistani) rulings differ in some tables. This tool follows the Hanafi, Shafi\'i and Hanbali tables: please check with a scholar of your madhab.',
+			a_madhabNote: 'The schools differ only in a few places: above 120 camels (Hanafi: the table starts again; others: a 3-year she-camel per 40 and a 4-year one per 50, and some Maliki scholars allow 2 four-year she-camels for 121-129), 25 camels and 301-399 sheep (Ja\'fari, Ayatollah Sistani). Maliki fiqh also counts animals that are fed or used for work. Please check with a scholar of your madhab.',
 			h_receivables: 'Counted now. Hanafi and Maliki scholars allow paying zakat on a cash loan when it is repaid: if you choose that, enter it on the next line instead.',
 			n_receivables_hanafi: 'Hanafi: you may instead pay zakat on money owed to you when you receive it, for every year it was owed.',
 			n_hanafi_alloy: 'Counted by pure gold, this is below the nisab. Some Hanafi muftis count jewellery that is mostly gold (such as 22K) by its full weight; on that view zakat would be due. Ask your mufti which view to follow.',
@@ -191,6 +194,7 @@
 			fillCheck: 'ذرا چیک کریں: %s؟ یہ 1,000 تولہ سے زیادہ ہے، اس لیے نہیں بھرا گیا۔',
 			askWorn_gold: 'کیا یہ سونا پہنا جانے والا زیور ہے؟', askWorn_silver: 'کیا یہ چاندی پہنا جانے والا زیور ہے؟', askYes: 'جی ہاں، پہنا جاتا ہے', askNo: 'نہیں، رکھا ہوا ہے',
 			karatAssumed: 'قیراط %sK مانا گیا۔ مختلف ہو تو صحیح پر ٹیپ کریں۔', addPiece: '+ ایک اور چیز', piece: 'چیز', removePiece: 'ہٹائیں',
+			exBtn_business: 'اس صفحے والی کپڑے کی دکان کی مثال بھریں (روپے)', exFilled: 'مثال کے اعداد روپے میں بھر دیے گئے۔ ان کی جگہ اپنے اعداد لکھیں۔',
 			pageCur: 'یہ صفحہ %c میں حساب کرتا ہے۔ آپ کے محفوظ اعداد %o میں تھے: ضرورت ہو تو اوپر کرنسی بدل لیں۔',
 			have: 'آپ کے پاس کیا ہے؟', haveHint: '(جو ہے اس پر ٹیپ کریں)',
 			t_cash: 'نقد', t_bank: 'بینک', t_gold: 'سونا', t_silver: 'چاندی', t_business: 'کاروبار', t_shares: 'شیئرز/کرپٹو',
@@ -324,10 +328,12 @@
 			fileCur: 'یہ فائل %s میں محفوظ تھی جو یہاں دستیاب نہیں۔ رقمیں %t میں دکھائی گئی ہیں: براہ کرم چیک کر لیں۔',
 			fileOk: 'ڈیٹا فائل کھل گئی۔',
 			f_noPreset: 'اپنے علاقے کے لیے اس سال اعلان کردہ فطرانہ کی رقم لکھیں۔',
+			f_intl: 'فی کس اندازاً نقد رقم، کسی بھی جنس کے لیے: %s، رمضان 1447 (2026)۔ اپنی مقامی مسجد سے تصدیق کریں؛ جو استطاعت رکھتے ہیں وہ زیادہ دیں۔', f_intlFidya: 'فی روزہ اندازاً فدیہ: %s، رمضان 1447 (2026)۔ اپنی مقامی مسجد سے تصدیق کریں۔',
 			f_fallback: 'پچھلی اعلان کردہ رقم دکھائی گئی ہے۔ اپنے علاقے کی اس سال کی رقم لکھ دیں۔',
 			h_oldest: 'سال 1 سب سے پرانا سال ہے۔', h_nisabY: 'اس سال کا نصاب (اختیاری)',
+			h_hist: 'ہر سال کا نصاب پچھلی قیمتوں سے بھریں', h_histDone: '%y کا نصاب اس سال کی سونے چاندی کی اوسط قیمت (LBMA؛ روپیہ اس سال کے اوسط ریٹ پر) سے بھرا گیا۔ یہ اندازاً ہے: آپ کی اپنی زکوٰۃ کی تاریخ کی قیمت چند فیصد مختلف ہو سکتی ہے۔ جن سالوں کا ریکارڈ ہمارے پاس نہیں وہاں آج کا نصاب لگا ہے۔',
 			h_basis: 'پچھلے سالوں کے لیے نصاب کا معیار', h_nisabNote: 'حنفی چاندی کا نصاب لیتے ہیں؛ شافعی اور بعض دوسرے سونے کا۔ کسی پچھلے سال کا نصاب معلوم ہو تو اس سال کے خانے میں لکھیں۔',
-			a_madhabNote: 'مالکی فقہ میں چارہ کھانے والے اور کام کے جانوروں پر بھی زکوٰۃ ہے۔ فقہ جعفری (آیت اللہ سیستانی) کے بعض جدول مختلف ہیں۔ یہ ٹول حنفی، شافعی اور حنبلی جدول پر ہے: اپنے مسلک کے عالم سے تصدیق کریں۔',
+			a_madhabNote: 'مسالک میں فرق چند جگہ ہے: 120 سے زیادہ اونٹ (حنفی: جدول دوبارہ شروع ہوتا ہے؛ دوسرے: ہر 40 پر تیسرے سال کی اونٹنی اور ہر 50 پر چوتھے سال کی، اور 121 سے 129 میں بعض مالکی علماء دو چوتھے سال کی اونٹنیاں بھی جائز کہتے ہیں)، 25 اونٹ اور 301 سے 399 بکریاں (فقہ جعفری، آیت اللہ سیستانی)۔ مالکی فقہ میں چارہ کھانے والے اور کام کے جانوروں پر بھی زکوٰۃ ہے۔ اپنے مسلک کے عالم سے تصدیق کریں۔',
 			h_receivables: 'ابھی شامل ہے۔ حنفی اور مالکی علما نقد قرض کی زکوٰۃ وصولی پر دینے کی اجازت دیتے ہیں: ایسا کرنا ہو تو اسے اگلے خانے میں لکھیں۔',
 			n_hanafi_alloy: 'خالص سونے کے حساب سے یہ نصاب سے کم ہے۔ بعض حنفی مفتی صاحبان زیادہ تر سونے والے زیور (جیسے 22 قیراط) کو پورے وزن سے گنتے ہیں؛ اس رائے پر زکوٰۃ واجب ہوگی۔ اپنے مفتی صاحب سے پوچھیں۔',
 			n_maliki_debts: 'مالکی: قرض پہلے ان چیزوں سے پورا سمجھا جاتا ہے جو آپ کی ضرورت سے زائد ہوں (مثلاً فالتو پلاٹ یا گاڑی)؛ صرف باقی قرض زکوٰۃ کم کرتا ہے۔ ہم پورا قرض منہا کرتے ہیں۔',
@@ -677,6 +683,11 @@
 		['paid', '✅', [['liab', 'bankDeducted'], ['liab', 'paidAlready']]],
 	];
 
+	// Worked examples a page can offer with [zakat_calculator example="..."]: the same figures as the page's own example (SUG-04).
+	var EXAMPLES = {
+		business: { currency: 'PKR', tiles: ['business', 'receivables'], money: { businessCash: 300000, stock: 1200000, receivables: 200000, receivablesDoubtful: 50000 }, liab: { suppliers: 400000 } },
+	};
+
 	function newPerson(name) {
 		return { name: name || '', tiles: {}, money: {}, liab: {}, metal: {} };
 	}
@@ -949,6 +960,7 @@
 			// Phones get a shorter example, so the placeholder is not cut off (FIX-224).
 			var narrow = window.matchMedia && matchMedia('(max-width:480px)').matches;
 			html += '<div class="myzt-quick"><input class="myzt-inp" data-quick placeholder="' + esc(t(narrow ? 'quickPhS' : 'quickPh')) + '" aria-label="' + esc(t('quickPh')) + '"><button type="button" class="myzt-btn" data-act="fill">' + esc(t('fill')) + '</button></div>';
+			if (EXAMPLES[opts.example] && !hasFigures()) html += '<p><button type="button" class="myzt-link" data-act="example">' + esc(t('exBtn_' + opts.example)) + '</button></p>';
 			if (ui.msg) html += '<div class="myzt-note" role="status">' + esc(ui.msg) + '</div>';
 			// Family members.
 			html += '<div class="myzt-people">' + st.persons.map(function (pp, i) {
@@ -1228,6 +1240,17 @@
 			persist(); render();
 		}
 
+		function example(ex) {
+			if (!ex) return;
+			if (st.currency !== ex.currency && currencies().indexOf(ex.currency) >= 0) switchCurrency(ex.currency);
+			var p = st.persons[st.active];
+			ex.tiles.forEach(function (k) { p.tiles[k] = true; });
+			Object.keys(ex.money).forEach(function (k) { p.money[k] = ex.money[k]; });
+			Object.keys(ex.liab).forEach(function (k) { p.liab[k] = ex.liab[k]; });
+			ui.msg = t('exFilled');
+			persist(); render();
+		}
+
 		/** "Is this jewellery that is worn?" Yes moves the typed metal from kept to worn. */
 		function answerWorn(p, k, yes) {
 			ui.ask = ui.ask.filter(function (x) { return x !== k; });
@@ -1259,6 +1282,7 @@
 				case 'ctx': ui.ctx = !ui.ctx; render(); break;
 				case 'lang': lang = lang === 'en' ? 'ur' : 'en'; try { localStorage.setItem(LANG_KEY, lang); } catch (x) {} setLang(root); render(); break;
 				case 'fill': fill(root.querySelector('[data-quick]').value); break;
+				case 'example': example(EXAMPLES[opts.example]); break;
 				case 'add': st.persons.push(newPerson('')); st.active = st.persons.length - 1; persist(); render(); break;
 				case 'rm': st.persons.splice(st.active, 1); st.active = 0; persist(); render(); break;
 				case 'compare': ui.compare = !ui.compare; render(); break;
@@ -1407,7 +1431,16 @@
 	}
 
 	/** Where the per-person amount comes from, or a clear prompt to enter it when there is no preset (FIX-013). */
-	function presetNote(F, cur, has) {
+	/** Indicative amount for a currency outside Pakistan (SUG-09): 'fitrana' or 'fidya' (a day's fidya, else one fitrana). */
+	function intlAmount(F, cur, kind) {
+		var r = (F.intl || {})[cur];
+		if (!r || F.currency === cur) return 0;
+		return +(kind === 'fidya' && r.fidya ? r.fidya : r.fitrana) || 0;
+	}
+
+	function presetNote(F, cur, has, kind) {
+		var r = (F.intl || {})[cur];
+		if (has && r && F.currency !== cur) return '<div class="myzt-note">' + esc(t(kind === 'fidya' ? 'f_intlFidya' : 'f_intl').replace('%s', r.by)) + '</div>';
 		if (!has) return '<div class="myzt-note">' + esc(t('f_noPreset')) + '</div>';
 		return (F.fallback ? '<div class="myzt-note">' + esc(t('f_fallback')) + '</div>' : '') + (F.note ? '<p class="myzt-small">' + esc(F.note) + '</p>' : '');
 	}
@@ -1418,7 +1451,7 @@
 		var st = { persons: 1, pText: '1', item: 'wheat', amount: 0, kg: 0 };
 		// Half a sa' of wheat (about 2 kg, the figure the site's guides use) or one sa' (about 4 kg) of the others.
 		var KG = { wheat: 2, barley: 4, dates: 4, raisins: 4 };
-		function preset() { return (F.currency === cur && F[st.item]) ? +F[st.item] : 0; }
+		function preset() { return (F.currency === cur && F[st.item]) ? +F[st.item] : intlAmount(F, cur, 'fitrana'); }
 		st.amount = preset();
 		function render() {
 			keepFocus(root, draw);
@@ -1477,7 +1510,7 @@
 		var F = CFG.fitrana || {};
 		var cur = pickCurrency(root);
 		var st = { fasts: 0, broken: 0, item: 'wheat', amount: 0 };
-		function preset() { return (F.currency === cur && F[st.item]) ? +F[st.item] : 0; }
+		function preset() { return (F.currency === cur && F[st.item]) ? +F[st.item] : intlAmount(F, cur, 'fidya'); }
 		st.amount = preset();
 		function out() {
 			var f = E.fidya(st.fasts, st.amount), k = E.kaffara(st.broken, st.amount);
@@ -1496,7 +1529,7 @@
 				'<div class="myzt-field"><label for="myzt-da">' + esc(t('fd_perDay')) + ' (' + cur + ')</label><input class="myzt-inp" id="myzt-da" inputmode="decimal" data-f="amount" value="' + esc(plain(st.amount, cur)) + '"></div>' +
 				'<div data-out>' + out() + '</div>' +
 				'<div class="myzt-note">' + esc(t('fd_madhabNote')) + '</div>' +
-				presetNote(F, cur, preset()) + '<div class="myzt-disc">' + esc(t('disc')) + '</div></div>';
+				presetNote(F, cur, preset(), 'fidya') + '<div class="myzt-disc">' + esc(t('disc')) + '</div></div>';
 		}
 		root.addEventListener('input', function (e) {
 			var f = e.target.dataset.f;
@@ -1605,6 +1638,24 @@
 			if (!st.start || st.start >= today) return [];
 			return alignHijri(E.hawlDates(st.start, 60, st.start), st.start).filter(function (d) { return d < today && (!st.paidTo || d > st.paidTo); });
 		}
+		/** Calendar year of each missed row, oldest first: the passed zakat dates when known, else the years before this one. */
+		var histMsg = '';
+		function missedYears(n) {
+			var past = passedDates().slice(-n), y = +today.slice(0, 4), out = [];
+			for (var i = 0; i < n; i++) out.push(past.length === n ? +past[i].slice(0, 4) : y - n + i);
+			return out;
+		}
+		function fillHistory() {
+			var n = Math.min(15, Math.max(0, Math.floor(st.missed))), years = missedYears(n), used = [];
+			years.forEach(function (yr, i) {
+				var v = E.historicalNisab(yr, st.basis, cur);
+				st.nisabY[i] = v;
+				if (v) used.push(yr);
+			});
+			histMsg = used.length ? t('h_histDone').replace('%y', used[0] === used[used.length - 1] ? used[0] : used[0] + '–' + used[used.length - 1]) : '';
+			save(KEY, st);
+			render();
+		}
 		function missedOut() {
 			var n = Math.min(15, Math.max(0, Math.floor(st.missed)));
 			var nis = st.nisab || nisabNow();
@@ -1630,12 +1681,14 @@
 				}).join('') + '</span><span class="myzt-help">' + esc(t('h_nisabNote')) + '</span></div>' +
 				'<div class="myzt-field"><label for="myzt-hn">' + esc(t('h_nisabNow')) + '</label><input class="myzt-inp" id="myzt-hn" inputmode="decimal" data-h="nisab" value="' + esc(plain(st.nisab || nisabNow(), cur)) + '"></div>' +
 				'<label class="myzt-small myzt-check"><input type="checkbox" data-h="sub"' + (st.sub ? ' checked' : '') + '> ' + esc(t('h_sub')) + '</label>' +
+				(n && (cur === 'USD' || cur === 'PKR') ? '<p><button type="button" class="myzt-btn" data-act="hist">' + esc(t('h_hist')) + '</button></p>' : '') +
+				(histMsg ? '<p class="myzt-note" role="status">' + esc(histMsg) + '</p>' : '') +
 				(n ? '<p class="myzt-small">' + esc(t('h_oldest')) + '</p>' : '') + rows + '<div data-missed>' + (n ? missedOut() : '') + '</div></div>' +
 				'<div class="myzt-disc">' + esc(t('disc')) + '</div></div>';
 		}
 		root.addEventListener('change', function (e) {
 			var el = e.target;
-			if (el.dataset.cur !== undefined) { cur = el.value; st.nisab = 0; save(KEY, st); render(); return; }
+			if (el.dataset.cur !== undefined) { cur = el.value; st.nisab = 0; if (histMsg) { st.nisabY = []; histMsg = ''; } save(KEY, st); render(); return; }
 			if (el.dataset.h === 'start') { st.start = el.value; delete st.paidTo; save(KEY, st); root.querySelector('[data-out]').innerHTML = out(); }
 			if (el.dataset.h === 'sub') { st.sub = el.checked; save(KEY, st); root.querySelector('[data-missed]').innerHTML = missedOut(); }
 			if (el.dataset.h === 'missed' && num(el.value) !== st.missed) { st.missed = num(el.value); save(KEY, st); setTimeout(render, 0); }
@@ -1651,7 +1704,7 @@
 		});
 		root.addEventListener('click', function (e) {
 			var hb = e.target.closest('[data-hbasis]');
-			if (hb) { st.basis = hb.dataset.hbasis; st.nisab = 0; save(KEY, st); render(); return; }
+			if (hb) { st.basis = hb.dataset.hbasis; st.nisab = 0; save(KEY, st); if (histMsg) fillHistory(); else render(); return; }
 			if (e.target.closest('[data-act="paid"]')) {
 				var past = passedDates();
 				st.paidTo = past[past.length - 1];
@@ -1669,6 +1722,7 @@
 				if (inp) inp.focus({ preventScroll: true });
 				return;
 			}
+			if (e.target.closest('[data-act="hist"]')) { fillHistory(); return; }
 			if (e.target.closest('[data-act="ics"]') && st.start) icsFile('zakat-dates.ics', t('calTitle'), zakatDates(st.start, 5, today));
 		});
 		render();
@@ -1697,7 +1751,7 @@
 		function animalsOut() {
 			return ['sheep', 'cows', 'camels'].map(function (k) {
 				if (!st[k]) return '';
-				var due = E.livestock(k, st[k]);
+				var due = E.livestock(k, st[k], st.madhab);
 				var txt = due.length ? due.map(function (d) { return (d.n ? d.n + ' × ' : '') + t('w_' + d.what); }).join(' + ') : t('a_none');
 				return '<div class="myzt-line"><span>' + esc(t('a_' + k)) + ': ' + st[k] + '</span><span><b>' + esc(txt) + '</b></span></div>';
 			}).join('');
@@ -1719,6 +1773,7 @@
 					'<div class="myzt-field"><label>' + esc(t('u_water')) + '</label>' + seg('water', [['rain', 'u_rain'], ['irrigated', 'u_irr']].concat(st.madhab === 'hanafi' ? [] : [['mixed', 'u_mixed']])) + '</div>' +
 					'<div data-out>' + cropsOut() + '</div><p class="myzt-small">' + esc(t('u_note')) + '</p>';
 			} else {
+				h += '<div class="myzt-field"><label>' + esc(t('u_madhab')) + '</label>' + seg('madhab', [['hanafi', 'u_hanafi'], ['shafii', 'u_others'], ['jafari', 'u_jafari']]) + '</div>';
 				h += ['sheep', 'cows', 'camels'].map(function (k) {
 					return '<div class="myzt-field"><label for="myzt-a' + k + '">' + esc(t('a_' + k)) + '</label><input class="myzt-inp" id="myzt-a' + k + '" inputmode="numeric" data-n="' + k + '" value="' + (st[k] || '') + '" placeholder="0"></div>';
 				}).join('') + '<div data-out>' + animalsOut() + '</div><p class="myzt-small">' + esc(t('a_note')) + '</p><p class="myzt-note">' + esc(t('a_madhabNote')) + '</p>';

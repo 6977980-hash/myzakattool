@@ -664,3 +664,70 @@ test('tools share the currency picked in any of them; fitrana outside PKR offers
 	assert.equal(await page.locator('.myzt-khums select[data-cur]').inputValue(), 'GBP');
 	await ctx.close();
 });
+
+/* ---------- audit 25 Oct 2026, phase 6: suggestions ---------- */
+test('business page example fills the cloth shop figures in rupees (SUG-04)', async () => {
+	const ctx = await browser.newContext({ locale: 'en-GB', timezoneId: 'Europe/London' });
+	const page = await ctx.newPage();
+	await page.addInitScript(() => {
+		document.addEventListener('DOMContentLoaded', () => {
+			const c = document.querySelector('.myzt-calculator');
+			c.dataset.tiles = 'business,receivables';
+			c.dataset.example = 'business';
+		});
+	});
+	await page.goto(base);
+	await page.waitForSelector('.myzt-calculator .myzt-res');
+	const c = calc(page);
+	await c.locator('[data-act="example"]').click();
+	assert.equal(digits(await c.locator('input[data-money="stock"]').inputValue()), 1200000);
+	assert.equal(digits(await c.locator('input[data-liab="suppliers"]').inputValue()), 400000);
+	assert.match(await c.locator('.myzt-ctx').textContent(), /PKR/);
+	// Hanafi: 12 + 3 + 2 lakh - 4 lakh = 13 lakh, zakat Rs 32,500 (the page's worked example).
+	assert.equal(await amount(page), 32500);
+	assert.equal(await c.locator('[data-act="example"]').count(), 0);
+	await ctx.close();
+});
+
+test('fitrana and fidya abroad start from the local body\'s figure (SUG-09)', async () => {
+	const intl = { GBP: { fitrana: 5, fidya: 5, by: 'UK charities' }, USD: { fitrana: 10, fidya: 15, by: 'Fiqh Council of North America' } };
+	const { page, ctx } = await open({ cfg: { fitrana: { currency: 'PKR', wheat: '300', barley: '1100', dates: '1600', raisins: '3800', note: '', fallback: true, intl } } });
+	const f = page.locator('.myzt-fitrana');
+	await f.locator('select[data-cur]').selectOption('USD');
+	assert.equal(await f.locator('input[data-f="amount"]').inputValue(), '10');
+	assert.match(await f.textContent(), /Fiqh Council of North America/);
+	assert.equal(await f.locator('input[data-f="kg"]').count(), 0);
+	const d = page.locator('.myzt-fidya');
+	await d.locator('select[data-cur]').selectOption('USD');
+	assert.equal(await d.locator('input[data-f="amount"]').inputValue(), '15');
+	await d.locator('select[data-cur]').selectOption('EUR');
+	assert.equal(digits(await d.locator('input[data-f="amount"]').inputValue()), 0);
+	await ctx.close();
+});
+
+test('missed years: past nisab filled from yearly prices (SUG-11)', async () => {
+	const { page, ctx } = await open();
+	const h = page.locator('.myzt-hawl');
+	await h.locator('input[data-h="missed"]').fill('2');
+	await h.locator('input[data-h="missed"]').dispatchEvent('change');
+	await h.locator('[data-act="hist"]').click();
+	const y = new Date().getFullYear();
+	const exp = [y - 2, y - 1].map((yr) => E.historicalNisab(yr, 'silver', 'PKR'));
+	const got = [digits(await h.locator('input[data-ny="0"]').inputValue()), digits(await h.locator('input[data-ny="1"]').inputValue())];
+	assert.deepEqual(got, exp);
+	assert.match(await h.textContent(), /average gold and silver prices/);
+	await ctx.close();
+});
+
+test('livestock: madhab choice changes camels above 120 and Ja\'fari sheep (SUG-11)', async () => {
+	const { page, ctx } = await open();
+	const u = page.locator('.myzt-ushr');
+	await u.locator('[data-u="tab"][data-v="animals"]').click();
+	await u.locator('[data-u="madhab"][data-v="hanafi"]').click();
+	await u.locator('input[data-n="camels"]').fill('125');
+	assert.match(await u.locator('[data-out]').textContent(), /2 × she-camel in its 4th year \+ 1 × /);
+	await u.locator('[data-u="madhab"][data-v="shafii"]').click();
+	await u.locator('input[data-n="camels"]').fill('125');
+	assert.match(await u.locator('[data-out]').textContent(), /3 × she-camel in its 3rd year/);
+	await ctx.close();
+});

@@ -57,7 +57,7 @@ function myzt_content_posts() {
 <ul>
 <li>Make the intention (niyyah) of zakat when you give it, or when you set the money aside for it.</li>
 <li>You do not have to tell the person it is zakat. Calling it a gift is fine and saves their dignity.</li>
-<li>If you use a charity, ask whether zakat money is kept separate and how it reaches individuals.</li>
+<li>If you use a charity, ask whether zakat money is kept separate and how it reaches individuals; the checks for UK, US, Canadian and Pakistani charities are in <a href="/giving-zakat-abroad/">giving zakat abroad and through charities</a>.</li>
 <li>Keep a short record of what you gave and to whom. It helps next year.</li>
 </ul>
 <p>First work out how much you owe with the <a href="/">zakat calculator</a>. If you follow Fiqh-e-Jafaria, see the <a href="/khums-calculator/">khums calculator</a> as well.</p>

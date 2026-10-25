@@ -27,3 +27,10 @@ test('every page the audit asked for is listed in llms.txt', () => {
 		assert.match(block.split('<<<')[0], /'llms'\s*=>\s*true/, slug + ' has llms flag');
 	}
 });
+
+test('past nisab table in PHP matches the engine (SUG-11)', () => {
+	const php = fs.readFileSync(path.join(root, 'includes/class-frontend.php'), 'utf8').split('const NISAB_HISTORY')[1].split(');')[0];
+	const rows = [...php.matchAll(/(\d{4}) => array\( ([\d.]+), ([\d.]+), ([\d.]+) \)/g)];
+	assert.equal(rows.length, Object.keys(E.NISAB_HISTORY).length);
+	for (const [, y, g, s, r] of rows) assert.deepEqual(E.NISAB_HISTORY[y], [+g, +s, +r], y);
+});

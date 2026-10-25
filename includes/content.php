@@ -768,6 +768,7 @@ HTML
 		'faq'   => array(
 			array( 'q' => 'Zakat 2027 mein bank kab kaatega?', 'a' => '1 Ramazan 1448 ko, jo chand ke mutabiq taqreeban 8 February 2027 ko hoga. Bank sirf savings aur munafa wale accounts se 2.5% kaat-ta hai jin mein hukoomat ke nisab ke barabar ya zyada raqam ho.' ),
 			array( 'q' => 'What is the zakat nisab for 2027 in Pakistan?', 'a' => 'It has not been announced yet. It is usually notified a few days before 1 Ramadan. For 2026 it was Rs 5,03,529; we add the 2027 figure here on the day it is notified.' ),
+			array( 'q' => 'How much is fitrana in the UK and USA?', 'a' => 'For Ramadan 2026 UK charities such as Al Mustafa Welfare Trust set £5 per person, and the Fiqh Council of North America $10 per person in the USA. The UAE Council for Fatwa set AED 25 and Qatar\'s Ministry of Awqaf QR 15. Check this year\'s amount with your mosque.' ),
 			array( 'q' => 'Fitrana 2027 kitna hai?', 'a' => 'Abhi elaan nahi hua. 2026 mein Islami Nazriati Council ne gandum ke hisab se Rs 300 aur khajoor ke hisab se Rs 1,600 fi kas diya tha.' ),
 			array( 'q' => 'When should I submit the CZ-50 form for 2027?', 'a' => 'Before 1 Ramadan 1448 (about 8 February 2027), and better in December or early January so the bank can mark your account. Ask your branch for its cut-off date.' ),
 		),
@@ -827,8 +828,8 @@ HTML
 		'llms'  => true,
 		'content' => <<<'HTML'
 [myzt_answer q="How is zakat on business calculated?"]Add business cash, stock at its current selling value and money customers owe you that you expect to receive, subtract supplier bills and other debts due now (where your madhab allows), and pay 2.5% if the total reaches the nisab.[/myzt_answer]
-<p>Tap <strong>Business</strong> and <strong>Money owed to you</strong> in the calculator. When you are done, download the PDF report to keep a record of what you entered.</p>
-[zakat_calculator]
+<p>The <strong>Business</strong> and <strong>Money owed to you</strong> boxes are open below. Want to see how it works first? Press <em>Fill in the cloth shop example</em> and the calculator loads the figures from the worked example on this page; then replace them with your own. When you are done, download the PDF report to keep a record of what you entered.</p>
+[zakat_calculator tiles="business,receivables" example="business"]
 <h2>What counts and what does not</h2>
 <ul>
 <li><strong>Counted:</strong> stock and raw materials for sale (at sale value), cash and bank balances of the business, good receivables.</li>
@@ -852,6 +853,26 @@ HTML
 <li><strong>Shafi'i:</strong> the supplier bills are not subtracted either, but the Shafi'i calculation uses the gold nisab, about [myzt_rate type="nisab-gold" currency="PKR"] today. Rs 17,00,000 is below it, so <strong>nothing is due</strong>. Only a Shafi'i who follows a scholar using the silver nisab would pay 2.5% of Rs 17,00,000 = Rs 42,500.</li>
 </ul>
 <p>If the Rs 50,000 is recovered later, Bilal pays zakat on it then. Any personal savings and gold go in the same calculation, as zakat is worked out on everything a person owns.</p>
+<h2>Worked example 2: a wholesaler with a bank loan</h2>
+<p>Sana runs a wholesale grocery business in Karachi and follows the Hanafi madhab. On her zakat date her accounts show:</p>
+<figure class="wp-block-table"><table><thead><tr><th>Item</th><th>Amount</th><th>How it is treated</th></tr></thead><tbody>
+<tr><td>Stock in the godown (what it would sell for wholesale today)</td><td>Rs 40,00,000</td><td>Counted</td></tr>
+<tr><td>Business bank account and cash</td><td>Rs 6,00,000</td><td>Counted</td></tr>
+<tr><td>Shops that buy on credit and pay within the month</td><td>Rs 9,00,000</td><td>Counted</td></tr>
+<tr><td>Supplier bills due within the month</td><td>Rs 7,00,000</td><td>Subtracted (Hanafi)</td></tr>
+<tr><td>Five-year bank loan for a delivery truck: Rs 12,00,000 left, of which Rs 3,00,000 falls due in the next 12 months</td><td>Rs 12,00,000</td><td>Only the Rs 3,00,000 due this year is subtracted</td></tr>
+<tr><td>The truck, racks and weighing scales</td><td>Rs 25,00,000</td><td>Not counted (fixed assets)</td></tr>
+</tbody></table></figure>
+<p>Zakatable assets: Rs 40,00,000 + Rs 6,00,000 + Rs 9,00,000 = Rs 55,00,000. Debts subtracted: Rs 7,00,000 + Rs 3,00,000 = Rs 10,00,000. Net: Rs 45,00,000, and zakat at 2.5% is <strong>Rs 1,12,500</strong>.</p>
+<p>Why not subtract the whole Rs 12,00,000 loan? Many contemporary Hanafi scholars, including Mufti Muhammad Taqi Usmani in his writing on zakat on business debts, say that long-term loans taken to buy fixed assets should not wipe out a trader's zakat; only the part payable in the coming year is subtracted. Enter it in the calculator under <strong>Debts / Bills → Instalments due in the next 12 months</strong>, and the supplier bills under <strong>Unpaid supplier bills</strong>. In the Shafi'i and Ahl-e-Hadith calculations neither is subtracted, so Sana would pay 2.5% of Rs 55,00,000 = Rs 1,37,500.</p>
+<h2>Step by step on your zakat date</h2>
+<ol>
+<li>Count the stock, or take it from your stock register, and price it at what it would sell for today.</li>
+<li>Add the business cash in hand and every business bank or wallet balance.</li>
+<li>List customers who owe you. Count those who will pay; leave out the ones who have stopped paying.</li>
+<li>List what the business owes that is due now: supplier bills, salaries, rent, tax, and the next 12 months of any long-term loan.</li>
+<li>Enter all of it, with your personal cash and gold, in the calculator, choose your madhab and pay 2.5% of the net figure if it reaches the nisab.</li>
+</ol>
 <h2>Valuing stock</h2>
 <ul>
 <li><strong>Finished goods:</strong> the price you would sell them at on the zakat date. A wholesaler uses the wholesale price, a retailer the retail price; many scholars accept the price you could sell the whole stock for in one go.</li>
@@ -870,6 +891,7 @@ HTML
 			array( 'q' => 'Is zakat due on shop equipment?', 'a' => 'No. Fixed assets used to run the business are not zakatable; only stock for sale, cash and receivables are.' ),
 			array( 'q' => 'Should stock be valued at cost or sale price?', 'a' => 'Most scholars say at its current market (selling) value on the zakat date.' ),
 			array( 'q' => 'Karobar ki zakat kaise nikalein?', 'a' => 'Zakat ki tareekh par dukaan ka maal bechne wali qeemat par, karobari naqdi aur jo udhaar wapas milne ki umeed hai, sab jorein. Hanafi, Maliki aur Hanbali maslak mein supplier ke bill minus karein. Phir kul ka 2.5% ada karein. Dukaan, machinery aur gaari par zakat nahi.' ),
+			array( 'q' => 'Is a business loan deducted from zakat?', 'a' => 'Supplier bills and other debts due now are subtracted in the Hanafi, Maliki and Hanbali calculations. For a long-term loan, many contemporary scholars subtract only the instalments due in the next 12 months. The Shafi\'i and Ahl-e-Hadith calculations do not subtract debts.' ),
 			array( 'q' => 'Is zakat due on money customers owe me?', 'a' => 'Yes, on money you expect to receive. Debts that are unlikely to be paid are left out until they are actually received.' ),
 		),
 	);
@@ -908,6 +930,10 @@ HTML
 </ul>
 <h2>Who receives fitrana</h2>
 <p>Fitrana goes to the same people as zakat, mainly the poor and the needy. It cannot be given to your own parents, grandparents, children or grandchildren, and a husband and wife cannot give it to each other. Giving it to poor relatives such as brothers, sisters, uncles and aunts is allowed and rewarded twice. Several people's fitrana may go to one family. See <a href="/who-can-receive-zakat/">who can receive zakat</a>.</p>
+<h2>Fitrana in the UK, USA, Canada and the Gulf</h2>
+<p>The amounts above are Pakistani rupees. Outside Pakistan, pick your currency in the calculator and it starts from the figure the body most local Muslims follow gave for Ramadan 1447 (March 2026). These are one cash value per person, usually based on a sa' of the local staple (rice in the Gulf), not separate wheat and dates figures:</p>
+[myzt_fitrana_intl]
+<p>Saudi Arabia is not listed: its senior scholars (the Hanbali position) require fitrana to be given as food, about 3 kg of rice or another staple per person, not as money. The Shafi'i and Maliki schools also prefer food; the Hanafi madhab allows its value in money. In India, follow the amount your local dar al-ifta announces. In every country, check this year's amount with your mosque before Eid.</p>
 <h2>Fitrana in past years</h2>
 <p>The minimum amounts per person announced in Pakistan, with the source for each year. Searching for "fitrana 2025" or "fitrana 2024"? These are the figures from those years. Pay this year's amount, not an old one: the price of wheat and dates changes every year.</p>
 [myzt_history type="fitrana"]
@@ -948,6 +974,9 @@ HTML
 <p>In the Shafi'i, Maliki and Hanbali schools the fidya and each kaffara meal are one mudd of the local staple food (about 0.6 kg), which is less than the Hanafi half sa'. The Shafi'i and Hanbali schools require kaffara only for breaking the fast with marital relations; eating or drinking deliberately needs qada and repentance. Use the amount your own scholars announce.</p>
 <h2>How much in rupees?</h2>
 <p>Each Ramadan, the Council of Islamic Ideology and major madrasas announce fitrana and fidya amounts for wheat, barley, dates and raisins. Enter that amount above, or the price of about 2 kg of flour where you live. Pay by the more expensive items if you can afford it.</p>
+<h2>Fidya outside Pakistan</h2>
+<p>Pick your currency in the calculator and it starts from the local figure for Ramadan 1447 (2026). The Fiqh Council of North America set fidya at $15 a day and the UAE Council for Fatwa at AED 20 a day; where no separate fidya figure was given, the calculator uses one fitrana per day, as in the Hanafi madhab.</p>
+[myzt_fitrana_intl]
 <h2>Fidya for 30 fasts</h2>
 <p>At the 2026 amounts of the Council of Islamic Ideology, fidya for a whole month of 30 fasts is 30 × Rs 300 = Rs 9,000 by wheat, or 30 × Rs 1,600 = Rs 48,000 by dates. In 2025 the same month was Rs 6,600 by wheat. A kaffara by feeding 60 people at Rs 300 is Rs 18,000. The fidya for 2027 follows the fitrana amount announced next Ramadan; past years are listed on the <a href="/fitrana-calculator/">fitrana calculator</a>.</p>
 <p>Read the full guides: <a href="/roza-fidya/">roza fidya: who pays and how much</a> and <a href="/kaffara-for-breaking-a-fast/">kaffara for breaking a fast</a>. Also see the <a href="/fitrana-calculator/">fitrana calculator</a> and <a href="/who-can-receive-zakat/">who can receive zakat</a>; fidya and kaffara go to the same poor and needy people.</p>
@@ -1521,7 +1550,7 @@ HTML
 <li><strong><a href="/zakat-date-calculator/">Zakat date and missed years</a>:</strong> the next zakat date is one lunar year of 354.367 days after the day wealth reached the nisab ("no zakat until a year passes", <a href="https://sunnah.com/abudawud:1573" rel="noopener" target="_blank">Abu Dawud 1573</a>). Hijri dates are shown from the Umm al-Qura calendar, so local moon sighting can differ by a day. For missed years the Hanafi option treats each earlier year's unpaid zakat as a debt that lowers the next year's wealth (<em>al-Hidayah</em>).</li>
 <li><strong><a href="/wirasat-calculator/">Wirasat (inheritance)</a>:</strong> the Qur'anic shares (al-Nisa 4:11, 4:12, 4:176) with 'awl and radd in exact fractions. Hanafi rules follow <em>al-Sirajiyyah</em> and Ibn Abidin's <em>Radd al-Muhtar</em>; the Shafi'i, Maliki and Hanbali rules follow the main texts of each school, including Zayd ibn Thabit's method for the grandfather with brothers; the Ahl-e-Hadith rules treat the grandfather as the father (the view of Abu Bakr and Ibn Abbas) and follow Ibn Taymiyyah on radd to the spouse (an open question, below); Ja'fari rules follow Ayatollah Sistani's <em>Islamic Laws</em> (three classes, no 'awl, a wife's share from buildings and not from land). Pakistani law (Muslim Family Laws Ordinance 1961, section 4) is shown as a separate result. The engine is checked against 425 worked cases, with 6 more kept as open questions where scholars differ. Results with distant relatives (dhawu al-arham) carry a note to confirm with a mufti.</li>
 <li><strong><a href="/ushr-calculator/">Ushr</a>:</strong> 10% for land watered by rain or rivers and 5% for costly irrigation (<a href="https://sunnah.com/bukhari:1483" rel="noopener" target="_blank">Bukhari 1483</a>). Imam Abu Hanifa set no minimum; the other schools require 5 wasq, about 653 kg (Muslim 979). Ayatollah Sistani's minimum is higher (about 847 kg) and covers wheat, barley, dates and raisins only.</li>
-<li><strong>Livestock:</strong> goats, sheep and camels up to 120 follow the letter of Abu Bakr (<a href="https://sunnah.com/bukhari:1454" rel="noopener" target="_blank">Bukhari 1454</a>); cows and buffaloes follow the hadith of Mu'adh (one tabi' for every 30, one musinnah for every 40). Camels above 120 and the Ja'fari tables are not calculated: ask a scholar.</li>
+<li><strong>Livestock:</strong> goats, sheep and camels up to 120 follow the letter of Abu Bakr (<a href="https://sunnah.com/bukhari:1454" rel="noopener" target="_blank">Bukhari 1454</a>); cows and buffaloes follow the hadith of Mu'adh (one tabi' for every 30, one musinnah for every 40). Camels above 120 follow Abu Bakr's letter (a bint labun per 40, a hiqqa per 50) for the Shafi'i, Maliki, Hanbali and Ahl-e-Hadith settings and the Hanafi restart of the table (<em>al-Hidayah</em>) for the Hanafi setting; the Ja'fari setting follows Ayatollah Sistani's <em>Islamic Laws</em> (25 camels: 5 goats; 301 to 399 sheep: 4).</li>
 <li><strong><a href="/fitrana-calculator/">Fitrana</a> and <a href="/fidya-kaffara-calculator/">fidya and kaffara</a>:</strong> in Hanafi fiqh one fitrana or one day's fidya is half a sa' of wheat (about 1.75 to 2 kg) or one sa' of barley, dates or raisins, or its value; the other schools use one mudd (about 0.6 kg) for fidya. Kaffara is 60 days of fasting, or feeding 60 poor people only for someone who cannot fast (<a href="https://sunnah.com/bukhari:1936" rel="noopener" target="_blank">Bukhari 1936</a>, Muslim 1111). Enter the money amount announced by your scholars each Ramadan; the fitrana calculator may show amounts we have filled in from those announcements.</li>
 <li><strong><a href="/haq-mehr-calculator/">Haq mehr</a>:</strong> mehr is measured in silver dirhams, at 3.0618 g of silver to one shar'i dirham, the figure used by Indo-Pak muftis (10 dirham = 2 tola 7.5 masha = 30.618 g). The Hanafi minimum is 10 dirham (<em>al-Hidayah</em>), about 30.62 g; Maulana Ashraf Ali Thanwi and Mufti Rasheed Ahmad Ludhianvi gave about 34 g, which is shown too. Mehr-e-Fatimi is 500 dirham (131.25 tola, about 1,530.9 g) by default, from Sayyidah Aisha's report of twelve and a half uqiyah (Sahih Muslim 1426), the figure of Mufti Muhammad Shafi; 480 dirham (Sayyiduna Umar's report, Abu Dawud 2106 and Tirmidhi 1114) and 400 dirham (Ibn al-Humam) are shown as other views. The Maliki minimum is a quarter dinar or 3 dirham; the Shafi'i, Hanbali and Ja'fari schools set no minimum. Unpaid mehr is a debt, and in Pakistan section 10 of the Muslim Family Laws Ordinance 1961 makes it payable on demand when the nikah nama is silent. Values use the live international silver rate.</li>
 <li><strong><a href="/diyat-calculator/">Diyat</a>:</strong> section 323 of the Pakistan Penal Code sets diyat at no less than the value of 30,630 g of silver, close to the classical Hanafi 10,000 dirham (10,000 × 3.0618 g = 30,618 g). The rupee amount is the one the Finance Division notifies for each fiscal year: Rs 1,93,52,390 for 2026-27 (circular of 27 July 2026, in force from 1 July 2026). The calculator lists the earlier notified amounts with their sources and shows the live value of 30,630 g of silver for information only; for a court case the notified amount is the legal minimum. The madhab figures (100 camels, 1,000 dinar, 10,000 or 12,000 dirham) are listed on the diyat page; Surah an-Nisa 4:92 is the Quranic basis.</li>
@@ -1530,7 +1559,7 @@ HTML
 <li><strong><a href="/khums-calculator/">Khums</a>:</strong> 20% of the year's surplus income, split equally into sahm-e-imam and sahm-e-sadat, following Ayatollah Sistani's <em>Islamic Laws</em> (khums chapter, rulings 1769 onwards and 1851). Gifts count as income; inheritance and mahr do not.</li>
 </ul>
 <h2>What is not covered</h2>
-<ul><li>Pension and provident funds, where scholars differ</li><li>Camels above 120, and Shia livestock tables</li><li>Exact local moon-sighting dates</li></ul>
+<ul><li>Pension and provident funds, where scholars differ</li><li>Exact local moon-sighting dates</li></ul>
 <h2>Open questions</h2>
 <p>These rules are disputed or not yet confirmed. We have put them to scholars and will update the calculator and this page when we get written answers:</p>
 <ul>

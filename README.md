@@ -9,7 +9,7 @@ Hostinger Git deploy pulls the `main` branch into `public_html/wp-content/plugin
 Git deploys do not fire WordPress's activation hook, so the plugin installs itself the first time someone opens **wp-admin** after a deploy with a new version number:
 
 - First install only: site title "My Zakat Tool", tagline, `/%postname%/` permalinks, comments off, the untouched "Hello world" post and "Sample page" moved to trash, a main menu.
-- Every version change: creates any of the 28 pages and 13 guide posts that are missing, and updates pages it created to the new text unless someone has edited them, sets the home page as the static front page, schedules the hourly rate refresh and fetches rates once.
+- Every version change: creates any of the 56 pages and 24 guide posts that are missing, and updates pages it created to the new text unless someone has edited them, sets the home page as the static front page, schedules the hourly rate refresh and fetches rates once.
 
 **Settings → My Zakat Tool** shows the rate status, a "Refresh rates now" button, "Create missing pages", author details, fitrana amounts, AdSense IDs and the ads ON/OFF switch.
 
@@ -28,7 +28,7 @@ and add `define( 'DISABLE_WP_CRON', true );` to `wp-config.php`.
 
 | Shortcode | What it shows |
 |---|---|
-| `[zakat_calculator madhab="hanafi" compare="1" country="PK"]` | The calculator (madhab optional; `country` keeps that country's currency and unit for every visitor; `tiles`, `currency`, `unit` preset a first visit) |
+| `[zakat_calculator madhab="hanafi" compare="1" country="PK"]` | The calculator (madhab optional; `country` keeps that country's currency and unit for every visitor; `tiles`, `currency`, `unit` preset a first visit; `example="business"` adds a button that fills the page's worked example, from `EXAMPLES` in `assets/js/app.js`) |
 | `[zakat_gold_rate]` | Gold and silver rate tables |
 | `[zakat_nisab]` | Today's nisab (server-rendered) |
 | `[zakat_fitrana]`, `[zakat_fidya]`, `[zakat_khums]` | Fitrana, fidya/kaffara and khums calculators |
@@ -38,6 +38,7 @@ and add `define( 'DISABLE_WP_CRON', true );` to `wp-config.php`.
 | `[myzt_reviewed rates="1"]` | "Rules last reviewed" date (Settings) and a dated snapshot of the rates |
 | `[myzt_rate type="gold-tola"]` | One live number in text (`gold-gram`, `gold22-tola`, `silver-tola`, `silver-gram`, `nisab-silver`, `nisab-gold`, `gold-tola-zakat`, `gold22-tola-zakat`) |
 | `[myzt_official type="bank-nisab"]`, `[myzt_history type="fitrana"]` | Latest official figure box and the past-years table (`bank-nisab`, `fitrana`, `fidya`, `diyat`), from `MYZT_Frontend::official()` |
+| `[myzt_fitrana_intl]`, `[myzt_nisab_history]` | Fitrana/fidya figures for the UK, US, Canada, UAE and Qatar (`MYZT_Frontend::FITRANA_INTL`, also used by the fitrana and fidya calculators in those currencies; update each Ramadan), and past years' nisab from yearly average prices (`NISAB_HISTORY` in `class-frontend.php` and `assets/js/engine.js`, kept equal by a test; add a row each January) |
 | `[myzt_1448 type="fitrana"]` | One sentence: "not announced yet" for Ramadan 1448, or the announced figure once `NEXT` is live |
 | `[myzt_answer]...[/myzt_answer]` | Quick-answer box |
 | `[myzt_faq]` | FAQ from the page's FAQ data (with FAQPage schema) |

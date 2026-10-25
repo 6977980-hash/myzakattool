@@ -213,6 +213,22 @@ test('Livestock table boundaries', () => {
 	for (const [t, c, exp] of cases) assert.equal(l(t, c), exp, `${t} ${c}`);
 });
 
+test('Livestock: camels above 120 and Ja\'fari tables (SUG-11)', () => {
+	const l = (t, c, m) => E.livestock(t, c, m).map((x) => x.n + ' ' + x.what).join(', ');
+	const cases = [
+		// Majority (Abu Bakr's letter): a bint labun per 40, a hiqqa per 50.
+		['camels', 121, 'shafii', '3 bintLabun'], ['camels', 130, 'shafii', '2 bintLabun, 1 hiqqa'], ['camels', 140, 'shafii', '1 bintLabun, 2 hiqqa'],
+		['camels', 150, 'shafii', '3 hiqqa'], ['camels', 160, 'shafii', '4 bintLabun'], ['camels', 200, 'shafii', '4 hiqqa'],
+		// Hanafi isti'naf (al-Hidayah).
+		['camels', 121, 'hanafi', '2 hiqqa'], ['camels', 125, 'hanafi', '2 hiqqa, 1 sheep'], ['camels', 140, 'hanafi', '2 hiqqa, 4 sheep'], ['camels', 145, 'hanafi', '2 hiqqa, 1 bintMakhad'],
+		['camels', 150, 'hanafi', '3 hiqqa'], ['camels', 155, 'hanafi', '3 hiqqa, 1 sheep'], ['camels', 175, 'hanafi', '3 hiqqa, 1 bintMakhad'], ['camels', 186, 'hanafi', '3 hiqqa, 1 bintLabun'], ['camels', 196, 'hanafi', '4 hiqqa'],
+		// Sistani.
+		['camels', 25, 'jafari', '5 sheep'], ['camels', 26, 'jafari', '1 bintMakhad'], ['camels', 121, 'jafari', '3 bintLabun'],
+		['sheep', 300, 'jafari', '3 sheep'], ['sheep', 301, 'jafari', '4 sheep'], ['sheep', 399, 'jafari', '4 sheep'], ['sheep', 301, 'hanafi', '3 sheep'], ['cows', 70, 'jafari', '1 tabi, 1 musinnah'],
+	];
+	for (const [t, c, m, exp] of cases) assert.equal(l(t, c, m), exp, `${t} ${c} ${m}`);
+});
+
 test('Missed years: with and without subtracting earlier zakat', () => {
 	const sub = E.missedZakat([1e6, 1e6, 1e6], 150000, true);
 	assert.deepEqual(sub.rows.map((r) => r.zakat), [25000, 24375, 23765.625]);
