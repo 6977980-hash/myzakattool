@@ -140,6 +140,7 @@ class MYZT_SEO {
 	/**
 	 * Placeholders in titles and descriptions: {year} the coming zakat season, {cyear} this calendar
 	 * year (live-rate pages, FIX-142), {fyear} the year of the fitrana amounts in use, and
+	 * {t2027} the 2027 page title with the 1448 figures once announced (FIX-215), and
 	 * {rate:TYPE} today's figure from [myzt_rate] (FIX-164). $live false (stored excerpts) writes
 	 * "today's rate" instead of a number that would go stale.
 	 */
@@ -150,6 +151,7 @@ class MYZT_SEO {
 				'{year}'  => (string) MYZT_Installer::season_year(),
 				'{cyear}' => gmdate( 'Y' ),
 				'{fyear}' => (string) MYZT_Frontend::fitrana_year(),
+				'{t2027}' => MYZT_Frontend::title_2027(),
 			)
 		);
 		return preg_replace_callback(

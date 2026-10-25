@@ -37,9 +37,22 @@ and add `define( 'DISABLE_WP_CRON', true );` to `wp-config.php`.
 | `[myzt_embed_code currency="PKR"]` | Preview and copy code for the embeddable nisab widget (`assets/js/embed.js`) |
 | `[myzt_reviewed rates="1"]` | "Rules last reviewed" date (Settings) and a dated snapshot of the rates |
 | `[myzt_rate type="gold-tola"]` | One live number in text (`gold-gram`, `gold22-tola`, `silver-tola`, `silver-gram`, `nisab-silver`, `nisab-gold`, `gold-tola-zakat`, `gold22-tola-zakat`) |
+| `[myzt_official type="bank-nisab"]`, `[myzt_history type="fitrana"]` | Latest official figure box and the past-years table (`bank-nisab`, `fitrana`, `fidya`, `diyat`), from `MYZT_Frontend::official()` |
+| `[myzt_1448 type="fitrana"]` | One sentence: "not announced yet" for Ramadan 1448, or the announced figure once `NEXT` is live |
 | `[myzt_answer]...[/myzt_answer]` | Quick-answer box |
 | `[myzt_faq]` | FAQ from the page's FAQ data (with FAQPage schema) |
 | `[myzt_author]`, `[myzt_trust]`, `[myzt_related slugs="a,b"]`, `[myzt_guides]`, `[myzt_year]`, `[myzt_ad where="article"]` | Author box, trust badges, related links, guide list, season year, ad slot |
+
+## Announcement day (Ramadan 1448 / 2027)
+
+The Council of Islamic Ideology usually announces fitrana two or three weeks before Ramadan (mid to late January 2027), and the government notifies the bank deduction nisab a few days before 1 Ramadan (about 8 February 2027). On the day:
+
+1. In `includes/class-frontend.php`, find `const NEXT`. Fill the line for the figure that came out and change its first value from `false` to `true`:
+   - fitrana: `array( true, '1448', '2027', array( 'wheat' => '350', 'barley' => '1200', 'dates' => '1800', 'raisins' => '4000' ), 'Council of Islamic Ideology, 25 Jan 2027', 'https://link-to-the-news-or-notice' )` (plain rupees, no commas).
+   - bank nisab: `array( true, '1448', '2027', 'Rs 5,50,000', 'Ministry of Poverty Alleviation, 5 Feb 2027', 'https://...' )`.
+2. That one line adds the 1448 row on top of the official box and the history table, removes "not announced yet", puts the figure in the /zakat-2027-pakistan/ title (`{t2027}`), and for fitrana switches the fitrana and fidya calculators (unless amounts were typed in Settings → My Zakat Tool, which still win).
+3. Update the FAQ answers on /zakat-2027-pakistan/ ("What is the zakat nisab for 2027", "Fitrana 2027 kitna hai?") in `includes/content.php`, bump the patch version, run the tests, merge, then open wp-admin once so the pages refresh.
+4. After Ramadan, move the row into `official()` as an ordinary row and reset `NEXT` for 1449.
 
 ## SEO built in
 
