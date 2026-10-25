@@ -108,9 +108,14 @@
 	body.myzt-has-sticky{padding-bottom:60px}
 }
 @media print{.myzt-sticky,.myzt-btns,.myzt-quick,.myzt-ad{display:none!important}}
-/* Reserve space for widgets until app.js has built them, so the content below does not jump (CLS). */
+/* Reserve space for widgets until app.js has built them, so the content below does not jump (CLS).
+   Heights measured on the live pages (25 Oct 2026, v1.19.1) at 375 px and 1366 px; Urdu pages are taller. */
 .myzt[data-widget="calculator"]:not([data-ready]){min-height:1300px}
-.myzt[data-widget="fitrana"]:not([data-ready]){min-height:470px}
+.myzt[data-widget="fitrana"]:not([data-ready]){min-height:670px}
+.myzt[data-widget="fitrana"]:lang(ur):not([data-ready]){min-height:729px}
+.myzt[data-widget="iddat"]:not([data-ready]){min-height:535px}
+.myzt[data-widget="iddat"]:lang(ur):not([data-ready]){min-height:557px}
+.myzt[data-widget="qurbani"]:not([data-ready]){min-height:1795px}
 .myzt[data-widget="khums"]:not([data-ready]){min-height:950px}
 .myzt[data-widget="fidya"]:not([data-ready]){min-height:735px}
 .myzt[data-widget="hawl"]:not([data-ready]){min-height:510px}
@@ -118,7 +123,12 @@
 [data-myzt-embed]:empty{min-height:203px}
 @media (min-width:782px){
 .myzt[data-widget="calculator"]:not([data-ready]){min-height:580px}
-.myzt[data-widget="fitrana"]:not([data-ready]){min-height:450px}
+.myzt[data-widget="fitrana"]:not([data-ready]){min-height:558px}
+.myzt[data-widget="fitrana"]:lang(ur):not([data-ready]){min-height:623px}
+.myzt[data-widget="iddat"]:not([data-ready]){min-height:433px}
+.myzt[data-widget="iddat"]:lang(ur):not([data-ready]){min-height:477px}
+.myzt[data-widget="qurbani"]:not([data-ready]){min-height:1410px}
+.myzt[data-widget="qurbani"]:lang(ur):not([data-ready]){min-height:1496px}
 .myzt[data-widget="khums"]:not([data-ready]){min-height:840px}
 .myzt[data-widget="fidya"]:not([data-ready]){min-height:650px}
 .myzt[data-widget="hawl"]:not([data-ready]){min-height:450px}

@@ -245,7 +245,9 @@ class MYZT_Security {
 		$h['Referrer-Policy']        = 'strict-origin-when-cross-origin';
 		$h['Permissions-Policy']     = 'camera=(), microphone=(), geolocation=(), payment=()';
 		if ( is_ssl() ) {
-			$h['Strict-Transport-Security'] = 'max-age=31536000';
+			// www redirects to the apex over HTTPS and there is no mail web host (checked 25 Oct 2026, FIX-212).
+			// ftp.myzakattool.com is FTP only: HSTS does not touch FTP clients.
+			$h['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains';
 		}
 		// The site needs no plugins (<object>/<embed>) and never changes the base URL (audit FIX-059).
 		// This adds to the host's upgrade-insecure-requests policy; it does not restrict scripts or frames.
