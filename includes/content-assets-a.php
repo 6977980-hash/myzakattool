@@ -264,7 +264,7 @@ HTML
 </ul>
 <p>Mufti Muhammad Shafi's treatise also discusses the extra amount the fund credits on balances, and whether taking it is permissible, especially on the voluntary part. That is a halal-and-haram question separate from zakat; ask your scholar about it.</p>
 <h2>Pension, EOBI, gratuity and commutation</h2>
-<p>A pension, EOBI old-age benefit, gratuity or commutation you have not yet received is not in your ownership. There is no zakat on it, and none for past years. Once the money reaches you, it is counted with your other savings on your zakat date. Monthly pension that you spend carries no zakat, in the same way as a salary; see <a href="/zakat-on-salary/">zakat on salary</a>.</p>
+<p>A pension, EOBI old-age benefit, gratuity or commutation you have not yet received is not in your ownership. There is no zakat on it, and none for past years. Once the money reaches you, it is counted with your other savings on your zakat date. Monthly pension that you spend carries no zakat, in the same way as a salary; see <a href="/zakat-on-salary/">zakat on salary</a>. Living in the UK, the US or Canada? Workplace pensions, SIPPs, 401(k)s and ISAs are covered in <a href="/zakat-on-pension-401k-isa/">zakat on pensions, 401(k), IRA and ISA</a>.</p>
 <h2>Worked example: a retired officer</h2>
 <p>Tariq Sahib retired from a government department and follows the Hanafi madhab. His GP fund was made up only of compulsory deductions. Two months before his zakat date he received:</p>
 <figure class="wp-block-table"><table><thead><tr><th>Item</th><th>Amount</th><th>Zakat now?</th></tr></thead><tbody>

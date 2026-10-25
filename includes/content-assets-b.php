@@ -213,6 +213,7 @@ HTML
 <li><strong>Ahl-e-Hadith:</strong> scholars followed by Ahl-e-Hadith readers, such as those of the Saudi Permanent Committee, generally allow sending zakat to another country for a valid reason such as poor relatives or greater need.</li>
 <li><strong>Shia (Ayatollah Sistani):</strong> Shia followers of Ayatollah Sistani do not pay zakat on cash, bank balances or jewellery; they pay khums (20%) on the year's surplus. Sahm-e-imam goes to the marja or an authorised representative, and sahm-e-sadat to needy sayyids, following the office's rules. Use the <a href="/khums-calculator/">khums calculator</a>.</li>
 </ul>
+<p>Paying through a charity, or wondering about admin fees and how to check a zakat fund? See <a href="/giving-zakat-abroad/">giving zakat abroad and through charities</a>. A UK pension, ISA, 401(k) or mortgage? See <a href="/zakat-on-pension-401k-isa/">zakat on pensions, ISAs and mortgages</a>.</p>
 <p>For everything in Pakistan in rupees and tola, the <a href="/zakat-calculator-pakistan/">Pakistan zakat calculator</a> has fields for committees, prize bonds and plots. If you have a Gulf or UK salary, see <a href="/zakat-on-salary/">zakat on salary</a>.</p>
 <p>This is not a fatwa. For questions about your own family or accounts, ask a qualified scholar.</p>
 [myzt_faq]

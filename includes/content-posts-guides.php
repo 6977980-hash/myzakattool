@@ -1,6 +1,7 @@
 <?php
 /**
- * Guide posts that support the haq mehr, iddat and fitrana calculators, plus Roman Urdu zakat and iddat guides.
+ * Guide posts that support the haq mehr, iddat and fitrana calculators, Roman Urdu zakat and iddat guides,
+ * and guides for Muslims abroad: pensions, ISAs and mortgages (SUG-08), giving zakat abroad and through charities (SUG-10).
  * Loaded by content-posts.php.
  *
  * @package MyZakatTool
@@ -425,6 +426,149 @@ HTML
 				array( 'q' => '1 crore par kitni zakat hai?', 'a' => 'Rs 2,50,000, yani 2.5%, agar zakat ki shuroot poori hon.' ),
 				array( 'q' => 'Masarif e zakat kitne hain?', 'a' => 'Aath: fuqara, masakeen, amileen, muallafat ul quloob, riqab, ghaarimeen, fi sabeelillah aur ibn us sabeel (Surah at-Tawbah 9:60).' ),
 				array( 'q' => 'Kya bank ki katauti ke baad dobara zakat deni hogi?', 'a' => 'Apni poori zakat ka hisab karen aur bank ne jo kaata hai woh us mein se minus kar den; baqi raqam khud ada karen.' ),
+			),
+		),
+		'zakat-on-pension-401k-isa' => array(
+			'title'   => 'Zakat on Pensions, 401(k), IRA, ISA and Mortgages',
+			'seo'     => 'Zakat on Pension, 401(k), IRA, ISA & Mortgage ({year})',
+			'desc'    => 'Zakat on a UK pension, SIPP or ISA, a US 401(k), IRA or RRSP: the three scholarly views, worked examples, and how much of a mortgage to deduct.',
+			'nav'     => 'Zakat on pensions',
+			'blurb'   => '401(k), ISA, mortgage',
+			'content' => <<<'HTML'
+[myzt_answer q="Is zakat due on a pension or 401(k)?"]Scholars differ. Many say no zakat is due on a pension you cannot yet withdraw, because it is not fully in your hands; others count every year what you could withdraw today after the penalty and tax; some count only the zakatable part of the investments inside it. A cash ISA is like a bank balance and a stocks and shares ISA like shares. For a mortgage, most contemporary scholars deduct only the instalments due in the next 12 months, not the whole loan.[/myzt_answer]
+<p>Muslims in the UK, the US, Canada and Australia hold much of their wealth in accounts that classical books never discussed: workplace pensions, SIPPs, 401(k)s, IRAs, RRSPs, superannuation and ISAs. Many also carry a mortgage that is larger than all their savings. This guide sets out how scholars apply the rules of zakat to them, so you can follow the view of the scholar you trust and enter the right figures in the calculator.</p>
+[zakat_calculator tiles="bank,shares,debts"]
+
+<h2>The principle: is it fully yours, and can you reach it?</h2>
+<p>Zakat is due on wealth you own completely (<em>milk tamm</em>) and can use. Classical scholars applied this to money held by someone else: a debt owed by a willing payer is counted, while wealth that is lost, seized or out of reach is not, or is counted only when it comes back (al-Kasani, <em>Bada'i al-Sana'i</em>; Ibn Qudamah, <em>al-Mughni</em>). A pension sits between the two. The money is invested in your name, but the law stops you taking it before a set age, or lets you take it only with a penalty. That is why contemporary scholars reach different answers, much as they do for the <a href="/zakat-on-provident-fund/">provident fund and GP fund</a> in Pakistan.</p>
+
+<h2>Defined benefit (final salary) pensions</h2>
+<p>A defined benefit pension, such as an NHS, teachers' or civil service pension in the UK or a traditional employer pension in the US, promises you an income later. There is no pot that belongs to you today, only a promise. Scholars broadly agree that <strong>no zakat is due on it until the payments reach you</strong>; once received, money you still hold on your zakat date is counted with your other savings. A tax-free lump sum is counted once you receive it.</p>
+
+<h2>Defined contribution pensions: the three views</h2>
+<p>A defined contribution pension is a pot of investments in your name: a UK workplace pension or SIPP, a US 401(k), 403(b) or IRA, a Canadian RRSP or an Australian super fund. The views are:</p>
+<ol>
+<li><strong>No zakat until you can access it.</strong> Before the minimum pension age (55 in the UK, rising to 57 in 2028; 59½ for a US 401(k) or IRA), you cannot take the money out, or only at a heavy cost. Many scholars, including many South Asian Hanafi muftis reasoning as Mufti Muhammad Shafi did for the provident fund, say it is not yet fully yours, so nothing is due until you can draw it. Some of them then ask for one year's zakat when it is received; others count it from then on like any other savings.</li>
+<li><strong>Zakat every year on what you could withdraw today.</strong> Many North American scholars and zakat organisations point out that a 401(k) or IRA can in fact be cashed in early, with a 10% penalty and income tax. On this view you count each year the amount you would actually receive if you withdrew it now, after the penalty and tax.</li>
+<li><strong>Zakat on the zakatable part of the investments.</strong> Some scholars, using the same method as for long-term shares, count only the part of the fund that is cash, bonds or the companies' own zakatable assets (cash, receivables, stock), not their buildings and machinery. This usually gives a much smaller figure; see <a href="/zakat-on-shares/">zakat on shares and funds</a>.</li>
+</ol>
+<p>Once you reach pension age and can draw the pot freely, the main reason for the first view falls away, and most scholars then count the value you could take (after tax) each year.</p>
+
+<h3>Worked example: a 401(k) at age 40</h3>
+<p>Yusuf lives in Texas and has $100,000 in his 401(k) and $20,000 in his checking account. If he cashed in the 401(k) today he would pay a 10% penalty ($10,000) and, say, 22% federal income tax ($22,000), leaving $68,000 (figures are only for the example).</p>
+<ul>
+<li><strong>View 1:</strong> he counts only the $20,000 in his checking account. Zakat: $500 if that is above the nisab, about [myzt_rate type="nisab-silver" currency="USD"] by silver today.</li>
+<li><strong>View 2:</strong> $20,000 + $68,000 = $88,000. Zakat: <strong>$2,200</strong>.</li>
+<li><strong>View 3:</strong> $20,000 plus the zakatable part of the funds inside the 401(k), which depends on what they hold.</li>
+</ul>
+<h3>Worked example: a UK workplace pension and SIPP</h3>
+<p>Ayesha is 38 and lives in Birmingham. She has £45,000 in a workplace pension and a SIPP, £8,000 in a cash ISA and £3,000 in her current account. She cannot touch the pensions until 57. On view 1 she counts £11,000 and pays £275. If her scholar follows view 2, she can only use the value she could actually get, and as UK pensions cannot be cashed in before pension age at all (except in rare cases such as serious ill health), many who hold view 2 for a 401(k) still apply view 1 to UK pensions.</p>
+
+<h2>ISAs and other savings accounts</h2>
+<ul>
+<li><strong>Cash ISA:</strong> the same as a bank balance. Count the whole balance. Interest on a conventional cash ISA is a separate question; many scholars ask you to give it away without intending reward, and not to count it as your wealth.</li>
+<li><strong>Stocks and shares ISA:</strong> the ISA is only a tax wrapper. Count the shares and funds inside it as you would anywhere else (market value if held to sell; the zakatable part, or the market value to be cautious, if held long term); see <a href="/zakat-on-shares/">zakat on shares</a>.</li>
+<li><strong>Lifetime ISA:</strong> you can withdraw early, but with a 25% charge. Count what you would receive after the charge, or the full value to be cautious.</li>
+<li><strong>Junior ISA and children's accounts:</strong> the money belongs to the child. In the Hanafi madhab there is no zakat on a child's wealth; in the Shafi'i, Maliki, Hanbali and Ahl-e-Hadith views the guardian pays it from the child's money each year.</li>
+<li><strong>Roth IRA:</strong> your own contributions (not the growth) can be withdrawn at any time without penalty or tax, so most scholars count at least the contributions every year.</li>
+<li><strong>US 529 and education accounts:</strong> money you can take back is yours; ask your scholar how to treat the penalty on withdrawals not used for education.</li>
+</ul>
+
+<h2>Mortgages, car finance and student loans</h2>
+<p>Debts reduce zakat in the Hanafi, Maliki and Hanbali schools, and not in the Shafi'i school (and our Ahl-e-Hadith setting). But a 25-year mortgage is different from a debt you must repay now. If the whole mortgage were deducted, most homeowners in the West would never pay zakat, even with large savings, which scholars do not accept.</p>
+<ul>
+<li><strong>The common contemporary view:</strong> deduct only the instalments falling due in the next 12 months (or, for some scholars, only those due on your zakat date), not the whole outstanding loan. Mufti Muhammad Taqi Usmani gives this view for long-term debts, and it is widely followed in the UK and North America. In the calculator, open <strong>Debts / Bills</strong> and enter 12 months of mortgage payments under <strong>Instalments due in the next 12 months</strong>.</li>
+<li><strong>Maliki:</strong> the classical Maliki rule first sets a debt against wealth that carries no zakat beyond your needs (such as a second car or a second property you live in), and only the rest reduces your zakat.</li>
+<li><strong>Shafi'i and Ahl-e-Hadith settings:</strong> no debt is deducted, so the mortgage makes no difference.</li>
+<li><strong>Car finance and personal loans:</strong> the same as a mortgage: the next 12 months' payments.</li>
+<li><strong>UK student loans:</strong> you repay only from income above a threshold, and the rest is written off. Many scholars therefore deduct nothing, or only what will actually be taken from your salary in the coming year.</li>
+<li><strong>Credit cards and bills due now:</strong> deduct in full where your madhab deducts debts.</li>
+</ul>
+<p>Whether a conventional mortgage is permissible in the first place is a separate question on which scholars also differ; this guide only deals with its effect on zakat.</p>
+
+<h2>How to enter it in the calculator</h2>
+<ol>
+<li>Choose your madhab and your currency (GBP, USD, CAD, AUD and the rest are all there).</li>
+<li>Put bank accounts and cash ISAs under <strong>Bank</strong>.</li>
+<li>Put shares, stocks and shares ISAs, and any pension you count (the amount your scholar's view gives) under <strong>Shares</strong>.</li>
+<li>Under <strong>Debts / Bills</strong>, enter credit cards and bills due now, and the next 12 months of mortgage and car payments under <strong>Instalments</strong>.</li>
+<li>Add gold and anything else you own. The calculator compares the total with the nisab and shows each madhab side by side.</li>
+</ol>
+<p>Living abroad with savings in Pakistan too? See <a href="/zakat-for-overseas-pakistanis/">zakat for overseas Pakistanis</a>, and for paying it, <a href="/giving-zakat-abroad/">giving zakat abroad and through charities</a>.</p>
+<p>This guide is general information, not a fatwa. Pension rules change, and so do your own circumstances; for large sums, ask a qualified scholar.</p>
+[myzt_faq]
+HTML
+			. $author . '[myzt_related slugs="zakat-on-provident-fund,zakat-on-shares,zakat-on-salary,zakat-for-overseas-pakistanis"]',
+			'faq'     => array(
+				array( 'q' => 'Do I pay zakat on my 401(k)?', 'a' => 'Scholars differ. Some say no zakat until you can withdraw it without penalty; others count each year what you would receive after the 10% penalty and tax; others count only the zakatable part of the funds. Follow the scholar you trust.' ),
+				array( 'q' => 'Is zakat due on a UK pension?', 'a' => 'A defined benefit pension carries no zakat until it is paid. For a workplace pension or SIPP you cannot access before pension age, many scholars say nothing is due until you can draw it; others count the zakatable part of the investments.' ),
+				array( 'q' => 'Is zakat due on an ISA?', 'a' => 'Yes. A cash ISA is counted like a bank balance; a stocks and shares ISA is counted like the shares and funds inside it.' ),
+				array( 'q' => 'Can I deduct my mortgage from zakat?', 'a' => 'Most contemporary scholars deduct only the payments due in the next 12 months, not the whole mortgage. In the Shafi\'i view no debt is deducted.' ),
+				array( 'q' => 'Pension fund par zakat hai?', 'a' => 'Jab tak pension fund se raqam nikal nahi sakte, bohat se ulama ke nazdeek us par zakat nahi; mil jane ke baad baqi bachat ke saath shamil hoti hai. Kuch ulama har saal wo raqam ginte hain jo penalty aur tax ke baad abhi nikal sakti hai.' ),
+			),
+		),
+
+		'giving-zakat-abroad' => array(
+			'title'   => 'Giving Zakat Abroad and Through Charities: What to Check',
+			'seo'     => 'Giving Zakat Abroad & Through Charities: Rules and Checks',
+			'desc'    => 'Sending zakat to another country, giving it through a charity, admin fees, non-Muslims and how to check a zakat fund in the UK, US, Canada and Pakistan.',
+			'nav'     => 'Giving zakat abroad',
+			'blurb'   => 'charities, abroad',
+			'content' => <<<'HTML'
+[myzt_answer q="Can I give my zakat abroad or through a charity?"]Yes. In the Hanafi madhab zakat sent to poor relatives or to people in greater need in another country is valid and not disliked, and the other schools allow it for greater need. A charity acts as your agent: your zakat is paid when it reaches an eligible person, so choose one that keeps zakat in a separate fund, gives it to individuals, and tells you how much goes on costs.[/myzt_answer]
+<p>Most people do not hand their zakat to the poor themselves. They send it to relatives in Pakistan, India or Bangladesh, give it to a mosque or a large charity, or tap a button in an appeal. Each route works, but each has rules that decide whether your zakat is really paid. This guide covers them, with the checks to make before you give.</p>
+
+<h2>Sending zakat to another country</h2>
+<p>Classical scholars discussed moving zakat away from where the wealth is (<em>naql al-zakat</em>). In short: the Hanafi school allows it, without dislike, for poor relatives and people in greater need (<em>al-Hidayah</em>; Ibn 'Abidin, <em>Radd al-Muhtar</em>); the Maliki school allows it where the need is greater; the relied-upon Shafi'i and Hanbali positions prefer local recipients, though zakat sent elsewhere still counts in the Hanbali school and many contemporary scholars of both schools allow it for greater need; scholars followed by Ahl-e-Hadith readers allow it for relatives or need. Followers of Ayatollah Sistani may transfer zakat too, but they bear the risk if it is lost on the way while deserving people were available locally. The madhab-by-madhab detail is on <a href="/zakat-for-overseas-pakistanis/">zakat for overseas Pakistanis</a>.</p>
+<h3>Which currency and which rate?</h3>
+<ul>
+<li>Work out your zakat in one currency on your zakat date (see <a href="/hawl-zakat-due-date/">your zakat date</a>).</li>
+<li>When you send it, the recipient must receive the full amount you owe. Transfer fees are your cost, not part of the zakat: if the bank or app keeps £5, add £5.</li>
+<li>If you send it in another currency, convert at the rate on the day you pay, so the recipient gets the value of what you owed.</li>
+</ul>
+<h3>Paying relatives back home</h3>
+<p>Poor brothers, sisters, uncles, aunts, nephews and in-laws may receive your zakat, with double reward. Your parents, grandparents, children, grandchildren and spouse cannot. Make the intention of zakat when you send it or when you set it aside; the regular money you send home for household costs is not zakat. You do not have to tell the relative it is zakat. See <a href="/who-can-receive-zakat/">who can receive zakat</a>.</p>
+
+<h2>Giving through a charity or mosque</h2>
+<p>A charity that collects zakat acts as your agent (<em>wakil</em>). In the Hanafi madhab and most others, your zakat is paid when the agent hands it to an eligible person, not when you donate. That gives you four things to check:</p>
+<ol>
+<li><strong>A separate zakat fund.</strong> Zakat must not be mixed with general donations and spent on anything the charity likes.</li>
+<li><strong>Ownership by a person (tamlik).</strong> The Hanafi school, followed by most Pakistanis and Indians, requires zakat to become the property of an eligible person. Building a mosque, school or hospital with it, or paying staff salaries, does not count. Food parcels, cash grants, paying a poor person's debt or medical bill on their behalf, and scholarships do.</li>
+<li><strong>Costs.</strong> The Quran gives a share to "those employed to collect it" (9:60). Many classical scholars limit this to collectors appointed by a Muslim state; some contemporary scholars allow charities to take a share for collection costs. If you want all of your zakat to reach the poor, choose a charity with a "100% zakat policy" that pays its costs from other donations, or ask what percentage it keeps.</li>
+<li><strong>Timing.</strong> Zakat should not be delayed once due. A charity that holds zakat for many months before distributing it delays your payment; ask when it is distributed.</li>
+</ol>
+<h2>Can zakat go to non-Muslims?</h2>
+<p>The four Sunni schools and the Ja'fari school agree that zakat for the poor and needy goes to poor Muslims; the Prophet ﷺ told Mu'adh it is "taken from their rich and given to their poor" (Bukhari 1395). Some scholars allow the category of "those whose hearts are to be reconciled" to include non-Muslims, but the Hanafi school considers that share no longer in use. If a charity helps everyone regardless of faith, give your zakat only if it confirms that zakat goes to eligible Muslims, and help everyone else with your sadaqah, which has no such limit. Ayatollah Sistani adds that zakat for the poor should go to a Shia Ithna Ashari believer.</p>
+<h2>Sayyids and Banu Hashim</h2>
+<p>In the Sunni schools, descendants of the Prophet's family (Banu Hashim, commonly called Sayyids in South Asia) may not receive zakat; help them from sadaqah. In the Ja'fari school a non-Sayyid's zakat may not go to a Sayyid, who receives sahm-e-sadat from khums instead.</p>
+
+<h2>How to check a charity, by country</h2>
+<figure class="wp-block-table"><table><thead><tr><th>Country</th><th>Where to check</th></tr></thead><tbody>
+<tr><td>United Kingdom</td><td>The <a href="https://register-of-charities.charitycommission.gov.uk/" rel="nofollow noopener" target="_blank">Charity Commission register</a> (England and Wales), OSCR (Scotland) or the Charity Commission for Northern Ireland: registration number, latest accounts and whether they were filed on time.</td></tr>
+<tr><td>United States</td><td>The IRS <a href="https://apps.irs.gov/app/eos/" rel="nofollow noopener" target="_blank">Tax Exempt Organization Search</a> for 501(c)(3) status, and the charity's Form 990.</td></tr>
+<tr><td>Canada</td><td>The CRA <a href="https://apps.cra-arc.gc.ca/ebci/hacc/srch/pub/dsplyBscSrch" rel="nofollow noopener" target="_blank">list of charities</a> and its annual T3010 return.</td></tr>
+<tr><td>Pakistan</td><td>Registration with the SECP (section 42 companies) or a provincial charity commission, and, for many large charities, certification by the Pakistan Centre for Philanthropy. Ask for audited accounts.</td></tr>
+</tbody></table></figure>
+<p>Then ask the charity: Is zakat kept in a separate fund? Who decides eligibility, and is there a scholar or Shariah board? What share goes on costs? Where did last year's zakat go? A good zakat charity answers these in writing.</p>
+<h2>Warning signs</h2>
+<ul>
+<li>Appeals forwarded on WhatsApp or social media with only a personal bank account or a mobile wallet number.</li>
+<li>No registration number, no accounts, or a name that imitates a well-known charity.</li>
+<li>Pressure to give "today only", or a promise that a donation will bring a particular reward or cure.</li>
+<li>Zakat spent on buildings, events or staff with no separate zakat fund.</li>
+</ul>
+<h2>Giving directly</h2>
+<p>Giving to people you know is in need, such as a relative, a neighbour, a widow in your area or a student, is often the surest way: you know they are eligible and that the full amount reached them. You may give someone more than the nisab in one go in the view of most scholars, although the Hanafi school dislikes making one poor person rich from zakat without a reason such as debt.</p>
+<p>To work out how much to give, use the <a href="/">zakat calculator</a>; for who may receive it, see <a href="/who-can-receive-zakat/">the 8 categories</a>. This guide is general information, not a fatwa.</p>
+[myzt_faq]
+HTML
+			. $author . '[myzt_related slugs="who-can-receive-zakat,zakat-for-overseas-pakistanis,zakat-on-pension-401k-isa,hawl-zakat-due-date"]',
+			'faq'     => array(
+				array( 'q' => 'Can I send my zakat to Pakistan from the UK?', 'a' => 'Yes. In the Hanafi madhab zakat sent to poor relatives or people in greater need in another country is valid and not disliked; the other schools allow it for greater need. Add the transfer fee yourself so the full amount arrives.' ),
+				array( 'q' => 'Can a charity take admin fees from zakat?', 'a' => 'Scholars differ. Many limit the collectors\' share to collectors appointed by a Muslim state; some allow charities to use part for costs. Choose a charity with a 100% zakat policy if you want all of it to reach the poor.' ),
+				array( 'q' => 'Can zakat be given to non-Muslims?', 'a' => 'Zakat for the poor and needy goes to poor Muslims in all the major schools. Help others with sadaqah.' ),
+				array( 'q' => 'Kya zakat bahar mulk bhej sakte hain?', 'a' => 'Haan. Hanafi maslak mein ghareeb rishtedaron ya zyada zaroorat mand logon ko doosre mulk mein zakat bhejna jaiz hai. Bhejne ki fees apni taraf se den taake poori zakat pohnche.' ),
+				array( 'q' => 'Is zakat paid when I donate to a charity or when it reaches the poor?', 'a' => 'The charity is your agent, so your zakat is paid when it reaches an eligible person. Choose a charity that distributes promptly and keeps zakat separate.' ),
 			),
 		),
 	);

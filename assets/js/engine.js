@@ -368,6 +368,26 @@
 		return { rows: rows, total: owed };
 	}
 
+	/**
+	 * Yearly averages for the missed-years tool (SUG-11): LBMA PM gold and silver in USD per troy ounce,
+	 * and the rupee's average rate to the dollar for the calendar year. Approximate by nature: a zakat date's
+	 * own price can be a few percent away from the year's average. Add a row each January.
+	 */
+	var NISAB_HISTORY = {
+		2015: [1160.06, 15.68, 102.77], 2016: [1250.80, 17.14, 104.77], 2017: [1257.12, 17.05, 105.46],
+		2018: [1268.49, 15.71, 121.82], 2019: [1392.60, 16.21, 150.04], 2020: [1769.64, 20.55, 161.84],
+		2021: [1798.61, 25.14, 162.91], 2022: [1800.09, 21.73, 204.87], 2023: [1940.54, 23.35, 280.36],
+		2024: [2386.20, 28.27, 278.47], 2025: [3431.54, 40.03, 281.87],
+	};
+
+	/** Nisab in a past year from the yearly averages: basis 'gold' | 'silver', currency 'USD' | 'PKR'; 0 when unknown. */
+	function historicalNisab(year, basis, currency) {
+		var h = NISAB_HISTORY[year];
+		if (!h || (currency !== 'USD' && currency !== 'PKR')) return 0;
+		var perGram = (basis === 'gold' ? h[0] : h[1]) / GRAMS_PER_OZ * (currency === 'PKR' ? h[2] : 1);
+		return Math.round((basis === 'gold' ? GOLD_NISAB_G : SILVER_NISAB_G) * perGram);
+	}
+
 	/* ---------- ushr (crops) ---------- */
 	var WASQ5_KG = 653; // 5 wasq (300 sa'), the Shafi'i/Maliki/Hanbali nisab for crops, about 653 kg of wheat
 	var SISTANI_CROP_KG = 847; // Ayatollah Sistani: about 847 kg, and only for wheat, barley, dates and raisins
@@ -384,43 +404,70 @@
 		return { rate: rate, nisabKg: nisabKg, due: due, kg: due ? q * rate : 0, value: due ? q * rate * num(price) : 0 };
 	}
 
-	/* ---------- livestock (grazing animals, Sunni schools) ---------- */
-	/** Returns a list of { n, what } to give, e.g. [{ n: 1, what: 'sheep' }]. Camels above 120: ask a scholar. */
-	function livestock(type, count) {
+	/* ---------- livestock (grazing animals) ---------- */
+	/**
+	 * Returns a list of { n, what } to give, e.g. [{ n: 1, what: 'sheep' }].
+	 * madhab: 'hanafi', 'jafari' or anything else for the Shafi'i, Maliki, Hanbali and Ahl-e-Hadith tables (SUG-11).
+	 * They differ only for sheep 301-399 (Ja'fari: 4), camels at 25 (Ja'fari: 5 sheep) and camels above 120.
+	 */
+	function livestock(type, count, madhab) {
 		var c = Math.floor(num(count));
 		if (type === 'sheep') {
 			if (c < 40) return [];
 			if (c <= 120) return [{ n: 1, what: 'sheep' }];
 			if (c <= 200) return [{ n: 2, what: 'sheep' }];
-			if (c < 400) return [{ n: 3, what: 'sheep' }];
+			// Sistani: 201 to 300 give 3, 301 to 399 give 4, then one per 100.
+			if (c <= 300 || (c < 400 && madhab !== 'jafari')) return [{ n: 3, what: 'sheep' }];
+			if (c < 400) return [{ n: 4, what: 'sheep' }];
 			return [{ n: Math.floor(c / 100), what: 'sheep' }];
 		}
 		if (type === 'cows') {
 			if (c < 30) return [];
-			// Every 30 = one 1-year calf (tabi'), every 40 = one 2-year cow (musinnah); pick the split that covers most.
-			var best = null;
-			for (var m = 0; m * 40 <= c; m++) {
-				var t = Math.floor((c - m * 40) / 30);
-				var covered = m * 40 + t * 30;
-				if (!best || covered > best.covered || (covered === best.covered && m > best.m)) best = { m: m, t: t, covered: covered };
-			}
-			var out = [];
-			if (best.t) out.push({ n: best.t, what: 'tabi' });
-			if (best.m) out.push({ n: best.m, what: 'musinnah' });
-			return out;
+			return split(c, 30, 'tabi', 40, 'musinnah');
 		}
 		if (type === 'camels') {
 			if (c < 5) return [];
-			if (c < 25) return [{ n: Math.floor(c / 5), what: 'sheep' }];
+			if (c < 25 || (c === 25 && madhab === 'jafari')) return [{ n: Math.floor(c / 5), what: 'sheep' }];
 			if (c <= 35) return [{ n: 1, what: 'bintMakhad' }];
 			if (c <= 45) return [{ n: 1, what: 'bintLabun' }];
 			if (c <= 60) return [{ n: 1, what: 'hiqqa' }];
 			if (c <= 75) return [{ n: 1, what: 'jadha' }];
 			if (c <= 90) return [{ n: 2, what: 'bintLabun' }];
 			if (c <= 120) return [{ n: 2, what: 'hiqqa' }];
-			return [{ n: 0, what: 'askScholar' }];
+			if (madhab === 'hanafi') return camelsHanafi(c);
+			// Abu Bakr's letter (Bukhari 1454): above 120, a bint labun for every 40 and a hiqqa for every 50.
+			return split(c, 40, 'bintLabun', 50, 'hiqqa');
 		}
 		return [];
+	}
+
+	/** Every a = one x, every b = one y; the split that covers most animals, the older animal (y) on a tie. */
+	function split(c, a, x, b, y) {
+		var best = null;
+		for (var m = 0; m * b <= c; m++) {
+			var k = Math.floor((c - m * b) / a);
+			var covered = m * b + k * a;
+			if (!best || covered > best.covered || (covered === best.covered && m > best.m)) best = { m: m, k: k, covered: covered };
+		}
+		var out = [];
+		if (best.k) out.push({ n: best.k, what: x });
+		if (best.m) out.push({ n: best.m, what: y });
+		return out;
+	}
+
+	/**
+	 * Hanafi camels above 120 (al-Hidayah, isti'naf): the table starts again on top of the hiqqas.
+	 * 121-149: 2 hiqqa plus a sheep per 5 (125-144) or a bint makhad (145-149); from 150, a hiqqa per 50 and the
+	 * rest of each 50 again: a sheep per 5 up to 24, bint makhad 25-35, bint labun 36-45, one more hiqqa 46-49.
+	 */
+	function camelsHanafi(c) {
+		var h = c < 150 ? 2 : Math.floor(c / 50), r = c - (c < 150 ? 120 : h * 50), out = [];
+		if (r >= 46) { h++; r = 0; }
+		out.push({ n: h, what: 'hiqqa' });
+		if (r >= 36) out.push({ n: 1, what: 'bintLabun' });
+		else if (r >= 25) out.push({ n: 1, what: 'bintMakhad' });
+		else if (r >= 5) out.push({ n: Math.floor(r / 5), what: 'sheep' });
+		return out;
 	}
 
 	/** Khums (Ja'fari): 20% of the year's surplus income still held at the khums date. */
@@ -810,7 +857,7 @@
 		toGrams: toGrams, perGram: perGram, karatFactor: karatFactor, finenessFactor: finenessFactor, parseAmount: parseAmount, nisabValues: nisabValues,
 		calculate: calculate, compare: compare, family: family, fitrana: fitrana, fidya: fidya, kaffara: kaffara, khums: khums,
 		DIRHAM_G: DIRHAM_G, MEHR: MEHR, mehrGrams: mehrGrams, mehrCheck: mehrCheck, DIYAT_SILVER_G: DIYAT_SILVER_G, DIYAT_NOTIFIED: DIYAT_NOTIFIED, diyatValue: diyatValue,
-		hawlDates: hawlDates, hawlYearsBetween: hawlYearsBetween, missedZakat: missedZakat, ushr: ushr, livestock: livestock, WASQ5_KG: WASQ5_KG, SISTANI_CROP_KG: SISTANI_CROP_KG,
+		hawlDates: hawlDates, hawlYearsBetween: hawlYearsBetween, missedZakat: missedZakat, historicalNisab: historicalNisab, NISAB_HISTORY: NISAB_HISTORY, ushr: ushr, livestock: livestock, WASQ5_KG: WASQ5_KG, SISTANI_CROP_KG: SISTANI_CROP_KG,
 		iddat: iddat, hijriParts: hijriParts, addDays: addDays, qurbani: qurbani,
 		parseText: parseText, parseTextDetail: parseTextDetail, countryDefaults: countryDefaults,
 	};

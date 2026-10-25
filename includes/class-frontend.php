@@ -22,6 +22,8 @@ class MYZT_Frontend {
 		add_shortcode( 'zakat_gold_rate', array( __CLASS__, 'gold_rate' ) );
 		add_shortcode( 'zakat_nisab', array( __CLASS__, 'nisab' ) );
 		add_shortcode( 'zakat_fitrana', array( __CLASS__, 'fitrana' ) );
+		add_shortcode( 'myzt_fitrana_intl', array( __CLASS__, 'fitrana_intl' ) );
+		add_shortcode( 'myzt_nisab_history', array( __CLASS__, 'nisab_history' ) );
 		add_shortcode( 'zakat_fidya', array( __CLASS__, 'fidya' ) );
 		add_shortcode( 'zakat_hawl', array( __CLASS__, 'hawl' ) );
 		add_shortcode( 'zakat_ushr', array( __CLASS__, 'ushr' ) );
@@ -131,7 +133,7 @@ class MYZT_Frontend {
 				'methodology' => self::page_url( 'methodology' ),
 				'khums'       => self::page_url( 'khums-calculator' ),
 			),
-			'fitrana'    => self::fitrana_config( $s ),
+			'fitrana'    => self::fitrana_config( $s ) + array( 'intl' => self::FITRANA_INTL ),
 		);
 		if ( MYZT_SEO::is_ur() ) {
 			$out['lang'] = 'ur'; // Urdu pages always open the widgets in Urdu.
@@ -181,6 +183,70 @@ class MYZT_Frontend {
 		);
 	}
 
+	/**
+	 * Indicative fitrana (and fidya per day) outside Pakistan, one cash value per person whatever the item,
+	 * from the body each country's Muslims usually follow, for Ramadan 1447 (March 2026) (SUG-09).
+	 * The fitrana and fidya tools use them when the visitor picks that currency; the guide shows them as a table
+	 * ([myzt_fitrana_intl]). Update every Ramadan; Saudi Arabia is left out because its scholars require food, not cash.
+	 */
+	const FITRANA_INTL = array(
+		'GBP' => array( 'fitrana' => 5, 'fidya' => 5, 'by' => 'UK charities such as Al Mustafa Welfare Trust (there is no single national body)', 'url' => 'https://www.almustafatrust.org/appeals/fitrana/' ),
+		'USD' => array( 'fitrana' => 10, 'fidya' => 15, 'by' => 'Fiqh Council of North America', 'url' => 'https://fiqhcouncil.org/fidyah-and-zakat-al-fitr/' ),
+		'CAD' => array( 'fitrana' => 10, 'fidya' => 0, 'by' => 'ICNA Relief Canada and the Muslim Association of Canada', 'url' => 'https://www.icnareliefcanada.ca/' ),
+		'AED' => array( 'fitrana' => 25, 'fidya' => 20, 'by' => 'UAE Council for Fatwa (or 2.5 kg of rice)', 'url' => 'https://gulfnews.com/uae/uae-fatwa-council-sets-ramadan-2026-zakat-al-fitr-and-fidyah-values-1.500436380' ),
+		'QAR' => array( 'fitrana' => 15, 'fidya' => 0, 'by' => 'Qatar Ministry of Awqaf, Zakat Fund (2.5 kg of rice)', 'url' => 'https://thepeninsulaqatar.com/article/04/03/2026/awqaf-ministry-sets-zakat-al-fitr-at-qr15-per-person' ),
+	);
+
+	/** [myzt_fitrana_intl]: table of the FITRANA_INTL figures with their sources (SUG-09). */
+	public static function fitrana_intl() {
+		$names = array( 'GBP' => 'United Kingdom', 'USD' => 'United States', 'CAD' => 'Canada', 'AED' => 'United Arab Emirates', 'QAR' => 'Qatar' );
+		$rows  = '';
+		foreach ( self::FITRANA_INTL as $c => $r ) {
+			$rows .= '<tr><td>' . esc_html( $names[ $c ] ) . '</td><td>' . esc_html( $c . ' ' . $r['fitrana'] ) . '</td><td>' . esc_html( $r['fidya'] ? $c . ' ' . $r['fidya'] : 'Not set; one fitrana per day (Hanafi)' ) . '</td><td><a href="' . esc_url( $r['url'] ) . '" rel="nofollow noopener" target="_blank">' . esc_html( $r['by'] ) . '</a></td></tr>';
+		}
+		return '<figure class="wp-block-table"><table><thead><tr><th>Country</th><th>Fitrana per person</th><th>Fidya per day</th><th>Set by</th></tr></thead><tbody>' . $rows . '</tbody></table><figcaption>Ramadan 1447 (March 2026), cash value per person. Check your local mosque each year.</figcaption></figure>';
+	}
+
+	/**
+	 * Yearly averages behind [myzt_nisab_history]: gold and silver (LBMA PM, USD per troy ounce) and the rupee's
+	 * average rate to the dollar. Must match NISAB_HISTORY in assets/js/engine.js (tests/content.test.js checks it) (SUG-11).
+	 */
+	const NISAB_HISTORY = array(
+		2015 => array( 1160.06, 15.68, 102.77 ),
+		2016 => array( 1250.80, 17.14, 104.77 ),
+		2017 => array( 1257.12, 17.05, 105.46 ),
+		2018 => array( 1268.49, 15.71, 121.82 ),
+		2019 => array( 1392.60, 16.21, 150.04 ),
+		2020 => array( 1769.64, 20.55, 161.84 ),
+		2021 => array( 1798.61, 25.14, 162.91 ),
+		2022 => array( 1800.09, 21.73, 204.87 ),
+		2023 => array( 1940.54, 23.35, 280.36 ),
+		2024 => array( 2386.20, 28.27, 278.47 ),
+		2025 => array( 3431.54, 40.03, 281.87 ),
+	);
+
+	/** [myzt_nisab_history]: silver and gold nisab in each past year, in dollars and rupees, newest first (SUG-11). */
+	public static function nisab_history() {
+		$oz   = 31.1034768;
+		$tola = 11.6638038;
+		$rows = '';
+		foreach ( array_reverse( self::NISAB_HISTORY, true ) as $y => $h ) {
+			$s     = 52.5 * $tola * $h[1] / $oz;
+			$g     = 7.5 * $tola * $h[0] / $oz;
+			$rows .= '<tr><td>' . (int) $y . '</td><td>$' . number_format( $s ) . '</td><td>Rs ' . self::lakh( $s * $h[2] ) . '</td><td>$' . number_format( $g ) . '</td><td>Rs ' . self::lakh( $g * $h[2] ) . '</td></tr>';
+		}
+		return '<figure class="wp-block-table"><table><thead><tr><th>Year</th><th>Silver nisab (USD)</th><th>Silver nisab (PKR)</th><th>Gold nisab (USD)</th><th>Gold nisab (PKR)</th></tr></thead><tbody>' . $rows .
+			'</tbody></table><figcaption>52.5 tola (612.35 g) of silver and 7.5 tola (87.48 g) of gold at the year\'s average LBMA price, rupees at the year\'s average rate to the dollar. Approximate; Pakistani market prices carry a premium.</figcaption></figure>';
+	}
+
+	/** 1234567 -> "12,34,567" (South Asian grouping). */
+	private static function lakh( $v ) {
+		$n    = (string) round( $v );
+		$last = substr( $n, -3 );
+		$rest = substr( $n, 0, -3 );
+		return ( '' === $rest ? '' : preg_replace( '/\B(?=(\d{2})+(?!\d))/', ',', $rest ) . ',' ) . $last;
+	}
+
 	/** Year of the fitrana amounts in use: the coming season once the owner enters them, else 2026 (CII 1447). */
 	public static function fitrana_year() {
 		$c = self::fitrana_config( MYZT_Settings::get() );
@@ -207,7 +273,7 @@ class MYZT_Frontend {
 	}
 
 	public static function calculator( $atts ) {
-		$a = shortcode_atts( array( 'madhab' => '', 'compare' => '', 'tiles' => '', 'currency' => '', 'unit' => '', 'country' => '' ), $atts, 'zakat_calculator' );
+		$a = shortcode_atts( array( 'madhab' => '', 'compare' => '', 'tiles' => '', 'currency' => '', 'unit' => '', 'country' => '', 'example' => '' ), $atts, 'zakat_calculator' );
 		$a['madhab'] = sanitize_key( $a['madhab'] );
 		// Asset pages open the tiles they are about, in the visitor's first visit only (FIX-158).
 		$preset = array(
@@ -216,6 +282,8 @@ class MYZT_Frontend {
 			'unit'     => sanitize_key( $a['unit'] ),
 			// A country page keeps its currency and unit for every visitor, wherever they are (FIX-220).
 			'country'  => strtoupper( substr( preg_replace( '/[^A-Za-z]/', '', $a['country'] ), 0, 2 ) ),
+			// A page's worked example, filled in on request (SUG-04).
+			'example'  => sanitize_key( $a['example'] ),
 		);
 		return self::widget( 'calculator', array( 'madhab' => $a['madhab'], 'compare' => sanitize_key( $a['compare'] ) ) + $preset ) . self::ad_after_calculator();
 	}
