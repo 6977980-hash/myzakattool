@@ -24,7 +24,7 @@
 			ownRate: 'Use my own local rate', sarafa: 'International rate. Your jeweller\'s (Sarafa) rate may be higher; tick "Use my own local rate" above to enter it.', ownGold: 'Gold 24K price per', ownSilver: 'Silver price per',
 			rateMissing: 'Live rate not available right now. Please enter your local rate.',
 			ownNeedBoth: 'Enter both the gold and the silver rate to use your own rate. Until then the live rate is used.',
-			quickPh: 'Type it: "3 tola gold, 5 lakh cash and 1 lakh loan"', fill: 'Fill',
+			quickPh: 'Type it: "3 tola gold, 5 lakh cash and 1 lakh loan"', quickPhS: 'e.g. 3 tola gold, 5 lakh cash', fill: 'Fill',
 			filled: 'Filled from your text. Please check the fields below.', notUnderstood: 'Could not read that. Try: 3 tola gold, 2 lakh bank',
 			fillCash: 'No kind was named for %s, so it was taken as cash.', fillUnplaced: 'Could not place: %s. Please enter it in the right box below.',
 			fillCheck: 'Please check: %s? That is more than 1,000 tola, so it was not filled.',
@@ -155,6 +155,9 @@
 			err_negative: 'Amounts cannot be negative. Enter debts under Debts / Bills. This value is not counted.',
 			err_negative_any: 'Amounts cannot be negative. This value is not counted.',
 			err_invalid: 'Please type a plain number, for example 250000 or 2,50,000. This value is not counted.',
+			err_big: 'Please check this number: it is more than 10 trillion. This value is not counted.',
+			err_whole: 'Enter a whole number of people, 1 or more.',
+			f_helper: 'Indicative only: about %k kg of %i per person. Enter your local price of 1 kg to fill the amount.', f_kgPrice: 'Local price of 1 kg',
 			fineness: 'Fineness', fine999: 'Pure (999)', fine925: 'Sterling (925)', fine900: '900',
 			c_toPay: 'Still to pay',
 			fileBad: 'This file could not be opened. Please choose a data file saved from this calculator.',
@@ -182,7 +185,7 @@
 			ownRate: 'اپنا مقامی ریٹ لکھیں', sarafa: 'یہ بین الاقوامی ریٹ ہے۔ آپ کے صراف کا ریٹ زیادہ ہو سکتا ہے؛ اوپر "اپنا مقامی ریٹ لکھیں" پر ٹک کر کے اپنا ریٹ لکھیں۔', ownGold: 'سونا 24 قیراط فی', ownSilver: 'چاندی فی',
 			rateMissing: 'ابھی لائیو ریٹ دستیاب نہیں۔ براہ کرم اپنا مقامی ریٹ لکھیں۔',
 			ownNeedBoth: 'اپنا ریٹ استعمال کرنے کے لیے سونے اور چاندی دونوں کا ریٹ لکھیں۔ تب تک لائیو ریٹ استعمال ہوگا۔',
-			quickPh: 'لکھیں: 3 tola sona, 5 lakh cash aur 1 lakh qarz', fill: 'بھریں',
+			quickPh: 'لکھیں: 3 tola sona, 5 lakh cash aur 1 lakh qarz', quickPhS: 'مثلاً: 3 tola sona, 5 lakh cash', fill: 'بھریں',
 			filled: 'آپ کی تحریر سے خانے بھر دیے گئے۔ نیچے چیک کر لیں۔', notUnderstood: 'سمجھ نہیں آیا۔ ایسے لکھیں: 3 tola sona, 2 lakh bank',
 			fillCash: '%s کے ساتھ قسم نہیں لکھی تھی، اس لیے اسے نقد مانا گیا۔', fillUnplaced: 'یہ کہیں نہیں لگ سکا: %s۔ نیچے صحیح خانے میں لکھ دیں۔',
 			fillCheck: 'ذرا چیک کریں: %s؟ یہ 1,000 تولہ سے زیادہ ہے، اس لیے نہیں بھرا گیا۔',
@@ -312,6 +315,9 @@
 			err_negative: 'رقم منفی نہیں ہو سکتی۔ قرض "قرض/بل" والے حصے میں لکھیں۔ یہ رقم شامل نہیں کی گئی۔',
 			err_negative_any: 'رقم منفی نہیں ہو سکتی۔ یہ رقم شامل نہیں کی گئی۔',
 			err_invalid: 'صرف عدد لکھیں، مثلاً 250000 یا 2,50,000۔ یہ رقم شامل نہیں کی گئی۔',
+			err_big: 'یہ عدد چیک کر لیں: یہ 10 کھرب سے زیادہ ہے۔ یہ رقم شامل نہیں کی گئی۔',
+			err_whole: 'افراد کی پوری تعداد لکھیں، 1 یا زیادہ۔',
+			f_helper: 'صرف اندازہ: فی فرد تقریباً %k کلو %i۔ رقم بھرنے کے لیے 1 کلو کی مقامی قیمت لکھیں۔', f_kgPrice: '1 کلو کی مقامی قیمت',
 			fineness: 'خالصیت', fine999: 'خالص (999)', fine925: 'اسٹرلنگ (925)', fine900: '900',
 			c_toPay: 'ابھی ادا کرنی ہے',
 			fileBad: 'یہ فائل نہیں کھل سکی۔ اسی کیلکولیٹر سے محفوظ کی گئی ڈیٹا فائل منتخب کریں۔',
@@ -343,11 +349,19 @@
 			return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
 		});
 	}
-	/** Typed amount as a number; negative or unreadable input counts as 0 and is flagged by checkInput(). */
-	function num(v) { return E.parseAmount(v).value; }
-	/** Mark a number box invalid (aria-invalid plus an inline message) while it holds a negative or unreadable value. */
+	/* Above 10 trillion an amount is almost surely a typing slip (FIX-211), so it is flagged and not counted. */
+	var MAX_AMOUNT = 1e13;
+	function amount(v) {
+		var r = E.parseAmount(v);
+		return r.ok && r.value > MAX_AMOUNT ? { value: 0, ok: false, error: 'big' } : r;
+	}
+	/** Typed amount as a number; negative, unreadable or huge input counts as 0 and is flagged by checkInput(). */
+	function num(v) { return amount(v).value; }
+	/** Mark a number box invalid (aria-invalid plus an inline message) while it holds a negative, unreadable or huge value. */
 	function checkInput(el) {
-		var r = E.parseAmount(el.value), box = el.closest('.myzt-field') || el.parentNode;
+		var r = amount(el.value), box = el.closest('.myzt-field') || el.parentNode;
+		// A box for a count of people takes whole numbers from 1 up (FIX-211).
+		if (r.ok && el.hasAttribute('data-whole') && String(el.value).trim() !== '' && (r.value < 1 || r.value % 1)) r = { value: 0, ok: false, error: 'whole' };
 		var msg = box.querySelector('.myzt-err');
 		if (r.ok) {
 			el.removeAttribute('aria-invalid');
@@ -685,8 +699,11 @@
 
 		// own.gold / own.silver are stored per gram (perGram: true) so a unit switch does not change them.
 		function defaults() {
+			// A first visit without a page currency opens in the currency and unit picked in another tool (FIX-230).
+			var pref = pageCC ? {} : sharedPref();
 			return {
-				v: 1, madhab: cd.madhab, currency: cd.currency, unit: cd.unit,
+				v: 1, madhab: cd.madhab, currency: pref.currency && currencies().indexOf(pref.currency) >= 0 ? pref.currency : cd.currency,
+				unit: UNITS.indexOf(pref.unit) >= 0 ? pref.unit : cd.unit,
 				persons: [newPerson('')], active: 0, nisabBasis: '', own: { on: false, gold: 0, silver: 0, perGram: true },
 			};
 		}
@@ -929,7 +946,9 @@
 				if (live) html += '<div class="myzt-note" data-ownwarn' + (own ? ' hidden' : '') + '>' + esc(t('ownNeedBoth')) + '</div>';
 			}
 			// Quick text.
-			html += '<div class="myzt-quick"><input class="myzt-inp" data-quick placeholder="' + esc(t('quickPh')) + '" aria-label="' + esc(t('quickPh')) + '"><button type="button" class="myzt-btn" data-act="fill">' + esc(t('fill')) + '</button></div>';
+			// Phones get a shorter example, so the placeholder is not cut off (FIX-224).
+			var narrow = window.matchMedia && matchMedia('(max-width:480px)').matches;
+			html += '<div class="myzt-quick"><input class="myzt-inp" data-quick placeholder="' + esc(t(narrow ? 'quickPhS' : 'quickPh')) + '" aria-label="' + esc(t('quickPh')) + '"><button type="button" class="myzt-btn" data-act="fill">' + esc(t('fill')) + '</button></div>';
 			if (ui.msg) html += '<div class="myzt-note" role="status">' + esc(ui.msg) + '</div>';
 			// Family members.
 			html += '<div class="myzt-people">' + st.persons.map(function (pp, i) {
@@ -1033,12 +1052,14 @@
 			var all = E.compare(input, pr);
 			// With zakat already paid, also show what is left to pay, so the table matches the main result (FIX-010).
 			var paid = all.some(function (r) { return r.paidEntered > 0; });
+			var L = { j: esc(t('c_jewellery')), d: esc(t('c_debts')), n: esc(t('c_nisab')), z: esc(t('c_zakat')), p: esc(t('c_toPay')), r: esc(t('c_ref')) };
 			var rows = all.map(function (r) {
 				var m = E.MADHABS[r.madhab];
 				var nb = r.khums ? t('basisCoins') : (m.cashNisab === 'lower' ? t('lower') : t(r.nisabBasis === 'gold' ? 'basisGold' : 'basisSilver'));
 				var ref = CFG.urls && CFG.urls.methodology ? '<a href="' + esc(CFG.urls.methodology) + '#' + r.madhab + '">' + esc(m.ref.split(',')[0]) + '</a>' : esc(m.ref.split(',')[0]);
-				return '<tr class="' + (r.madhab === st.madhab ? 'sel' : '') + '"><td>' + esc(mname(r.madhab)) + '</td><td>' + esc(m.jewellery ? t('included') : r.notes.indexOf('shafii_excess_jewellery') >= 0 ? t('includedAbove') : t('exempt')) + '</td><td>' + esc(m.debts ? t('yes') : t('no')) + '</td><td>' + esc(nb) + '</td>' +
-					'<td class="z">' + money(r.zakat, st.currency) + (r.khums ? ' · ' + esc(t('seeKhums')) : '') + '</td>' + (paid ? '<td class="z">' + money(r.payable, st.currency) + '</td>' : '') + '<td>' + ref + '</td></tr>';
+				// data-l labels each cell when a phone shows the rows as stacked cards (FIX-224).
+				return '<tr class="' + (r.madhab === st.madhab ? 'sel' : '') + '"><td class="m">' + esc(mname(r.madhab)) + '</td><td data-l="' + L.j + '">' + esc(m.jewellery ? t('included') : r.notes.indexOf('shafii_excess_jewellery') >= 0 ? t('includedAbove') : t('exempt')) + '</td><td data-l="' + L.d + '">' + esc(m.debts ? t('yes') : t('no')) + '</td><td data-l="' + L.n + '">' + esc(nb) + '</td>' +
+					'<td class="z" data-l="' + L.z + '">' + money(r.zakat, st.currency) + (r.khums ? ' · ' + esc(t('seeKhums')) : '') + '</td>' + (paid ? '<td class="z" data-l="' + L.p + '">' + money(r.payable, st.currency) + '</td>' : '') + '<td data-l="' + L.r + '">' + ref + '</td></tr>';
 			}).join('');
 			return '<div class="myzt-card myzt-cmp"><div class="myzt-cmp-h"><b>' + esc(t('cmpTitle')) + '</b><span class="myzt-small">' + esc(t('cmpSub')) + '</span></div>' +
 				'<div class="myzt-scroll"><table class="myzt-table"><thead><tr><th>' + esc(t('c_madhab')) + '</th><th>' + esc(t('c_jewellery')) + '</th><th>' + esc(t('c_debts')) + '</th><th>' + esc(t('c_nisab')) + '</th><th>' + esc(t('c_zakat')) + '</th>' + (paid ? '<th>' + esc(t('c_toPay')) + '</th>' : '') + '<th>' + esc(t('c_ref')) + '</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>';
@@ -1051,10 +1072,12 @@
 				stickyEl.className = 'myzt myzt-sticky';
 				stickyEl.setAttribute('aria-hidden', 'true');
 				document.body.appendChild(stickyEl);
-				document.body.classList.add('myzt-has-sticky');
 			}
 			setLang(stickyEl);
-			if (!pr) { stickyEl.hidden = true; announce(''); return; }
+			// Until a figure is entered the bar would only say "Rs 0" and cover the rates and the dark-mode button (FIX-224).
+			var show = !!pr && hasFigures();
+			document.body.classList.toggle('myzt-has-sticky', show);
+			if (!show) { stickyEl.hidden = true; announce(''); return; }
 			var all = results(pr);
 			var total = all.length > 1 ? E.family(all) : all[0].payable;
 			var text = (all.length > 1 ? t('family') : t('yourZakat')) + ' (' + mname(st.madhab) + '): ' + money(total, st.currency);
@@ -1134,6 +1157,7 @@
 				var key = el.dataset.set;
 				if (key === 'currency') switchCurrency(el.value);
 				else st[key] = el.value;
+				if (key === 'currency' || key === 'unit') sharePref({ currency: st.currency, unit: st.unit });
 				if (key === 'madhab') st.nisabBasis = '';
 				persist(); render();
 			} else if (el.dataset.act === 'own') {
@@ -1314,9 +1338,27 @@
 	/* ===================================================================== */
 	/* Small widgets: nisab table, gold rate, fitrana, khums                  */
 	/* ===================================================================== */
+	/*
+	 * One currency and unit choice for every tool (FIX-230): a currency or unit the visitor picks in any calculator
+	 * is kept here, and the other tools open with it unless their page fixes its own currency.
+	 */
+	var PREF_KEY = 'myzt_pref';
+	function sharedPref() {
+		var p = load(PREF_KEY, {});
+		return p && typeof p === 'object' ? p : {};
+	}
+	function sharePref(ch) {
+		var p = sharedPref();
+		if (ch.currency && /^[A-Z]{3}$/.test(ch.currency)) p.currency = ch.currency;
+		if (ch.unit && /^(tola|gram|oz)$/.test(ch.unit)) p.unit = ch.unit;
+		save(PREF_KEY, p);
+	}
+	document.addEventListener('change', function (e) {
+		if (e.target.dataset && e.target.dataset.cur !== undefined && e.target.closest('.myzt')) sharePref({ currency: e.target.value });
+	}, true);
 	function pickCurrency(root) {
-		var cd = E.countryDefaults(COUNTRY);
-		var c = root.dataset.currency || cd.currency;
+		var cd = E.countryDefaults(COUNTRY), pref = sharedPref().currency;
+		var c = root.dataset.currency || (pref && currencies().indexOf(pref) >= 0 ? pref : cd.currency);
 		return currencies().indexOf(c) >= 0 ? c : 'USD';
 	}
 	function curSelect(cur) {
@@ -1373,16 +1415,30 @@
 	function Fitrana(root) {
 		var F = CFG.fitrana || {};
 		var cur = pickCurrency(root);
-		var st = { persons: 1, item: 'wheat', amount: 0 };
+		var st = { persons: 1, pText: '1', item: 'wheat', amount: 0, kg: 0 };
+		// Half a sa' of wheat (about 2 kg, the figure the site's guides use) or one sa' (about 4 kg) of the others.
+		var KG = { wheat: 2, barley: 4, dates: 4, raisins: 4 };
 		function preset() { return (F.currency === cur && F[st.item]) ? +F[st.item] : 0; }
 		st.amount = preset();
-		function render() { keepFocus(root, draw); }
+		function render() {
+			keepFocus(root, draw);
+			var pb = root.querySelector('[data-whole]');
+			if (pb) checkInput(pb);
+		}
+		/* Outside the preset currency there is no announced figure, so offer kg × local price as a starting point (FIX-230). */
+		function helper() {
+			if (preset()) return '';
+			var item = t(st.item);
+			return '<div class="myzt-field"><label for="myzt-fk">' + esc(t('f_kgPrice')) + ' (' + cur + ')<span class="myzt-help">' + esc(t('f_helper').replace('%k', KG[st.item]).replace('%i', lang === 'en' ? item.toLowerCase() : item)) + '</span></label>' +
+				'<input class="myzt-inp" id="myzt-fk" inputmode="decimal" data-f="kg" value="' + esc(plain(st.kg, cur)) + '" placeholder="0"></div>';
+		}
 		function draw() {
 			root.innerHTML = '<div class="myzt-card myzt-mini">' + curSelect(cur) +
-				'<div class="myzt-field"><label for="myzt-fp">' + esc(t('persons')) + '</label><input class="myzt-inp" id="myzt-fp" inputmode="numeric" data-f="persons" value="' + st.persons + '"></div>' +
+				'<div class="myzt-field"><label for="myzt-fp">' + esc(t('persons')) + '</label><input class="myzt-inp" id="myzt-fp" inputmode="numeric" data-whole data-f="persons" value="' + esc(st.pText) + '"></div>' +
 				'<div class="myzt-field"><label>' + esc(t('item')) + '</label><span class="myzt-seg">' + ['wheat', 'barley', 'dates', 'raisins'].map(function (i) {
 					return '<button type="button" data-item="' + i + '" aria-pressed="' + (st.item === i) + '">' + esc(t(i)) + '</button>';
 				}).join('') + '</span></div>' +
+				helper() +
 				'<div class="myzt-field"><label for="myzt-fa">' + esc(t('perPerson')) + ' (' + cur + ')</label><input class="myzt-inp" id="myzt-fa" inputmode="decimal" data-f="amount" value="' + esc(plain(st.amount, cur)) + '"></div>' +
 				'<div class="myzt-due">' + esc(t('fitranaTotal')) + '</div><div class="myzt-amt" data-out>' + money(E.fitrana(st.persons, st.amount), cur) + '</div>' +
 				presetNote(F, cur, preset()) + '<div class="myzt-disc">' + esc(t('disc')) + '</div></div>';
@@ -1390,17 +1446,27 @@
 		root.addEventListener('input', function (e) {
 			var f = e.target.dataset.f;
 			if (!f) return;
-			// People are whole numbers: 2.5 counts as 2.
-			st[f] = f === 'persons' ? Math.floor(num(e.target.value)) : num(e.target.value);
+			// People are whole numbers from 1 up; 2.5 or -1 gets the inline error and counts as 0 until fixed (FIX-211).
+			if (f === 'persons') { st.pText = e.target.value; st.persons = e.target.getAttribute('aria-invalid') === 'true' ? 0 : num(e.target.value); }
+			else st[f] = num(e.target.value);
+			if (f === 'kg') {
+				st.amount = Math.round(st.kg * KG[st.item] * 100) / 100;
+				root.querySelector('[data-f="amount"]').value = plain(st.amount, cur);
+			}
 			root.querySelector('[data-out]').textContent = money(E.fitrana(st.persons, st.amount), cur);
 		});
 		root.addEventListener('change', function (e) {
-			if (e.target.dataset.f === 'persons') e.target.value = st.persons;
-			if (e.target.dataset.cur !== undefined) { cur = e.target.value; st.amount = preset(); render(); }
+			if (e.target.dataset.cur !== undefined) { cur = e.target.value; st.kg = 0; st.amount = preset(); render(); }
 		});
 		root.addEventListener('click', function (e) {
 			var b = e.target.closest('[data-item]');
-			if (b) { st.item = b.dataset.item; st.amount = preset() || st.amount; render(); }
+			if (b) {
+				st.item = b.dataset.item;
+				// A price per kg belongs to the item it was typed for.
+				st.kg = 0;
+				st.amount = preset() || st.amount;
+				render();
+			}
 		});
 		render();
 		speaker(root, function () { return t('fitranaTotal') + ': ' + outText(root, '[data-out]'); });
@@ -1834,8 +1900,8 @@
 	/** Is qurbani wajib? Hanafi uses the zakat nisab without the waiting year; the other schools call it sunnah. */
 	function Qurbani(root) {
 		var cur = pickCurrency(root);
-		var cd = E.countryDefaults(COUNTRY);
-		var st = { madhab: cd.madhab, cash: 0, gold: 0, karat: 22, silver: 0, unit: cd.unit === 'tola' ? 'tola' : 'gram', extra: 0, trade: 0, owed: 0, debts: 0, travel: false };
+		var cd = E.countryDefaults(COUNTRY), pu = sharedPref().unit || cd.unit;
+		var st = { madhab: cd.madhab, cash: 0, gold: 0, karat: 22, silver: 0, unit: pu === 'tola' ? 'tola' : 'gram', extra: 0, trade: 0, owed: 0, debts: 0, travel: false };
 		var today = new Date().toISOString().slice(0, 10);
 		function input() {
 			return {
@@ -1904,7 +1970,7 @@
 		root.addEventListener('click', function (e) {
 			var m = e.target.closest('[data-mz]'), u = e.target.closest('[data-qu]');
 			if (m) { st.madhab = m.dataset.mz; render(); }
-			if (u) { st.unit = u.dataset.qu; render(); }
+			if (u) { st.unit = u.dataset.qu; sharePref({ unit: st.unit }); render(); }
 		});
 		render();
 		speaker(root, function () { return outText(root, '[data-out]'); });
