@@ -478,35 +478,37 @@
 
 	/* ---------- Roman Urdu / English free-text parser ---------- */
 
+	// Urdu-script words are kept too, so "۳ تولہ سونا" reads like "3 tola sona" (FIX-217).
 	var MULT = [
-		[/^(crore|karor|karore|cr)$/, 1e7],
-		[/^(lakh|lac|lakhs|lacs|laakh|lakh?h)$/, 1e5],
+		[/^(crore|karor|karore|cr|کروڑ)$/, 1e7],
+		[/^(lakh|lac|lakhs|lacs|laakh|lakh?h|لاکھ)$/, 1e5],
 		[/^(million|mn|m)$/, 1e6],
-		[/^(hazar|hazaar|hazār|thousand|k)$/, 1e3],
+		[/^(hazar|hazaar|hazār|thousand|k|ہزار)$/, 1e3],
 	];
 	var UNIT = [
-		[/^(tola|tole|tolay|tolas|tolah)$/, 'tola'],
-		[/^(gram|grams|gm|gms|g|gr|grm)$/, 'gram'],
+		[/^(tola|tole|tolay|tolas|tolah|تولہ|تولے|تولا)$/, 'tola'],
+		[/^(gram|grams|gm|gms|g|gr|grm|گرام)$/, 'gram'],
 		[/^(oz|ounce|ounces)$/, 'oz'],
-		[/^(karat|carat|kt|ct)$/, 'karat'],
+		[/^(karat|karats|carat|carats|karaat|kerat|kt|ct|قیراط|کیرٹ)$/, 'karat'],
 	];
 	var KEYWORDS = [
-		[/^(sona|sonay|sone|sonaa|gold|zevar|zewar|jewellery|jewelry|zaiwar)$/, 'gold'],
-		[/^(chandi|chaandi|silver)$/, 'silver'],
-		[/^(bank|account|savings|saving)$/, 'bank'],
-		[/^(cash|naqd|naqdi|ghar)$/, 'cash'],
-		[/^(qarz|qarza|karz|udhar|udhaar|loan|debt|debts|bill|bills)$/, 'debts'],
-		[/^(business|karobar|kaarobar|dukan|stock|maal|inventory)$/, 'stock'],
-		[/^(committee|commitee|bc|bisi|kameti)$/, 'committee'],
+		[/^(sona|sonay|sone|sonaa|gold|zevar|zewar|jewellery|jewelry|zaiwar|سونا|سونے|زیور|زیورات)$/, 'gold'],
+		[/^(chandi|chaandi|silver|چاندی)$/, 'silver'],
+		[/^(bank|account|savings|saving|بینک|اکاؤنٹ)$/, 'bank'],
+		[/^(cash|naqd|naqdi|ghar|نقد|نقدی|کیش)$/, 'cash'],
+		// Money the visitor owes: "owe 50k", "1 lakh dena hai" (FIX-217). Money owed to them is "lena" below.
+		[/^(qarz|qarza|karz|udhar|udhaar|loan|loans|debt|debts|bill|bills|owe|owes|owed|owing|dena|deni|dene|payable|قرض|قرضہ|ادھار)$/, 'debts'],
+		[/^(business|karobar|kaarobar|dukan|stock|maal|inventory|کاروبار|دکان)$/, 'stock'],
+		[/^(committee|commitee|bc|bisi|kameti|کمیٹی)$/, 'committee'],
 		[/^(shares|share|stocks|mutual)$/, 'shares'],
 		[/^(crypto|bitcoin|btc)$/, 'crypto'],
-		[/^(plot|plaat|property|zameen)$/, 'plot'],
+		[/^(plot|plaat|property|zameen|پلاٹ)$/, 'plot'],
 		[/^(lena|lenay|receivable|receivables|wapsi)$/, 'receivables'],
 		[/^(prize|bond|bonds)$/, 'prizeBonds'],
 		[/^(nsc|behbood|certificate|certificates|dsc|sarmaya)$/, 'savingsCerts'],
 	];
 	// Words that only name the currency: they mean cash unless another kind (bank, qarz...) is named.
-	var CURRENCY_WORD = /^(paise|paisay|paisa|rupay|rupaye|rupees|rupee|rs|pkr|inr)$/;
+	var CURRENCY_WORD = /^(paise|paisay|paisa|rupay|rupaye|rupees|rupee|rupaiya|rs|pkr|inr|روپے|روپیہ)$/;
 	// Spoken fractions: dedh 1.5, dhai/arhai 2.5; sawa X = X + 0.25, sadhe X = X + 0.5, paune X = X - 0.25.
 	var FRACTION = [[/^(dedh|derh|dehd)$/, 1.5], [/^(dhai|dhaai|arhai|adhai|arhaai)$/, 2.5]];
 	var FRACTION_ADD = [[/^(sawa|sava)$/, 0.25], [/^(sadhe|saadhe|sarhe|saarhe|sade)$/, 0.5], [/^(paune|pone)$/, -0.25]];
@@ -553,21 +555,25 @@
 		if (!prev.karat && item.karat) prev.karat = item.karat;
 	}
 
+	var WEIGHT_UNIT = { tola: 1, gram: 1, oz: 1 };
+
 	/**
 	 * "mere paas 3 tola sona, 5 lakh cash aur 2 lakh qarz hai"
-	 * -> { gold: {weight:3, unit:'tola'}, cash: 500000, debts: 200000 }
+	 * -> { values: { gold: {weight:3, unit:'tola'}, cash: 500000, debts: 200000 }, guessedCash: [], unplaced: [] }
+	 * guessedCash: amounts with no kind word, taken as cash ("aur 50 hazar").
+	 * unplaced: amounts that could not be given a kind ({ amount, unit }), so the page can say so (FIX-217).
 	 */
-	function parseText(text) {
-		var out = {};
-		if (!text) return out;
+	function parseTextDetail(text) {
+		var out = {}, guessed = [], unplaced = [];
+		if (!text) return { values: out, guessedCash: guessed, unplaced: unplaced };
 		var parts = westernDigits(text).toLowerCase()
 			.replace(/(\d),(\d)/g, '$1$2')
 			.replace(/\b(?:rs|pkr|inr)\.?\s*(?=\d)/g, '')
 			.replace(/(\d)([a-z])/g, '$1 $2')
-			.split(/\s*(?:,|;|\+|\band\b|\baur\b|\bor\b|\bphir\b|\.\s)\s*/);
+			.split(/\s*(?:,|;|\+|\band\b|\baur\b|\bor\b|\bphir\b|\.\s|،|۔|\sاور\s)\s*/);
 		var items = [];
 		for (var p = 0; p < parts.length; p++) {
-			var words = spokenNumbers(parts[p].split(/[^a-z0-9.]+/).filter(Boolean));
+			var words = spokenNumbers(parts[p].split(/[^a-z0-9.؀-ۿ]+/).filter(Boolean));
 			var cur = { amount: null, unit: null, karat: null, kind: null, weak: false, lastMul: 0 };
 			items.push(cur);
 			for (var i = 0; i < words.length; i++) {
@@ -578,8 +584,14 @@
 					var mul = match(MULT, next);
 					var u = match(UNIT, next);
 					// "22k" after a weight is the karat, unless a money word follows ("3 tola sona 20k cash").
-					var after = match(KEYWORDS, words[i + 2] || '');
-					var kAsKarat = next === 'k' && n <= 24 && cur.amount !== null && (!cur.kind || cur.kind === 'gold') && (!after || after === 'gold') && !CURRENCY_WORD.test(words[i + 2] || '');
+					var w2 = words[i + 2] || '';
+					var after = match(KEYWORDS, w2);
+					var noMoney = (!after || after === 'gold') && !CURRENCY_WORD.test(w2);
+					var kAsKarat = next === 'k' && n <= 24 && noMoney && (
+						(cur.amount !== null && (!cur.kind || cur.kind === 'gold')) ||
+						// "gold 22k 5 tola", "22k gold 5 tola", "22k 5 tola sona": no weight yet, but the karat range and
+						// the words around it say karat, not thousand (FIX-216).
+						(cur.amount === null && n >= 9 && (cur.kind === 'gold' || after === 'gold' || (isNum(w2) && WEIGHT_UNIT[match(UNIT, words[i + 3] || '')]))));
 					if (u === 'karat' || kAsKarat) { cur.karat = n; i++; continue; }
 					// "5 lakh 50 hazar": a smaller amount right after a multiplied one is added to it.
 					if (cur.amount !== null && !cur.kind && !cur.weak && cur.lastMul && !u && (mul ? mul < cur.lastMul : n < cur.lastMul)) {
@@ -593,7 +605,18 @@
 						cur = { amount: null, unit: null, karat: null, kind: null, weak: false, lastMul: 0 };
 						items.push(cur);
 					}
-					if (cur.amount !== null) { if (mul || u) i++; continue; }
+					// "3 tola 5 gram": two weights of the same thing are added.
+					if (cur.amount !== null && cur.unit && WEIGHT_UNIT[u]) {
+						cur.amount = Math.round((toGrams(cur.amount, cur.unit) + toGrams(n, u)) * 1000) / 1000;
+						cur.unit = 'gram';
+						i++;
+						continue;
+					}
+					// Two bare amounts in a row ("50000 20000"): the first one has no kind, keep it as its own item.
+					if (cur.amount !== null) {
+						cur = { amount: null, unit: null, karat: null, kind: null, weak: false, lastMul: 0 };
+						items.push(cur);
+					}
 					if (mul) { n *= mul; i++; cur.lastMul = mul; }
 					else if (u) { cur.unit = u; i++; }
 					cur.amount = n;
@@ -612,13 +635,25 @@
 		}
 		for (var j = 0; j < items.length; j++) {
 			var it = items[j];
+			if (it.amount === null) continue;
 			var kind = it.kind || (it.weak ? 'cash' : null);
-			if (it.amount === null || !kind) continue;
-			if (kind === 'gold' || kind === 'silver') addMetal(out, kind, it);
+			// An amount with no kind word: money is taken as cash; a weight with no metal, or a small bare number, is reported.
+			if (!kind) {
+				if (!it.unit && (it.lastMul || it.amount >= 100)) { kind = 'cash'; guessed.push(it.amount); }
+				else { unplaced.push({ amount: it.amount, unit: it.unit }); continue; }
+			}
+			if (kind === 'gold' || kind === 'silver') {
+				// A money amount next to "gold" ("2 lakh ka sona") is not a weight we can use.
+				if (!it.unit && it.lastMul) { unplaced.push({ amount: it.amount, unit: null }); continue; }
+				addMetal(out, kind, it);
+			}
 			else out[kind] = (out[kind] || 0) + it.amount;
 		}
-		return out;
+		return { values: out, guessedCash: guessed, unplaced: unplaced };
 	}
+
+	/** Just the values of parseTextDetail. */
+	function parseText(text) { return parseTextDetail(text).values; }
 
 	/* ---------- Country defaults ---------- */
 
@@ -777,6 +812,6 @@
 		DIRHAM_G: DIRHAM_G, MEHR: MEHR, mehrGrams: mehrGrams, mehrCheck: mehrCheck, DIYAT_SILVER_G: DIYAT_SILVER_G, DIYAT_NOTIFIED: DIYAT_NOTIFIED, diyatValue: diyatValue,
 		hawlDates: hawlDates, hawlYearsBetween: hawlYearsBetween, missedZakat: missedZakat, ushr: ushr, livestock: livestock, WASQ5_KG: WASQ5_KG, SISTANI_CROP_KG: SISTANI_CROP_KG,
 		iddat: iddat, hijriParts: hijriParts, addDays: addDays, qurbani: qurbani,
-		parseText: parseText, countryDefaults: countryDefaults,
+		parseText: parseText, parseTextDetail: parseTextDetail, countryDefaults: countryDefaults,
 	};
 });

@@ -157,3 +157,4 @@ html[lang=ur] .full-width-content .entry-content .myzt.alignwide{margin-right:0}
 .myzt .myzt-check{display:flex;align-items:center;min-height:44px;margin:0;cursor:pointer}
 .myzt-people .myzt-add{display:inline-flex;align-items:center;min-height:44px;padding:0 6px}
 .myzt-pdfrow{background:none;margin:8px 0 16px}
+.myzt-ask b{display:block;margin-bottom:6px}

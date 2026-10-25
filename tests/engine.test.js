@@ -231,3 +231,33 @@ test('diyat is the value of 30,630 g of silver; notified amounts match the PHP c
 	assert.match(php, /DIRHAM_G\s*=\s*3\.0618;/);
 	assert.match(php, /DIYAT_SILVER_G\s*=\s*30630;/);
 });
+
+test('parser: karat right after "gold", unlabelled money, debts owed, Urdu script (FIX-216, FIX-217)', () => {
+	const g = (weight, unit, karat) => (karat ? { gold: { weight, unit, karat } } : { gold: { weight, unit } });
+	assert.deepEqual(E.parseText('gold 22k 5 tola'), g(5, 'tola', 22));
+	assert.deepEqual(E.parseText('sona 22k 5 tola'), g(5, 'tola', 22));
+	assert.deepEqual(E.parseText('22k gold 5 tola'), g(5, 'tola', 22));
+	assert.deepEqual(E.parseText('22k 5 tola sona'), g(5, 'tola', 22));
+	assert.deepEqual(E.parseText('gold 22 karat 5 tola'), g(5, 'tola', 22));
+	assert.deepEqual(E.parseText('5 tola 22kt sona'), g(5, 'tola', 22));
+	assert.deepEqual(E.parseText('gold 22-carat 3 tola'), g(3, 'tola', 22));
+	assert.deepEqual(E.parseText('gold 18k 10 gram'), g(10, 'gram', 18));
+	assert.deepEqual(E.parseText('۳ tola sona ۲۲k'), g(3, 'tola', 22));
+	assert.deepEqual(E.parseText('۳ تولہ سونا اور ۵ لاکھ بینک'), { gold: { weight: 3, unit: 'tola' }, bank: 500000 });
+	assert.deepEqual(E.parseText('3 tola 5 gram sona'), g(39.991, 'gram'));
+	// Still money, not karat: "20k cash", "50k".
+	assert.deepEqual(E.parseText('3 tola sona 20k cash'), { gold: { weight: 3, unit: 'tola' }, cash: 20000 });
+	const d = E.parseTextDetail('mere paas 3 tola sona hai aur 50 hazar');
+	assert.deepEqual(d.values, { gold: { weight: 3, unit: 'tola' }, cash: 50000 });
+	assert.deepEqual(d.guessedCash, [50000]);
+	assert.deepEqual(E.parseText('I have 2 lakh in savings account and owe 50k'), { bank: 200000, debts: 50000 });
+	assert.deepEqual(E.parseText('1 lakh dena hai'), { debts: 100000 });
+	assert.deepEqual(E.parseText('50 hazar lena hai'), { receivables: 50000 });
+	assert.deepEqual(E.parseText('5 lakh cash, 15 lakh bank, 3 tola 22k gold, 2 lakh qarz'), {
+		cash: 500000, bank: 1500000, gold: { weight: 3, unit: 'tola', karat: 22 }, debts: 200000,
+	});
+	// Nothing to attach a weight or a small number to: reported, not dropped silently.
+	assert.deepEqual(E.parseTextDetail('5 tola').unplaced, [{ amount: 5, unit: 'tola' }]);
+	assert.deepEqual(E.parseTextDetail('2 lakh ka sona').unplaced, [{ amount: 200000, unit: null }]);
+	assert.deepEqual(E.parseTextDetail('').values, {});
+});

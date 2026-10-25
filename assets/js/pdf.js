@@ -143,13 +143,16 @@
 				var money = inp.money || {}, liab = inp.liabilities || {};
 				Object.keys(money).forEach(function (k) { if (money[k]) row(LABELS[k] || k, fmt(money[k], cur)); });
 				['goldWorn', 'goldKept', 'silverWorn', 'silverKept'].forEach(function (k) {
-					var m = inp[k];
-					if (!m || !m.weight) return;
-					var gold = k.indexOf('gold') === 0, fine = m.fineness && m.fineness < 999 ? m.fineness : 0;
-					var price = gold ? data.prices.gold * (m.karat || 24) / 24 : data.prices.silver * (fine ? fine / 1000 : 1);
-					var grams = m.unit === 'tola' ? m.weight * 11.6638038 : m.unit === 'oz' ? m.weight * 31.1034768 : m.weight;
-					var desc = m.weight + ' ' + (m.unit === 'gram' ? 'g' : m.unit) + (gold ? ' ' + (m.karat || 24) + 'K' : fine ? ' ' + fine : '');
-					row(LABELS[k] + ' (' + desc + ')', fmt(grams * price, cur));
+					var entry = inp[k];
+					if (!entry || !entry.weight) return;
+					// Several pieces with their own karat are listed one by one (FIX-225).
+					(entry.pieces || [entry]).forEach(function (m) {
+						var gold = k.indexOf('gold') === 0, fine = m.fineness && m.fineness < 999 ? m.fineness : 0;
+						var price = gold ? data.prices.gold * (m.karat || 24) / 24 : data.prices.silver * (fine ? fine / 1000 : 1);
+						var grams = m.unit === 'tola' ? m.weight * 11.6638038 : m.unit === 'oz' ? m.weight * 31.1034768 : m.weight;
+						var desc = m.weight + ' ' + (m.unit === 'gram' ? 'g' : m.unit) + (gold ? ' ' + (m.karat || 24) + 'K' : fine ? ' ' + fine : '');
+						row(LABELS[k] + ' (' + desc + ')', fmt(grams * price, cur));
+					});
 				});
 				Object.keys(liab).forEach(function (k) { if (liab[k] && !PAID[k]) row(LABELS[k] || k, fmt(-liab[k], cur)); });
 				Object.keys(PAID).forEach(function (k) { if (liab[k]) row(PAID[k], fmt(liab[k], cur)); });

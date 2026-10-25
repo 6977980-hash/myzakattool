@@ -672,7 +672,7 @@ HTML
 		'llms'  => true,
 		'content' => <<<'HTML'
 <p>Made for Pakistan: amounts in rupees with lakh formatting, gold and silver in tola, and fields for committees, prize bonds and plots. The calculator starts with Hanafi fiqh (Deobandi and Barelvi); you can switch to Ahl-e-Hadith or Shia. Outside Pakistan, use the <a href="/hanafi-zakat-calculator/">Hanafi calculator</a> or the <a href="/">main calculator</a>, which pick your currency automatically.</p>
-[zakat_calculator madhab="hanafi"]
+[zakat_calculator madhab="hanafi" country="PK"]
 [myzt_answer q="Zakat in Pakistan this year:"]Today 1 tola of 24K gold is about [myzt_rate type="gold-tola" currency="PKR"] and the silver nisab (52.5 tola) is about [myzt_rate type="nisab-silver" currency="PKR"] at international rates. If your total wealth is above that for a lunar year, zakat is 2.5%.[/myzt_answer]
 <p><strong>The zakat rate in Pakistan is 2.5% (1/40),</strong> the same as everywhere: Rs 2,500 on every Rs 1 lakh of zakatable wealth. Banks deduct the same 2.5% on 1 Ramadan. The figures for Ramadan 2027 are collected on <a href="/zakat-2027-pakistan/">zakat 2027 Pakistan</a> as they are announced.</p>
 <h2>What to include in Pakistan</h2>
