@@ -28,7 +28,7 @@ and add `define( 'DISABLE_WP_CRON', true );` to `wp-config.php`.
 
 | Shortcode | What it shows |
 |---|---|
-| `[zakat_calculator madhab="hanafi" compare="1"]` | The calculator (madhab optional) |
+| `[zakat_calculator madhab="hanafi" compare="1" country="PK"]` | The calculator (madhab optional; `country` keeps that country's currency and unit for every visitor; `tiles`, `currency`, `unit` preset a first visit) |
 | `[zakat_gold_rate]` | Gold and silver rate tables |
 | `[zakat_nisab]` | Today's nisab (server-rendered) |
 | `[zakat_fitrana]`, `[zakat_fidya]`, `[zakat_khums]` | Fitrana, fidya/kaffara and khums calculators |

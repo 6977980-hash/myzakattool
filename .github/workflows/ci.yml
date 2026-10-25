@@ -43,7 +43,8 @@ jobs:
 
   ui:
     name: Browser smoke tests
-    runs-on: ubuntu-latest
+    # Playwright 1.56 has no Chromium build for ubuntu-latest (26.04) yet.
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

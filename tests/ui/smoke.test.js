@@ -496,3 +496,113 @@ test('an asset page preset opens its tiles and currency on a first visit only (F
 	assert.match(await c.locator('.myzt-ctx').textContent(), /INR/);
 	await ctx.close();
 });
+
+/* ---------- audit 25 Oct 2026, phase 1: the "type it" box and page currency ---------- */
+const E = require('../../assets/js/engine.js');
+const FIX_RATES = { goldUsdOz: 4166.100098, silverUsdOz: 57.116001, fx: 277.33821319 };
+const typeIt = async (page, text) => {
+	await calc(page).locator('[data-quick]').fill(text);
+	await calc(page).locator('[data-act="fill"]').click();
+};
+const cmpRow = async (page, name) => digits(await page.locator('.myzt-cmp tbody tr', { hasText: name }).first().locator('td.z').first().textContent());
+
+test('typed gold with no worn/kept word asks once; "worn" gives the homepage example figures (FIX-216, FIX-218)', async () => {
+	const { page, ctx, errors } = await open();
+	await typeIt(page, '5 lakh cash, 15 lakh bank, 3 tola 22k gold, 2 lakh qarz');
+	const c = calc(page);
+	assert.equal(await c.locator('input[data-metal="goldKept"]').inputValue(), '3');
+	assert.equal(await c.locator('[data-metal-karat="goldKept"][aria-pressed="true"]').getAttribute('data-v'), '22');
+	assert.match(await c.locator('.myzt-ask').textContent(), /gold jewellery that is worn/);
+	await c.locator('[data-worn="gold"][data-v="1"]').click();
+	assert.equal(await c.locator('.myzt-ask').count(), 0);
+	assert.equal(await c.locator('input[data-metal="goldWorn"]').inputValue(), '3');
+	assert.equal(await c.locator('input[data-metal="goldKept"]').inputValue(), '');
+	await c.locator('[data-act="compare"]').click();
+	const pr = E.perGram(FIX_RATES);
+	const input = { money: { cash: 500000, bank: 1500000 }, liabilities: { debts: 200000 }, goldWorn: { weight: 3, unit: 'tola', karat: 22 } };
+	assert.equal(await cmpRow(page, "Shafi'i"), 0);
+	assert.equal(await cmpRow(page, 'Maliki'), Math.round(E.calculate('maliki', input, pr).zakat));
+	assert.equal(await cmpRow(page, 'Hanbali'), Math.round(E.calculate('hanbali', input, pr).zakat));
+	assert.deepEqual(errors, []);
+	await ctx.close();
+});
+
+test('typed text: unlabelled money is cash, "owe" is a debt, a huge weight is questioned (FIX-216, FIX-217)', async () => {
+	const { page, ctx } = await open();
+	const c = calc(page);
+	await typeIt(page, 'mere paas 3 tola sona hai aur 50 hazar');
+	assert.equal(digits(await c.locator('input[data-money="cash"]').inputValue()), 50000);
+	assert.match(await c.locator('.myzt-note[role="status"]').textContent(), /taken as cash/);
+	await typeIt(page, 'I have 2 lakh in savings account and owe 50k');
+	assert.equal(digits(await c.locator('input[data-money="bank"]').inputValue()), 200000);
+	assert.equal(digits(await c.locator('input[data-liab="debts"]').inputValue()), 50000);
+	await typeIt(page, '22000 tola sona zevar');
+	assert.match(await c.locator('.myzt-note[role="status"]').textContent(), /Please check: 22,000 tola/);
+	await typeIt(page, '5 tola');
+	assert.match(await c.locator('.myzt-note[role="status"]').textContent(), /Could not place: 5 tola/);
+	await ctx.close();
+});
+
+test('the Pakistan page stays in PKR and tola for a UK visitor, even over a saved GBP draft (FIX-220)', async () => {
+	const ctx = await browser.newContext({ locale: 'en-GB', timezoneId: 'Europe/London' });
+	const page = await ctx.newPage();
+	await page.goto(base);
+	await page.waitForSelector('.myzt-calculator .myzt-res');
+	const c = page.locator('.myzt-calculator');
+	assert.match(await c.locator('.myzt-ctx').textContent(), /GBP/);
+	await enter(page, 'cash', { kind: 'money', key: 'cash' }, 1000);
+	await page.addInitScript(() => {
+		document.addEventListener('DOMContentLoaded', () => { document.querySelector('.myzt-calculator').dataset.country = 'PK'; });
+	});
+	await page.reload();
+	await page.waitForSelector('.myzt-calculator .myzt-res');
+	const ctxText = await c.locator('.myzt-ctx').textContent();
+	assert.match(ctxText, /PKR/);
+	assert.match(ctxText, /tola/);
+	assert.ok(ctxText.includes('🇵🇰'));
+	assert.match(await c.locator('.myzt-note[role="status"]').textContent(), /This page works in PKR.*GBP/);
+	// A choice made on the page afterwards is kept.
+	await c.locator('[data-act="ctx"]').click();
+	await c.locator('select[data-set="currency"]').selectOption('USD');
+	await page.reload();
+	await page.waitForSelector('.myzt-calculator .myzt-res');
+	assert.match(await c.locator('.myzt-ctx').textContent(), /USD/);
+	await ctx.close();
+});
+
+test('gold pieces with different karats add up: Sara 22K 40 g + 21K 30 g worn (FIX-225)', async () => {
+	const { page, ctx } = await open();
+	const c = calc(page);
+	await enter(page, 'bank', { kind: 'money', key: 'bank' }, 300000);
+	await enter(page, 'gold', { kind: 'metal', key: 'goldWorn' }, 40);
+	await c.locator('[data-metal-unit="goldWorn"]:not([data-piece])[data-v="gram"]').click();
+	await c.locator('[data-addpiece="goldWorn"]').click();
+	await c.locator('input[data-metal="goldWorn"][data-piece="0"]').fill('30');
+	await c.locator('[data-metal-unit="goldWorn"][data-piece="0"][data-v="gram"]').click();
+	await c.locator('[data-metal-karat="goldWorn"][data-piece="0"][data-v="21"]').click();
+	const pr = E.perGram(FIX_RATES);
+	const pure = 40 * 22 / 24 + 30 * 21 / 24;
+	assert.equal(await amount(page), Math.round(0.025 * (pure * pr.gold + 300000)));
+	// Kept after a reload, and removable.
+	await page.reload();
+	await page.waitForSelector('.myzt-calculator .myzt-res');
+	assert.equal(await c.locator('input[data-metal="goldWorn"][data-piece="0"]').inputValue(), '30');
+	await c.locator('[data-rmpiece="goldWorn"][data-piece="0"]').click();
+	assert.equal(await amount(page), Math.round(0.025 * (40 * 22 / 24 * pr.gold + 300000)));
+	await ctx.close();
+});
+
+test('the zakat date tool says when a due date has already passed (FIX-223)', async () => {
+	const { page, ctx } = await open();
+	const h = page.locator('.myzt-hawl');
+	await h.locator('input[data-h="start"]').fill('2025-03-01');
+	await h.locator('input[data-h="start"]').dispatchEvent('change');
+	const note = h.locator('[data-out] .myzt-note');
+	assert.match(await note.textContent(), /passed/);
+	assert.match(await note.textContent(), /1447|have passed/);
+	await h.locator('[data-act="seemissed"]').click();
+	assert.ok(Number(await h.locator('input[data-h="missed"]').inputValue()) >= 1);
+	await h.locator('[data-act="paid"]').click();
+	assert.equal(await h.locator('[data-out] .myzt-note').count(), 0);
+	await ctx.close();
+});
