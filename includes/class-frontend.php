@@ -48,6 +48,7 @@ class MYZT_Frontend {
 		add_shortcode( 'myzt_rate_chart', array( __CLASS__, 'rate_chart' ) );
 		add_shortcode( 'myzt_official', array( __CLASS__, 'official_box' ) );
 		add_shortcode( 'myzt_history', array( __CLASS__, 'history_table' ) );
+		add_shortcode( 'myzt_1448', array( __CLASS__, 'status_1448' ) );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_assets' ) );
 		add_action( 'wp_footer', array( __CLASS__, 'late_enqueue' ), 1 );
 		add_action( 'init', array( __CLASS__, 'no_emoji' ) );
@@ -158,6 +159,17 @@ class MYZT_Frontend {
 			}
 			return $out;
 		}
+		$next = self::next_row( 'fitrana' ) ? self::NEXT['fitrana'] : null;
+		if ( $next ) {
+			return array_merge(
+				$next[3],
+				array(
+					'currency' => 'PKR',
+					'note'     => 'Minimum amounts per person announced by the ' . $next[4] . ', for Ramadan 1448 (2027). Pay according to prices in your area; those who can afford it may pay by dates or raisins.',
+					'fallback' => false,
+				)
+			);
+		}
 		return array(
 			'currency' => 'PKR',
 			'wheat'    => '300',
@@ -258,7 +270,7 @@ class MYZT_Frontend {
 				$rows .= '<tr><td>' . $k . 'K</td><td>' . esc_html( self::money( $g, $cur ) ) . '</td><td>' . esc_html( self::money( $g * 11.6638038, $cur ) ) . '</td><td>' . esc_html( self::money( $g * 31.1034768, $cur ) ) . '</td></tr>';
 			}
 			$rows .= '<tr><td>Silver</td><td>' . esc_html( self::money( $p['silver'], $cur ) ) . '</td><td>' . esc_html( self::money( $p['silver'] * 11.6638038, $cur ) ) . '</td><td>' . esc_html( self::money( $p['silver'] * 31.1034768, $cur ) ) . '</td></tr>';
-			$in = '<div class="myzt-card"><div class="myzt-scroll"><table class="myzt-table"><thead><tr><th>Purity</th><th>per gram</th><th>per tola</th><th>per ounce</th></tr></thead><tbody>' . $rows . '</tbody></table></div><p class="myzt-small">Updated ' . esc_html( wp_date( 'j M Y, H:i', $p['updated'] ) ) . ' · ' . esc_html( $p['label'] ) . '</p></div>';
+			$in = '<div class="myzt-card"><div class="myzt-scroll"><table class="myzt-table"><thead><tr><th>Purity</th><th>per gram</th><th>per tola</th><th>per ounce</th></tr></thead><tbody>' . $rows . '</tbody></table></div>' . self::rate_note( $p ) . '</div>';
 		}
 		return self::widget( 'goldrate', array( 'currency' => $cur ), $in );
 	}
@@ -272,7 +284,7 @@ class MYZT_Frontend {
 			$in = '<div class="myzt-card"><table class="myzt-table"><thead><tr><th>Nisab</th><th>Weight</th><th>Value</th></tr></thead><tbody>' .
 				'<tr><td>Silver</td><td>612.35 g · 52.5 tola</td><td class="z">' . esc_html( self::money( $p['silver'] * self::NISAB_SILVER_G, $cur ) ) . '</td></tr>' .
 				'<tr><td>Gold</td><td>87.48 g · 7.5 tola</td><td class="z">' . esc_html( self::money( $p['gold'] * self::NISAB_GOLD_G, $cur ) ) . '</td></tr>' .
-				'</tbody></table><p class="myzt-small">Updated ' . esc_html( wp_date( 'j M Y, H:i', $p['updated'] ) ) . ' · ' . esc_html( $p['label'] ) . '</p></div>';
+				'</tbody></table>' . self::rate_note( $p ) . '</div>';
 		}
 		return self::widget( 'nisab', array( 'currency' => $cur ), $in );
 	}
@@ -322,7 +334,8 @@ class MYZT_Frontend {
 			$h  .= 'Rates on this page: gold $' . esc_html( number_format( $r['goldUsdOz'], 2 ) ) . '/oz, silver $' . esc_html( number_format( $r['silverUsdOz'], 2 ) ) . '/oz' .
 				( $pkr ? ', 1 USD = ' . esc_html( number_format( $pkr, 2 ) ) . ' PKR' : '' ) .
 				', updated <time datetime="' . esc_attr( gmdate( 'c', $r['updated'] ) ) . '">' . esc_html( wp_date( 'j M Y, H:i T', $r['updated'] ) ) . '</time>' .
-				( $r['source'] ? ' (' . esc_html( $r['source'] ) . ')' : '' ) . '.';
+				( $r['source'] ? ' (' . esc_html( $r['source'] ) . ')' : '' ) . '. Rates are rounded for display; the figures use the unrounded rates.' .
+				( 'manual' !== $r['source'] && self::weekend( $r['updated'] ) ? ' Markets closed at the weekend: last trading price from Friday.' : '' );
 		}
 		return $h . '</p>';
 	}
@@ -405,7 +418,7 @@ class MYZT_Frontend {
 				$g     = $d * self::DIRHAM_G;
 				$rows .= '<tr><td>' . esc_html( $label ) . '</td><td>' . esc_html( number_format( $g, 2 ) ) . ' g · ' . esc_html( number_format( $g / 11.6638038, 2 ) ) . ' tola</td><td class="z">' . esc_html( self::money( $g * $p['silver'], $cur ) ) . '</td></tr>';
 			}
-			$in = '<div class="myzt-card"><table class="myzt-table"><thead><tr><th>Mehr</th><th>Silver</th><th>Value today</th></tr></thead><tbody>' . $rows . '</tbody></table><p class="myzt-small">Updated ' . esc_html( wp_date( 'j M Y, H:i', $p['updated'] ) ) . ' · ' . esc_html( $p['label'] ) . '</p></div>';
+			$in = '<div class="myzt-card"><table class="myzt-table"><thead><tr><th>Mehr</th><th>Silver</th><th>Value today</th></tr></thead><tbody>' . $rows . '</tbody></table>' . self::rate_note( $p ) . '</div>';
 		}
 		return self::widget( 'mehr', array( 'currency' => $cur ), $in );
 	}
@@ -581,7 +594,14 @@ class MYZT_Frontend {
 	}
 
 	private static function rate_note( $p ) {
-		return '<p class="myzt-small">Updated ' . esc_html( wp_date( 'j M Y, H:i', $p['updated'] ) ) . ' · ' . esc_html( $p['label'] ) . '</p>';
+		return '<p class="myzt-small">Updated ' . esc_html( wp_date( 'j M Y, H:i', $p['updated'] ) ) . ' · ' . esc_html( $p['label'] ) . ' · rates rounded for display' .
+			( 'international spot rate' === $p['label'] && self::weekend( $p['updated'] ) ? ' · Markets closed at the weekend: last trading price from Friday' : '' ) . '</p>';
+	}
+
+	/** FIX-227: gold and silver markets close from Friday night to Sunday night (UTC). */
+	private static function weekend( $ts ) {
+		$day = (int) gmdate( 'w', (int) $ts );
+		return 6 === $day || ( 0 === $day && (int) gmdate( 'G', (int) $ts ) < 22 );
 	}
 
 	/** [myzt_karat_table currency="PKR"]: gold value by karat for 1 g, 10 g, 1 tola and 10 tola, server-rendered (FIX-151). */
@@ -664,8 +684,78 @@ class MYZT_Frontend {
 	 * Official Pakistani figures, newest first (FIX-154, FIX-167). On announcement day add the new row at the top
 	 * and set 'pending' to false; every box and table on the site follows.
 	 */
+	/**
+	 * Ramadan 1448 (2027) figures, waiting for announcement day (FIX-215, SUG-01).
+	 * To publish one: fill its line and change the first value from false to true. That single line
+	 * adds the row to the official box and history table, clears "not announced yet", puts the figure
+	 * in the /zakat-2027-pakistan/ title and, for fitrana, switches the fitrana calculator. README.md
+	 * "Announcement day" has the steps. Fitrana amounts are plain rupees per person, no commas.
+	 */
+	const NEXT = array(
+		'fitrana'    => array( false, '1448', '2027', array( 'wheat' => '', 'barley' => '', 'dates' => '', 'raisins' => '' ), 'Council of Islamic Ideology, DD Mon 2027', '' ),
+		'bank-nisab' => array( false, '1448', '2027', 'Rs 0,00,000', 'Ministry of Poverty Alleviation, DD Mon 2027', '' ),
+	);
+
+	/** The announced 1448 row for $type in official() row format, or null while it is not live. */
+	public static function next_row( $type ) {
+		$n = isset( self::NEXT[ $type ] ) ? self::NEXT[ $type ] : null;
+		if ( ! $n || true !== $n[0] ) {
+			return null;
+		}
+		$amount = $n[3];
+		if ( is_array( $amount ) ) {
+			$parts = array();
+			foreach ( $amount as $item => $v ) {
+				if ( '' !== (string) $v ) {
+					$parts[] = self::money( (float) $v, 'PKR' ) . ' (' . $item . ')';
+				}
+			}
+			$amount = implode( ', ', $parts );
+		}
+		return array( $n[1], $n[2], $amount, $n[4], $n[5] );
+	}
+
+	/** Short figure for titles: "Rs 5,50,000" (bank nisab) or "Rs 350" (fitrana by wheat); '' while not live. */
+	public static function next_figure( $type ) {
+		$r = self::next_row( $type );
+		if ( ! $r ) {
+			return '';
+		}
+		if ( 'fitrana' === $type ) {
+			$w = self::NEXT['fitrana'][3]['wheat'];
+			return '' !== (string) $w ? self::money( (float) $w, 'PKR' ) : '';
+		}
+		return $r[2];
+	}
+
+	/** {t2027}: the /zakat-2027-pakistan/ title, with the 1448 figures in it once they are announced. */
+	public static function title_2027() {
+		$parts = array();
+		if ( self::next_figure( 'bank-nisab' ) ) {
+			$parts[] = 'Nisab ' . self::next_figure( 'bank-nisab' );
+		}
+		if ( self::next_figure( 'fitrana' ) ) {
+			$parts[] = 'Fitrana ' . self::next_figure( 'fitrana' );
+		}
+		return $parts ? 'Zakat 2027 Pakistan: ' . implode( ', ', $parts ) . ( count( $parts ) < 2 ? ', CZ-50 Dates' : '' ) : 'Zakat 2027 Pakistan: Bank Deduction, CZ-50, Nisab, Fitrana';
+	}
+
+	/** [myzt_1448 type="fitrana|bank-nisab"]: one sentence, "not announced yet" until NEXT goes live, then the figure. */
+	public static function status_1448( $atts ) {
+		$a = shortcode_atts( array( 'type' => 'fitrana' ), $atts, 'myzt_1448' );
+		$r = self::next_row( $a['type'] );
+		if ( 'bank-nisab' === $a['type'] ) {
+			return $r
+				? esc_html( 'The deduction nisab for Ramadan 1448 is ' . $r[2] . ' (' . $r[3] . ').' )
+				: 'The government notifies the deduction nisab a few days before; in 2026 it was Rs 5,03,529.';
+		}
+		return $r
+			? esc_html( 'The fitrana for Ramadan 1448 is ' . $r[2] . ' per person (' . $r[3] . '); the fitrana calculator uses these amounts.' )
+			: 'The fitrana for Ramadan 1448 has not been announced yet. Last year the Council of Islamic Ideology gave Rs 300 per person by wheat and Rs 1,600 by dates; in 2025 it was Rs 220 by wheat. When the 2027 amounts are out, the calculator switches to them on the same day.';
+	}
+
 	public static function official() {
-		return array(
+		$all = array(
 			'bank-nisab' => array(
 				'name'    => 'Nisab for bank zakat deduction in Pakistan',
 				'pending' => 'Ramadan 1448 (February 2027): not announced yet. It is usually notified a few days before 1 Ramadan.',
@@ -691,11 +781,19 @@ class MYZT_Frontend {
 				'name'    => 'Diyat in Pakistan (value of 30,630 g of silver)',
 				'pending' => 'Fiscal year 2027-28: due from 1 July 2027.',
 				'rows'    => array(
-					array( '', '2026-27', 'Rs 1,93,52,390', 'Federal Government, in force from 1 July 2026', '' ),
+					array( '', '2026-27', 'Rs 1,93,52,390', 'Finance Division notification, 27 Jul 2026 (in force from 1 July 2026)', 'https://finance.gov.pk/circulars/circular_27072026.pdf' ),
 					array( '', '2025-26', 'Rs 98,28,670', 'Federal Government, in force from 1 July 2025', '' ),
 				),
 			),
 		);
+		foreach ( array_keys( self::NEXT ) as $type ) {
+			$row = self::next_row( $type );
+			if ( $row ) {
+				array_unshift( $all[ $type ]['rows'], $row );
+				$all[ $type ]['pending'] = '';
+			}
+		}
+		return $all;
 	}
 
 	/** [myzt_official type="bank-nisab|fitrana|fidya|diyat"]: "Official figure" box with the latest announced value and its source (FIX-154). */

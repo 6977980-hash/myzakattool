@@ -17,11 +17,11 @@
 		en: {
 			madhab: 'Madhab', currency: 'Currency', unit: 'Weight unit', change: 'Change', done: 'Done',
 			u_tola: 'tola', u_gram: 'g', u_oz: 'oz', uo_tola: 'tola', uo_gram: 'gram', uo_oz: 'oz', mins: 'min', hours: 'h', days: 'd',
-			spotRate: 'international spot rate', weight: 'Weight', maund: 'maund', kg: 'kg', maund40: 'maund (40 kg)',
+			spotRate: 'international spot rate', rounded: 'rates rounded for display', weekend: 'Markets closed at the weekend: last trading price from Friday', weight: 'Weight', maund: 'maund', kg: 'kg', maund40: 'maund (40 kg)',
 			forget: 'Delete saved data', forgetConfirm: 'Delete everything the calculators saved in this browser (amounts, family members, language and reminder dates)?', forgotten: 'Saved data deleted from this browser.',
 			m_hanafi: 'Hanafi', m_shafii: 'Shafi\'i', m_maliki: 'Maliki', m_hanbali: 'Hanbali', m_ahlehadith: 'Ahl-e-Hadith', m_jafari: 'Shia (Ja\'fari)',
 			gold24: 'Gold 24K', silver: 'Silver', nisab: 'Nisab', per: '/', updated: 'updated', ago: 'ago', manualRate: 'manual rate set by the site owner', fxRates: 'currency rates',
-			ownRate: 'Use my own local rate', ownGold: 'Gold 24K price per', ownSilver: 'Silver price per',
+			ownRate: 'Use my own local rate', sarafa: 'International rate. Your jeweller\'s (Sarafa) rate may be higher; tick "Use my own local rate" above to enter it.', ownGold: 'Gold 24K price per', ownSilver: 'Silver price per',
 			rateMissing: 'Live rate not available right now. Please enter your local rate.',
 			ownNeedBoth: 'Enter both the gold and the silver rate to use your own rate. Until then the live rate is used.',
 			quickPh: 'Type it: "3 tola gold, 5 lakh cash and 1 lakh loan"', fill: 'Fill',
@@ -43,7 +43,7 @@
 			f_businessCash: 'Business cash and bank', f_stock: 'Stock / inventory (sale value)', f_suppliers: 'Unpaid supplier bills',
 			f_shares: 'Shares / mutual funds (market value)', f_crypto: 'Crypto (market value)',
 			f_committee: 'Amount you have paid into the committee', f_receivables: 'Money owed to you (likely to be repaid)',
-			f_receivablesDoubtful: 'Doubtful debts owed to you (not counted until received)',
+			f_receivablesDoubtful: 'Loans you will pay zakat on when repaid / doubtful debts (not counted now)',
 			f_plot: 'Plot / property bought to sell (market value)', f_other: 'Other trade goods',
 			f_debts: 'Debts you must repay now', f_installments: 'Instalments due in the next 12 months', f_bills: 'Unpaid bills (rent, utilities)',
 			h_committee: 'Zakat is due on what you have paid in so far.', h_plot: 'A home you live in has no zakat.',
@@ -73,7 +73,7 @@
 			pdfName: 'Name on report (optional)', makePdf: 'Download PDF', making: 'Preparing…',
 			cmpTitle: 'Your zakat in every madhab', cmpSub: 'Same inputs, cited sources',
 			c_madhab: 'Madhab', c_jewellery: 'Worn jewellery', c_debts: 'Debts deducted', c_nisab: 'Nisab', c_zakat: 'Zakat', c_ref: 'Source',
-			yes: 'Yes', no: 'No', included: 'Counted', includedAbove: 'Counted above limit', exempt: 'Exempt', lower: 'Lower of the two', seeKhums: 'See khums',
+			yes: 'Yes', no: 'No', included: 'Counted', includedAbove: 'Counted above limit', exempt: 'Exempt', lower: 'Lower of the two (better for the poor)', seeKhums: 'See khums',
 			disc: 'This calculator gives an estimate for guidance only. It is not a fatwa. Results may contain errors. Please confirm with a qualified scholar of your madhab before paying.',
 			discLink: 'Disclaimer', resetConfirm: 'Clear all entries?', savedLocal: 'Saved on this device only.',
 			shareText: 'My zakat estimate', calTitle: 'Zakat due (one lunar year)',
@@ -170,16 +170,16 @@
 			n_hanafi_alloy: 'Counted by pure gold, this is below the nisab. Some Hanafi muftis count jewellery that is mostly gold (such as 22K) by its full weight; on that view zakat would be due. Ask your mufti which view to follow.',
 			n_maliki_debts: 'Maliki: a debt is first set against things you own but do not need (a spare plot or car, for example); only the rest reduces zakat. We deduct the whole debt.',
 			fd_madhabNote: 'Amount per day: Hanafi fiqh uses one fitrana (half a sa\' of wheat or its value). The Shafi\'i, Maliki and Hanbali schools use one mudd of food (about 0.6 kg), which is less.',
-			n_receivables_maliki: 'Maliki: for a cash loan, zakat is paid once when it is received. To follow that, move it to the doubtful line. Trade debts of a merchant are counted every year.',
+			n_receivables_maliki: 'Maliki: for a cash loan, zakat is paid once when it is received. To follow that, move it to the "pay when repaid" line. Trade debts of a merchant are counted every year.',
 		},
 		ur: {
 			madhab: 'مسلک', currency: 'کرنسی', unit: 'وزن کی اکائی', change: 'تبدیل کریں', done: 'ٹھیک ہے',
 			u_tola: 'تولہ', u_gram: 'گرام', u_oz: 'اونس', uo_tola: 'تولہ', uo_gram: 'گرام', uo_oz: 'اونس', mins: 'منٹ', hours: 'گھنٹے', days: 'دن',
-			spotRate: 'بین الاقوامی اسپاٹ ریٹ', weight: 'وزن', maund: 'من', kg: 'کلو', maund40: 'من (40 کلو)',
+			spotRate: 'بین الاقوامی اسپاٹ ریٹ', rounded: 'ریٹ دکھانے کے لیے گول کیے گئے ہیں', weekend: 'ہفتے اور اتوار کو مارکیٹ بند ہوتی ہے: جمعہ کی آخری قیمت', weight: 'وزن', maund: 'من', kg: 'کلو', maund40: 'من (40 کلو)',
 			forget: 'محفوظ ڈیٹا مٹائیں', forgetConfirm: 'کیلکولیٹرز نے اس براؤزر میں جو کچھ محفوظ کیا ہے (رقمیں، گھر کے افراد، زبان اور یاد دہانی کی تاریخیں) سب مٹا دیں؟', forgotten: 'محفوظ ڈیٹا اس براؤزر سے مٹا دیا گیا۔',
 			m_hanafi: 'حنفی', m_shafii: 'شافعی', m_maliki: 'مالکی', m_hanbali: 'حنبلی', m_ahlehadith: 'اہلِ حدیث', m_jafari: 'شیعہ (جعفری)',
 			gold24: 'سونا 24 قیراط', silver: 'چاندی', nisab: 'نصاب', per: '/', updated: 'اپڈیٹ', ago: 'پہلے', manualRate: 'سائٹ کے مالک کا دستی ریٹ', fxRates: 'کرنسی ریٹ',
-			ownRate: 'اپنا مقامی ریٹ لکھیں', ownGold: 'سونا 24 قیراط فی', ownSilver: 'چاندی فی',
+			ownRate: 'اپنا مقامی ریٹ لکھیں', sarafa: 'یہ بین الاقوامی ریٹ ہے۔ آپ کے صراف کا ریٹ زیادہ ہو سکتا ہے؛ اوپر "اپنا مقامی ریٹ لکھیں" پر ٹک کر کے اپنا ریٹ لکھیں۔', ownGold: 'سونا 24 قیراط فی', ownSilver: 'چاندی فی',
 			rateMissing: 'ابھی لائیو ریٹ دستیاب نہیں۔ براہ کرم اپنا مقامی ریٹ لکھیں۔',
 			ownNeedBoth: 'اپنا ریٹ استعمال کرنے کے لیے سونے اور چاندی دونوں کا ریٹ لکھیں۔ تب تک لائیو ریٹ استعمال ہوگا۔',
 			quickPh: 'لکھیں: 3 tola sona, 5 lakh cash aur 1 lakh qarz', fill: 'بھریں',
@@ -201,7 +201,7 @@
 			f_businessCash: 'کاروبار کی نقد اور بینک رقم', f_stock: 'مال / اسٹاک (فروخت کی قیمت)', f_suppliers: 'سپلائرز کے واجب الادا بل',
 			f_shares: 'شیئرز / میوچل فنڈ (مارکیٹ قیمت)', f_crypto: 'کرپٹو (مارکیٹ قیمت)',
 			f_committee: 'کمیٹی میں اب تک جمع کرائی رقم', f_receivables: 'دوسروں سے لینا (واپسی کی امید)',
-			f_receivablesDoubtful: 'مشکوک قرض (ملنے پر زکوٰۃ)', f_plot: 'بیچنے کی نیت سے خریدا پلاٹ (مارکیٹ قیمت)', f_other: 'دیگر تجارتی مال',
+			f_receivablesDoubtful: 'قرض جس کی زکوٰۃ واپسی پر دیں گے / مشکوک قرض (ابھی شامل نہیں)', f_plot: 'بیچنے کی نیت سے خریدا پلاٹ (مارکیٹ قیمت)', f_other: 'دیگر تجارتی مال',
 			f_debts: 'فوری ادا کرنے والا قرض', f_installments: 'اگلے 12 ماہ کی قسطیں', f_bills: 'واجب الادا بل (کرایہ، بجلی)',
 			h_committee: 'جتنی رقم اب تک جمع کرائی، اس پر زکوٰۃ ہے۔', h_plot: 'رہائشی گھر پر زکوٰۃ نہیں۔',
 			h_goldWorn: 'پہنے ہوئے زیور پر مسالک کا اختلاف ہے، نتیجے میں وضاحت ہے۔', h_stock: 'موجودہ فروخت کی قیمت لکھیں۔',
@@ -230,7 +230,7 @@
 			pdfName: 'رپورٹ پر نام (اختیاری)', makePdf: 'PDF ڈاؤن لوڈ کریں', making: 'تیار ہو رہی ہے…',
 			cmpTitle: 'ہر مسلک میں آپ کی زکوٰۃ', cmpSub: 'ایک ہی معلومات، حوالوں کے ساتھ',
 			c_madhab: 'مسلک', c_jewellery: 'پہنا زیور', c_debts: 'قرض منہا', c_nisab: 'نصاب', c_zakat: 'زکوٰۃ', c_ref: 'حوالہ',
-			yes: 'ہاں', no: 'نہیں', included: 'شامل', includedAbove: 'حد سے زیادہ پر شامل', exempt: 'نہیں', lower: 'جو کم ہو', seeKhums: 'خمس دیکھیں',
+			yes: 'ہاں', no: 'نہیں', included: 'شامل', includedAbove: 'حد سے زیادہ پر شامل', exempt: 'نہیں', lower: 'جو کم ہو (غریبوں کے لیے بہتر)', seeKhums: 'خمس دیکھیں',
 			disc: 'یہ کیلکولیٹر صرف رہنمائی کے لیے اندازہ دیتا ہے۔ یہ فتویٰ نہیں، اور اس میں غلطی ممکن ہے۔ زکوٰۃ ادا کرنے سے پہلے اپنے مسلک کے مستند عالم سے تصدیق کر لیں۔',
 			discLink: 'ڈسکلیمر', resetConfirm: 'سب خانے صاف کر دیں؟', savedLocal: 'صرف اسی ڈیوائس پر محفوظ۔',
 			shareText: 'میری زکوٰۃ کا اندازہ', calTitle: 'زکوٰۃ کی تاریخ (ایک قمری سال)',
@@ -327,7 +327,7 @@
 			n_maliki_debts: 'مالکی: قرض پہلے ان چیزوں سے پورا سمجھا جاتا ہے جو آپ کی ضرورت سے زائد ہوں (مثلاً فالتو پلاٹ یا گاڑی)؛ صرف باقی قرض زکوٰۃ کم کرتا ہے۔ ہم پورا قرض منہا کرتے ہیں۔',
 			fd_madhabNote: 'روزانہ رقم: حنفی فقہ میں ایک فطرانہ (آدھا صاع گندم یا اس کی قیمت)۔ شافعی، مالکی اور حنبلی مسالک میں ایک مُد کھانا (تقریباً 0.6 کلو)، جو کم ہے۔',
 			n_receivables_hanafi: 'حنفی: چاہیں تو دوسروں سے لینے والی رقم کی زکوٰۃ وصول ہونے پر، گزرے ہر سال کی، ادا کر سکتے ہیں۔',
-			n_receivables_maliki: 'مالکی: نقد قرض کی زکوٰۃ وصول ہونے پر ایک بار دی جاتی ہے۔ اس کے لیے اسے مشکوک والے خانے میں لکھیں۔ تاجر کے تجارتی قرض ہر سال شامل ہیں۔',
+			n_receivables_maliki: 'مالکی: نقد قرض کی زکوٰۃ وصول ہونے پر ایک بار دی جاتی ہے۔ اس کے لیے اسے "واپسی پر زکوٰۃ" والے خانے میں لکھیں۔ تاجر کے تجارتی قرض ہر سال شامل ہیں۔',
 		},
 	};
 
@@ -392,10 +392,16 @@
 		if (h < 48) return h + ' ' + t('hours') + ' ' + t('ago');
 		return Math.round(h / 24) + ' ' + t('days') + ' ' + t('ago');
 	}
+	/* FIX-227: gold and silver markets close from Friday night to Sunday night (UTC). */
+	function weekend() {
+		var d = new Date((RATES.updated || Date.now() / 1000) * 1000), day = d.getUTCDay();
+		return day === 6 || (day === 0 && d.getUTCHours() < 22);
+	}
 	/* "updated 20 min ago", plus a manual-rate label and the FX age when currency rates lag. */
 	function stamp() {
 		var s = t('updated') + ' ' + ago(RATES.updated);
 		if (RATES.source === 'manual') s += ' · ' + t('manualRate');
+		else if (weekend()) s += ' · ' + t('weekend');
 		if (RATES.fxUpdated && Date.now() / 1000 - RATES.fxUpdated > 6 * 3600) s += ' · ' + t('fxRates') + ' ' + ago(RATES.fxUpdated);
 		return s;
 	}
@@ -978,11 +984,17 @@
 					'<button type="button" class="myzt-btn" data-worn="' + k + '" data-v="1">' + esc(t('askYes')) + '</button> ' +
 					'<button type="button" class="myzt-btn" data-worn="' + k + '" data-v="0">' + esc(t('askNo')) + '</button></div>';
 			});
+			var sarafa = !usingOwn();
 			r.lines.forEach(function (l, i) {
 				if (!l.value && l.key !== 'money') return;
 				var why = l.why ? ' <button type="button" class="myzt-link myzt-why" data-why="' + i + '">' + esc(t('why')) + '</button>' : '';
 				html += '<div class="myzt-line' + (l.included ? '' : ' off') + '"><span>' + esc(t('l_' + l.key)) + why + '</span><span>' + money(l.value, st.currency) + '</span></div>';
 				if (l.why && ui.why[i]) html += '<div class="myzt-whytxt">' + esc(t('w_' + l.why)) + '</div>';
+				// FIX-214: once, under the first gold line, when the live international rate is in use.
+				if (sarafa && /^gold/.test(l.key)) {
+					html += '<div class="myzt-small">' + esc(t('sarafa')) + '</div>';
+					sarafa = false;
+				}
 			});
 			if (!r.khums) {
 				html += '<div class="myzt-line"><span><b>' + esc(t('l_total')) + '</b></span><span><b>' + money(r.zakatable, st.currency) + '</b></span></div>' +
@@ -1327,7 +1339,7 @@
 				return '<tr><td>' + k + 'K</td><td>' + money(g, cur) + '</td><td>' + money(g * E.GRAMS_PER_TOLA, cur) + '</td><td>' + money(g * E.GRAMS_PER_OZ, cur) + '</td></tr>';
 			}).join('') + '<tr><td>' + esc(t('silver')) + '</td><td>' + money(pr.silver, cur) + '</td><td>' + money(pr.silver * E.GRAMS_PER_TOLA, cur) + '</td><td>' + money(pr.silver * E.GRAMS_PER_OZ, cur) + '</td></tr>';
 			root.innerHTML = '<div class="myzt-card">' + curSelect(cur) + '<div class="myzt-scroll"><table class="myzt-table"><thead><tr><th>' + esc(t('purity')) + '</th><th>' + esc(t('perGram')) + '</th><th>' + esc(t('perTola')) + '</th><th>' + esc(t('perOz')) + '</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
-				'<p class="myzt-small">' + esc(stamp()) + (RATES.source === 'manual' ? '' : ' · ' + t('spotRate')) + '</p></div>';
+				'<p class="myzt-small">' + esc(stamp()) + (RATES.source === 'manual' ? '' : ' · ' + t('spotRate')) + ' · ' + esc(t('rounded')) + '</p></div>';
 		}
 		root.addEventListener('change', function (e) { if (e.target.dataset.cur !== undefined) { cur = e.target.value; render(); } });
 		render();
@@ -1344,7 +1356,7 @@
 			root.innerHTML = '<div class="myzt-card">' + curSelect(cur) + '<div class="myzt-scroll"><table class="myzt-table"><thead><tr><th>' + esc(t('nisab')) + '</th><th>' + esc(t('weight')) + '</th><th>' + esc(t('c_zakat')) + ' ' + esc(t('nisab')) + '</th></tr></thead><tbody>' +
 				'<tr><td>' + esc(t('silver')) + '</td><td>612.35 ' + unitLabel('gram') + ' · 52.5 ' + unitLabel('tola') + '</td><td class="z">' + money(nv.silver, cur) + '</td></tr>' +
 				'<tr><td>' + esc(t('l_gold')) + '</td><td>87.48 ' + unitLabel('gram') + ' · 7.5 ' + unitLabel('tola') + '</td><td class="z">' + money(nv.gold, cur) + '</td></tr></tbody></table></div>' +
-				'<p class="myzt-small">' + esc(stamp()) + (RATES.source === 'manual' ? '' : ' · ' + t('spotRate')) + '</p></div>';
+				'<p class="myzt-small">' + esc(stamp()) + (RATES.source === 'manual' ? '' : ' · ' + t('spotRate')) + ' · ' + esc(t('rounded')) + '</p></div>';
 		}
 		root.addEventListener('change', function (e) { if (e.target.dataset.cur !== undefined) { cur = e.target.value; render(); } });
 		render();

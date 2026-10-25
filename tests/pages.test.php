@@ -29,6 +29,8 @@ function check( $ok, $msg ) {
 // Placeholders as MYZT_SEO::fill() fills them, with a long rupee figure for {rate:...}.
 function fill( $s ) {
 	$s = str_replace( array( '{year}', '{cyear}', '{fyear}' ), '2027', $s );
+	// {t2027} at its longest, with both 1448 figures announced (MYZT_Frontend::title_2027).
+	$s = str_replace( '{t2027}', 'Zakat 2027 Pakistan: Nisab Rs 15,50,000, Fitrana Rs 1,350', $s );
 	$s = preg_replace( '/\{rate:[a-z0-9-]+\}/', 'Rs 12,34,567', $s );
 	check( false === strpos( $s, '{' ), "unknown placeholder in: $s" );
 	return $s;

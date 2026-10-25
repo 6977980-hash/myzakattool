@@ -290,7 +290,7 @@ HTML,
 <li><strong>With the Hanbali result:</strong> very close; both exempt worn jewellery and subtract debts. The difference is mostly in the nisab used for cash.</li>
 </ul>
 <h2>Money owed to you</h2>
-<p>For a trader, money customers owe from sales is counted every year with the stock. A cash loan you gave a friend is different: Maliki scholars pay its zakat once, for one year, when it is repaid. To do that, enter it on the <em>Doubtful debts owed to you</em> line instead of <em>Money owed to you</em>, so it is left out for now. For livestock and crops, use the <a href="/ushr-calculator/">ushr and livestock calculator</a>; for the date your zakat falls due, use the <a href="/zakat-date-calculator/">zakat date calculator</a>.</p>
+<p>For a trader, money customers owe from sales is counted every year with the stock. A cash loan you gave a friend is different: Maliki scholars pay its zakat once, for one year, when it is repaid. To do that, enter it on the <em>Loans you will pay zakat on when repaid / doubtful debts</em> line instead of <em>Money owed to you</em>, so it is left out for now. For livestock and crops, use the <a href="/ushr-calculator/">ushr and livestock calculator</a>; for the date your zakat falls due, use the <a href="/zakat-date-calculator/">zakat date calculator</a>.</p>
 <h2>Maliki rules and their sources</h2>
 <figure class="wp-block-table"><table><thead><tr><th>Question</th><th>Maliki ruling</th><th>Source</th></tr></thead><tbody>
 <tr><td>Worn jewellery</td><td>Exempt if permissible and used</td><td>Irsyad Fatwa 38</td></tr>
@@ -332,7 +332,7 @@ HTML,
 			'nav'   => 'Hanbali',
 			'blurb' => 'Saudi Arabia, Qatar',
 			'intro' => '<p>This calculator follows the relied-upon position of the Hanbali madhab, followed in Saudi Arabia and Qatar.</p>',
-			'answer' => 'In the Hanbali madhab permissible jewellery that is worn or lent is exempt, debts are deducted, and gold and silver are combined; cash and trade goods are measured by whichever nisab is better for the poor.',
+			'answer' => 'In the Hanbali madhab permissible jewellery that is worn or lent is exempt, debts are deducted, and gold and silver are combined; cash and trade goods are measured by the lower of the two nisabs, which is better for the poor.',
 			'body'  => <<<'HTML'
 <h2>Hanbali zakat rules used in this calculator</h2>
 <ul>
@@ -347,7 +347,7 @@ HTML,
 <ul>
 <li><strong>Jewellery:</strong> permissible and worn, so it is left out.</li>
 <li><strong>Gold bars:</strong> 50 g × SAR 400 = SAR 20,000. On its own, 50 g is below the gold nisab of 87.48 g.</li>
-<li><strong>Combining:</strong> Hanbali scholars add gold, silver and cash together and use the nisab that is better for the poor, which today is silver. SAR 30,000 + SAR 20,000 = SAR 50,000, far above the silver nisab.</li>
+<li><strong>Combining:</strong> Hanbali scholars add gold, silver and cash together and use the lower of the two nisabs, which is better for the poor (silver today). SAR 30,000 + SAR 20,000 = SAR 50,000, far above the silver nisab.</li>
 <li><strong>Debt:</strong> SAR 50,000 − SAR 10,000 = SAR 40,000.</li>
 <li><strong>Zakat:</strong> 2.5% of SAR 40,000 = SAR 1,000.</li>
 </ul>
@@ -360,7 +360,7 @@ HTML,
 <figure class="wp-block-table"><table><thead><tr><th>Question</th><th>Hanbali ruling (relied-upon view)</th><th>Source</th></tr></thead><tbody>
 <tr><td>Worn or lent jewellery</td><td>Exempt if permissible</td><td>Akhsar al-Mukhtasarat</td></tr>
 <tr><td>Gold, silver and cash</td><td>Added together to complete the nisab</td><td>Hanbali manuals on zakat of gold and silver</td></tr>
-<tr><td>Nisab for cash</td><td>Whichever is better for the poor (silver today)</td><td>Abu Dawud 1573</td></tr>
+<tr><td>Nisab for cash</td><td>The lower of the two, which is better for the poor (silver today)</td><td>Abu Dawud 1573</td></tr>
 <tr><td>Debts</td><td>Subtracted before the nisab is checked</td><td>SeekersGuidance (debts by madhab)</td></tr>
 <tr><td>The lunar year</td><td>Nisab held throughout the year</td><td>Ibn Majah 1792</td></tr>
 <tr><td>Contemporary Saudi view</td><td>Jewellery zakatable (Permanent Committee)</td><td>IslamQA 19901</td></tr>
@@ -555,7 +555,7 @@ HTML,
 <tbody>
 <tr><td>Worn jewellery</td><td>Zakatable</td><td>Exempt</td><td>Exempt</td><td>Exempt</td><td>Zakatable</td><td>Exempt</td></tr>
 <tr><td>Debts subtracted</td><td>Yes</td><td>No</td><td>Yes (cash, gold, trade)</td><td>Yes</td><td>No</td><td>n/a</td></tr>
-<tr><td>Nisab for cash</td><td>Silver</td><td>Gold (local practice)</td><td>Silver or gold</td><td>Lower of the two</td><td>Lower of the two</td><td>No zakat on paper money</td></tr>
+<tr><td>Nisab for cash</td><td>Silver</td><td>Gold (local practice)</td><td>Silver or gold</td><td>The lower of the two, which is better for the poor</td><td>The lower of the two</td><td>No zakat on paper money</td></tr>
 <tr><td>Gold + silver combined</td><td>Yes, by value</td><td>No</td><td>Yes</td><td>Yes</td><td>Yes</td><td>No</td></tr>
 <tr><td>Gold nisab</td><td>87.48 g</td><td>87.48 g</td><td>87.48 g</td><td>87.48 g</td><td>87.48 g</td><td>69.12 g (coins)</td></tr>
 <tr><td>Main source</td><td>Darul Uloom Deoband</td><td>al-Majmu', MUIS</td><td>Irsyad Fatwa 38</td><td>Akhsar al-Mukhtasarat</td><td>Permanent Committee</td><td>Sistani, rulings 1912-1916</td></tr>
@@ -724,14 +724,14 @@ HTML
 
 	$p['zakat-2027-pakistan'] = array(
 		'title' => 'Zakat 2027 Pakistan: Dates, Nisab and Fitrana',
-		'seo'   => 'Zakat 2027 Pakistan: Bank Deduction, CZ-50, Nisab, Fitrana',
+		'seo'   => '{t2027}',
 		'desc'  => 'Ramadan 2027 in Pakistan: bank zakat deduction on 1 Ramadan (about 8 Feb), CZ-50 deadline, when the nisab and fitrana are announced, and last year\'s figures.',
 		'nav'   => 'Zakat 2027 Pakistan',
 		'blurb' => 'dates & updates',
 		'hub'   => 'calculators',
 		'llms'  => true,
 		'content' => <<<'HTML'
-[myzt_answer q="When is zakat deducted in Pakistan in 2027?"]Banks will deduct 2.5% zakat from savings accounts on 1 Ramadan 1448, expected around 8 February 2027 depending on the moon. The government notifies the deduction nisab a few days before; in 2026 it was Rs 5,03,529. File a CZ-50 before Ramadan if your fiqh exempts you.[/myzt_answer]
+[myzt_answer q="When is zakat deducted in Pakistan in 2027?"]Banks will deduct 2.5% zakat from savings accounts on 1 Ramadan 1448, expected around 8 February 2027 depending on the moon. [myzt_1448 type="bank-nisab"] File a CZ-50 before Ramadan if your fiqh exempts you.[/myzt_answer]
 <p>This page collects every zakat date and figure that matters in Pakistan for Ramadan 2027, with last year's numbers until the new ones are announced. <strong>We update it on announcement day</strong>: the bank nisab, the fitrana and fidya amounts and any change to the CZ-50 process are added here, and on the pages that use them, within hours of the official notice.</p>
 <h2>Key dates for Ramadan 2027</h2>
 <figure class="wp-block-table"><table><thead><tr><th>What</th><th>When (expected)</th><th>Last year</th></tr></thead><tbody>
@@ -760,7 +760,7 @@ HTML
 <li><strong>Choose who receives it:</strong> see <a href="/who-can-receive-zakat/">who can receive zakat</a>.</li>
 </ol>
 <h2>Fitrana 2027</h2>
-<p>The fitrana for Ramadan 1448 has not been announced yet. Last year the Council of Islamic Ideology gave Rs 300 per person by wheat and Rs 1,600 by dates; in 2025 it was Rs 220 by wheat. Older years are on the <a href="/fitrana-calculator/">fitrana page</a>. When the 2027 amounts are out, the calculator switches to them on the same day.</p>
+<p>[myzt_1448 type="fitrana"] Older years are on the <a href="/fitrana-calculator/">fitrana page</a>.</p>
 <p>The figures here come from official notices and their reports in the press, linked in each box. This page is for information; it is not a fatwa and not legal advice.</p>
 [myzt_faq]
 HTML
@@ -848,7 +848,8 @@ HTML
 </tbody></table></figure>
 <ul>
 <li><strong>Hanafi, Maliki and Hanbali:</strong> Rs 12,00,000 + Rs 3,00,000 + Rs 2,00,000 − Rs 4,00,000 = Rs 13,00,000. Zakat is 2.5% = <strong>Rs 32,500</strong>.</li>
-<li><strong>Shafi'i and Ahl-e-Hadith:</strong> the supplier bills are not subtracted, so 2.5% of Rs 17,00,000 = <strong>Rs 42,500</strong>.</li>
+<li><strong>Ahl-e-Hadith:</strong> the supplier bills are not subtracted, so 2.5% of Rs 17,00,000 = <strong>Rs 42,500</strong>.</li>
+<li><strong>Shafi'i:</strong> the supplier bills are not subtracted either, but the Shafi'i calculation uses the gold nisab, about [myzt_rate type="nisab-gold" currency="PKR"] today. Rs 17,00,000 is below it, so <strong>nothing is due</strong>. Only a Shafi'i who follows a scholar using the silver nisab would pay 2.5% of Rs 17,00,000 = Rs 42,500.</li>
 </ul>
 <p>If the Rs 50,000 is recovered later, Bilal pays zakat on it then. Any personal savings and gold go in the same calculation, as zakat is worked out on everything a person owns.</p>
 <h2>Valuing stock</h2>
@@ -1344,7 +1345,7 @@ HTML
 <tr><td>Hanafi (Deobandi, Barelvi)</td><td>Gold nisab, 87.48 g</td><td>Silver nisab, 612.35 g (Darul Uloom Deoband, Fatwa 702/702=M/1429)</td><td>Yes, by value</td></tr>
 <tr><td>Shafi'i</td><td>Gold nisab</td><td>Gold in Malaysia and Singapore; silver may be chosen</td><td>No, each against its own nisab</td></tr>
 <tr><td>Maliki</td><td>Gold nisab</td><td>Silver or gold; ask your local scholar</td><td>Yes</td></tr>
-<tr><td>Hanbali</td><td>Gold nisab</td><td>Whichever is better for the poor, silver today</td><td>Yes</td></tr>
+<tr><td>Hanbali</td><td>Gold nisab</td><td>The lower of the two, which is better for the poor (silver today)</td><td>Yes</td></tr>
 <tr><td>Ahl-e-Hadith</td><td>Gold nisab</td><td>The lower of the two, silver today (IslamQA 201807)</td><td>Yes</td></tr>
 <tr><td>Shia (Sistani)</td><td>69.12 g, coins only (ruling 1912)</td><td>No zakat on paper money; khums instead (ruling 1915)</td><td>No</td></tr>
 </tbody></table></figure>
@@ -1506,7 +1507,7 @@ HTML
 <p>Permissible worn jewellery exempt; debts deducted from cash, gold, silver and trade goods; gold and silver combined; silver nisab by default (user may choose gold). Sources: Mufti of Wilayah Persekutuan, Irsyad Fatwa 38; SeekersGuidance (debts by madhab).</p>
 <p>Maliki scholars first set a debt against things you own but do not need (a spare plot or car, for example), and only the rest reduces zakat. The calculator does not ask about such assets and deducts the whole debt; it shows a note whenever you enter a debt.</p>
 <h2 id="hanbali">Hanbali</h2>
-<p>Permissible jewellery kept for use or lending exempt; debts deducted; gold and silver combined; cash and trade goods measured by the nisab better for the poor. Source: <em>Akhsar al-Mukhtasarat</em>, Book of Zakat.</p>
+<p>Permissible jewellery kept for use or lending exempt; debts deducted; gold and silver combined; cash and trade goods measured by the lower of the two nisabs, which is better for the poor. Source: <em>Akhsar al-Mukhtasarat</em>, Book of Zakat.</p>
 <h2 id="ahlehadith">Ahl-e-Hadith</h2>
 <p>Jewellery zakatable if it reaches the nisab; cash combined with gold and silver; lower nisab; debts not deducted. Sources: Permanent Committee (al-Lajnah ad-Da'imah), Shaykh Ibn Baz and Shaykh Ibn Uthaymeen via IslamQA answers <a href="https://islamqa.info/en/answers/19901" rel="noopener" target="_blank">19901</a>, <a href="https://islamqa.info/en/answers/201807" rel="noopener" target="_blank">201807</a> and <a href="https://islamqa.info/en/answers/22426" rel="noopener" target="_blank">22426</a>. We have not found a written fatwa from a Pakistani Ahl-e-Hadith institution on every point; this is our best reading. On adding gold and silver together these scholars differ: Shaykh Ibn Baz added them, while Shaykh Ibn Uthaymeen kept them separate. The calculator adds them.</p>
 <h2 id="jafari">Shia (Ja'fari)</h2>
@@ -1542,6 +1543,7 @@ HTML
 </ul>
 <h2>Changes</h2>
 <ul>
+<li><strong>25 October 2026 (accuracy):</strong> the business, committee and overseas worked examples now show the Shafi'i result separately (nothing due at the gold nisab in those examples; we had grouped it with Ahl-e-Hadith); the salary guide marks "money added during the year joins the year" as the Hanafi rule and gives the other schools' one-date route; the savings-certificates guide states the Maliki rule for money lent; the Hanbali nisab is described the same way everywhere ("the lower of the two, which is better for the poor"); the calculator's "pay when repaid" line is named for what it does; the privacy policy describes how rates are fetched; the diyat figure links the Finance Division notification.</li>
 <li><strong>18 October 2026 (official figures):</strong> the nisab, fitrana, fidya and diyat pages show the latest figure announced in Pakistan with its source, and past years' bank nisab (2021 to 2026) and fitrana amounts (2024 to 2026) in tables. Years we could not check against a published announcement are left out. Each madhab page now lists its rules with sources and has a worked example in rupees. A new <a href="/zakat-2027-pakistan/">zakat 2027 Pakistan</a> page collects this season's dates.</li>
 <li><strong>18 October 2026 (sources):</strong> the hadith, verses, fatwas, books and laws cited on our pages now link to their source (sunnah.com, quran.com, the fatwa pages, Ayatollah Sistani's rulings and the Finance Division circular); this page now also explains the haq mehr and diyat rules; the About page has a fuller note on who writes the site; guides label their published and updated dates. No calculation result changed.</li>
 <li><strong>18 October 2026 (accuracy):</strong> the Ahl-e-Hadith rule on returning the remainder to a lone husband or wife is now marked as an open question; the fidya and kaffara examples use the Council of Islamic Ideology's 1447 amounts (Rs 300 by wheat, Rs 1,600 by dates); quick answers with a live rupee figure show the time of the rate; the inheritance engine is described as checked against 425 cases plus 6 open questions. No calculation result changed.</li>
@@ -1646,13 +1648,17 @@ HTML
 		'nav'   => 'Privacy',
 		'blurb' => 'your data',
 		'content' => <<<'HTML'
-<p>Last updated: 16 October 2026. This policy explains what information this website handles.</p>
+<p>Last updated: 25 October 2026. This policy explains what information this website handles.</p>
 <h2>Calculator entries stay on your device</h2>
-<p>Everything you type into the calculators is processed in your own browser. It is not sent to our server. If you use <em>Save data file</em>, the file is saved on your device. A draft may be kept in your browser's local storage so your entries are still there when you return. It is removed automatically after 13 months without use. <em>Clear all</em> removes the draft, and <em>Delete saved data</em> removes everything the calculators saved in your browser (amounts, family members, language choice and reminder dates).</p>
+<p>Everything you type into the calculators is processed in your own browser. That is true of every tool on the site: zakat, nisab, fitrana, fidya and kaffara, khums, ushr, mehr, diyat, wirasat (inheritance), iddat and qurbani. It is not sent to our server. If you use <em>Save data file</em>, the file is saved on your device. A draft may be kept in your browser's local storage so your entries are still there when you return. It is removed automatically after 13 months without use. <em>Clear all</em> removes the draft, and <em>Delete saved data</em> removes everything the calculators saved in your browser (amounts, family members, language choice and reminder dates).</p>
 <h2>PDF reports</h2>
 <p>PDF reports are created in your browser and downloaded directly. We never receive them.</p>
-<h2>Fonts</h2>
-<p>The inheritance calculator pages load the Gulzar and Noto Naskh Arabic Urdu fonts from Google Fonts so the family tree looks the same on every device. Your browser requests it from Google, which receives your IP address. Nothing you type in the calculator is sent. If you use its share link, the family, names and amounts you entered are written into the link itself (after the # sign, which browsers do not send to our server); anyone you give the link to can see them, so share it only with people you trust.</p>
+<h2>Gold, silver and currency rates</h2>
+<p>Gold and silver prices come from gold-api.com and exchange rates from the free currency-api (served through jsDelivr). <strong>Our server</strong> fetches them about once an hour and keeps a copy; your browser only talks to myzakattool.com. Those services never see your visit, your IP address or anything you type.</p>
+<h2>No third-party requests from your browser</h2>
+<p>Pages on this site do not load fonts, scripts, images or trackers from other companies. The inheritance calculator's Urdu fonts (Gulzar and Noto Naskh Arabic) and the PDF tools are stored on our own server; other pages use the fonts already on your device. Links to other websites, such as our sources or a WhatsApp share button, only contact those sites if you click them.</p>
+<h2>Share links</h2>
+<p>If you use the inheritance calculator's share link, the family, names and amounts you entered are written into the link itself (after the # sign, which browsers do not send to our server); anyone you give the link to can see them, so share it only with people you trust.</p>
 <h2>Server logs</h2>
 <p>Like every website, our hosting provider records technical logs (IP address, browser, pages requested, time) for security and to keep the site running. These are kept for a limited time.</p>
 <h2>Cookies, analytics and advertising</h2>

@@ -201,9 +201,18 @@ HTML
 <p>On its own, not at today's prices. The silver nisab, which Hanafi scholars use for cash, is about [myzt_rate type="nisab-silver" currency="PKR"]. But very few people own cash only. Add your gold, silver, bank balance, committee (BC) payments made so far, prize bonds and business stock. If the total crosses the nisab, zakat is due on all of it, including the 1 lakh.</p>
 <h2>Example</h2>
 <p>Bilal has Rs 1,00,000 cash and 2 tola of 22K gold. Together they are well above the silver nisab, so in the Hanafi madhab he pays Rs 2,500 on the cash plus 2.5% of the gold's value. If he also owes Rs 30,000 due this month, he subtracts it first.</p>
+<h2>1, 2, 5 and 10 lakh: due or not, and will the bank deduct?</h2>
+<p>Here is the same money looked at three ways: the 2.5%, whether it reaches the silver nisab on its own (about [myzt_rate type="nisab-silver" currency="PKR"] today), and whether a Pakistani bank would have cut zakat from it on 1 Ramadan 1447 (2026), when the deduction threshold was Rs 5,03,529.</p>
+<figure class="wp-block-table"><table><thead><tr><th>Amount (your only wealth)</th><th>2.5%</th><th>Reaches the silver nisab on its own?</th><th>Bank deduction in 2026 (savings account)</th></tr></thead><tbody>
+<tr><td>Rs 1,00,000</td><td>Rs 2,500</td><td>No: nothing due unless you own more</td><td>No (below Rs 5,03,529)</td></tr>
+<tr><td>Rs 2,00,000</td><td>Rs 5,000</td><td>No at October 2026 prices: nothing due unless you own more</td><td>No</td></tr>
+<tr><td>Rs 5,00,000</td><td>Rs 12,500</td><td>Yes: Rs 12,500 is due</td><td>No (just below Rs 5,03,529), so you pay it yourself</td></tr>
+<tr><td>Rs 10,00,000</td><td>Rs 25,000</td><td>Yes: Rs 25,000 is due</td><td>Yes, about Rs 25,000 cut on 1 Ramadan</td></tr>
+</tbody></table></figure>
+<p>The nisab column uses the silver price in October 2026; check the live figure on <a href="/nisab/">nisab today</a>. If you own gold, other accounts or business stock as well, add them all together: then even Rs 1 lakh is part of a total that may be above the nisab.</p>
 <h2>What about the bank's deduction?</h2>
-<p>If your savings account was deducted on 1 Ramadan, subtract that amount from what you owe. See <a href="/bank-zakat-deduction-pakistan/">bank zakat deduction in Pakistan</a>.</p>
-<p>Check your full amount with the <a href="/zakat-calculator-pakistan/">Pakistan zakat calculator</a>.</p>
+<p>Banks in Pakistan deduct 2.5% on 1 Ramadan only from savings and profit-bearing accounts whose balance is at or above the government's deduction nisab. For Ramadan 1447 (2026) that was <strong>Rs 5,03,529</strong>, notified on 16 February 2026; the 1448 figure is announced a few days before Ramadan 2027 and posted on <a href="/zakat-2027-pakistan/">zakat 2027 Pakistan</a>. Current accounts are not deducted. The bank's cut is not always your full zakat, and it can be more than you owe if your debts are large, so work out your own total and subtract whatever the bank already took. See <a href="/bank-zakat-deduction-pakistan/">bank zakat deduction in Pakistan</a> for the CZ-50 form.</p>
+<p>Check your full amount in rupees and tola, with the bank deduction entered under <em>Already paid</em>, in the <a href="/zakat-calculator-pakistan/">Pakistan zakat calculator</a>.</p>
 [myzt_faq]
 HTML
 			. $author . '[myzt_related slugs="zakat-calculator-pakistan,nisab,zakat-on-1-tola-gold,home"]',

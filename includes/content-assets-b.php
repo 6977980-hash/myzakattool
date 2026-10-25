@@ -64,7 +64,7 @@ function myzt_content_assets_b() {
 <li><strong>Hanafi:</strong> coins held to sell or as an investment are counted at market value each year with cash and gold, debts due now are subtracted, and the total is compared with the silver nisab. See the <a href="/hanafi-zakat-calculator/">Hanafi zakat calculator</a>.</li>
 <li><strong>Shafi'i:</strong> goods count as trade goods when they were bought with the intention of trade. Their value is checked against the nisab used for cash (gold in Malaysia and Singapore) and debts are not subtracted in the relied-upon view. See the <a href="/shafi-zakat-calculator/">Shafi'i calculator</a>.</li>
 <li><strong>Maliki:</strong> classical Maliki fiqh separates an active trader (<em>mudir</em>), who values stock every year, from a long-term holder waiting for a price rise (<em>muhtakir</em>), who pays zakat on the goods once, for one year, when they are sold. Contemporary Maliki scholars differ on how this applies to crypto, so ask yours. Debts are subtracted from cash and trade goods.</li>
-<li><strong>Hanbali:</strong> trade goods are valued every year at market price, cash and trade goods are added together, and debts are subtracted. The lower of the two nisabs applies to cash.</li>
+<li><strong>Hanbali:</strong> trade goods are valued every year at market price, cash and trade goods are added together, and debts are subtracted. The lower of the two nisabs, which is better for the poor, applies to cash.</li>
 <li><strong>Ahl-e-Hadith:</strong> our calculator follows the Saudi Permanent Committee and Shaykh Ibn Uthaymeen: trade goods and money are added and measured by the lower nisab, and debts are not subtracted. Some Saudi scholars followed by Ahl-e-Hadith readers have warned against dealing in crypto at all, so ask your own scholar.</li>
 <li><strong>Shia (Ayatollah Sistani):</strong> there is no zakat on paper money, shares or crypto. Instead, khums (20%) is due on the surplus of your year, which includes crypto bought from income and still held on your khums date at its market value. Use the <a href="/khums-calculator/">khums calculator</a>.</li>
 </ul>
@@ -115,11 +115,12 @@ HTML
 </ol>
 <h2>Worked example: a Rs 10,000 x 12 committee</h2>
 <p>Hina in Lahore is in a 12-member committee of Rs 10,000 a month. Her zakat date falls after the seventh instalment. She also has Rs 6,00,000 in her savings account. Assume her total is above the nisab, which today is about [myzt_rate type="nisab-silver" currency="PKR"] (silver).</p>
-<p><strong>Case A: her turn has not come yet.</strong> She has paid 7 x Rs 10,000 = Rs 70,000. Her zakatable wealth is Rs 6,00,000 + Rs 70,000 = Rs 6,70,000, and zakat is 2.5% = <strong>Rs 16,750</strong> in every school that counts cash (all except the Shia view, below).</p>
+<p><strong>Case A: her turn has not come yet.</strong> She has paid 7 x Rs 10,000 = Rs 70,000. Her zakatable wealth is Rs 6,00,000 + Rs 70,000 = Rs 6,70,000, and zakat is 2.5% = <strong>Rs 16,750</strong> in the Hanafi, Maliki, Hanbali and Ahl-e-Hadith calculations, which use the silver nisab (or the lower of the two) for cash. The Shafi'i calculation uses the gold nisab, about [myzt_rate type="nisab-gold" currency="PKR"] today, so at Rs 6,70,000 nothing is due unless your Shafi'i scholar uses the silver nisab. The Shia view is below.</p>
 <p><strong>Case B: she received Rs 1,20,000 in month four.</strong> She spent Rs 20,000 of it, so Rs 1,00,000 is left. She still owes 5 x Rs 10,000 = Rs 50,000 in instalments.</p>
 <ul>
 <li><strong>Hanafi, Maliki and Hanbali:</strong> Rs 6,00,000 + Rs 1,00,000 - Rs 50,000 = Rs 6,50,000. Zakat is <strong>Rs 16,250</strong>.</li>
-<li><strong>Shafi'i and Ahl-e-Hadith:</strong> the debt is not subtracted, so Rs 7,00,000 is counted. Zakat is <strong>Rs 17,500</strong>.</li>
+<li><strong>Ahl-e-Hadith:</strong> the debt is not subtracted, so Rs 7,00,000 is counted. Zakat is <strong>Rs 17,500</strong>.</li>
+<li><strong>Shafi'i:</strong> the debt is not subtracted either, but Rs 7,00,000 is below the gold nisab the Shafi'i calculation uses, so nothing is due (Rs 17,500 only if your scholar uses the silver nisab).</li>
 </ul>
 <p>Enter the Rs 70,000 (Case A) in the Committee tile, or enter the Rs 1,00,000 left over in the Bank or Cash tile and the Rs 50,000 still owed in the Debts tile (Case B). The calculator applies the debt rule of the madhab you choose.</p>
 <h2>What does each madhab say about committee money?</h2>
@@ -162,8 +163,8 @@ HTML
 		'llms'  => true,
 		'content' => <<<'HTML'
 [myzt_answer q="How do overseas Pakistanis calculate zakat?"]Add up everything you own on your zakat date, in Pakistan and abroad, convert it into one currency at that day's rate, and pay 2.5% if the total reaches the nisab. Today the silver nisab is about [myzt_rate type="nisab-silver" currency="SAR"], [myzt_rate type="nisab-silver" currency="AED"] or [myzt_rate type="nisab-silver" currency="PKR"].[/myzt_answer]
-<p>The calculator below starts in Saudi riyals with the <strong>Bank</strong>, <strong>Cash</strong> and <strong>Gold</strong> tiles open. Change the currency to dirhams, riyals, pounds or rupees if you prefer; what matters is that every amount is in the same currency.</p>
-[zakat_calculator tiles="bank,cash,gold" currency="SAR"]
+<p>The calculator below opens in the currency of the country you are in (riyals in Saudi Arabia, dirhams in the UAE, pounds in the UK, rupees in Pakistan) with the <strong>Bank</strong>, <strong>Cash</strong> and <strong>Gold</strong> tiles open. Tap <em>Change</em> to switch to any other currency, for example rupees if most of your savings are back home; what matters is that every amount is in the same currency.</p>
+[zakat_calculator tiles="bank,cash,gold"]
 <h2>Nisab today in Gulf, UK and Pakistani currency</h2>
 <figure class="wp-block-table"><table><thead><tr><th>Currency</th><th>Silver nisab (612.35 g)</th><th>Gold nisab (87.48 g)</th></tr></thead><tbody>
 <tr><td>Saudi riyal (SAR)</td><td>[myzt_rate type="nisab-silver" currency="SAR"]</td><td>[myzt_rate type="nisab-gold" currency="SAR"]</td></tr>
@@ -193,7 +194,7 @@ HTML
 <li>His wife's jewellery is not counted in his zakat; she owns it, so it is part of her own zakat.</li>
 <li>Debt due now: minus SAR 5,000 (Hanafi).</li>
 </ul>
-<p>Total: SAR 32,333, above the silver nisab of about [myzt_rate type="nisab-silver" currency="SAR"] today. Zakat is 2.5% = <strong>SAR 808</strong>, about Rs 60,600 at the example rate. He may pay it in Saudi Arabia, in Pakistan, or partly in each. In the Shafi'i and Ahl-e-Hadith calculations the SAR 5,000 debt is not subtracted, so zakat would be SAR 933.</p>
+<p>Total: SAR 32,333, above the silver nisab of about [myzt_rate type="nisab-silver" currency="SAR"] today. Zakat is 2.5% = <strong>SAR 808</strong>, about Rs 60,600 at the example rate. He may pay it in Saudi Arabia, in Pakistan, or partly in each. In the Ahl-e-Hadith calculation the SAR 5,000 debt is not subtracted, so zakat would be SAR 933. The Shafi'i calculation does not subtract it either, but SAR 37,333 is below the gold nisab it uses (about [myzt_rate type="nisab-gold" currency="SAR"] today), so nothing would be due unless his scholar uses the silver nisab.</p>
 <h2>Can I send my zakat to relatives in Pakistan?</h2>
 <p>Yes, in the views most Pakistanis follow, if the relatives are eligible to receive zakat. Brothers, sisters, uncles, aunts, cousins and in-laws who are poor or in debt can receive your zakat, with the double reward of charity and family ties. But some people can never receive your zakat:</p>
 <ul>
@@ -270,7 +271,7 @@ HTML
 <li><strong>Hanafi:</strong> cash, gold, silver and trade goods are added and compared with the silver nisab; jewellery is zakatable even if worn daily; debts due now are subtracted (Darul Uloom Deoband, Fatwa 702/702=M/1429 and Fatwa 2310/H=713/th=1431). See the <a href="/hanafi-zakat-calculator/">Hanafi zakat calculator</a>.</li>
 <li><strong>Shafi'i:</strong> permissible worn jewellery is exempt, gold and silver are checked separately, and debts do not reduce zakat in the relied-upon position. Which nisab to use for cash is a question for your local scholars. See the <a href="/shafi-zakat-calculator/">Shafi'i calculator</a>.</li>
 <li><strong>Maliki:</strong> worn jewellery is exempt, and debts are subtracted from cash, gold, silver and trade goods. Few Indian Muslims follow this school.</li>
-<li><strong>Hanbali:</strong> worn jewellery is exempt, debts are subtracted, and the lower of the two nisabs (silver today) applies to cash.</li>
+<li><strong>Hanbali:</strong> worn jewellery is exempt, debts are subtracted, and the lower of the two nisabs, which is better for the poor (silver today), applies to cash.</li>
 <li><strong>Ahl-e-Hadith:</strong> our calculator follows the Saudi Permanent Committee and Shaykh Ibn Uthaymeen, whom many Ahl-e-Hadith readers follow: jewellery is zakatable even if worn, cash is measured by the lower nisab, and debts are not subtracted. We have not found an Indian Ahl-e-Hadith fatwa confirming every point, so check with your own scholar. See the <a href="/ahl-e-hadith-zakat-calculator/">Ahl-e-Hadith calculator</a>.</li>
 <li><strong>Shia (Ayatollah Sistani):</strong> no zakat on paper money or on gold jewellery that is not used as currency. Khums (20%) is due on the surplus of the year instead. Use the <a href="/khums-calculator/">khums calculator</a>.</li>
 </ul>
