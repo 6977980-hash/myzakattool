@@ -1,6 +1,6 @@
 <?php
 /**
- * Guide posts that support the haq mehr and fitrana calculators, plus a Roman Urdu zakat guide.
+ * Guide posts that support the haq mehr, iddat and fitrana calculators, plus Roman Urdu zakat and iddat guides.
  * Loaded by content-posts.php.
  *
  * @package MyZakatTool
@@ -184,6 +184,141 @@ HTML
 				array( 'q' => 'Kya biwi ka fitrana shohar par wajib hai?', 'a' => 'Hanafi fiqh mein biwi agar nisab ki malik ho to apna fitrana khud ada kare, lekin shohar us ki ijazat se ada kar de to durust hai. Shafi\'i, Maliki aur Hanbali maslak mein biwi ka fitrana shohar ke zimme hai.' ),
 				array( 'q' => 'What is the last time to pay fitrana?', 'a' => 'Before the Eid prayer. Given after the prayer it counts as ordinary charity; if it was missed it is still owed and should be paid as soon as possible.' ),
 				array( 'q' => 'Is a newborn baby included in fitrana?', 'a' => 'Yes, if born before dawn on Eid day. A baby born after dawn is not counted.' ),
+			),
+		),
+
+		'haq-mehr-in-rupees'  => array(
+			'title'   => 'Haq Mehr in Rupees Today: Mehr-e-Fatimi and Shari Mehr',
+			'seo'     => 'Haq Mehr in Rupees {cyear}: Mehr-e-Fatimi, Shari Mehr',
+			'desc'    => "Haq mehr in rupees today: Mehr-e-Fatimi, the minimum (shari) mehr and a mehr in tola of gold, worked out from the live silver and gold rate, with a calculator.",
+			'nav'     => 'Haq mehr in rupees',
+			'blurb'   => 'mehr ki raqam aaj',
+			'content' => <<<'HTML'
+[myzt_answer q="How much is haq mehr in rupees today?"]At today's international silver rate, Mehr-e-Fatimi (500 dirham, about 1,530.9 g or 131.25 tola of silver) is about [myzt_mehr type="fatimi" currency="PKR"], and the minimum mehr of the Hanafi madhab (10 dirham, about 30.62 g of silver), often called the shari mehr, is about [myzt_mehr type="minimum" currency="PKR"]. A mehr fixed in gold is worth today's gold rate: 1 tola of 24K gold is about [myzt_rate type="gold-tola" currency="PKR"].[/myzt_answer]
+[zakat_mehr currency="PKR"]
+<p>Families ask this question in the week before a nikah: how much is Mehr-e-Fatimi in rupees, what is the shari (minimum) mehr, and what is a mehr of a few tola of gold worth? None of these has a fixed rupee figure. They are weights of silver or gold, so their value moves with the metal price and the rupee. The calculator above works them out from the live rate, refreshed every hour, and the sections below explain each figure, show the same amounts in Indian rupees, and answer the questions people ask about old rupee figures and deferred mehr. For the rules of mehr itself (prompt and deferred mehr, the nikah nama, divorce and khula) read <a href="/haq-mehr-guide/">haq mehr in Islam: amount, types and rules</a>.</p>
+<h2>Mehr-e-Fatimi in rupees</h2>
+<p>Mehr-e-Fatimi is the mehr the Prophet ﷺ gave for his daughter Fatimah (may Allah be pleased with her). The common figure in Pakistani and Indian fatwas is 500 dirham of silver, based on the report of Sayyidah Aisha that the mehr of the Prophet's wives was twelve and a half uqiyah (Muslim 1426). One dirham is 3.0618 g of silver, so:</p>
+<ul>
+<li><strong>500 dirham</strong> = about 1,530.9 g = 131.25 tola of silver, worth about <strong>[myzt_mehr type="fatimi" currency="PKR"]</strong> today.</li>
+<li><strong>480 dirham</strong> (the narration of Sayyiduna Umar, Abu Dawud 2106) = about 1,469.7 g.</li>
+<li><strong>400 dirham</strong> (a view reported from Ibn al-Humam) = about 1,224.7 g.</li>
+</ul>
+<p>Open "Other views held by scholars" in the calculator above to see the 480 and 400 dirham figures in today's rupees. Paying Mehr-e-Fatimi is a recommended choice for its blessing; it is not obligatory, and any amount both families agree on is valid if it is not below the minimum.</p>
+<h2>Shari mehr (the minimum mehr) in rupees</h2>
+<p>When people in Pakistan say "shari mehr" they usually mean the least mehr that is valid. The schools differ:</p>
+<ul>
+<li><strong>Hanafi:</strong> 10 dirham, about 30.62 g of silver (2 tola 7.5 masha), worth about <strong>[myzt_mehr type="minimum" currency="PKR"]</strong> today. If a smaller amount is written, the mehr becomes 10 dirham. Some Deobandi scholars, such as Maulana Ashraf Ali Thanwi, gave about 34 g; the calculator shows that figure too.</li>
+<li><strong>Maliki:</strong> a quarter dinar of gold or 3 dirham of silver.</li>
+<li><strong>Shafi'i, Hanbali and Ahl-e-Hadith scholars:</strong> no fixed minimum; anything of value can be mehr, following the hadith "look for something, even an iron ring" (Bukhari 5135).</li>
+<li><strong>Shia (Ayatollah Sistani):</strong> no fixed minimum; the mehr of the Sunnah is 500 dirham.</li>
+</ul>
+<p>The minimum is a floor, not a recommendation. A mehr that is far too small for the family's means is allowed in fiqh but often unfair to the bride; a mehr far beyond the husband's means is also discouraged.</p>
+<h2>A mehr fixed in tola of gold</h2>
+<p>Many nikah namas in Pakistan say "5 tola gold" or "10 tola gold". That mehr is owed as gold, so its rupee value is today's gold rate times the weight:</p>
+<figure class="wp-block-table"><table><thead><tr><th>Mehr</th><th>Value today (PKR)</th></tr></thead><tbody>
+<tr><td>1 tola 24K gold</td><td>[myzt_rate type="gold-tola" currency="PKR"]</td></tr>
+<tr><td>1 tola 22K gold</td><td>[myzt_rate type="gold22-tola" currency="PKR"]</td></tr>
+<tr><td>1 tola silver</td><td>[myzt_rate type="silver-tola" currency="PKR"]</td></tr>
+</tbody></table></figure>
+<p>Multiply by the number of tola in your nikah nama, or type the weight in the second box of the calculator, which also handles 22K and grams. If the nikah nama gives a weight but no karat, ask the families what was meant at the time; writing "24K" or "22K" next to the weight avoids the question later. Local sarafa rates are usually a little above the international rate used here.</p>
+<h2>Haq mehr in Indian rupees</h2>
+<p>The same weights apply in India. At today's rate, Mehr-e-Fatimi is about <strong>[myzt_mehr type="fatimi" currency="INR"]</strong> and the Hanafi minimum mehr about <strong>[myzt_mehr type="minimum" currency="INR"]</strong>. Choose INR in the calculator to see the other views and to check your own figure. Indian Muslim personal law also treats mehr as the wife's right and a debt on the husband until paid.</p>
+<h2>Why the rupee figure changes every year</h2>
+<p>A figure such as "Mehr-e-Fatimi is Rs 3 lakh" was right only on the day someone worked it out. Silver has risen sharply against the rupee, so the same 131.25 tola is now worth several times what it was a decade ago. That is why muftis tell families to work out Mehr-e-Fatimi from the silver rate on the day of the nikah and to write the rupee amount and the weight together in the nikah nama, for example "Mehr-e-Fatimi, 131.25 tola silver, Rs ___ on the day of nikah". Saying which one is owed avoids a dispute later.</p>
+<h2>Worked example</h2>
+<p>Hina and Usman agree on Mehr-e-Fatimi, half paid at the nikah and half deferred. On the day of the nikah the calculator shows Mehr-e-Fatimi at about [myzt_mehr type="fatimi" currency="PKR"].</p>
+<ul>
+<li><strong>If the nikah nama says "Mehr-e-Fatimi, 131.25 tola silver":</strong> the deferred half is 65.625 tola of silver. When Usman pays it years later, he pays that weight of silver or its value on the day he pays.</li>
+<li><strong>If it gives only a rupee amount:</strong> the deferred half is that rupee figure. Most muftis say the written rupee amount is what is owed; a husband who pays more to make up for inflation does a kindness, but it is not required.</li>
+</ul>
+<p>Either way, the deferred half is a debt. If Usman dies before paying it, it is paid from his estate before the inheritance is divided; the <a href="/wirasat-calculator/">wirasat calculator</a> lets you enter it as a debt, and <a href="/wife-husband-share-in-inheritance/">the wife's and husband's share</a> explains what the widow inherits on top of it.</p>
+<h2>Mehr after talaq, khula or a death</h2>
+<p>After a talaq that follows consummation the whole mehr is due; before consummation, half of a fixed mehr (Surah al-Baqarah 2:237). In khula the wife usually returns the mehr or gives up the unpaid part (Bukhari 5273). The rupee value of a mehr fixed in gold or silver is taken on the day it is paid. The woman's iddat follows in each case; see <a href="/iddat-kitne-din-ki-hoti-hai/">iddat kitne din ki hoti hai</a> for the days, or the <a href="/iddat-calculator/">iddat calculator</a> for the date it ends.</p>
+<h2>Zakat on mehr</h2>
+<p>Mehr the wife has received, in cash or gold, is her own wealth and is counted in her zakat on her own zakat date. Many Hanafi muftis say there is no zakat on unpaid mehr until she receives it. See <a href="/zakat-on-jewellery/">zakat on jewellery</a> for gold she wears, and work out her total with the <a href="/">zakat calculator</a>.</p>
+<p>In Urdu: <a href="/haq-mehr-calculator-urdu/">حق مہر کیلکولیٹر</a>. The full calculator page is the <a href="/haq-mehr-calculator/">haq mehr calculator</a>. These figures come from published fatwas and the live international rate. This page is not a fatwa; for a particular nikah, ask the imam or mufti who performs it.</p>
+[myzt_faq]
+HTML
+			. $author . '[myzt_related slugs="haq-mehr-calculator,haq-mehr-guide,haq-mehr-calculator-urdu,iddat-kitne-din-ki-hoti-hai"]',
+			'faq'     => array(
+				array( 'q' => 'Mehr-e-Fatimi kitne rupay ka hai?', 'a' => 'Mehr-e-Fatimi 500 dirham, yani 131.25 tola (taqreeban 1,530.9 gram) chandi hai. Is ki rupees mein qeemat har din chandi ke rate ke saath badalti hai; upar calculator aaj ki raqam dikhata hai.' ),
+				array( 'q' => 'Shari haq mehr kitna hai?', 'a' => 'Hanafi fiqh mein kam se kam mehr 10 dirham, yani taqreeban 30.62 gram (2 tola 7.5 masha) chandi ki qeemat hai. Shafi\'i aur Hanbali fiqh mein koi muqarrar kam se kam miqdar nahi.' ),
+				array( 'q' => 'What is 5 tola gold mehr in rupees?', 'a' => 'Five times today\'s rate for 1 tola of the karat written in the nikah nama. Type 5 tola in the gold box of the calculator above to see it in 24K or 22K.' ),
+				array( 'q' => 'Is an old rupee figure for Mehr-e-Fatimi still valid?', 'a' => 'No. Mehr-e-Fatimi is a weight of silver, so it must be worked out from the silver rate on the day of the nikah.' ),
+				array( 'q' => 'If the mehr was written in rupees years ago, how much is owed now?', 'a' => 'Most muftis say the rupee amount written in the nikah nama is owed. A mehr written as a weight of gold or silver is paid at its value on the day of payment.' ),
+				array( 'q' => 'Which silver rate does this page use?', 'a' => 'The international spot rate, refreshed every hour. Sarafa rates in Pakistan are often a little higher.' ),
+			),
+		),
+
+		'iddat-kitne-din-ki-hoti-hai' => array(
+			'title'   => 'Iddat Kitne Din Ki Hoti Hai? Talaq, Khula aur Bewa Ki Iddat',
+			'seo'     => 'Iddat Kitne Din Ki Hoti Hai? Talaq, Khula, Bewa Ki Iddat',
+			'desc'    => 'Iddat kitne din ki hoti hai: bewa ki iddat 130 din, talaq ki 3 haiz, haiz na aaye to 90 din, hamla mein paidaish tak. Har maslak ka hukm aur tareekh calculator.',
+			'nav'     => 'Iddat kitne din ki',
+			'blurb'   => 'iddat ke din',
+			'content' => <<<'HTML'
+[myzt_answer q="Iddat kitne din ki hoti hai?"]Bewa ki iddat 4 Islami mahine aur 10 din hai, yani 130 din, agar shohar ki wafat Islami mahine ki pehli tareekh ko na hui ho. Talaq ya khula ki iddat 3 haiz (ya 3 tuhr) hai, jo aam tor par do se teen mahine banti hai. Jis aurat ko haiz na aata ho us ki iddat 3 mahine (90 din), aur hamla aurat ki iddat bachay ki paidaish tak hai. Rukhsati aur milap se pehle talaq ho to koi iddat nahi.[/myzt_answer]
+[zakat_iddat]
+<p>Iddat woh muddat hai jis mein talaq, khula ya shohar ki wafat ke baad aurat naya nikah nahi kar sakti. Ghar mein jab yeh waqt aata hai to sab se pehla sawal yehi hota hai: iddat kitne din ki hoti hai, aur kis din khatam ho gi? Upar calculator mein apna maslak, kya hua (wafat, talaq ya khula) aur tareekh daalen; woh Islami aur angrezi dono tareekhon mein iddat ka aakhri din bata deta hai. Neeche har soorat ke din, har maslak ka hukm, aur misaalen hain. Aap jo likhte hain woh kahin save ya send nahi hota.</p>
+<h2>Iddat ke din: aik nazar mein</h2>
+<figure class="wp-block-table"><table><thead><tr><th>Soorat</th><th>Iddat</th><th>Taqreeban din</th></tr></thead><tbody>
+<tr><td>Shohar ki wafat (bewa)</td><td>4 Islami mahine 10 din</td><td>130 din</td></tr>
+<tr><td>Talaq, haiz aata ho</td><td>3 haiz ya 3 tuhr (maslak ke mutabiq)</td><td>aam tor par 60 se 90 din</td></tr>
+<tr><td>Talaq, haiz na aata ho</td><td>3 mahine</td><td>90 din</td></tr>
+<tr><td>Hamla aurat (talaq ya wafat)</td><td>bachay ki paidaish tak</td><td>paidaish ka din</td></tr>
+<tr><td>Khula</td><td>talaq jaisi; Ahl-e-Hadith ulama ke nazdeek 1 haiz</td><td>1 se 3 haiz</td></tr>
+<tr><td>Milap se pehle talaq</td><td>koi iddat nahi</td><td>0</td></tr>
+</tbody></table></figure>
+<h2>Bewa ki iddat: 4 mahine 10 din</h2>
+<p>Quran kehta hai: "Tum mein se jo log wafat pa jayen aur biwiyan chhor jayen, woh biwiyan apne aap ko 4 mahine 10 din rokay rakhen" (Surah al-Baqarah 2:234). Yeh hukm har bewa ke liye hai, jawan ho ya umar raseedah, rukhsati hui ho ya na hui ho, haiz aata ho ya na aata ho. Sirf hamal is ko badalta hai.</p>
+<ul>
+<li><strong>Agar wafat Islami mahine ki pehli tareekh ko hui</strong> to 4 mahine chaand se gine jate hain aur 10 din jor diye jate hain.</li>
+<li><strong>Agar kisi aur din hui</strong> to Imam Abu Hanifa ke nazdeek har mahina 30 din ka gina jata hai, yani poore 130 din. Kuch ulama sirf pehle adhoore mahine ko dinon se poora karte hain; farq zyada se zyada aik do din ka hai.</li>
+<li><strong>Iddat wafat ke waqt se shuru hoti hai,</strong> khabar milne se nahi. Agar khabar 130 din ke baad mile to iddat pehle hi poori ho chuki.</li>
+</ul>
+<p><strong>Misaal:</strong> shohar ki wafat 15 March 2026 ko hui (26 Ramazan 1447, mahine ki pehli tareekh nahi). Hanafi hisab se 130 din: iddat <strong>23 July 2026</strong> ko khatam hoti hai, usi waqt jis waqt wafat hui thi.</p>
+<p>Bewa iddat mein sog (ihdad) karti hai: zeenat, khushbu, mehndi aur shokh zevar se bachti hai (Bukhari 1280), aur jahan mumkin ho shohar wale ghar mein rehti hai (Abu Dawud 2300). Hanafi ulama ne us bewa ko jise rozi kamani ho, din mein bahar jane aur raat ghar wapas aane ki ijazat di hai.</p>
+<h2>Talaq ki iddat: 3 haiz ya 3 tuhr</h2>
+<p>"Talaq wali auratein apne aap ko teen quru' tak rokay rakhen" (Surah al-Baqarah 2:228). Arabi lafz quru' ke do maani hain, is liye maslakon ka hisab alag hai:</p>
+<ul>
+<li><strong>3 haiz:</strong> Hanafi, Hanbali aur aksar Ahl-e-Hadith ulama. Talaq ke baad teesra poora haiz khatam hone par iddat khatam. Jis haiz ke dauran talaq di gayi woh nahi gina jata.</li>
+<li><strong>3 tuhr (paki ke din):</strong> Shafi'i, Maliki aur Shia Ja'fari fiqh. Talaq ke baad teesra haiz shuru hote hi iddat khatam, is liye yeh kuch din chhoti hoti hai.</li>
+</ul>
+<p><strong>Misaal:</strong> aakhri haiz 1 January 2026 ko shuru hua, 6 din raha, aur haiz har 28 din baad aata hai. Talaq 10 January ko paki ki halat mein hui. Agle haiz taqreeban 29 January, 26 February aur 26 March ko shuru honge. Hanafi hisab se teesra haiz khatam hone par iddat <strong>1 April 2026</strong> (81 din) ko poori, aur Shafi'i hisab se teesra haiz shuru hote hi <strong>26 March 2026</strong> (75 din) ko. Yeh andaza hai; asal mein iddat aurat ke asal haiz par khatam hoti hai.</p>
+<p><strong>Jis aurat ko haiz na aata ho</strong> (kam umar, ya umar ki wajah se band ho chuka ho) us ki iddat 3 mahine hai (Surah at-Talaq 65:4): talaq Islami mahine ki pehli tareekh ko ho to chaand se, warna 90 din. Ayatollah Sistani ke nazdeek jis aurat ka haiz umar ki wajah se band ho chuka ho us par talaq ki iddat nahi.</p>
+<p><strong>Rukhsati aur milap se pehle talaq</strong> ho to koi iddat nahi (Surah al-Ahzab 33:49), aur tay shuda mehr ka aadha wajib hai. Hanafi aur Hanbali fiqh mein nikah ke baad miyan biwi ki sahih khalwat (tanhai ki mulaqat) bhi is hukm mein milap jaisi hai, to poori iddat lazim hoti hai. Bewa ki iddat milap ke baghair bhi hai.</p>
+<h2>Khula ki iddat</h2>
+<p>Hanafi, Shafi'i aur Maliki fiqh mein khula ki iddat talaq jaisi hai, yani 3 quru'. Ahl-e-Hadith ulama 1 haiz kehte hain, kyun ke Nabi ﷺ ne Thabit bin Qais ki biwi ko aik haiz iddat guzarne ka hukm diya (Abu Dawud 2229, Tirmidhi 1185). Hanbali maslak mein 3 haiz hai, magar Imam Ahmad se aik haiz ki riwayat bhi hai jise Ibn Taymiyyah ne tarjeeh di. Pakistan mein adalat se milne wali khula ke baad bhi yehi iddat hai. Upar wali misaal mein Ahl-e-Hadith hisab se khula ki iddat 4 February 2026 ko poori hoti hai.</p>
+<h2>Hamal ki halat mein iddat</h2>
+<p>"Aur hamal walion ki iddat yeh hai ke bacha paida ho jaye" (Surah at-Talaq 65:4). Talaq ya khula ke baad har maslak mein iddat paidaish par khatam hoti hai, chahe jaldi ho ya der se. Bewa ke liye bhi chaaron Sunni maslak paidaish par iddat khatam karte hain (Subay'ah Aslamiyyah ki hadith, Muslim 1484). Shia Ja'fari fiqh mein hamla bewa do mein se jo muddat lambi ho woh guzarti hai: paidaish ya 4 mahine 10 din.</p>
+<h2>Pakistan ka qanoon: 90 din ka notice</h2>
+<p>Muslim Family Laws Ordinance 1961 ki dafa 7 ke tehat talaq dene wala shohar Union Council ke chairman ko likhit notice deta hai aur biwi ko us ki copy. Qanooni tor par talaq notice milne ke 90 din baad muasir hoti hai, aur hamal ho to paidaish ke baad, agar woh baad mein ho. Calculator yeh 90 din wali tareekh bhi dikhata hai. Yeh qanooni tareekh hai, fiqhi iddat ki jagah nahi; apne case ke liye wakeel se poochen.</p>
+<h2>Iddat mein kya mana hai?</h2>
+<ul>
+<li><strong>Naya nikah:</strong> iddat mein nikah sahih nahi (2:235). Bewa ko ishare mein paigham diya ja sakta hai, khula paigham ya waada nahi.</li>
+<li><strong>Bila zaroorat ghar se nikalna,</strong> Hanafi fiqh mein bewa aur talaq wali dono ke liye. Talaq-e-raj'i ki iddat mein shohar naye nikah ke baghair ruju kar sakta hai.</li>
+<li><strong>Zeenat:</strong> bewa ke liye, aur Hanafi fiqh mein talaq-e-ba'in wali ke liye bhi.</li>
+</ul>
+<p>Hanafi maslak mein talaq wali biwi ko iddat ka nan nafaqa aur rehaish milti hai. Bewa ko tarke se apna hissa milta hai: <a href="/wife-husband-share-in-inheritance/">biwi ka wirasat mein hissa</a> aur <a href="/wirasat-calculator/">wirasat calculator</a> dekhen. Baqaya mehr shohar par qarz hai jo pehle ada hota hai; aaj ki raqam ke liye <a href="/haq-mehr-in-rupees/">haq mehr in rupees</a> dekhen.</p>
+<h2>Aam ghaltiyan</h2>
+<ul>
+<li><strong>Iddat ko khabar milne se ginna.</strong> Iddat wafat ya talaq ke waqt se shuru hoti hai.</li>
+<li><strong>Har talaq ki iddat 3 mahine samajhna.</strong> Haiz wali aurat ki iddat haiz se gini jati hai, mahinon se nahi.</li>
+<li><strong>Bewa ki iddat ko 3 haiz samajhna.</strong> Bewa ki iddat 4 mahine 10 din hai, haiz se nahi.</li>
+<li><strong>Qanooni 90 din ko iddat samajhna.</strong> Union Council ka 90 din wala waqt qanoon ka hai; fiqhi iddat alag gini jati hai.</li>
+</ul>
+<p>Mukammal tafseel angrezi mein: <a href="/iddat-calculator/">iddat calculator</a>; Urdu mein: <a href="/iddat-calculator-urdu/">عدت کیلکولیٹر</a>. Yeh page Quran, hadith aur har maslak ke shaya shuda fatawa ki roshni mein hai, fatwa nahi. Apni soorat ke liye, khaas tor par be-qaida haiz ya tareekh mein shak ho to, kisi mufti ya aalim se zaroor poochen.</p>
+[myzt_faq]
+HTML
+			. $author . '[myzt_related slugs="iddat-calculator,iddat-calculator-urdu,haq-mehr-in-rupees,wife-husband-share-in-inheritance"]',
+			'faq'     => array(
+				array( 'q' => 'Bewa ki iddat kitne din ki hai?', 'a' => '4 Islami mahine aur 10 din. Agar shohar ki wafat Islami mahine ki pehli tareekh ko na hui ho to Hanafi hisab se 130 din.' ),
+				array( 'q' => 'Talaq ki iddat kitne din ki hoti hai?', 'a' => 'Haiz wali aurat ki 3 haiz (Hanafi, Hanbali, aksar Ahl-e-Hadith) ya 3 tuhr (Shafi\'i, Maliki, Ja\'fari), jo aam tor par do se teen mahine banti hai. Haiz na aata ho to 3 mahine (90 din), aur hamal ho to paidaish tak.' ),
+				array( 'q' => 'Khula ki iddat kitni hai?', 'a' => 'Hanafi, Shafi\'i aur Maliki fiqh mein talaq jaisi, yani 3 haiz ya tuhr. Ahl-e-Hadith ulama ke nazdeek 1 haiz.' ),
+				array( 'q' => 'Kya rukhsati se pehle talaq ki iddat hoti hai?', 'a' => 'Nahi, agar milap ya (Hanafi aur Hanbali fiqh mein) sahih khalwat na hui ho (Surah al-Ahzab 33:49). Bewa ki iddat rukhsati ke baghair bhi hai.' ),
+				array( 'q' => 'Iddat kab se shuru hoti hai?', 'a' => 'Wafat ya talaq ke waqt se, chahe aurat ko khabar baad mein mile.' ),
+				array( 'q' => '130 din ki iddat kis ke liye hai?', 'a' => 'Us bewa ke liye jis ke shohar ki wafat Islami mahine ki pehli tareekh ke ilawa kisi din hui: 4 mahine × 30 din + 10 din = 130 din.' ),
 			),
 		),
 

@@ -42,6 +42,7 @@ function words( $html ) {
 // Footer links every tool on every page (MYZT_Installer::footer_links).
 $footer = array( 'calculators', 'fitrana-calculator', 'fidya-kaffara-calculator', 'zakat-date-calculator', 'ushr-calculator', 'khums-calculator', 'haq-mehr-calculator', 'diyat-calculator', 'wirasat-calculator', 'qurbani-calculator', 'iddat-calculator', 'free-zakat-widget', 'zakat-calculator-urdu' );
 $inbound = array();
+$prose   = array(); // In-content <a> links only, without the related block.
 
 foreach ( $pages as $slug => $p ) {
 	foreach ( array( 'title', 'content' ) as $k ) {
@@ -67,6 +68,7 @@ foreach ( $pages as $slug => $p ) {
 		check( ! empty( $p['hidden'] ) || empty( $pages[ $target ]['hidden'] ), "$slug links to hidden page /$target/" );
 		if ( $target !== $slug ) {
 			$inbound[ $target ][ $slug ] = true;
+			$prose[ $target ][ $slug ]   = true;
 		}
 	}
 	if ( preg_match_all( '/\[myzt_related slugs="([^"]*)"\]/', $p['content'], $r ) ) {
@@ -164,6 +166,21 @@ foreach ( array( 'عدت کی مدت', 'طلاق کی عدت', 'بیوہ کی ع
 	check( false !== strpos( $pages['iddat-calculator-urdu']['content'], $phrase ), "Urdu iddat page mentions $phrase" );
 }
 check( false !== strpos( $pages['qurbani-calculator-urdu']['content'], 'قربانی کا نصاب' ), 'Urdu qurbani page mentions قربانی کا نصاب' );
+
+// FIX-204 (25 Oct 2026 audit): the newer asset pages get in-content links (not only the related block) from at least 3 pages.
+foreach ( array( 'zakat-on-property', 'zakat-on-crypto', 'zakat-on-committee', 'zakat-for-overseas-pakistanis', 'zakat-calculator-india', 'zakat-kaise-nikalen' ) as $slug ) {
+	$n = isset( $prose[ $slug ] ) ? count( $prose[ $slug ] ) : 0;
+	check( $n >= 3, "$slug has $n in-content linking pages (want 3)" );
+}
+// SUG-02: mehr and iddat search-intent guides open with the calculator and are linked from home and the hubs.
+foreach ( array( 'haq-mehr-in-rupees' => 'zakat_mehr', 'iddat-kitne-din-ki-hoti-hai' => 'zakat_iddat' ) as $slug => $widget ) {
+	$c = isset( $pages[ $slug ] ) ? $pages[ $slug ]['content'] : '';
+	check( false !== strpos( substr( $c, 0, strpos( $c, '[/myzt_answer]' ) + 40 ), "[$widget" ), "$slug shows [$widget] right after the quick answer" );
+	check( words( $c ) >= 1000, "guide $slug has " . words( $c ) . ' words (want 1000)' );
+	foreach ( array( 'home', 'guides', 'calculators' ) as $hub ) {
+		check( isset( $prose[ $slug ][ $hub ] ), "$hub links $slug" );
+	}
+}
 
 echo $fail ? "$fail check(s) failed\n" : 'Page checks OK (' . count( $pages ) . " pages)\n";
 exit( $fail ? 1 : 0 );

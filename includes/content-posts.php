@@ -104,7 +104,7 @@ HTML
 <p><strong>Inherited jewellery</strong> follows the same rule as jewellery you bought: it is yours once your share is settled, and your school's ruling on worn or stored jewellery applies. See <a href="/zakat-on-inherited-wealth/">zakat on inherited wealth</a>, and the <a href="/wirasat-calculator/">wirasat calculator</a> for each heir's share of the gold in tola and grams.</p>
 <h2>Example</h2>
 <p>Ayesha owns 8 tola of 22K jewellery and Rs 50,000 in savings. In the Hanafi madhab the gold and cash are added and checked against the silver nisab, so zakat is due on both. In the Shafi'i madhab her worn jewellery is exempt and Rs 50,000 is below the nisab, so nothing is due. Try the same numbers in the <a href="/madhab-comparison/">madhab comparison</a>.</p>
-<p>Calculate it now with the <a href="/zakat-on-gold-calculator/">zakat on gold calculator</a>, or read <a href="/zakat-on-1-tola-gold/">how much zakat is due on 1 tola</a>.</p>
+<p>Calculate it now with the <a href="/zakat-on-gold-calculator/">zakat on gold calculator</a>, or read <a href="/zakat-on-1-tola-gold/">how much zakat is due on 1 tola</a>. Families who keep wealth in a plot or a second house rather than in gold should read <a href="/zakat-on-property/">zakat on property</a>, which explains when a plot is zakatable and when it is not.</p>
 [myzt_faq]
 HTML
 			. $author . '[myzt_related slugs="zakat-on-gold-calculator,madhab-comparison,hanafi-zakat-calculator,shafi-zakat-calculator"]',

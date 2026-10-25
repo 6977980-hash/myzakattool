@@ -29,7 +29,7 @@ function myzt_content_assets_a() {
 [zakat_calculator tiles="cash,bank,debts"]
 <h2>Do I pay zakat on my monthly salary?</h2>
 <p>No. In all four Sunni schools zakat is not a tax on income. A salary is money that comes in and, for most people, goes out again on rent, food, school fees and bills. Zakat looks at wealth that stays with you. The rule comes from the hadith "There is no zakat on wealth until a year passes over it" (Abu Dawud 1573; Ibn Majah 1792). So a person who earns Rs 1,50,000 a month and spends all of it owes no zakat on that salary, however large it is.</p>
-<p>What you do owe zakat on is your savings: cash at home, money in your current and savings accounts, money in wallets such as JazzCash or Easypaisa, prize bonds, savings certificates, gold and silver, and anything else zakatable. These are added together on one day each year, your zakat date.</p>
+<p>What you do owe zakat on is your savings: cash at home, money in your current and savings accounts, money in wallets such as JazzCash or Easypaisa, prize bonds, savings certificates, gold and silver, and anything else zakatable. Money you have paid into a committee counts too (see <a href="/zakat-on-committee/">zakat on committee (BC)</a>), and so do coins held in an exchange or wallet (see <a href="/zakat-on-crypto/">zakat on crypto</a>). These are added together on one day each year, your zakat date.</p>
 <h2>When does my zakat year start?</h2>
 <p>Your zakat year (hawl) starts on the day your savings first reached the nisab. For many salaried people that is a few months after starting their first job. One lunar year later is your first zakat date, and it repeats on the same Islamic date every year. If you do not know the day, our guide to <a href="/hawl-zakat-due-date/">hawl and the zakat due date</a> explains how to estimate it, and the <a href="/zakat-date-calculator/">zakat date calculator</a> shows your next dates.</p>
 <p>In the Hanafi madhab, which most people in Pakistan and India follow, two things matter:</p>
@@ -69,7 +69,7 @@ function myzt_content_assets_a() {
 <li><strong>Forgetting gold.</strong> In the Hanafi madhab a wife's jewellery is her own zakat, but it often brings her above the nisab even when her savings are small. See <a href="/zakat-on-jewellery/">zakat on jewellery</a>.</li>
 <li><strong>Counting the provident fund every year.</strong> Many Hanafi muftis say compulsory fund deductions are not zakatable until received; see <a href="/zakat-on-provident-fund/">zakat on provident fund</a>.</li>
 </ul>
-<p>This page explains well-known rulings to help you calculate; it is not a fatwa. For your own situation, ask a qualified scholar you trust.</p>
+<p>If you earn abroad and keep savings both there and in Pakistan, all of it is added on the same date; <a href="/zakat-for-overseas-pakistanis/">zakat for overseas Pakistanis</a> covers currency, nisab and where to pay. This page explains well-known rulings to help you calculate; it is not a fatwa. For your own situation, ask a qualified scholar you trust.</p>
 [myzt_faq]
 HTML
 		. $author . '[myzt_related slugs="zakat-calculator-pakistan,hawl-zakat-due-date,zakat-on-provident-fund,bank-zakat-deduction-pakistan"]',
@@ -197,7 +197,7 @@ HTML
 <li><strong>Using 2.5% of market value for everything:</strong> Rs 6,00,000 + Rs 4,00,000 + Rs 3,00,000 + Rs 50,000 + Rs 2,00,000 = Rs 15,50,000. Zakat = <strong>Rs 38,750</strong>.</li>
 <li><strong>Using Method 1 for the fertiliser shares:</strong> suppose the latest accounts show zakatable assets of Rs 150 per share. His 1,000 shares give Rs 1,50,000 instead of Rs 4,00,000. The total becomes Rs 13,00,000 and zakat is <strong>Rs 32,500</strong>. (Rs 150 is an example figure for illustration only.)</li>
 </ul>
-<p>Cash in the brokerage account is plain money and is always counted in full. A full-time trader running a business can use the <a href="/business-zakat-calculator/">business zakat calculator</a>, and anyone can total everything in the <a href="/zakat-calculator-pakistan/">Pakistan zakat calculator</a>. Dividends you have received and still have on your zakat date are part of your cash.</p>
+<p>Cash in the brokerage account is plain money and is always counted in full. Coins and tokens bought to sell on follow the same trade-goods rule; see <a href="/zakat-on-crypto/">zakat on crypto</a>. A full-time trader running a business can use the <a href="/business-zakat-calculator/">business zakat calculator</a>, and anyone can total everything in the <a href="/zakat-calculator-pakistan/">Pakistan zakat calculator</a>. Dividends you have received and still have on your zakat date are part of your cash.</p>
 <h2>Mutual funds, including Islamic funds</h2>
 <p>A unit in a mutual fund is a share of everything the fund holds. Value it at the fund's net asset value (NAV) per unit on your zakat date, or the redemption price you would actually receive.</p>
 <ul>
