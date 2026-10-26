@@ -1677,21 +1677,21 @@ HTML
 		'nav'   => 'Privacy',
 		'blurb' => 'your data',
 		'content' => <<<'HTML'
-<p>Last updated: 25 October 2026. This policy explains what information this website handles.</p>
+<p>Last updated: 26 October 2026. This policy explains what information this website handles.</p>
 <h2>Calculator entries stay on your device</h2>
 <p>Everything you type into the calculators is processed in your own browser. That is true of every tool on the site: zakat, nisab, fitrana, fidya and kaffara, khums, ushr, mehr, diyat, wirasat (inheritance), iddat and qurbani. It is not sent to our server. If you use <em>Save data file</em>, the file is saved on your device. A draft may be kept in your browser's local storage so your entries are still there when you return. It is removed automatically after 13 months without use. <em>Clear all</em> removes the draft, and <em>Delete saved data</em> removes everything the calculators saved in your browser (amounts, family members, language choice and reminder dates).</p>
 <h2>PDF reports</h2>
 <p>PDF reports are created in your browser and downloaded directly. We never receive them.</p>
 <h2>Gold, silver and currency rates</h2>
 <p>Gold and silver prices come from gold-api.com and exchange rates from the free currency-api (served through jsDelivr). <strong>Our server</strong> fetches them about once an hour and keeps a copy; your browser only talks to myzakattool.com. Those services never see your visit, your IP address or anything you type.</p>
-<h2>No third-party requests from your browser</h2>
-<p>Pages on this site do not load fonts, scripts, images or trackers from other companies. The inheritance calculator's Urdu fonts (Gulzar and Noto Naskh Arabic) and the PDF tools are stored on our own server; other pages use the fonts already on your device. Links to other websites, such as our sources or a WhatsApp share button, only contact those sites if you click them.</p>
+<h2>Third-party requests from your browser</h2>
+<p>The only outside service our pages load is Google Analytics (explained below). Pages do not load fonts, images or other scripts from other companies. The inheritance calculator's Urdu fonts (Gulzar and Noto Naskh Arabic) and the PDF tools are stored on our own server; other pages use the fonts already on your device. Links to other websites, such as our sources or a WhatsApp share button, only contact those sites if you click them.</p>
 <h2>Share links</h2>
 <p>If you use the inheritance calculator's share link, the family, names and amounts you entered are written into the link itself (after the # sign, which browsers do not send to our server); anyone you give the link to can see them, so share it only with people you trust.</p>
 <h2>Server logs</h2>
 <p>Like every website, our hosting provider records technical logs (IP address, browser, pages requested, time) for security and to keep the site running. These are kept for a limited time.</p>
 <h2>Cookies, analytics and advertising</h2>
-<p>We may use privacy-friendly analytics to count visits. If advertising is enabled, Google may use cookies to show ads, including personalised ads where you have agreed. You can manage Google ad personalisation at <a href="https://adssettings.google.com" rel="noopener nofollow" target="_blank">adssettings.google.com</a>. Advertising is currently switched off. It will only be switched on after Google's consent message is set up, so that visitors in the EEA, UK and Switzerland are asked for consent before such cookies are used.</p>
+<p>We use <strong>Google Analytics 4</strong>, run by Google, to understand how many people visit, which pages they read and from which country and device, so we can improve the site. Google Analytics sets first-party cookies (named <code>_ga</code>) and receives your IP address, browser details and the pages you visit; Google does not store full IP addresses in Analytics 4. It never receives anything you type into a calculator, because those entries stay in your browser. You can read <a href="https://policies.google.com/technologies/partner-sites" rel="noopener nofollow" target="_blank">how Google uses data from sites that use its services</a>, and you can block Google Analytics on every website with Google's <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener nofollow" target="_blank">opt-out browser add-on</a> or your browser's cookie settings. If advertising is enabled, Google may use cookies to show ads, including personalised ads where you have agreed. You can manage Google ad personalisation at <a href="https://adssettings.google.com" rel="noopener nofollow" target="_blank">adssettings.google.com</a>. Advertising is currently switched off. It will only be switched on after Google's consent message is set up, so that visitors in the EEA, UK and Switzerland are asked for consent before such cookies are used.</p>
 <h2>Email</h2>
 <p>If you email us, we use your email only to reply.</p>
 <h2>Children</h2>
