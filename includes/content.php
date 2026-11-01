@@ -682,7 +682,7 @@ HTML
 <li><strong>Committee (BC):</strong> the amount you have paid in so far is your money and is zakatable. Once you receive the committee, count what is left of it.</li>
 <li><strong>Prize bonds and savings certificates (NSC, Behbood, DSC):</strong> enter savings certificates at the amount you invested in the "Savings certificates" field, and prize bonds at their face value in the "Prize bonds" field. If zakat was deducted from them, enter it under "Already paid". See <a href="/zakat-on-savings-certificates/">zakat on savings certificates</a>.</li>
 <li><strong>Plots:</strong> a plot bought to sell is trade goods; count its market value. A house or plot for your own use has no zakat.</li>
-<li><strong>Gold:</strong> local jewellery is usually 21K or 22K; choose the karat so only the pure gold is counted.</li>
+<li><strong>Gold:</strong> local jewellery is usually 21K or 22K; choose the karat so only the pure gold is counted. For a figure per tola, see <a href="/zakat-on-1-tola-gold/">zakat on 1 tola gold</a>, with a table from 1 to 50 tola.</li>
 </ul>
 <h2>Bank deduction on 1 Ramadan</h2>
 <p>Under Pakistan's zakat law, banks deduct 2.5% from savings accounts whose balance is at or above the government's nisab on 1 Ramadan. Current accounts are not deducted. People who are exempt on grounds of fiqh can submit a CZ-50 declaration to their bank before Ramadan. Read the <a href="/bank-zakat-deduction-pakistan/">bank zakat deduction guide</a>.</p>
@@ -993,7 +993,7 @@ HTML
 
 	$p['haq-mehr-calculator'] = array(
 		'title' => 'Haq Mehr Calculator',
-		'seo'   => 'Haq Mehr Calculator {cyear}: Mehr-e-Fatimi in Rupees Today',
+		'seo'   => 'Haq Mehr Calculator {cyear}: Mehr-e-Fatimi {rate:mehr-fatimi}',
 		'desc'  => "Mehr-e-Fatimi and the minimum mehr in today's money from the live silver rate: grams, tola and rupees, other scholars' views, and a check for your own mehr.",
 		'nav'   => 'Haq Mehr',
 		'blurb' => 'mehr-e-fatimi today',
@@ -1002,6 +1002,7 @@ HTML
 		'content' => <<<'HTML'
 [myzt_answer q="How much is Mehr-e-Fatimi today?"]Mehr-e-Fatimi is 500 dirham of silver, which Pakistani and Indian muftis put at 131.25 tola or about 1,530.9 g of silver. At today's international silver rate that is about [myzt_mehr type="fatimi" currency="PKR"]. The minimum mehr in the Hanafi madhab is 10 dirham (about 30.62 g of silver), worth about [myzt_mehr type="minimum" currency="PKR"] today.[/myzt_answer]
 [zakat_mehr currency="PKR"]
+<p>Looking only for the figure? See the <a href="/haq-mehr-in-rupees/">haq mehr amount in rupees</a>, with the shari mehr and a mehr in tola of gold.</p>
 <h2>What is haq mehr?</h2>
 <p>Mehr (mahr) is the money or property a husband gives his wife because of the nikah. The Qur'an calls it her right and a gift: "And give the women their mahr as a free gift" (al-Nisa 4:4). It belongs to the wife alone, not to her father or family, and she may spend it as she likes. It is written in the nikah nama, which has separate columns for the amount, the part that is paid at once (mu'ajjal) and the part that is deferred (muwajjal), and anything given at the time of the nikah.</p>
 <h2>Why is mehr measured in silver?</h2>
@@ -1030,7 +1031,7 @@ HTML
 <p>This page gives figures from published fatwas and the live silver rate. It is not a fatwa; for a particular nikah, ask the imam or mufti who performs it.</p>
 [myzt_faq]
 HTML
-		. $author . '[myzt_related slugs="haq-mehr-calculator-urdu,diyat-calculator,nisab,gold-rate-today"]',
+		. $author . '[myzt_related slugs="haq-mehr-in-rupees,haq-mehr-calculator-urdu,diyat-calculator,nisab"]',
 		'faq'   => array(
 			array( 'q' => 'Mehr-e-Fatimi kitna hai?', 'a' => '500 dirham chandi, yani 131.25 tola (taqreeban 1,530.9 gram). Rupees mein is ki qeemat aaj ke chandi ke rate se nikalti hai; upar calculator mein dekhein.' ),
 			array( 'q' => 'Kam se kam haq mehr kitna hai?', 'a' => 'Hanafi fiqh mein 10 dirham, yani taqreeban 30.62 gram (2 tola 7.5 masha) chandi ki qeemat. Is se kam mehr tay ho to 10 dirham hi wajib hota hai.' ),
@@ -1041,8 +1042,8 @@ HTML
 	);
 
 	$p['diyat-calculator'] = array(
-		'title' => 'Diyat Calculator Pakistan',
-		'seo'   => 'Diyat Amount 2026-27 Pakistan: Notified & Live Value',
+		'title' => 'Diyat Amount and Calculator Pakistan',
+		'seo'   => 'Diyat Amount 2026-27 Pakistan: Rs 1,93,52,390 (Notified)',
 		'desc'  => 'Diyat in Pakistan for 2026-27 is Rs 1,93,52,390, the value of 30,630 g of silver. See the live value at today\'s silver rate and every year\'s notified amount.',
 		'nav'   => 'Diyat',
 		'blurb' => 'blood money in Pakistan',

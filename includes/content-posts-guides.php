@@ -22,7 +22,7 @@ function myzt_content_posts_guides() {
 			'blurb'   => 'mehr ke masail',
 			'content' => <<<'HTML'
 [myzt_answer q="How much is haq mehr in Islam?"]Haq mehr is whatever amount the husband and wife agree on at the nikah, as long as it is not below the minimum of their madhab. In the Hanafi madhab the minimum is 10 dirham of silver (about 30.62 g), worth about [myzt_mehr type="minimum" currency="PKR"] today. Mehr-e-Fatimi, 500 dirham or about 1,530.9 g of silver, is worth about [myzt_mehr type="fatimi" currency="PKR"] today; it is a recommended choice, not an obligation.[/myzt_answer]
-<p>Mehr is one of the few things in a nikah that is the wife's right by name, yet it is often treated as a formality: a number written on the nikah nama that nobody reads again. This guide explains what mehr is, the two kinds written in the nikah nama, how Mehr-e-Fatimi and the minimum mehr are worked out, what Pakistani law says, what happens to mehr at divorce, khula and death, and how it affects zakat. To turn any of these amounts into today's money, use the <a href="/haq-mehr-calculator/">haq mehr calculator</a>, which works from the live silver rate.</p>
+<p>Mehr is one of the few things in a nikah that is the wife's right by name, yet it is often treated as a formality: a number written on the nikah nama that nobody reads again. This guide explains what mehr is, the two kinds written in the nikah nama, how Mehr-e-Fatimi and the minimum mehr are worked out, what Pakistani law says, what happens to mehr at divorce, khula and death, and how it affects zakat. To turn any of these amounts into today's money, use the <a href="/haq-mehr-calculator/">haq mehr calculator</a>, which works from the live silver rate, or see the <a href="/haq-mehr-in-rupees/">haq mehr amount in rupees</a>.</p>
 <h2>What is haq mehr?</h2>
 <p>Mehr (mahr, also called sadaq) is the money or property a husband gives his wife because of the nikah. The Quran calls it her right and a gift: "And give the women their mahr as a free gift" (Surah an-Nisa 4:4). Three points follow from this verse and are agreed on by all the schools:</p>
 <ul>
@@ -31,7 +31,7 @@ function myzt_content_posts_guides() {
 <li><strong>It is different from dowry (jahez).</strong> Jahez is what the bride's family gives at the wedding. It is not mehr, it does not reduce the mehr, and the Quran does not require it.</li>
 </ul>
 <p>Mehr can be cash, gold, silver, land, a house or anything else of value. In Pakistan it is most often fixed in rupees or in tola of gold, and some families fix it as Mehr-e-Fatimi in silver.</p>
-<h2>What are mu'ajjal and muwajjal mehr?</h2>
+<h2>Types of haq mehr: mu'ajjal and muwajjal</h2>
 <p>The nikah nama lets the couple split the mehr into two parts:</p>
 <ul>
 <li><strong>Mu'ajjal (prompt) mehr</strong> is due as soon as the nikah takes place. The wife may ask for it at any time, and it is best paid at the nikah or the rukhsati.</li>
@@ -94,7 +94,7 @@ function myzt_content_posts_guides() {
 <p>In Urdu, read <a href="/haq-mehr-calculator-urdu/">حق مہر کیلکولیٹر</a>. This guide gives figures from published fatwas and the live silver rate. It is not a fatwa; for a particular nikah, divorce or khula, ask a qualified scholar.</p>
 [myzt_faq]
 HTML
-			. $author . '[myzt_related slugs="haq-mehr-calculator,haq-mehr-calculator-urdu,wife-husband-share-in-inheritance,wirasat-calculator"]',
+			. $author . '[myzt_related slugs="haq-mehr-in-rupees,haq-mehr-calculator,haq-mehr-calculator-urdu,wife-husband-share-in-inheritance"]',
 			'faq'     => array(
 				array( 'q' => 'What is the difference between mu\'ajjal and muwajjal mehr?', 'a' => 'Mu\'ajjal (prompt) mehr is due as soon as the nikah takes place and the wife may ask for it at any time. Muwajjal (deferred) mehr is due at the time agreed, or at divorce or death.' ),
 				array( 'q' => 'Haq mehr kitna hona chahiye?', 'a' => 'Jo raqam dono taraf ki razamandi se tay ho, bas apne maslak ki kam se kam miqdar se kam na ho. Hanafi fiqh mein kam se kam 10 dirham (taqreeban 30.62 gram chandi) hai. Mehr-e-Fatimi barkat ke liye pasandeeda hai, wajib nahi.' ),
@@ -143,6 +143,9 @@ HTML
 </tbody></table></figure>
 <p>The Council of Islamic Ideology announced the 2026 amounts on 9 February 2026, with Rs 200 for those using subsidised flour. For 2025 the amounts were Rs 220 by wheat, Rs 450 by barley, Rs 1,650 by dates and Rs 2,500 by raisins. The figures for Ramadan 2027 will be added to the <a href="/fitrana-calculator/">fitrana calculator</a> on the day they are announced; until then, use the price of the item where you live. Past years and their sources are on the calculator page.</p>
 <p>In the Shafi'i, Maliki and Hanbali schools, and in the view of many Ahl-e-Hadith scholars, the amount is one full sa' of the local staple food for every item, wheat included, following Abu Sa'id al-Khudri, who said he would keep giving a full sa' (Muslim 985). This is usually given as about 2 to 3 kg depending on the food. In Pakistan that means a fuller measure of wheat or rice than the Hanafi half sa'.</p>
+<h2>Fitrana rate by year in Pakistan</h2>
+<p>Many people look for an earlier year's figure. This table lists the figures we could check, each with its source. Pay this year's amount, not an old one.</p>
+[myzt_history type="fitrana"]
 <h2>Which item should you choose?</h2>
 <p>You may pay by any of the four items. Those who can afford it are encouraged to pay by the more expensive items, dates or raisins, because this gives more to the poor. A family that pays by wheat because money is tight has still paid its fitrana in full.</p>
 <h2>Can fitrana be paid in money?</h2>
@@ -189,15 +192,15 @@ HTML
 		),
 
 		'haq-mehr-in-rupees'  => array(
-			'title'   => 'Haq Mehr in Rupees Today: Mehr-e-Fatimi and Shari Mehr',
-			'seo'     => 'Haq Mehr in Rupees {cyear}: Mehr-e-Fatimi, Shari Mehr',
-			'desc'    => "Haq mehr in rupees today: Mehr-e-Fatimi, the minimum (shari) mehr and a mehr in tola of gold, worked out from the live silver and gold rate, with a calculator.",
+			'title'   => 'Haq Mehr Amount in Rupees Today: Mehr-e-Fatimi and Shari Mehr',
+			'seo'     => 'Haq Mehr Amount {cyear}: Mehr-e-Fatimi {rate:mehr-fatimi} Today',
+			'desc'    => 'Haq mehr amount today: Mehr-e-Fatimi {rate:mehr-fatimi}, shari (minimum) mehr {rate:mehr-minimum}, and a mehr in tola of gold, from the live rate.',
 			'nav'     => 'Haq mehr in rupees',
 			'blurb'   => 'mehr ki raqam aaj',
 			'content' => <<<'HTML'
 [myzt_answer q="How much is haq mehr in rupees today?"]At today's international silver rate, Mehr-e-Fatimi (500 dirham, about 1,530.9 g or 131.25 tola of silver) is about [myzt_mehr type="fatimi" currency="PKR"], and the minimum mehr of the Hanafi madhab (10 dirham, about 30.62 g of silver), often called the shari mehr, is about [myzt_mehr type="minimum" currency="PKR"]. A mehr fixed in gold is worth today's gold rate: 1 tola of 24K gold is about [myzt_rate type="gold-tola" currency="PKR"].[/myzt_answer]
 [zakat_mehr currency="PKR"]
-<p>Families ask this question in the week before a nikah: how much is Mehr-e-Fatimi in rupees, what is the shari (minimum) mehr, and what is a mehr of a few tola of gold worth? None of these has a fixed rupee figure. They are weights of silver or gold, so their value moves with the metal price and the rupee. The calculator above works them out from the live rate, refreshed every hour, and the sections below explain each figure, show the same amounts in Indian rupees, and answer the questions people ask about old rupee figures and deferred mehr. For the rules of mehr itself (prompt and deferred mehr, the nikah nama, divorce and khula) read <a href="/haq-mehr-guide/">haq mehr in Islam: amount, types and rules</a>.</p>
+<p>Haq mehr (also written haq mehar or haq mahr) has no single amount fixed by the Shariah for everyone, so families ask this question in the week before a nikah: how much is Mehr-e-Fatimi in rupees, what is the shari (minimum) mehr, and what is a mehr of a few tola of gold worth? None of these has a fixed rupee figure. They are weights of silver or gold, so their value moves with the metal price and the rupee. The calculator above works them out from the live rate, refreshed every hour, and the sections below explain each figure, show the same amounts in Indian rupees, and answer the questions people ask about old rupee figures and deferred mehr. For the rules of mehr itself (prompt and deferred mehr, the nikah nama, divorce and khula) read <a href="/haq-mehr-guide/">haq mehr in Islam: amount, types and rules</a>.</p>
 <h2>Mehr-e-Fatimi in rupees</h2>
 <p>Mehr-e-Fatimi is the mehr the Prophet ﷺ gave for his daughter Fatimah (may Allah be pleased with her). The common figure in Pakistani and Indian fatwas is 500 dirham of silver, based on the report of Sayyidah Aisha that the mehr of the Prophet's wives was twelve and a half uqiyah (Muslim 1426). One dirham is 3.0618 g of silver, so:</p>
 <ul>
@@ -245,6 +248,7 @@ HTML
 			'faq'     => array(
 				array( 'q' => 'Mehr-e-Fatimi kitne rupay ka hai?', 'a' => 'Mehr-e-Fatimi 500 dirham, yani 131.25 tola (taqreeban 1,530.9 gram) chandi hai. Is ki rupees mein qeemat har din chandi ke rate ke saath badalti hai; upar calculator aaj ki raqam dikhata hai.' ),
 				array( 'q' => 'Shari haq mehr kitna hai?', 'a' => 'Hanafi fiqh mein kam se kam mehr 10 dirham, yani taqreeban 30.62 gram (2 tola 7.5 masha) chandi ki qeemat hai. Shafi\'i aur Hanbali fiqh mein koi muqarrar kam se kam miqdar nahi.' ),
+				array( 'q' => 'Sharai haq mehar amount Pakistan mein kitni hai?', 'a' => 'Sharai haq mehar ki koi aik muqarrar raqam nahi. Jo raqam dono taraf tay karein woh jaiz hai, bas Hanafi fiqh mein 10 dirham chandi se kam na ho. Mehr-e-Fatimi aur kam se kam mehr ki aaj ki raqam upar calculator mein hai.' ),
 				array( 'q' => 'What is 5 tola gold mehr in rupees?', 'a' => 'Five times today\'s rate for 1 tola of the karat written in the nikah nama. Type 5 tola in the gold box of the calculator above to see it in 24K or 22K.' ),
 				array( 'q' => 'Is an old rupee figure for Mehr-e-Fatimi still valid?', 'a' => 'No. Mehr-e-Fatimi is a weight of silver, so it must be worked out from the silver rate on the day of the nikah.' ),
 				array( 'q' => 'If the mehr was written in rupees years ago, how much is owed now?', 'a' => 'Most muftis say the rupee amount written in the nikah nama is owed. A mehr written as a weight of gold or silver is paid at its value on the day of payment.' ),

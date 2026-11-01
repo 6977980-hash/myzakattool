@@ -185,6 +185,7 @@ HTML
 			'blurb'   => '1 lakh ki zakat',
 			'content' => <<<'HTML'
 [myzt_answer q="How much zakat on 1 lakh rupees?"]Rs 2,500, which is 2.5% of Rs 1,00,000, if your total zakatable wealth has been at or above the nisab for a lunar year. If Rs 1 lakh is all you own, it is below today's silver nisab of about [myzt_rate type="nisab-silver" currency="PKR"], so nothing is due.[/myzt_answer]
+<p><strong>1 lakh par kitni zakat hai?</strong> Rs 2,500, agar aap ka kul maal nisab tak pohanch jaye aur us par saal guzar jaye. In Pakistan the same 2.5% applies to Rs 1 lakh in a bank or at home.</p>
 <p>The 2.5% part is easy: divide by 40. What people get wrong is the condition in front of it. Zakat is not charged on each lakh you hold; it is charged on your total wealth once that total crosses the nisab and a lunar year has passed.</p>
 <h2>Quick table</h2>
 <figure class="wp-block-table"><table><thead><tr><th>Amount</th><th>Zakat (2.5%)</th></tr></thead><tbody>
@@ -219,6 +220,7 @@ HTML
 			'faq'     => array(
 				array( 'q' => 'Is zakat due on 1 lakh rupees?', 'a' => 'Only if your total zakatable wealth, including gold and savings, is at or above the nisab for a lunar year. Then it is Rs 2,500.' ),
 				array( 'q' => '1 lakh par kitni zakat hai?', 'a' => 'Rs 2,500, agar aapka kul maal nisab se zyada ho aur saal guzar gaya ho.' ),
+				array( 'q' => '1 lakh ki zakat kitni hoti hai?', 'a' => 'Rs 2,500, yani 1 lakh ka chalisvan hissa, jab kul maal nisab se zyada ho aur saal guzar jaye.' ),
 				array( 'q' => 'How much zakat on 10 lakh rupees?', 'a' => 'Rs 25,000 (2.5%), if the conditions are met.' ),
 			),
 		),
