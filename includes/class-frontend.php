@@ -375,6 +375,8 @@ class MYZT_Frontend {
 			'nisab-gold'   => $p['gold'] * self::NISAB_GOLD_G,
 			'gold-tola-zakat'   => $p['gold'] * 11.6638038 * 0.025,
 			'gold22-tola-zakat' => $p['gold'] * 22 / 24 * 11.6638038 * 0.025,
+			'mehr-fatimi'  => 500 * self::DIRHAM_G * $p['silver'],
+			'mehr-minimum' => 10 * self::DIRHAM_G * $p['silver'],
 		);
 		$v = isset( $map[ $a['type'] ] ) ? $map[ $a['type'] ] : 0;
 		return esc_html( self::money( $v, $cur ) );
