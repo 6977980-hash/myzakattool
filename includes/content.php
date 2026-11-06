@@ -1304,7 +1304,7 @@ HTML
 
 	$p['khums-calculator'] = array(
 		'title' => 'Khums Calculator',
-		'seo'   => 'Khums Calculator {year}: 20% of Yearly Surplus (Sistani)',
+		'seo'   => 'Khums Calculator {year}: How to Calculate 20% (Sistani)',
 		'desc'  => 'Calculate khums on your yearly surplus according to Ayatollah Sistani: savings, unused items and trade stock bought from income. Sahm-e-Imam and Sahm-e-Sadat.',
 		'nav'   => 'Khums',
 		'blurb' => 'Shia, 20%',
@@ -1325,7 +1325,15 @@ HTML
 <li>Inheritance and mahr (in Ayatollah Sistani's view these are not subject to khums, with some exceptions). Gifts are different: he treats them as income, so khums is due on what is left of a gift at your khums date.</li>
 <li>Your house, car and items you use, bought within the year for your needs.</li>
 </ul>
-<h2>Worked example</h2>
+<h2>How to calculate khums</h2>
+<ol>
+<li>Fix your khums date, the same day every year.</li>
+<li>On that date, add up the savings from this year's income, unused food and items bought from income, and trade stock bought from income.</li>
+<li>Leave out money already taxed for khums, and the house, car and things you use for your needs.</li>
+<li>Take 20% of the total. Half is sahm-e-imam and half is sahm-e-sadat.</li>
+</ol>
+<p>The calculator above does these steps for you. Here is the same method with numbers.</p>
+<h3>Worked example</h3>
 <p>Zainab is a teacher. Her khums date is 1 Muharram. On that date:</p>
 <ul>
 <li>Her bank savings are Rs 6,00,000. Rs 1,00,000 of this is left from last year, on which she already paid khums, so Rs 5,00,000 comes from this year's income.</li>

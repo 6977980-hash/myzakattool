@@ -18,7 +18,7 @@ function myzt_content_posts() {
 	return myzt_content_posts_tools() + myzt_content_posts_wirasat() + myzt_content_posts_guides() + array(
 		'who-can-receive-zakat'         => array(
 			'title'   => 'Who Can Receive Zakat? The 8 Categories Explained',
-			'seo'     => 'Who Can Receive Zakat? 8 Groups of Quran 9:60 & Who Cannot',
+			'seo'     => 'Who Can Receive Zakat? Masarif e Zakat, 8 Groups, Who Cannot',
 			'desc'    => 'Zakat goes to 8 groups (Quran 9:60), mainly the poor, the needy and those in debt. It cannot go to your parents, children, wife or (Sunni schools) Sayyids.',
 			'nav'     => 'Who can receive zakat',
 			'blurb'   => 'masarif-e-zakat',
@@ -60,6 +60,10 @@ function myzt_content_posts() {
 <li>If you use a charity, ask whether zakat money is kept separate and how it reaches individuals; the checks for UK, US, Canadian and Pakistani charities are in <a href="/giving-zakat-abroad/">giving zakat abroad and through charities</a>.</li>
 <li>Keep a short record of what you gave and to whom. It helps next year.</li>
 </ul>
+<h2>Can someone who owns a house but has debt and no income receive zakat?</h2>
+<p>In Hanafi fiqh, usually yes. The house a person lives in is a basic need and is not counted towards the nisab, and neither are household goods, clothes or a vehicle for their own use. What matters is the rest: cash, gold, silver, trade goods and anything else above basic needs. Their debts are subtracted from that. If what remains is below the nisab of about [myzt_rate type="nisab-silver" currency="PKR"] today, they may receive zakat, and the gharimin share (people in debt) exists for exactly this case. A second house or a plot kept for sale counts as wealth, so it can take them above the nisab.</p>
+<h2>Masarif e zakat ki list (Roman Urdu)</h2>
+<p>Quran (9:60) ke mutabiq zakat in 8 masarif mein lagti hai: <strong>fuqara</strong> (ghareeb), <strong>masakin</strong> (bohat zaroorat mand), <strong>amilin</strong> (zakat jama karne wale), <strong>muallafat-ul-quloob</strong>, <strong>riqab</strong> (qaidi ya ghulam ki azadi), <strong>gharimin</strong> (qarzdar), <strong>fi sabilillah</strong> aur <strong>ibn-us-sabil</strong> (musafir jis ke paas paise khatam ho jayen). Apne maa baap, dada dadi, nana nani, aulad aur biwi ko apni zakat nahi de sakte. Bhai, behan, chacha, mamu aur doosre rishtedar mustahiq hon to unhein dena dugna sawab hai.</p>
 <p>First work out how much you owe with the <a href="/">zakat calculator</a>. If you follow Fiqh-e-Jafaria, see the <a href="/khums-calculator/">khums calculator</a> as well.</p>
 [myzt_faq]
 HTML
@@ -69,6 +73,8 @@ HTML
 				array( 'q' => 'Can zakat be given to a Sayyid?', 'a' => 'Not in the four Sunni schools. In Ja\'fari fiqh a Sayyid may take zakat only from another Sayyid.' ),
 				array( 'q' => 'Kya zakat masjid ki tameer mein lag sakti hai?', 'a' => 'Aksar ulama, khaas tor par Hanafi, ke nazdeek nahi, kyun ke zakat kisi mustahiq shakhs ki milkiyat mein jana zaroori hai (tamlik).' ),
 				array( 'q' => 'Do I have to tell the person it is zakat?', 'a' => 'No. Your intention is what counts; you can hand it over as a gift.' ),
+				array( 'q' => 'Masarif e zakat kitne hain?', 'a' => 'Aath (8): fuqara, masakin, amilin, muallafat-ul-quloob, riqab, gharimin, fi sabilillah aur ibn-us-sabil (Surah at-Tawbah 9:60).' ),
+				array( 'q' => 'Can a person who owns a house but has debt and no income take zakat (Hanafi)?', 'a' => 'Yes, if after subtracting their debts their cash, gold, silver and other wealth beyond basic needs is below the nisab. The house they live in is a basic need and is not counted.' ),
 			),
 		),
 
@@ -179,8 +185,8 @@ HTML
 
 		'zakat-on-1-lakh-rupees'        => array(
 			'title'   => 'Zakat on 1 Lakh Rupees: How Much?',
-			'seo'     => 'Zakat on 1 Lakh Rupees = Rs 2,500 (Table up to 50 Lakh)',
-			'desc'    => 'Zakat on Rs 1 lakh is Rs 2,500 (2.5%) when your total wealth is above the nisab, today {rate:nisab-silver}. Table from Rs 50,000 to Rs 50 lakh, and when none is due.',
+			'seo'     => 'Zakat on 1 Lakh Rupees = Rs 2,500 (Table up to 1 Crore)',
+			'desc'    => 'Zakat on Rs 1 lakh is Rs 2,500 (2.5%) when your total wealth is above the nisab, today {rate:nisab-silver}. Table from Rs 50,000 to Rs 1 crore, and when none is due.',
 			'nav'     => 'Zakat on 1 lakh',
 			'blurb'   => '1 lakh ki zakat',
 			'content' => <<<'HTML'
@@ -196,6 +202,7 @@ HTML
 <tr><td>Rs 10,00,000</td><td>Rs 25,000</td></tr>
 <tr><td>Rs 25,00,000</td><td>Rs 62,500</td></tr>
 <tr><td>Rs 50,00,000</td><td>Rs 1,25,000</td></tr>
+<tr><td>Rs 1,00,00,000 (1 crore)</td><td>Rs 2,50,000</td></tr>
 </tbody></table></figure>
 <p>These amounts apply only when your total is above the nisab.</p>
 <h2>Is 1 lakh above the nisab?</h2>
@@ -222,6 +229,7 @@ HTML
 				array( 'q' => '1 lakh par kitni zakat hai?', 'a' => 'Rs 2,500, agar aapka kul maal nisab se zyada ho aur saal guzar gaya ho.' ),
 				array( 'q' => '1 lakh ki zakat kitni hoti hai?', 'a' => 'Rs 2,500, yani 1 lakh ka chalisvan hissa, jab kul maal nisab se zyada ho aur saal guzar jaye.' ),
 				array( 'q' => 'How much zakat on 10 lakh rupees?', 'a' => 'Rs 25,000 (2.5%), if the conditions are met.' ),
+				array( 'q' => 'How much zakat on 1 crore rupees?', 'a' => 'Rs 2,50,000, which is 2.5% of Rs 1,00,00,000, once a lunar year has passed on wealth above the nisab. Subtract any debt due now first, and any amount the bank already deducted.' ),
 			),
 		),
 
