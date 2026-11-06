@@ -19,7 +19,7 @@ function myzt_content_iddat_qurbani() {
 	/* ------------------------------------------------------------------ */
 	$p['iddat-calculator'] = array(
 		'title'    => 'Iddat Calculator',
-		'seo'      => 'Iddat Calculator: When Does Iddat End? Talaq, Khula, Widow',
+		'seo'      => 'Iddat Calculator: Widow 130 Days, Talaq 3 Periods, Khula',
 		'desc'     => "Find the date iddat ends after talaq, khula or a husband's death: 130 days, three periods or the birth, for each madhab, in Hijri and Gregorian dates.",
 		'nav'      => 'Iddat',
 		'blurb'    => 'talaq, khula, bewa',
@@ -70,6 +70,7 @@ HTML
 			. $author . '[myzt_related slugs="iddat-calculator-urdu,haq-mehr-calculator,wife-husband-share-in-inheritance,wirasat-calculator"]',
 		'faq'      => array(
 			array( 'q' => 'Iddat kitne din ki hoti hai?', 'a' => 'Bewa ki iddat 4 mahine 10 din (130 din), talaq ki iddat 3 haiz, haiz na aata ho to 3 mahine (90 din), aur hamla ki iddat bachay ki paidaish tak.' ),
+			array( 'q' => 'Talaq ki iddat kitne din hai?', 'a' => 'Talaq ki iddat dinon mein nahi, 3 haiz (Hanafi) mein ginti hai, jo aam tor par do se teen mahine banti hai. Jis aurat ko haiz na aata ho us ki iddat 3 mahine (90 din), aur hamla ki bachay ki paidaish tak. Upar calculator aap ki tareekhon se andaza deta hai.' ),
 			array( 'q' => 'How many days is the iddat after a husband\'s death?', 'a' => 'Four Islamic months and ten days. If the death was not on the 1st of an Islamic month, Hanafi scholars count 130 days.' ),
 			array( 'q' => 'What is the iddat period after divorce?', 'a' => 'Three menstrual cycles (Hanafi, Hanbali and most Ahl-e-Hadith scholars) or three times of purity (Shafi\'i, Maliki and Ja\'fari fiqh). Three months for a woman with no periods, and until birth for a pregnant woman.' ),
 			array( 'q' => 'Khula ki iddat kitni hai?', 'a' => 'Hanafi, Shafi\'i aur Maliki fiqh mein talaq jaisi, yani 3 haiz. Ahl-e-Hadith ulama ke nazdeek 1 haiz, Thabit bin Qais ki biwi wali hadith ki wajah se.' ),
