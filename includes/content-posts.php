@@ -205,6 +205,7 @@ HTML
 <tr><td>Rs 1,00,00,000 (1 crore)</td><td>Rs 2,50,000</td></tr>
 </tbody></table></figure>
 <p>These amounts apply only when your total is above the nisab.</p>
+<p><strong>In Indian rupees</strong> the rate is the same 2.5%: zakat on ₹1 lakh is ₹2,500 once your total wealth is above the nisab. Work out your own figure in INR with the <a href="/zakat-calculator-india/">zakat calculator for India</a>.</p>
 <h2>Is 1 lakh above the nisab?</h2>
 <p>On its own, not at today's prices. The silver nisab, which Hanafi scholars use for cash, is about [myzt_rate type="nisab-silver" currency="PKR"]. But very few people own cash only. Add your gold, silver, bank balance, committee (BC) payments made so far, prize bonds and business stock. If the total crosses the nisab, zakat is due on all of it, including the 1 lakh.</p>
 <h2>Example</h2>
