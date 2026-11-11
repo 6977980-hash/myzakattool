@@ -1044,7 +1044,7 @@ HTML
 	$p['diyat-calculator'] = array(
 		'title' => 'Diyat Amount and Calculator Pakistan',
 		'seo'   => 'Diyat Amount 2026-27 Pakistan: Rs 1,93,52,390 (Notified)',
-		'desc'  => 'Diyat in Pakistan for 2026-27 is Rs 1,93,52,390, the value of 30,630 g of silver. See the live value at today\'s silver rate and every year\'s notified amount.',
+		'desc'  => 'Diyat ki raqam 2026-27 kitni hai? Rs 1,93,52,390 notified (1 July 2026), yani 30,630 g chandi ki qeemat. Aaj ke silver rate par live value, har saal ki raqam.',
 		'nav'   => 'Diyat',
 		'blurb' => 'blood money in Pakistan',
 		'hub'   => 'calculators',
@@ -1084,8 +1084,8 @@ HTML
 
 	$p['wirasat-calculator'] = array(
 		'title' => 'Wirasat Calculator (Islamic Inheritance) with Family Tree',
-		'seo'   => 'Wirasat Calculator: Islamic Inheritance by Madhab + Shajra',
-		'desc'  => "Islamic inheritance (wirasat) calculator for all six madhabs: each heir's share in rupees, kanal-marla and gold, a patwari-style shajra and a PDF report.",
+		'seo'   => 'Wirasat Calculator Hanafi, Shia: Hissa Step by Step, Urdu',
+		'desc'  => 'Hanafi, Shia Jafari samet 6 maslak ka wirasat calculator: sawal Urdu ya Roman Urdu mein likhein, har waris ka hissa rupees, marla, tole mein, shajra aur PDF.',
 		'nav'   => 'Wirasat',
 		'blurb' => 'inheritance shares',
 		'hub'   => 'calculators',

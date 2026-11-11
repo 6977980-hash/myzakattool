@@ -193,8 +193,8 @@ HTML
 
 		'haq-mehr-in-rupees'  => array(
 			'title'   => 'Haq Mehr Amount in Rupees Today: Mehr-e-Fatimi and Shari Mehr',
-			'seo'     => 'Haq Mehr Amount {cyear}: Mehr-e-Fatimi {rate:mehr-fatimi} Today',
-			'desc'    => 'Haq mehr amount today: Mehr-e-Fatimi {rate:mehr-fatimi}, shari (minimum) mehr {rate:mehr-minimum}, and a mehr in tola of gold, from the live rate.',
+			'seo'     => 'Haq Mehr Kitna Hai {cyear}? Mehr-e-Fatimi {rate:mehr-fatimi}',
+			'desc'    => 'Haq mehr kitna hai? Aaj Mehr-e-Fatimi {rate:mehr-fatimi} (131.25 tola chandi) aur shari mehr {rate:mehr-minimum}, live rate se. Sone ke tole mein mehr ki qeemat bhi.',
 			'nav'     => 'Haq mehr in rupees',
 			'blurb'   => 'mehr ki raqam aaj',
 			'content' => <<<'HTML'
