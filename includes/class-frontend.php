@@ -518,11 +518,24 @@ class MYZT_Frontend {
 		return '<div class="myzt myzt-wirasat alignwide"><iframe class="myzt-wirasat-frame" src="' . esc_url( $src ) . '" ' . ( $ur ? 'title="وراثت کیلکولیٹر اور شجرہ" lang="ur"' : 'title="Islamic inheritance calculator and family tree" lang="en"' ) . ' loading="lazy" scrolling="no"></iframe></div>';
 	}
 
-	/** [myzt_mehr type="fatimi|minimum" currency="PKR"] and [myzt_diyat type="notified|live"]: one number inside text. */
+	/**
+	 * [myzt_mehr type="fatimi|minimum" currency="PKR"] and [myzt_diyat type="notified|live"]: one number inside text.
+	 * type="fatimi-gold-tola|fatimi-gold22-tola|fatimi-gold-gram": the weight of gold worth Mehr-e-Fatimi today.
+	 */
 	public static function mehr_inline( $atts ) {
 		$a   = shortcode_atts( array( 'type' => 'fatimi', 'currency' => 'PKR' ), $atts, 'myzt_mehr' );
 		$cur = strtoupper( preg_replace( '/[^A-Za-z]/', '', $a['currency'] ) );
 		$p   = self::prices_for( $cur );
+		if ( 0 === strpos( $a['type'], 'fatimi-gold' ) ) {
+			if ( ! $p || $p['gold'] <= 0 ) {
+				return '—';
+			}
+			$g = 500 * self::DIRHAM_G * $p['silver'] / $p['gold']; // grams of 24K gold.
+			if ( 'fatimi-gold22-tola' === $a['type'] ) {
+				$g = $g * 24 / 22;
+			}
+			return 'fatimi-gold-gram' === $a['type'] ? esc_html( number_format( $g, 1 ) ) : esc_html( number_format( $g / 11.6638038, 2 ) );
+		}
 		return $p ? esc_html( self::money( ( 'minimum' === $a['type'] ? 10 : 500 ) * self::DIRHAM_G * $p['silver'], $cur ) ) : '—';
 	}
 

@@ -107,6 +107,14 @@ HTML
 <tr><td>A shop or office you run your business from</td><td>No (a fixed asset); the stock and cash in it are counted</td></tr>
 <tr><td>Inherited land</td><td>No, until you decide to sell and actually trade it; see <a href="/zakat-on-inherited-wealth/">zakat on inherited wealth</a></td></tr>
 </tbody></table></figure>
+<h2>Zakat on plot</h2>
+<p>For a plot, three cases cover almost every question:</p>
+<ul>
+<li><strong>Plot kept for living:</strong> a plot bought to build your own house on, or for your children's house, carries no zakat, however long you keep it and however much its price rises.</li>
+<li><strong>Plot kept for resale:</strong> a plot bought with the intention of selling it is trade goods. Every year on your zakat date, add 2.5% of its market value to your zakat: a plot worth Rs 30,00,000 adds Rs 75,000. A plot bought with no firm intention to sell is not counted in the view widely given by Hanafi muftis.</li>
+<li><strong>Plot given on rent:</strong> no zakat on the plot itself, just like a rented house or shop. The rent you have saved is cash and is counted with your other money on your zakat date.</li>
+</ul>
+<p>Plot bechne ki niyyat se khareeda ho to har saal bazaari qeemat par 2.5% zakat; rehne ke liye ya kiraye par ho to plot par zakat nahi, sirf bacha hua kiraya ginein. The madhab differences, for example the Maliki rule for an investor who waits for a good price, are listed further down this page.</p>
 <h2>What if my intention changes later?</h2>
 <p>In the Hanafi madhab, intention alone does not turn a plot bought for your own use into trade goods. If you bought land to build a house and later decide to sell it, it does not become zakatable merely because of that decision; the sale money is counted once it is in your hands. The reverse works more easily: if you bought a plot to sell and then decide to build your own house on it, it stops being trade goods from that decision. The Shafi'i school takes the same approach in its main position. Some Hanbali scholars hold that a later intention to trade is enough, so a Hanbali reader in that situation should ask a scholar.</p>
 <h2>How is a trade plot valued?</h2>
@@ -149,6 +157,7 @@ HTML
 			array( 'q' => 'Is zakat due on the house I live in?', 'a' => 'No. A home and other property for your own use carry no zakat in any madhab.' ),
 			array( 'q' => 'Plot par zakat hai ya nahi?', 'a' => 'Agar plot bechne ki niyyat se khareeda tha to haan: har saal zakat ki tareekh par uski bazaari qeemat ka 2.5%. Agar ghar banane, apne istemal ya bina pakki niyyat ke khareeda tha to us par zakat nahi.' ),
 			array( 'q' => 'Kiraye wale ghar par zakat kaise nikalein?', 'a' => 'Ghar ya dukaan ki qeemat par zakat nahi. Jo kiraya bach kar aap ke paas hai woh baqi naqdi aur bank balance mein mil jata hai, aur zakat ki tareekh par us par 2.5% zakat hoti hai.' ),
+			array( 'q' => 'Kiraye par diye plot par zakat hai?', 'a' => 'Plot ki qeemat par zakat nahi. Jo kiraya bach kar aap ke paas hai woh aap ki naqdi mein mil jata hai, aur zakat ki tareekh par us par 2.5% zakat hoti hai.' ),
 			array( 'q' => 'Is zakat on a trade plot based on purchase price or market value?', 'a' => 'On its market value on your zakat date: what it would realistically sell for today, not what you paid.' ),
 			array( 'q' => 'Is zakat due on a plot bought on instalments?', 'a' => 'Only if it was bought to sell. Many contemporary Hanafi muftis then count its market value and subtract the instalments due in the coming year. If nothing is allotted yet, many count what you have paid in. Ask a scholar for your case.' ),
 		),

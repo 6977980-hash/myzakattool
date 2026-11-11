@@ -284,6 +284,7 @@ HTML
 			'faq'     => array(
 				array( 'q' => 'Is the bank deduction my full zakat?', 'a' => 'Usually not. It covers only that account. Calculate your total zakat and subtract the bank deduction.' ),
 				array( 'q' => 'Kya current account se zakat katti hai?', 'a' => 'Nahi. Bank sirf savings aur munafa wale accounts se 1 Ramazan ko zakat kaat-te hain.' ),
+				array( 'q' => 'Is zakat deducted from a current account?', 'a' => 'No. Banks deduct zakat on 1 Ramadan only from savings and profit-bearing accounts at or above the government nisab. Money in a current account is still part of your wealth, so count it when you work out and pay your own zakat.' ),
 				array( 'q' => 'Can I use the PDF from this site for CZ-50?', 'a' => 'No. It is a personal estimate, not an official or legal document.' ),
 				array( 'q' => 'What is the CZ-50 form?', 'a' => 'A sworn declaration under the Zakat and Ushr Ordinance 1980, on stamp paper, by which a Muslim exempt on grounds of fiqh asks the bank not to deduct zakat. It must reach each bank before 1 Ramadan.' ),
 				array( 'q' => 'CZ-50 form kab tak jama karana hai?', 'a' => '1 Ramazan se pehle, jab bank account ka balance dekhta hai. Ramazan 2027 ke liye December ya January ke shuru mein jama kara dein aur apni branch se un ki aakhri tareekh pooch lein.' ),

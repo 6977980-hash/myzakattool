@@ -209,6 +209,14 @@ HTML
 <li><strong>400 dirham</strong> (a view reported from Ibn al-Humam) = about 1,224.7 g.</li>
 </ul>
 <p>Open "Other views held by scholars" in the calculator above to see the 480 and 400 dirham figures in today's rupees. Paying Mehr-e-Fatimi is a recommended choice for its blessing; it is not obligatory, and any amount both families agree on is valid if it is not below the minimum.</p>
+<h2>Mehr-e-Fatimi in tola of silver and in gold</h2>
+<p>Mehr-e-Fatimi is measured in silver, not gold: <strong>131.25 tola (about 1,530.9 g) of silver</strong>, worth about [myzt_mehr type="fatimi" currency="PKR"] today. Families who want to give it in gold ask how much gold that is. At today's international rates the same value buys:</p>
+<figure class="wp-block-table"><table><thead><tr><th>Mehr-e-Fatimi in</th><th>Weight today</th></tr></thead><tbody>
+<tr><td>Silver (fixed)</td><td>131.25 tola (1,530.9 g)</td></tr>
+<tr><td>24K gold</td><td>about [myzt_mehr type="fatimi-gold-tola"] tola ([myzt_mehr type="fatimi-gold-gram"] g)</td></tr>
+<tr><td>22K gold</td><td>about [myzt_mehr type="fatimi-gold22-tola"] tola</td></tr>
+</tbody></table></figure>
+<p>The silver weight never changes, but the gold figure does, because gold and silver prices do not move together. So "Mehr-e-Fatimi = so many tola of gold" is true only for the day it was worked out. If you pay in gold, give gold worth the silver value on the day you pay; if the nikah nama fixes the mehr as a weight of gold instead, then that gold weight is what is owed. Mehr-e-Fatimi mein sona dena ho to us din ki chandi ki qeemat ke barabar sona dein.</p>
 <h2>Shari mehr (the minimum mehr) in rupees</h2>
 <p>When people in Pakistan say "shari mehr" they usually mean the least mehr that is valid. The schools differ:</p>
 <ul>
