@@ -1419,15 +1419,15 @@ HTML
 	);
 
 	$p['gold-rate-today'] = array(
-		'title' => 'Gold Rate Today per Tola and Gram',
-		'seo'   => 'Gold Rate Today per Tola & Gram (24K, 22K, 21K) | Silver',
-		'desc'  => 'Today\'s gold rate per tola, gram and ounce for 24K, 22K, 21K and 18K, plus silver, in PKR, INR, GBP, USD, AED, SAR and 45 more currencies. Updated hourly.',
+		'title' => 'Gold Rate Today in Pakistan per Tola and Gram',
+		'seo'   => 'Today Gold Rate in Pakistan per Tola: {rate:gold-tola} (24K)',
+		'desc'  => 'Aaj sone ka rate: 24K gold {rate:gold-tola} per tola in Pakistan, with 22K, 21K and 18K per tola, gram and 10 gram, plus silver, INR and AED. Updated hourly.',
 		'nav'   => 'Gold Rate Today',
 		'blurb' => '24K, 22K, 21K',
 		'llms'  => true,
 		'content' => <<<'HTML'
-<p><strong>Gold rate on [myzt_rate_date]</strong>, per tola, gram and 10 grams, from the international spot price converted to your currency.</p>
-[myzt_answer q="Gold rate today:"]1 tola of 24K gold is about [myzt_rate type="gold-tola" currency="PKR"] and 1 gram about [myzt_rate type="gold-gram" currency="PKR"] at the international rate. Silver is about [myzt_rate type="silver-tola" currency="PKR"] per tola.[/myzt_answer]
+<p><strong>Today's gold rate in Pakistan on [myzt_rate_date]</strong>, per tola, gram and 10 grams, from the international spot price converted to rupees (and to your own currency below).</p>
+[myzt_answer q="Gold rate today in Pakistan:"]1 tola of 24K gold is about [myzt_rate type="gold-tola" currency="PKR"] and 1 gram about [myzt_rate type="gold-gram" currency="PKR"] at the international rate. Silver is about [myzt_rate type="silver-tola" currency="PKR"] per tola.[/myzt_answer]
 [zakat_gold_rate]
 [myzt_reviewed rates="1"]
 <h2>Gold rate by karat: 1 gram, 10 grams, 1 tola and 10 tola</h2>
@@ -1460,6 +1460,7 @@ HTML
 			array( 'q' => 'Why is the shop price different?', 'a' => 'Shops add making charges, taxes and local premiums to the international price.' ),
 			array( 'q' => 'What is the 22K gold rate per tola today?', 'a' => '22K gold is 91.7% pure, so its price is 22/24 of the 24K rate. The karat table on this page shows it per gram, 10 grams, tola and 10 tola.' ),
 			array( 'q' => 'Aaj sone ka rate kya hai?', 'a' => 'Is safhe ke upar aaj ka rate fi tola, fi gram aur 10 gram mein diya gaya hai, 24, 22, 21 aur 18 karat ke liye. Sarafa bazaar ka rate is se thora zyada hota hai.' ),
+			array( 'q' => 'What is the gold rate in Pakistan today per tola?', 'a' => 'The live figure at the top of this page is the international 24K price for 1 tola (11.664 g) in Pakistani rupees, refreshed every hour. 22K is 22/24 of it and 21K is 21/24. The Karachi and Lahore sarafa rate is usually a little higher because it adds import cost and a local premium.' ),
 			array( 'q' => 'Which gold rate should I use for zakat?', 'a' => 'The market rate of pure gold on your zakat date. The international rate here or your local sarafa rate both work; use one honestly.' ),
 			array( 'q' => 'Aaj 22 karat sone ka rate fi tola kya hai?', 'a' => '22 karat sona 91.7% khalis hota hai, is liye is ka rate 24 karat ke rate ka 22/24 hissa hai. Is safhe ke karat table mein fi gram, 10 gram, tola aur 10 tola rate diya gaya hai.' ),
 			array( 'q' => 'Zakat ke liye sone ka kaunsa rate lagayen?', 'a' => 'Apni zakat ki tareekh wale din khalis sone ka bazaar rate. Yahan ka international rate ya sarafa bazaar ka rate, dono mein se koi ek imandari se istemal karen. Kuch mufti sahiban bechne wali qeemat (jo jeweller aap ko dega) lagane ko kehte hain.' ),
