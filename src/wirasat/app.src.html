@@ -414,6 +414,8 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
   function changed() {
     // Once the user edits a shared or example case it is their own (F1).
     if (st.origin) { delete st.origin; originNote(); }
+    // A form filled from a question and then changed by hand is the user's own too: a new question asks first (F13).
+    if (st.askText) delete st.askText;
     save();
     if (st.shown && cur) markStale();
     summary();
@@ -464,9 +466,11 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
       h += '<div class="asset"><b>' + (J ? tr('زمین / مکان (رقبہ)', 'Land / house (area)') : tr('زمین / مکان', 'Land / house')) + '</b>' + inp('land', 'kanal', tr('کنال', 'Kanal')) + inp('land', 'marla', tr('مرلہ', 'Marla')) + inp('land', 'foot', tr('فٹ (مربع)', 'Square feet')) +
         '<label class="f" for="a-land-ft">' + tr('1 مرلہ = کتنے فٹ؟', '1 marla = how many sq ft?') + '<select class="in" id="a-land-ft" data-a="land" data-k="ft">' + MARLA_FT.concat(MARLA_FT.indexOf(ftNow) < 0 ? [ftNow] : []).map(function (v) { return '<option value="' + v + '"' + (v === ftNow ? ' selected' : '') + '>' + v + ' ' + tr('فٹ', 'sq ft') + (v === '272.25' ? tr(' (ریونیو ریکارڈ)', ' (revenue record)') : v === '225' ? tr(' (اکثر ہاؤسنگ سوسائٹیاں)', ' (many housing societies)') : '') + '</option>'; }).join('') + '</select></label>' +
         '<p class="hint" style="flex-basis:100%">' + tr('1 کنال = 20 مرلے۔ مرلے کا سائز اپنی فرد یا سوسائٹی کے ریکارڈ کے مطابق چنیں (پٹوار کا مرلہ 272.25 فٹ، کئی سوسائٹیوں کا 225 فٹ)۔ فٹ لکھیں تو حصے فٹ تک نکلیں گے، ورنہ مرلوں میں۔', "1 kanal = 20 marla. Pick the marla size in your land record or society's record (the revenue marla is 272.25 sq ft, many housing societies use 225). Enter feet to get each share down to the foot, otherwise in marla.") + '</p>' +
-        inp('land', 'value', tr('پوری جائیداد کی قیمت (روپے، اختیاری)', 'Value of the whole property (Rs, optional)')) +
-        (J ? inp('land', 'build', tr('اس میں عمارت اور درختوں کی قیمت (روپے)', 'Of which buildings and trees (Rs)')) : '') +
-        '<p class="hint" style="flex-basis:100%">' + (J ? tr('فقہ جعفری (آیت اللہ سیستانی): بیوی زمین اور اس کی قیمت میں وارث نہیں، مگر عمارت اور درختوں کی قیمت میں وارث ہے۔ عمارت کی قیمت لکھیں تو بیوی کا حصہ روپوں میں دکھایا جائے گا، جو باقی وارث ادا کریں گے۔ ', "Ja'fari fiqh (Ayatollah Sistani): a wife does not inherit from land or its value, but she does inherit from the value of buildings and trees. Enter that value and her share of it is shown in rupees, for the other heirs to pay her. ") : '') + tr('قیمت صرف تب ضروری ہے جب قرض یا وصیت نقد رقم سے زیادہ ہو۔', 'The value is needed only when the debts or the will are more than the cash.') + '</p></div>';
+        // Each value box with its own note, so the two are not read as one instruction.
+        inp('land', 'value', tr('پوری جائیداد (زمین اور عمارت) کی قیمت (روپے، اختیاری)', 'Value of the whole property, land and buildings (Rs, optional)')) +
+        '<p class="hint" style="flex-basis:100%">' + tr('یہ قیمت صرف قرض اور وصیت کے لیے ہے: جب یہ نقد رقم سے زیادہ ہوں تو باقی اسی قیمت کی نسبت سے زمین سے نکالا جاتا ہے۔', 'This value is used only for debts and the will: when they are more than the cash, the rest is taken from the property in proportion to this value.') + '</p>' +
+        (J ? inp('land', 'build', tr('عمارت اور درختوں کی قیمت (روپے)', 'Value of the buildings and trees (Rs)')) +
+          '<p class="hint" style="flex-basis:100%">' + tr('فقہ جعفری (آیت اللہ سیستانی): بیوی زمین اور اس کی قیمت میں وارث نہیں، مگر عمارت اور درختوں کی قیمت میں وارث ہے۔ بیوی کا یہ حصہ نکالنے کے لیے یہ قیمت ہمیشہ لکھیں، قرض ہو یا نہ ہو؛ اوپر والی پوری قیمت اس کے لیے ضروری نہیں۔ بیوی کا حصہ روپوں میں دکھایا جائے گا، جو باقی وارث ادا کریں گے۔', "Ja'fari fiqh (Ayatollah Sistani): a wife does not inherit from land or its value, but she does inherit from the value of the buildings and trees. Always enter this value to get her share of it, with or without debts; the whole-property value above is not needed for it. Her share is shown in rupees, for the other heirs to pay her.") + '</p>' : '') + '</div>';
     }
     if (a.gold.on) h += '<div class="asset"><b>' + tr('سونا', 'Gold') + '</b>' + inp('gold', 'tola', tr('تولہ', 'Tola')) + '</div>';
     if (a.silver.on) h += '<div class="asset"><b>' + tr('چاندی', 'Silver') + '</b>' + inp('silver', 'tola', tr('تولہ', 'Tola')) + '</div>';
@@ -1534,6 +1538,8 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
     $('askOut').innerHTML = '<div class="askout"><p class="err">' + esc(msg) + '</p><div class="actions"><button type="button" class="go" id="askYes">' + tr('ہاں، بدل دیں', 'Yes, replace it') + '</button><button type="button" class="go ghost" id="askNo">' + tr('رہنے دیں', 'Keep mine') + '</button></div></div>';
     $('askYes').onclick = go;
     $('askNo').onclick = function () { $('askOut').innerHTML = ''; };
+    // On a phone the question box fills the screen and the buttons land below it: bring them into view.
+    requestAnimationFrame(function () { reveal($('askOut')); try { $('askYes').focus({ preventScroll: true }); } catch (e) {} });
   }
   var askOk = false;
   $('askGo').addEventListener('click', function () {
