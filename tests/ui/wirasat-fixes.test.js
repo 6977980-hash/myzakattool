@@ -167,5 +167,10 @@ test("F13: a question does not replace the user's own form without asking", asyn
 	await f.click('#askGo');
 	await f.click('#askYes');
 	assert.ok((await f.textContent('#summary')).includes('شوہر1'));
+	// A form filled from a question and then changed by hand is the user's own: the next question asks again.
+	await f.click('[data-step^="r-daughter-"][data-d="1"]');
+	await f.fill('#askText', 'ek aadmi fout hua, biwi aur ek beta');
+	await f.click('#askGo');
+	assert.equal(await f.isVisible('#askYes'), true, 'asks after hand edits');
 	await ctx.close();
 });
