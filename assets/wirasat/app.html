@@ -103,6 +103,9 @@ details.more[open] > summary { margin-bottom: 6px; }
 .go.ghost { background: var(--surface); color: var(--accent); border: 1.5px solid var(--accent); min-height: 44px; font-size: 15px; }
 .actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
 #result.stale > :not(.banner) { opacity: .35; }
+#result [inert] { cursor: not-allowed; }
+.origin { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; justify-content: space-between; }
+.origin .chip { min-height: 38px; }
 .ask textarea.in { width: 100%; box-sizing: border-box; font: inherit; font-size: 16px; line-height: 1.9; resize: vertical; }
 .ask .tag { font-size: 12px; font-family: var(--body); }
 .askout { display: grid; gap: 8px; }
@@ -219,6 +222,8 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
       <div id="askOut" aria-live="polite"></div>
     </section>
 
+  <div class="banner origin" id="origin" hidden><span id="originText"></span><button type="button" class="chip" id="originNew" data-en="Start my own case">اپنا نیا کیس شروع کریں</button></div>
+
   <div class="form">
     <section class="sec" aria-labelledby="h-a">
       <h2 id="h-a"><span class="no">1</span><span data-en="Estate (assets)">ترکہ (اثاثے)</span></h2>
@@ -280,7 +285,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
     <div id="result"></div>
   </section>
 
-  <p class="foot"><span data-en="This is not a fatwa or legal advice. Calculated by our engine on each madhab's published rules. Confirm with a mufti before dividing.">یہ فتویٰ یا قانونی مشورہ نہیں۔ حساب ہماری سائٹ کے انجن سے، ہر مسلک کے شائع شدہ اصولوں پر۔ تقسیم سے پہلے مفتی صاحب سے تصدیق کریں۔</span> <button class="chip" id="reset" type="button" data-en="Load the sample family">مثال والا خاندان لوڈ کریں</button> <button class="chip" id="clear" type="button" data-en="Clear all">سب خالی کریں</button></p>
+  <p class="foot"><span data-en="This is not a fatwa or legal advice. Calculated by our engine on each madhab's published rules. Confirm with a mufti before dividing.">یہ فتویٰ یا قانونی مشورہ نہیں۔ حساب ہماری سائٹ کے انجن سے، ہر مسلک کے شائع شدہ اصولوں پر۔ تقسیم سے پہلے مفتی صاحب سے تصدیق کریں۔</span> <button class="chip" id="reset" type="button" data-en="Load an example case">مثال والا کیس دیکھیں</button> <button class="chip" id="clear" type="button" data-en="Clear all">سب خالی کریں</button></p>
   <div class="report" id="report" aria-hidden="true"></div>
   <div class="report wide" id="report1" aria-hidden="true"></div>
 </div>
@@ -1038,15 +1043,18 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
   var KIDS = { son: ['grandson', 'granddaughter', KS, KD], daughter: ['grandson', 'granddaughter', KS, KD], brother: ['nephew', 'niece', KS, KD], sister: ['nephew', 'niece', KS, KD], pbrother: ['nephew', 'niece', KS, KD], psister: ['nephew', 'niece', KS, KD], chacha: ['cousin', null, KS, ''] };
   var SHORT = EN ? { husband: 'Husband', wife: 'Wife', father: 'Father', mother: 'Mother', son: 'Son', daughter: 'Daughter', dada: 'Paternal grandfather', dadi: 'Paternal grandmother', nani: 'Maternal grandmother', brother: 'Full brother', sister: 'Full sister', pbrother: 'Paternal half-brother', psister: 'Paternal half-sister', mbrother: 'Maternal half-brother', msister: 'Maternal half-sister', chacha: 'Paternal uncle', phuphi: 'Paternal aunt', mamu: 'Maternal uncle', khala: 'Maternal aunt', nana: 'Maternal grandfather', cousin: 'Cousin', grandson: 'Grandson', granddaughter: 'Granddaughter', nephew: 'Nephew', niece: 'Niece' } : { husband: 'شوہر', wife: 'بیوی', father: 'والد', mother: 'والدہ', son: 'بیٹا', daughter: 'بیٹی', dada: 'دادا', dadi: 'دادی', nani: 'نانی', brother: 'سگا بھائی', sister: 'سگی بہن', pbrother: 'باپ شریک بھائی', psister: 'باپ شریک بہن', mbrother: 'ماں شریک بھائی', msister: 'ماں شریک بہن', chacha: 'چچا', phuphi: 'پھوپھی', mamu: 'ماموں', khala: 'خالہ', nana: 'نانا', cousin: 'چچا زاد', grandson: 'پوتا', granddaughter: 'پوتی', nephew: 'بھتیجا', niece: 'بھتیجی' };
   var KEY = 'myzt_wirasat_v2'; // myzt_ prefix: "Delete saved data" on the site removes it
-  var FT = 272; // square feet in one marla (land record), 20 marla = 1 kanal
+  // Square feet in one marla, 20 marla = 1 kanal (F12). The revenue (patwari) marla is 272.25 sq ft (30.25 sq yd);
+  // many housing societies use 225 (25 sq yd). The user picks the one in their record; old saved cases had no choice and used 272.
+  var MARLA_FT = ['272.25', '272', '250', '225'];
+  function FT() { var v = parseFloat(st.assets.land.ft); return v > 0 ? v : 272; }
   var WHY = { father: tr('والد: اولاد ہو تو چھٹا حصہ؛ صرف بیٹیاں ہوں تو چھٹا اور بچا ہوا بھی؛ اولاد نہ ہو تو عصبہ', 'Father: a sixth with children; a sixth plus the rest with only daughters; the rest (asaba) without children') };
 
   // Sample = the family from the screenshots, so both calculators can be compared side by side.
   function sample() {
     return {
-      madhab: 'hanafi', sex: 'm', name: '', view: 'law', shown: false,
-      assets: { cash: { on: true, amount: '50000' }, land: { on: true, kanal: '60', marla: '2', foot: '' }, gold: { on: false, tola: '' }, silver: { on: false, tola: '' } },
-      debts: '',
+      madhab: 'hanafi', sex: 'm', name: '', view: 'law', shown: false, origin: 'sample',
+      assets: { cash: { on: true, amount: '50000' }, land: { on: true, kanal: '60', marla: '2', foot: '', ft: '272.25', value: '', build: '' }, gold: { on: false, tola: '' }, silver: { on: false, tola: '' } },
+      debts: '', will: '',
       people: [
         { id: 'p1', rel: 'father', name: '', status: 'alive' },
         { id: 'p2', rel: 'mother', name: '', status: 'alive' },
@@ -1064,8 +1072,8 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
   }
   function blank() {
     return { madhab: 'hanafi', sex: 'm', name: '', view: 'law', shown: false,
-      assets: { cash: { on: true, amount: '' }, land: { on: false, kanal: '', marla: '', foot: '' }, gold: { on: false, tola: '' }, silver: { on: false, tola: '' } },
-      debts: '', people: [{ id: 'p1', rel: 'father', name: '', status: 'before' }, { id: 'p2', rel: 'mother', name: '', status: 'before' }], seq: 2 };
+      assets: { cash: { on: true, amount: '' }, land: { on: false, kanal: '', marla: '', foot: '', ft: '272.25', value: '', build: '' }, gold: { on: false, tola: '' }, silver: { on: false, tola: '' } },
+      debts: '', will: '', people: [{ id: 'p1', rel: 'father', name: '', status: 'before' }, { id: 'p2', rel: 'mother', name: '', status: 'before' }], seq: 2 };
   }
   var st;
   try { st = JSON.parse(localStorage.getItem(KEY)); } catch (e) { st = null; }
@@ -1131,9 +1139,28 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
     return parent ? base + ' (' + label(parent) + (['granddaughter', 'niece'].indexOf(p.rel) >= 0 ? ' کی)' : ' کا)') : base;
   }
   function changed() {
+    // Once the user edits a shared or example case it is their own (F1).
+    if (st.origin) { delete st.origin; originNote(); }
     save();
-    if (st.shown) { stale = true; $('result').classList.add('stale'); staleBanner(); }
+    if (st.shown && cur) markStale();
     summary();
+  }
+  // A changed form leaves the old result on screen, faded and locked: the PDF, share link, istifta, what-if and
+  // six-madhab tools would otherwise mix the old shares with the new family (F4). "Calculate again" unlocks it.
+  function markStale() {
+    stale = true;
+    var el = $('result');
+    el.classList.add('stale'); staleBanner();
+    // The shajra can still be scrolled and enlarged; everything that acts on the result is locked.
+    [].forEach.call(el.querySelectorAll('details.tool, #view, #pdf'), function (c) { c.setAttribute('inert', ''); });
+    if ($('pdf')) $('pdf').disabled = true;
+    if ($('pdfMsg')) $('pdfMsg').textContent = tr('آپ نے معلومات بدلی ہیں؛ پہلے "دوبارہ حساب لگائیں" دبائیں۔', 'You changed the details; press "Calculate again" first.');
+  }
+  // "Shared case" / "Example case" line above the form, with "Start my own case" (F1).
+  function originNote() {
+    var o = st.origin, box = $('origin');
+    box.hidden = !o;
+    if (o) $('originText').textContent = o === 'link' ? tr('یہ کسی کا بھیجا ہوا لنک والا کیس ہے۔ آپ اسے بدل سکتے ہیں، یا اپنا کیس خالی فارم سے شروع کریں۔', 'This is a case someone shared by link. You can change it, or start your own case on an empty form.') : tr('یہ مثال والا کیس ہے، آپ کا اپنا نہیں۔', 'This is an example case, not your own.');
   }
 
   /* ---------- form ---------- */
@@ -1157,11 +1184,25 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
     chips($('assetPick'), ASSETS, function (v) { return st.assets[v].on; }, function (v) { st.assets[v].on = !st.assets[v].on; renderTop(); changed(); });
     var a = st.assets, h = '';
     function inp(k, sub, lab) { return '<label class="f" for="a-' + k + '-' + sub + '">' + lab + '<input class="in num" inputmode="decimal" id="a-' + k + '-' + sub + '" data-a="' + k + '" data-k="' + sub + '" value="' + esc(a[k][sub]) + '" placeholder="0"></label>'; }
-    if (a.cash.on) h += '<div class="asset"><b>' + tr('نقد / بینک', 'Cash / bank') + '</b>' + inp('cash', 'amount', tr('رقم (پاکستانی روپے)', 'Amount (Pakistani rupees)')) + '<label class="f" for="a-debts">' + tr('قرض اور کفن دفن (روپے)', 'Debts and funeral costs (Rs)') + '<input class="in num" inputmode="decimal" id="a-debts" data-debts value="' + esc(st.debts) + '" placeholder="0"></label></div>';
-    if (a.land.on) h += '<div class="asset"><b>' + tr('زمین / مکان', 'Land / house') + '</b>' + inp('land', 'kanal', tr('کنال', 'Kanal')) + inp('land', 'marla', tr('مرلہ', 'Marla')) + inp('land', 'foot', tr('فٹ (مربع)', 'Square feet')) + '<p class="hint" style="flex-basis:100%">' + tr('1 کنال = 20 مرلے، 1 مرلہ = 272 فٹ۔ فٹ لکھیں تو حصے فٹ تک نکلیں گے، ورنہ مرلوں میں۔', '1 kanal = 20 marla, 1 marla = 272 sq ft. Enter feet to get each share down to the foot, otherwise in marla.') + '</p>' + '</div>';
+    var J = st.madhab === 'jafari';
+    if (a.cash.on) h += '<div class="asset"><b>' + tr('نقد / بینک', 'Cash / bank') + '</b>' + inp('cash', 'amount', tr('رقم (روپے، یا اپنی کرنسی میں)', 'Amount (rupees, or your own currency)')) + '</div>';
+    if (a.land.on) {
+      var ftNow = String(a.land.ft || '272');
+      h += '<div class="asset"><b>' + (J ? tr('زمین / مکان (رقبہ)', 'Land / house (area)') : tr('زمین / مکان', 'Land / house')) + '</b>' + inp('land', 'kanal', tr('کنال', 'Kanal')) + inp('land', 'marla', tr('مرلہ', 'Marla')) + inp('land', 'foot', tr('فٹ (مربع)', 'Square feet')) +
+        '<label class="f" for="a-land-ft">' + tr('1 مرلہ = کتنے فٹ؟', '1 marla = how many sq ft?') + '<select class="in" id="a-land-ft" data-a="land" data-k="ft">' + MARLA_FT.concat(MARLA_FT.indexOf(ftNow) < 0 ? [ftNow] : []).map(function (v) { return '<option value="' + v + '"' + (v === ftNow ? ' selected' : '') + '>' + v + ' ' + tr('فٹ', 'sq ft') + (v === '272.25' ? tr(' (ریونیو ریکارڈ)', ' (revenue record)') : v === '225' ? tr(' (اکثر ہاؤسنگ سوسائٹیاں)', ' (many housing societies)') : '') + '</option>'; }).join('') + '</select></label>' +
+        '<p class="hint" style="flex-basis:100%">' + tr('1 کنال = 20 مرلے۔ مرلے کا سائز اپنی فرد یا سوسائٹی کے ریکارڈ کے مطابق چنیں (پٹوار کا مرلہ 272.25 فٹ، کئی سوسائٹیوں کا 225 فٹ)۔ فٹ لکھیں تو حصے فٹ تک نکلیں گے، ورنہ مرلوں میں۔', "1 kanal = 20 marla. Pick the marla size in your land record or society's record (the revenue marla is 272.25 sq ft, many housing societies use 225). Enter feet to get each share down to the foot, otherwise in marla.") + '</p>' +
+        inp('land', 'value', tr('پوری جائیداد کی قیمت (روپے، اختیاری)', 'Value of the whole property (Rs, optional)')) +
+        (J ? inp('land', 'build', tr('اس میں عمارت اور درختوں کی قیمت (روپے)', 'Of which buildings and trees (Rs)')) : '') +
+        '<p class="hint" style="flex-basis:100%">' + (J ? tr('فقہ جعفری (آیت اللہ سیستانی): بیوی زمین اور اس کی قیمت میں وارث نہیں، مگر عمارت اور درختوں کی قیمت میں وارث ہے۔ عمارت کی قیمت لکھیں تو بیوی کا حصہ روپوں میں دکھایا جائے گا، جو باقی وارث ادا کریں گے۔ ', "Ja'fari fiqh (Ayatollah Sistani): a wife does not inherit from land or its value, but she does inherit from the value of buildings and trees. Enter that value and her share of it is shown in rupees, for the other heirs to pay her. ") : '') + tr('قیمت صرف تب ضروری ہے جب قرض یا وصیت نقد رقم سے زیادہ ہو۔', 'The value is needed only when the debts or the will are more than the cash.') + '</p></div>';
+    }
     if (a.gold.on) h += '<div class="asset"><b>' + tr('سونا', 'Gold') + '</b>' + inp('gold', 'tola', tr('تولہ', 'Tola')) + '</div>';
     if (a.silver.on) h += '<div class="asset"><b>' + tr('چاندی', 'Silver') + '</b>' + inp('silver', 'tola', tr('تولہ', 'Tola')) + '</div>';
-    $('assets').innerHTML = h || '<p class="hint">' + tr('کوئی چیز نہیں چنی۔ حصے پھر بھی کسر اور فیصد میں نظر آئیں گے۔', 'Nothing selected. The shares still show as fractions and percentages.') + '</p>';
+    if (!h) h = '<p class="hint">' + tr('کوئی چیز نہیں چنی۔ حصے پھر بھی کسر اور فیصد میں نظر آئیں گے۔', 'Nothing selected. The shares still show as fractions and percentages.') + '</p>';
+    // What comes out first, in this order: funeral, debts (with unpaid mehr), then a will for non-heirs up to a third (F6).
+    h += '<div class="asset"><b>' + tr('تقسیم سے پہلے کٹوتی', 'Taken out before the division') + '</b><label class="f" for="a-debts">' + tr('کفن دفن، قرض اور ادا نہ کیا گیا مہر (روپے)', 'Funeral costs, debts and unpaid mehr (Rs)') + '<input class="in num" inputmode="decimal" id="a-debts" data-debts value="' + esc(st.debts) + '" placeholder="0"></label>' +
+      '<label class="f" for="a-will">' + tr('وصیت، صرف غیر وارث کے لیے (روپے)', 'Will (wasiyyat) for non-heirs only (Rs)') + '<input class="in num" inputmode="decimal" id="a-will" data-will value="' + esc(st.will) + '" placeholder="0"></label>' +
+      '<p class="hint" style="flex-basis:100%">' + tr('پہلے کفن دفن اور قرض (مہر بھی) ادا ہوتے ہیں، پھر وصیت زیادہ سے زیادہ بچے ہوئے کا ایک تہائی۔ یہ رقم پہلے نقد سے، کم پڑے تو باقی چیزوں سے ان کی قیمت کی نسبت سے نکالی جاتی ہے۔', 'Funeral costs and debts (mehr too) are paid first, then the will, up to one third of what is left. These come out of the cash first and, if it is not enough, from the other things in proportion to their value.') + '</p></div>';
+    $('assets').innerHTML = h;
     badNums();
     [].forEach.call(document.querySelectorAll('.mw'), function (el) { el.textContent = EN ? 'The deceased' : MW(); });
     $('spouseTitle').textContent = st.sex === 'f' ? tr('شوہر', 'Husband') : tr('بیویاں', 'Wives');
@@ -1171,6 +1212,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
     var t = e.target;
     if (t.dataset.a) st.assets[t.dataset.a][t.dataset.k] = t.value;
     else if (t.dataset.debts !== undefined) st.debts = t.value;
+    else if (t.dataset.will !== undefined) st.will = t.value;
     if (t.classList.contains('num')) checkNum(t);
     changed();
   });
@@ -1277,10 +1319,12 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
   }
   function assetLine() {
     var a = st.assets, out = [];
-    if (a.cash.on) out.push([tr('رقم', 'Cash'), rs(num(a.cash.amount)) + (num(st.debts) ? tr(' − قرض ', ' − debts ') + rs(num(st.debts)) : '')]);
-    if (a.land.on) out.push([tr('جائیداد', 'Land'), [num(a.land.kanal) + tr(' کنال', ' kanal'), num(a.land.marla) + tr(' مرلہ', ' marla'), num(a.land.foot) ? num(a.land.foot) + tr(' فٹ', ' sq ft') : ''].filter(Boolean).join(' ')]);
+    if (a.cash.on) out.push([tr('رقم', 'Cash'), rs(num(a.cash.amount))]);
+    if (a.land.on) out.push([tr('جائیداد', 'Land'), [num(a.land.kanal) + tr(' کنال', ' kanal'), num(a.land.marla) + tr(' مرلہ', ' marla'), num(a.land.foot) ? num(a.land.foot) + tr(' فٹ', ' sq ft') : ''].filter(Boolean).join(' ') + (num(a.land.value) ? tr('، قیمت ', ', value ') + rs(num(a.land.value)) : '') + (st.madhab === 'jafari' && num(a.land.build) ? tr('، عمارت ', ', buildings ') + rs(num(a.land.build)) : '')]);
     if (a.gold.on) out.push([tr('سونا', 'Gold'), num(a.gold.tola) + tr(' تولہ', ' tola')]);
     if (a.silver.on) out.push([tr('چاندی', 'Silver'), num(a.silver.tola) + tr(' تولہ', ' tola')]);
+    if (num(st.debts)) out.push([tr('کفن دفن، قرض، مہر', 'Funeral, debts, mehr'), '− ' + rs(num(st.debts))]);
+    if (num(st.will)) out.push([tr('وصیت', 'Will'), '− ' + rs(num(st.will))]);
     return out;
   }
   function summaryRows() {
@@ -1308,7 +1352,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
   function r2(x) { return Math.round(x * 100) / 100; }
   function landText(q, ft) {
     if (ft) {
-      var k = Math.floor(q / (20 * FT) + 1e-9), rem = q - k * 20 * FT, m = Math.floor(rem / FT + 1e-9), f = r2(rem - m * FT);
+      var ft = FT(), k = Math.floor(q / (20 * ft) + 1e-9), rem = q - k * 20 * ft, m = Math.floor(rem / ft + 1e-9), f = r2(rem - m * ft);
       return k + tr(' کنال ', ' kanal ') + m + tr(' مرلہ ', ' marla ') + f + tr(' فٹ', ' sq ft');
     }
     var k2 = Math.floor(q / 20 + 1e-9);
@@ -1349,14 +1393,46 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
     if (EN) return '<p class="hint">Gold and silver are divided by weight (tola, grams); the value is only a guide. International rate (24 karat)' + (when ? ', ' + when : '') + ': ' + per.join(', ') + '. Local market rates and purity can differ.</p>';
     return '<p class="hint">سونے اور چاندی کی تقسیم وزن (تولہ، گرام) میں ہے؛ قیمت صرف اندازے کے لیے ہے۔ عالمی ریٹ (24 قیراط)' + (when ? '، ' + when : '') + ': ' + per.join('، ') + '۔ بازار کا مقامی ریٹ اور کھوٹ اس سے مختلف ہو سکتے ہیں۔</p>';
   }
+  // The estate that is divided: funeral costs, debts (with mehr) and the will (up to a third) come out first, from the cash and,
+  // when that is not enough, from the land (its value typed by the user), gold and silver (today's rate) in proportion (F6).
   function estate() {
-    var a = st.assets, e = {};
-    if (a.cash.on) { var cash = num(a.cash.amount) - num(st.debts); e.cash = Math.max(0, cash); e.short = cash < 0; }
+    var a = st.assets, e = {}, items = [];
+    var build = st.madhab === 'jafari' && a.land.on ? Math.min(num(a.land.build), num(a.land.value) || Infinity) : 0;
+    if (a.cash.on) items.push({ type: 'cash', qty: num(a.cash.amount) });
+    if (a.land.on) items.push({ type: 'land', value: num(a.land.value) });
+    if (a.gold.on) items.push({ type: 'gold', value: metalRs('gold', num(a.gold.tola)) });
+    if (a.silver.on) items.push({ type: 'silver', value: metalRs('silver', num(a.silver.tola)) });
+    // Values unknown (land without a value, gold without a rate) leave a part of the deduction unpaid; that is said under the table.
+    e.unvalued = items.some(function (it) { return it.type !== 'cash' && !(it.value > 0); });
+    // With a thing of unknown value the one-third limit of the will cannot be worked out: the will is then taken from the
+    // cash left after the debts, without the limit, and the note asks for the value (a cash-only limit would cut it wrongly).
+    var will = num(st.will), willFree = e.unvalued && will > 0;
+    var ne = W.netEstate(items, { debts: num(st.debts), will: willFree ? 0 : will }), k = {};
+    ne.items.forEach(function (it) { k[it.type] = it.factor; });
+    if (willFree) {
+      var c0 = items.filter(function (it) { return it.type === 'cash'; })[0], left = c0 ? c0.qty * (k.cash == null ? 1 : k.cash) : 0;
+      ne.willUsed = Math.min(will, left); ne.willCapped = false; ne.willUnchecked = true; ne.shortfall += will - ne.willUsed;
+      if (c0 && c0.qty) k.cash = (left - ne.willUsed) / c0.qty;
+    }
+    e.net = ne; e.short = ne.shortfall > 0.5;
+    if (a.cash.on) e.cash = Math.max(0, num(a.cash.amount) * k.cash);
     // Whole raqba in marlas, or in feet when feet were given; each heir's share is taken from that total.
-    if (a.land.on) { var marlas = num(a.land.kanal) * 20 + num(a.land.marla); e.ft = num(a.land.foot) > 0; e.land = e.ft ? marlas * FT + num(a.land.foot) : marlas; }
-    if (a.gold.on) e.gold = num(a.gold.tola);
-    if (a.silver.on) e.silver = num(a.silver.tola);
+    if (a.land.on) { var marlas = num(a.land.kanal) * 20 + num(a.land.marla); e.ft = num(a.land.foot) > 0; e.land = (e.ft ? marlas * FT() + num(a.land.foot) : marlas) * k.land; e.build = build * k.land; }
+    if (a.gold.on) e.gold = num(a.gold.tola) * k.gold;
+    if (a.silver.on) e.silver = num(a.silver.tola) * k.silver;
     return e;
+  }
+  function deductNote() {
+    var e = estate(), ne = e.net, d = num(st.debts), w = num(st.will), out = '';
+    if (!d && !w) return '';
+    var fromOther = ne.items.filter(function (it) { return it.type !== 'cash' && it.factor < 1; }).length;
+    out = tr('تقسیم سے پہلے نکالا گیا: ', 'Taken out before the division: ') + [d ? tr('کفن دفن، قرض اور مہر ', 'funeral costs, debts and mehr ') + rs(d) : '', ne.willUsed ? tr('وصیت ', 'the will ') + rs(ne.willUsed) : ''].filter(Boolean).join(tr('، ', ', ')) + tr('۔', '.');
+    if (ne.willCapped) out += ' ' + tr('وصیت ' + rs(w) + ' لکھی گئی تھی، مگر یہ قرض کے بعد بچے ہوئے کے ایک تہائی سے زیادہ ہے، اس لیے ' + rs(ne.willUsed) + ' تک رکھی گئی۔ زیادہ کے لیے بالغ وارثوں کی رضامندی ضروری ہے۔', 'The will was ' + rs(w) + ', more than one third of what is left after the debts, so it was kept to ' + rs(ne.willUsed) + '. More needs the consent of the adult heirs.');
+    if (fromOther) out += ' ' + tr('نقد کافی نہیں تھا، اس لیے باقی زمین، سونے یا چاندی سے ان کی قیمت کی نسبت سے کم کیا گیا؛ نیچے کے حصے اسی کے بعد کے ہیں۔', 'The cash was not enough, so the rest was taken from the land, gold or silver in proportion to their value; the shares below are after it.');
+    if (ne.willUnchecked) out += ' ' + tr('زمین (یا سونے) کی قیمت معلوم نہیں، اس لیے وصیت کی ایک تہائی کی حد جانچی نہیں جا سکی اور وصیت نقد سے دی گئی۔ زمین کی قیمت لکھیں تو حد جانچ لی جائے گی۔', 'The value of the land (or gold) is not known, so the one-third limit of the will could not be checked and the will was taken from the cash. Enter the value of the land and the limit is checked.');
+    var cls = e.short ? 'err' : 'hint note-box';
+    if (e.short) out += ' ' + tr('کٹوتی کے ' + rs(ne.shortfall) + ' ابھی ادا نہیں ہوئے، کیونکہ زمین (یا سونے) کی قیمت معلوم نہیں۔ اوپر زمین کی قیمت لکھیں تو یہ رقم حصوں سے نکل جائے گی؛ ورنہ زمین اور سونے کے حصے اس کٹوتی سے پہلے کے ہیں۔', rs(ne.shortfall) + ' of this is not covered yet, because the value of the land (or gold) is not known. Enter the value of the land above and it is taken from the shares; until then the land and gold shares are before it.');
+    return '<p class="' + cls + '">' + out + '</p>';
   }
   function run(sec4) {
     var persons = st.people.map(function (p) { return { id: p.id, rel: p.rel, status: p.status, parent: p.parent, name: p.name }; });
@@ -1387,8 +1463,8 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
     cur = { r: r, view: view, differs: differs };
     var h = '';
     if (differs) {
-      h += '<div class="banner">' + tr('پہلے فوت ہونے والے بیٹے یا بیٹی کی اولاد کی وجہ سے فقہ اور پاکستانی قانون (عائلی قوانین 1961، دفعہ 4) کا نتیجہ مختلف ہے۔ پٹواری اور عدالت قانون والا حصہ لکھتے ہیں۔', 'Because of the children of a son or daughter who died first, the fiqh result and Pakistani law (Muslim Family Laws Ordinance 1961, section 4) differ. The patwari and the courts record the share under the law.') + '</div>' +
-        '<div class="tabs" id="view"><button type="button" class="chip" data-v="law" aria-pressed="' + (view === 'law') + '">' + tr('پاکستانی قانون (پٹواری)', 'Pakistani law (patwari)') + '</button><button type="button" class="chip" data-v="fiqh" aria-pressed="' + (view === 'fiqh') + '">' + esc(fiqhName()) + '</button></div>';
+      h += '<div class="banner">' + tr('پہلے فوت ہونے والے بیٹے یا بیٹی کی اولاد کی وجہ سے فقہ اور پاکستانی قانون (مسلم عائلی قوانین آرڈیننس 1961، دفعہ 4) کا نتیجہ مختلف ہے۔ پاکستان میں عدالتیں اور ریونیو کا عملہ عموماً دفعہ 4 لاگو کرتے ہیں۔ وفاقی شرعی عدالت نے 2000 میں (اللہ رکھا کیس) اسے اسلامی احکام کے خلاف قرار دیا تھا، مگر اس فیصلے کے خلاف اپیلیں سپریم کورٹ کے شریعت اپیلیٹ بینچ میں ہیں (نومبر 2026 تک ہمیں کوئی حتمی فیصلہ نہیں ملا)۔ قانون والا نتیجہ اندازہ ہے؛ اپنے کیس کے لیے وکیل سے پوچھیں۔', "Because of the children of a son or daughter who died first, the fiqh result and Pakistani law (Muslim Family Laws Ordinance 1961, section 4) differ. In Pakistan the courts and revenue officials generally apply section 4. The Federal Shariat Court held it against Islamic injunctions in 2000 (Allah Rakha case), but appeals against that judgment are before the Supreme Court's Shariat Appellate Bench (we found no final decision as of November 2026). The law result is an estimate; ask a lawyer for your case.") + '</div>' +
+        '<div class="tabs" id="view"><button type="button" class="chip" data-v="law" aria-pressed="' + (view === 'law') + '">' + tr('پاکستان · دفعہ 4 (اندازہ)', 'Pakistan · MFLO section 4 estimate') + '</button><button type="button" class="chip" data-v="fiqh" aria-pressed="' + (view === 'fiqh') + '">' + esc(fiqhName()) + '</button></div>';
     }
     h += '<div class="fitbar"><span class="hint" id="fitHint"></span><button type="button" class="chip" id="zoom" aria-pressed="false">' + tr('شجرہ بڑا کریں', 'Enlarge the tree') + '</button></div>' + tree(r, 'tree') + table(r) + noShare(r) + notes(r) + tools(r) + report(r) +
       '<div class="actions" style="margin-top:14px"><button type="button" class="go" id="pdf">' + tr('پی ڈی ایف رپورٹ ڈاؤن لوڈ کریں', 'Download PDF report') + '</button><span class="hint" id="pdfMsg"></span></div>';
@@ -1448,22 +1524,31 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
       out.push({ land: true, t: landText(q, e.ft), sub: landTotal(q, e.ft) });
     }
     if (e.cash != null) out.push(rs(cash(r)[id]));
+    if (e.build) out.push({ bld: true, t: byId(id) && byId(id).rel === 'wife' ? rs(e.build * v) : '' });
     if (e.gold != null) out.push(metalOut('gold', e.gold * v));
     if (e.silver != null) out.push(metalOut('silver', e.silver * v));
     return out;
   }
   function heir(r, p) { return r.shares[p.id] && r.shares[p.id].f.n > 0; }
-  // Whole rupees per heir that add up exactly to the estate: each gets the rupees below their exact share, and the
-  // rupees left over go one each to the largest fractions (largest remainder). r.cashFix marks that this happened.
+  // Whole rupees per heir: each gets the rupees below their exact share, then the rupees left over go one each to the
+  // largest fractions (largest remainder). Heirs with the same fraction always get the same amount (F8): a group of equal
+  // shares gets the extra rupee only if there is one for each of them, and what cannot be split so stays as r.cashLeft
+  // (shown as "left over from rounding"). r.cashFix marks that an amount differs from plain rounding.
   function cash(r) {
     if (r.cashBy) return r.cashBy;
-    var e = estate(), by = {}, ids = Object.keys(r.shares), left = 0, rest = [];
+    var e = estate(), C = e.cash || 0, by = {}, ids = Object.keys(r.shares), groups = {};
     var given = r.unassigned && r.unassigned.n ? 1 - r.unassigned.n / r.unassigned.d : 1;
-    ids.forEach(function (id) { var f = r.shares[id].f, x = (e.cash || 0) * f.n / f.d; by[id] = Math.floor(x + 1e-7); left += x; rest.push([id, x - by[id]]); });
-    left = Math.round(Math.round((e.cash || 0) * given * 100) / 100) - ids.reduce(function (a, id) { return a + by[id]; }, 0);
-    rest.sort(function (a, b) { return b[1] - a[1]; });
-    for (var i = 0; i < rest.length && left > 0; i++) if (rest[i][1] > 1e-7) { by[rest[i][0]] += 1; left--; }
-    r.cashFix = ids.some(function (id) { var f = r.shares[id].f; return by[id] !== Math.round((e.cash || 0) * f.n / f.d); });
+    ids.forEach(function (id) {
+      var f = r.shares[id].f, x = C * f.n / f.d;
+      by[id] = Math.floor(x + 1e-7);
+      if (f.n && x - by[id] > 1e-7) { var g = groups[f.n + '/' + f.d] || (groups[f.n + '/' + f.d] = { x: x - by[id], ids: [] }); g.ids.push(id); }
+    });
+    var left = Math.round(Math.round(C * given * 100) / 100) - ids.reduce(function (a, id) { return a + by[id]; }, 0);
+    Object.keys(groups).map(function (k) { return groups[k]; }).sort(function (a, b) { return b.x - a.x; }).forEach(function (g) {
+      if (left >= g.ids.length) { g.ids.forEach(function (id) { by[id] += 1; }); left -= g.ids.length; }
+    });
+    r.cashLeft = Math.max(0, left);
+    r.cashFix = ids.some(function (id) { var f = r.shares[id].f; return by[id] !== Math.round(C * f.n / f.d); });
     return (r.cashBy = by);
   }
 
@@ -1486,7 +1571,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
     var amt = has ? '' : '<div class="amt">' + (isTri ? '<div class="nos">' + tr('حصہ نہیں بنتا', 'No share') + '</div>' : '') + '<span class="pc">' + esc(noWhy(r, p, true)) + '</span></div>';
     if (has) {
       // A triangle has no room for the fraction inside, so it sits just under the point-down base.
-      amt = '<div class="amt">' + (isTri ? '<div class="fr" style="font-family:var(--num);font-weight:700;font-size:17px;direction:ltr">' + frac(s.f) + '</div>' : '') + gets(r, p.id).map(function (g) { return g.land ? '<span class="lnd">' + esc(g.t) + '</span>' : g.metal ? esc((g.metal === 'gold' ? tr('سونا ', 'Gold ') : tr('چاندی ', 'Silver ')) + g.t) : esc(g); }).join('<br>') + '<br><span class="pc">' + pct(s.f) + '</span>' + (p.status === 'after' ? '<br><span class="after">' + esc(statusText('after') + tr(': یہ حصہ ان کی اپنی وراثت میں جائے گا', ': this share passes in their own estate')) + '</span>' : '') + '</div>';
+      amt = '<div class="amt">' + (isTri ? '<div class="fr" style="font-family:var(--num);font-weight:700;font-size:17px;direction:ltr">' + frac(s.f) + '</div>' : '') + gets(r, p.id).filter(function (g) { return !g.bld || g.t; }).map(function (g) { return g.bld ? esc(tr('عمارت کی قیمت سے: ', 'From buildings: ') + g.t) : g.land ? '<span class="lnd">' + esc(g.t) + '</span>' : g.metal ? esc((g.metal === 'gold' ? tr('سونا ', 'Gold ') : tr('چاندی ', 'Silver ')) + g.t) : esc(g); }).join('<br>') + '<br><span class="pc">' + pct(s.f) + '</span>' + (p.status === 'after' ? '<br><span class="after">' + esc(statusText('after') + tr(': یہ حصہ ان کی اپنی وراثت میں جائے گا', ': this share passes in their own estate')) + '</span>' : '') + '</div>';
     }
     return '<div class="node ' + (cls || '') + ' ' + shape + '" data-node="' + p.id + '"><div class="shape">' + body + '</div>' + amt + '</div>';
   }
@@ -1634,6 +1719,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
     var e = estate(), c = [];
     if (e.land != null) c.push(tr('رقبہ (کنال، مرلہ' + (e.ft ? '، فٹ' : '') + ')', 'Land (kanal, marla' + (e.ft ? ', sq ft' : '') + ')'));
     if (e.cash != null) c.push(tr('رقم', 'Amount'));
+    if (e.build) c.push(tr('عمارت کی قیمت میں بیوی کا حصہ', "Wife's share of the buildings' value"));
     if (e.gold != null) c.push(tr('سونا (تولہ، گرام)', 'Gold (tola, grams)'));
     if (e.silver != null) c.push(tr('چاندی (تولہ، گرام)', 'Silver (tola, grams)'));
     return c;
@@ -1643,11 +1729,16 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
     var h = '<h2 class="sub">' + tr('ہر وارث کا حصہ', "Each heir's share") + '</h2><div class="tbl"><table><thead><tr><th>' + tr('رشتہ دار', 'Relative') + '</th><th>' + tr('شرعی حصہ', 'Share') + '</th>' + cols().map(function (c) { return '<th>' + c + '</th>'; }).join('') + '<th>' + tr('فیصد', 'Percent') + '</th><th>' + tr('وجہ', 'Reason') + '</th></tr></thead><tbody>';
     rows.forEach(function (p) {
       var s = r.shares[p.id];
-      h += '<tr><td><b>' + esc(label(p)) + '</b>' + (p.name ? ' <span class="hint">' + esc(rel(p)) + '</span>' : '') + '</td><td class="f">' + frac(s.f) + '</td>' + gets(r, p.id).map(function (g) { return g.land || g.metal ? '<td><b>' + esc(g.t) + '</b><br><span class="hint">' + esc(g.sub) + '</span></td>' : '<td>' + esc(g) + '</td>'; }).join('') + '<td class="hint">' + pct(s.f) + '</td><td class="why">' + esc(whyText(r, p)) + '</td></tr>';
+      h += '<tr><td><b>' + esc(label(p)) + '</b>' + (p.name ? ' <span class="hint">' + esc(rel(p)) + '</span>' : '') + '</td><td class="f">' + frac(s.f) + '</td>' + gets(r, p.id).map(function (g) { return g.bld ? '<td>' + esc(g.t || '—') + '</td>' : g.land || g.metal ? '<td><b>' + esc(g.t) + '</b><br><span class="hint">' + esc(g.sub) + '</span></td>' : '<td>' + esc(g) + '</td>'; }).join('') + '<td class="hint">' + pct(s.f) + '</td><td class="why">' + esc(whyText(r, p)) + '</td></tr>';
     });
     h += '</tbody></table></div>' + wivesNote(r) + awlNote(r) + rateNote();
-    if (estate().cash != null && rows.length && (cash(r), r.cashFix)) h += '<p class="hint">' + tr('رقم پورے روپوں میں ہے۔ کسر کی وجہ سے کسی وارث کی رقم میں ایک روپے کا فرق رکھا گیا ہے، تاکہ سب کی رقم کا جوڑ پورے ترکے کے برابر رہے۔ اصل حصہ کسر والے خانے میں ہے۔', "Amounts are in whole rupees. Because of the fractions, one heir's amount differs by one rupee so that the amounts add up to the whole estate. The exact share is in the fraction column.") + '</p>';
-    if (estate().short) h += '<p class="err">' + tr('قرض نقد رقم سے زیادہ ہے۔ باقی قرض زمین یا سونے کی قیمت سے ادا ہوگا؛ یہ کٹوتی اس حساب میں شامل نہیں، اس لیے زمین اور سونے کے حصے قرض سے پہلے کے ہیں۔', 'The debts are more than the cash. The rest of the debt is paid from the value of the land or gold; that is not deducted here, so the land and gold shares are before the debts.') + '</p>';
+    if (estate().cash != null && rows.length) {
+      cash(r);
+      if (r.cashLeft) h += '<p class="hint">' + tr('رقم پورے روپوں میں ہے، اور برابر حصے والوں کو برابر رقم۔ کسر کی وجہ سے ' + rs(r.cashLeft) + ' بچ گئے جو کسی ایک کو دینے سے برابر حصے والوں میں فرق آ جاتا؛ وارث آپس کی رضامندی سے اسے بانٹ لیں۔ اصل حصہ کسر والے خانے میں ہے۔', 'Amounts are in whole rupees, and heirs with equal shares get equal amounts. ' + rs(r.cashLeft) + ' is left over from rounding, because giving it to one heir would make equal shares unequal; the heirs can settle it between them. The exact share is in the fraction column.') + '</p>';
+      else if (r.cashFix) h += '<p class="hint">' + tr('رقم پورے روپوں میں ہے، اس طرح گول کی گئی کہ سب کا جوڑ پورے ترکے کے برابر رہے۔ اصل حصہ کسر والے خانے میں ہے۔', 'Amounts are in whole rupees, rounded so that they add up to the whole estate. The exact share is in the fraction column.') + '</p>';
+    }
+    h += deductNote();
+    if (estate().build) h += '<p class="hint note-box">' + tr('فقہ جعفری: بیوی کو زمین (رقبے) میں حصہ نہیں، اس لیے زمین باقی وارثوں میں ہے۔ عمارت اور درختوں کی قیمت میں بیوی کا حصہ روپوں میں ہے، جو زمین لینے والے وارث اسے ادا کریں گے (آیت اللہ سیستانی، توضیح المسائل، میراث)۔', "Ja'fari fiqh: a wife has no share in the land itself, so the land is divided among the other heirs. Her share of the value of the buildings and trees is in rupees, for the heirs who take the land to pay her (Ayatollah Sistani, Islamic Laws, inheritance).") + '</p>';
     return h;
   }
   var NUM = EN ? { 2: 'two', 3: 'three', 4: 'four' } : { 2: 'دو', 3: 'تین', 4: 'چار' }, ALL = EN ? { 2: 'both', 3: 'all three', 4: 'all four' } : { 2: 'دونوں', 3: 'تینوں', 4: 'چاروں' };
@@ -1761,7 +1852,8 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
     h += '<div class="tbl"><table><thead><tr><th>' + tr('وارث', 'Heir') + '</th><th>' + tr('آخری حصہ', 'Final share') + '</th><th>' + tr('سہام (' + base + ' میں سے)', 'Parts (of ' + base + ')') + '</th>' + (e.cash != null ? '<th>' + tr('رقم', 'Amount') + '</th>' : '') + '</tr></thead><tbody>' +
       heirs.map(function (p) { var f = r.shares[p.id].f; return '<tr><td>' + esc(label(p)) + '</td><td class="f">' + frac(f) + '</td><td>' + (f.n * base / f.d) + '</td>' + (e.cash != null ? '<td>' + rs(cash(r)[p.id]) + '</td>' : '') + '</tr>'; }).join('') +
       (r.unassigned && r.unassigned.n ? '<tr><td>' + tr('بغیر وارث (بیت المال / مفتی صاحب سے پوچھیں)', 'No heir (bayt al-mal; ask a mufti)') + '</td><td class="f">' + frac(r.unassigned) + '</td><td>' + (r.unassigned.n * base / r.unassigned.d) + '</td>' + (e.cash != null ? '<td></td>' : '') + '</tr>' : '') +
-      '<tr><td><b>' + tr('میزان', 'Total') + '</b></td><td class="f">1</td><td><b>' + base + '</b></td>' + (e.cash != null ? '<td><b>' + rs(heirs.reduce(function (a, p) { return a + cash(r)[p.id]; }, 0)) + '</b></td>' : '') + '</tr></tbody></table></div>';
+      (e.cash != null && (cash(r), r.cashLeft) ? '<tr><td>' + tr('کسر سے بچی رقم', 'Left over from rounding') + '</td><td></td><td></td><td>' + rs(r.cashLeft) + '</td></tr>' : '') +
+      '<tr><td><b>' + tr('میزان', 'Total') + '</b></td><td class="f">1</td><td><b>' + base + '</b></td>' + (e.cash != null ? '<td><b>' + rs(heirs.reduce(function (a, p) { return a + cash(r)[p.id]; }, 0) + (r.cashLeft || 0)) + '</b></td>' : '') + '</tr></tbody></table></div>';
     return h;
   }
   // Where a user tells us about a mistake in the shajra or the shares; the share link lets us open the same family.
@@ -1802,7 +1894,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
   function pack() {
     var a = {};
     Object.keys(st.assets).forEach(function (k) { if (st.assets[k].on) { a[k] = {}; Object.keys(st.assets[k]).forEach(function (x) { if (x !== 'on' && st.assets[k][x]) a[k][x] = st.assets[k][x]; }); } });
-    var o = { v: 1, x: st.sex, m: st.madhab, n: st.name || '', d: st.debts || '', a: a, p: st.people.map(function (p) { return [p.rel, STC.indexOf(p.status), p.parent ? st.people.indexOf(byId(p.parent)) : -1, p.name || '']; }) };
+    var o = { v: 1, x: st.sex, m: st.madhab, n: st.name || '', d: st.debts || '', l: st.will || '', w: cur && cur.view === 'fiqh' ? 'fiqh' : 'law', a: a, p: st.people.map(function (p) { return [p.rel, STC.indexOf(p.status), p.parent ? st.people.indexOf(byId(p.parent)) : -1, p.name || '']; }) };
     return btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
   }
   function unpack(code) {
@@ -1812,7 +1904,9 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
       var s2 = blank();
       s2.sex = o.x === 'f' ? 'f' : 'm';
       if (MADHABS.some(function (m) { return m[0] === o.m; })) s2.madhab = o.m;
-      s2.name = String(o.n || '').slice(0, 60); s2.debts = String(o.d || '').slice(0, 20);
+      s2.name = String(o.n || '').slice(0, 60); s2.debts = String(o.d || '').slice(0, 20); s2.will = String(o.l || '').slice(0, 20);
+      if (o.w === 'fiqh') s2.view = 'fiqh';
+      s2.origin = 'link';
       Object.keys(s2.assets).forEach(function (k) { var x = o.a && o.a[k]; s2.assets[k].on = !!x; if (x) Object.keys(s2.assets[k]).forEach(function (f) { if (f !== 'on' && x[f] != null) s2.assets[k][f] = String(x[f]).slice(0, 20); }); });
       s2.people = [];
       for (var i = 0; i < o.p.length; i++) {
@@ -1839,7 +1933,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
       'کیا فرماتے ہیں علمائے کرام و مفتیان عظام اس مسئلے کے بارے میں کہ ' + dname() + ' (' + (st.sex === 'f' ? 'عورت' : 'مرد') + ') کا انتقال ہو گیا۔ ان کے رشتہ دار یہ ہیں:'];
     st.people.forEach(function (p) { lines.push('- ' + label(p) + ': ' + statusText(p.status)); });
     var a = assetLine().map(function (x) { return x[0] + ' ' + x[1]; });
-    if (a.length) lines.push('', 'ترکہ: ' + a.join('، ') + (num(st.debts) ? ' (قرض اور کفن دفن ' + rs(num(st.debts)) + ' نکال کر)' : ''));
+    if (a.length) lines.push('', 'ترکہ: ' + a.join('، '));
     lines.push('مسلک: ' + madhabName(), '', 'براہ کرم بتائیں کہ ترکہ کس طرح تقسیم ہوگا اور ہر وارث کا کتنا حصہ ہے۔', '',
       'myzakattool.com کے وراثت کیلکولیٹر کا حساب' + (cur.view === 'law' ? ' (پاکستانی قانون، عائلی قوانین 1961 دفعہ 4 کے ساتھ)' : ' (فقہ ' + madhabName() + ')') + '، تصدیق کے لیے:');
     st.people.forEach(function (p) { if (heir(r, p)) lines.push('- ' + label(p) + ': ' + frac(r.shares[p.id].f)); });
@@ -1852,7 +1946,7 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
       'What do the scholars and muftis say about this case? ' + cap(dname()) + ' (' + (st.sex === 'f' ? 'woman' : 'man') + ') has died. The relatives are:'];
     st.people.forEach(function (p) { lines.push('- ' + label(p) + ': ' + statusText(p.status)); });
     var a = assetLine().map(function (x) { return x[0] + ' ' + x[1]; });
-    if (a.length) lines.push('', 'Estate: ' + a.join(', ') + (num(st.debts) ? ' (after debts and funeral costs of ' + rs(num(st.debts)) + ')' : ''));
+    if (a.length) lines.push('', 'Estate: ' + a.join(', '));
     lines.push('Madhab: ' + madhabName(), '', 'Please tell us how the estate is divided and the share of each heir.', '',
       'Calculation by the myzakattool.com inheritance calculator' + (cur.view === 'law' ? ' (Pakistani law, Muslim Family Laws Ordinance 1961, section 4)' : ' (' + fiqhName() + ')') + ', for checking:');
     st.people.forEach(function (p) { if (heir(r, p)) lines.push('- ' + label(p) + ': ' + frac(r.shares[p.id].f)); });
@@ -1899,8 +1993,8 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
       '<div class="small">' + tr('یہ رپورٹ myzakattool.com کے وراثت کیلکولیٹر سے بنی ہے۔ یہ فتویٰ، قانونی مشورہ یا سرکاری دستاویز نہیں۔ تقسیم سے پہلے کسی مستند مفتی اور ریونیو / قانونی ماہر سے تصدیق کریں۔ حساب یا شجرے میں غلطی لگے تو myzakattool.com/contact پر بتائیں۔', 'This report was made with the myzakattool.com inheritance calculator. It is not a fatwa, legal advice or an official document. Confirm with a qualified mufti and a revenue or legal expert before dividing. If the calculation or the family tree looks wrong, tell us at myzakattool.com/contact.') + '</div></div>';
   }
   function makePdf() {
-    if (!cur || stale) return;
     var btn = $('pdf'), msg = $('pdfMsg');
+    if (!cur || stale) { if (msg) msg.textContent = tr('آپ نے معلومات بدلی ہیں؛ پہلے "دوبارہ حساب لگائیں" دبائیں۔', 'You changed the details; press "Calculate again" first.'); return; }
     btn.disabled = true; msg.textContent = tr('رپورٹ بن رہی ہے…', 'Making the report…');
     var rep = $('report');
     rep.innerHTML = reportHtml();
@@ -1980,7 +2074,10 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
       ['mother', 'والدہ|ماں|امی|اماں|walida|waalida|maa|maan|ma|ammi|amma|mother', '']
     ].map(function (r) { return { rel: r[0], re: new RegExp(w(r[1]), 'giu'), pl: r[2] ? new RegExp('^(?:' + r[2].split('|').map(function (x) { return '(?:.* )?' + x; }).join('|') + ')$', 'iu') : null }; });
     var NO = new RegExp(w('نہیں|نہ|کوئی نہیں|موجود نہیں|زندہ نہیں|nahi|nahin|nai|ni|na|nhi|koi nahi|no|none|not'), 'iu');
-    var DIED = new RegExp(w('فوت|وفات|انتقال|مر گئے|مر گیا|مر گئی|fout|faut|foat|wafat|intiqal|inteqal|died|dead|deceased'), 'iu');
+    var DIED = new RegExp(w('فوت|وفات|انتقال|مر گئے|مر گیا|مر گئی|fout|faut|foat|wafat|intiqal|inteqal|died|dead|deceased|passed away|passed'), 'iu');
+    var FIRST = new RegExp(w('my|mere|meray|meri|mera|میرے|میری|میرا|ہمارے|ہماری|hamare|hamari|humare|humari'), 'iu');
+    // "... and left two sons" / "jis ke do bete" after a son or daughter who died first: those are that child's children (F3).
+    var LEFTKIDS = new RegExp(w('left|leaving|chhor|chhore|chhoray|chhori|chore|choray|چھوڑے|چھوڑی|چھوڑا|جس کے|جس کی|jis ke|jis ki|whose'), 'iu');
     var BEFORE = new RegExp(w('پہلے|pehle|pehlay|pahle|before|earlier'), 'iu');
     var AFTER = new RegExp(w('بعد|baad|bad|after|later'), 'iu');
     var FEM = new RegExp(w('عورت|خاتون|لڑکی|متوفیہ|مرحومہ|بیوہ فوت|aurat|orat|khatoon|khatun|larki|woman|lady|female'), 'iu');
@@ -1989,8 +2086,26 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
     var PARENTS = new RegExp(w('والدین|ماں باپ|walidain|waldain|maa baap|parents'), 'iu');
     var MADHAB = [['hanafi', 'حنفی|احناف|hanafi|hanfi'], ['shafii', 'شافعی|shafi|shafii|shafai'], ['maliki', 'مالکی|maliki'], ['hanbali', 'حنبلی|hanbali|humbli'], ['ahlehadith', 'اہل حدیث|اہلِ حدیث|ahle hadees|ahl e hadith|ahle hadith|ahl-e-hadith|wahabi'], ['jafari', 'جعفری|شیعہ|اہل تشیع|jafari|jafria|shia|shiah']]
       .map(function (m) { return [m[0], new RegExp(w(m[1]), 'iu')]; });
-    var MONEY = /(\d[\d,]*(?:\.\d+)?)\s*(لاکھ|lakh|lac|ہزار|hazar|hazaar|thousand|کروڑ|crore|karor)?\s*(?:روپے|روپیہ|rs\.?|rupay|rupees|rupee|pkr)/iu;
-    var MONEY2 = /(?:روپے|rs\.?|pkr)\s*(\d[\d,]*)/iu;
+    // Money (F2): "Rs 20 lakh", "20 lakh rupay", "60 lakh", "1 lakh 60 hazar", "PKR 1,60,000", "tarka 160000".
+    // A number counts as money when a currency word is next to it, or it has lakh / crore / hazar, or it follows "estate / tarka / cash".
+    var MU = '(?:لاکھ|lakhs?|lacs?|کروڑ|crores?|karor|ہزار|hazaa?r|thousand|million)(?!\\p{L})';
+    var MN = '\\d[\\d,]*(?:\\.\\d+)?';
+    var AMT = MN + '\\s*(?:' + MU + ')?(?:\\s*(?:aur|and|اور)?\\s*' + MN + '\\s*' + MU + ')*';
+    var CUR = '(?<!\\p{L})(?:روپے|روپیہ|روپئے|rs\\.?|rupay|rupaye|rupees?|pkr)(?!\\p{L})';
+    var MONEYS = [
+      new RegExp(CUR + '\\s*(' + AMT + ')', 'iu'),
+      new RegExp('(' + AMT + ')\\s*' + CUR, 'iu'),
+      new RegExp('(?<![\\d.])(' + MN + '\\s*' + MU + '(?:\\s*(?:aur|and|اور)?\\s*' + MN + '\\s*' + MU + ')*)', 'iu'),
+      new RegExp('(?<!\\p{L})(?:estate|tarka|tarkah|ترکہ|cash|naqd|نقد|raqam|رقم)(?!\\p{L})\\s*(?:of|is|:|=|hai|ہے)?\\s*(' + MN + ')', 'iu')
+    ];
+    function amountOf(str) {
+      var re = new RegExp('(' + MN + ')\\s*(' + MU + ')?', 'giu'), m, sum = 0;
+      while ((m = re.exec(str))) {
+        var u = (m[2] || '').toLowerCase(), x = parseFloat(m[1].replace(/,/g, ''));
+        sum += x * (/لاکھ|lakh|lac/.test(u) ? 1e5 : /کروڑ|crore|karor/.test(u) ? 1e7 : /million/.test(u) ? 1e6 : /ہزار|hazar|hazaar|thousand/.test(u) ? 1e3 : 1);
+      }
+      return Math.round(sum);
+    }
     var KANAL = /(\d+(?:\.\d+)?)\s*(?:کنال|kanal)/iu, MARLA = /(\d+(?:\.\d+)?)\s*(?:مرلہ|مرلے|marla|marlay|marle)/iu, FOOT = /(\d+(?:\.\d+)?)\s*(?:فٹ|مربع فٹ|sq\.? ?ft|feet|foot|fut)/iu;
     var TOLA = /(\d+(?:\.\d+)?)\s*(?:تولہ|تولے|tola|tolay)\s*(سونا|سونے|gold|sona|چاندی|چاندی|silver|chandi)?/iu;
     // Words that carry no relation: left over in a clause, they are not reported as "not understood".
@@ -1999,17 +2114,20 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
     function numOf(tok) { var n = parseInt(tok, 10); return isFinite(n) ? n : NUMS[tok.toLowerCase()] || 0; }
 
     function parse(text) {
-      var out = { sex: '', madhab: '', counts: {}, status: {}, kids: false, notes: [], unknown: [], seen: [], assets: {} };
+      var out = { sex: '', madhab: '', counts: {}, status: {}, groups: {}, kids: false, notes: [], warn: [], unknown: [], seen: [], assets: {} };
+      // Told by a child or relative ("my father died ... my mother"): the relations are then the writer's, not the deceased's (F3).
+      if (FIRST.test(String(text || ''))) out.warn.push(tr('سوال "میرے / میری" کے ساتھ لکھا ہے۔ رشتے متوفی کے حساب سے ہونے چاہییں: مثلاً "میرے والد فوت ہوئے، میری والدہ" کا مطلب ہے متوفی کی بیوی، اور "میرے بھائی" متوفی کے بیٹے۔ نیچے فارم ضرور چیک کریں۔', 'The question is written as "my ...". The relatives must be the deceased\'s: for example "my father died ... my mother" means the deceased\'s wife, and "my brothers" are the deceased\'s sons. Check the form below carefully.'));
       var t = digits(String(text || '')).replace(/[‌‏‎]/g, '').replace(/ي/g, 'ی').replace(/ك/g, 'ک');
       // Estate: money, land, gold, read from the whole text first, then taken out.
       var m;
-      if ((m = MONEY.exec(t)) || (m = MONEY2.exec(t))) { var amt = parseFloat(m[1].replace(/,/g, '')), mul = /لاکھ|lakh|lac/i.test(m[2] || '') ? 1e5 : /کروڑ|crore|karor/i.test(m[2] || '') ? 1e7 : /ہزار|hazar|thousand/i.test(m[2] || '') ? 1e3 : 1; out.assets.cash = String(Math.round(amt * mul)); t = t.replace(m[0], ' '); }
+      for (var mi = 0; mi < MONEYS.length; mi++) { if ((m = MONEYS[mi].exec(t)) && amountOf(m[1]) > 0) { out.assets.cash = String(amountOf(m[1])); t = t.replace(m[0], ' '); break; } }
       if ((m = KANAL.exec(t))) { out.assets.kanal = m[1]; t = t.replace(m[0], ' '); }
       if ((m = MARLA.exec(t))) { out.assets.marla = m[1]; t = t.replace(m[0], ' '); }
       if ((m = FOOT.exec(t)) && (out.assets.kanal || out.assets.marla)) { out.assets.foot = m[1]; t = t.replace(m[0], ' '); }
       if ((m = TOLA.exec(t))) { if (/چاندی|silver|chandi/i.test(m[2] || '')) out.assets.silver = m[1]; else out.assets.gold = m[1]; t = t.replace(m[0], ' '); }
       MADHAB.forEach(function (x) { var mm = x[1].exec(t); if (mm && !out.madhab) { out.madhab = x[0]; t = t.replace(mm[0], ' '); } });
 
+      var lastBefore = '';
       var clauses = t.split(/[\n\r،,۔;؛*•●▪◦|]+|\s[-–]\s|(?<!\p{L})(?:اور|aur|or|and)(?!\p{L})|\.(?!\d)/u).map(function (c) { return c.replace(/[():"'«»؟?!]+/g, ' ').replace(/\s+/g, ' ').trim(); }).filter(Boolean);
       clauses.forEach(function (c, ci) {
         var low = c.toLowerCase(), hit = false;
@@ -2033,8 +2151,14 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
         if (FEM.test(low) && (aboutDeceased || !found.length || ci === 0)) { out.sex = out.sex || 'f'; hit = true; }
         else if (MAS.test(low) && (aboutDeceased || !found.length || ci === 0)) { out.sex = out.sex || 'm'; hit = true; }
         if (aboutDeceased) hit = true;
+        var leftKids = LEFTKIDS.test(low) && !DIED.test(low);
         found.forEach(function (f, i) {
           hit = true;
+          if (leftKids && lastBefore && (f.rel === 'son' || f.rel === 'daughter')) {
+            var nr = lastBefore === 'son' ? (f.rel === 'son' ? 'grandson' : 'granddaughter') : (f.rel === 'son' ? 'dson' : 'ddaughter');
+            out.notes.push(tr('«' + c + '»: ان کو پہلے فوت ' + (lastBefore === 'son' ? 'بیٹے' : 'بیٹی') + ' کی اولاد مانا گیا؛ غلط ہو تو فارم میں درست کریں', '"' + c + '": taken as the children of the ' + lastBefore + ' who died before; correct it in the form if not'));
+            f = { rel: nr, at: f.at, end: f.end, word: f.word, plural: f.plural };
+          }
           var before = low.slice(i ? found[i - 1].end : 0, f.at), after = low.slice(f.end, found[i + 1] ? found[i + 1].at : low.length);
           var nb = before.match(NUMRE), na = after.match(NUMRE), n = 0;
           if (nb) n = numOf(nb[nb.length - 1]); else if (na && /^\s*[:=]?\s*\S+\s*$/.test(after.split(/\s+/).slice(0, 3).join(' '))) n = numOf(na[0]);
@@ -2046,8 +2170,9 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
           if (f.rel === 'father' || f.rel === 'mother') { out.status[f.rel] = status === 'none' ? 'before' : status; out.counts[f.rel] = status === 'none' ? 0 : 1; }
           else {
             out.counts[f.rel] = (out.counts[f.rel] || 0) + (status === 'none' ? 0 : n);
-            if (status !== 'none') out.status[f.rel] = status;
+            if (status !== 'none') { out.status[f.rel] = status; (out.groups[f.rel] = out.groups[f.rel] || []).push([n, status]); }
             if (status === 'none') out.counts[f.rel] = out.counts[f.rel] || 0;
+            if (status === 'before' && (f.rel === 'son' || f.rel === 'daughter')) lastBefore = f.rel;
           }
           out.seen.push(f.rel);
         });
@@ -2088,7 +2213,8 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
           for (var j = 0; j < Math.min(n, 12); j++) add(v[1], 'alive', par.id);
           return;
         }
-        for (var i = 0; i < Math.min(n, MAX[rel] || 9); i++) add(rel, p.status[rel] || 'alive');
+        var gr = (p.groups && p.groups[rel]) || [[n, p.status[rel] || 'alive']], made0 = 0;
+        gr.forEach(function (g) { for (var i = 0; i < g[0] && made0 < (MAX[rel] || 9); i++, made0++) add(rel, g[1]); });
       });
       made.forEach(function (x) { p.notes.push(EN ? 'Their parent (' + x.toLowerCase() + ') was taken to have died before the deceased, because the form asks for their children only then' : 'ان کے والد / والدہ (' + x + ') کو ' + (s.sex === 'f' ? 'متوفیہ' : 'متوفی') + ' سے پہلے فوت مان لیا، کیونکہ فارم میں ان کی اولاد اسی صورت میں آتی ہے'); });
       if (!p.status.father) p.notes.push(tr('والد کا ذکر نہیں: پہلے فوت مان لیا؛ زندہ ہوں تو فارم میں بدل لیں', 'Father not mentioned: taken to have died before; change it in the form if he is alive'));
@@ -2108,36 +2234,75 @@ h2.sub { font-family: var(--display); font-weight: 400; font-size: 21px; margin:
     if (p.sex) got.push(p.sex === 'f' ? tr('متوفیہ: عورت', 'Deceased: woman') : tr('متوفی: مرد', 'Deceased: man'));
     if (p.madhab) got.push(tr('مسلک: ', 'Madhab: ') + MADHABS.filter(function (m) { return m[0] === p.madhab; })[0][1]);
     ['father', 'mother'].forEach(function (k) { if (p.status[k]) got.push(names[k] + (p.status[k] === 'alive' ? tr(' (زندہ)', ' (alive)') : st2[p.status[k]] || '')); });
-    Object.keys(p.counts).forEach(function (k) { if (k === 'father' || k === 'mother') return; got.push(names[k] + ': ' + (p.counts[k] || tr('نہیں', 'none')) + (p.counts[k] ? st2[p.status[k]] || '' : '')); });
+    Object.keys(p.counts).forEach(function (k) {
+      if (k === 'father' || k === 'mother') return;
+      var g = (p.groups && p.groups[k]) || [], mixed = g.some(function (x) { return x[1] !== g[0][1]; });
+      var tail = !p.counts[k] ? '' : mixed ? ' (' + ['alive', 'before', 'after'].map(function (s0) { var n0 = g.filter(function (x) { return x[1] === s0; }).reduce(function (a, x) { return a + x[0]; }, 0); return n0 ? n0 + (s0 === 'alive' ? tr(' زندہ', ' alive') : st2[s0].replace(/[()]/g, '')) : ''; }).filter(Boolean).join(SEP) + ')' : st2[p.status[k]] || '';
+      got.push(names[k] + ': ' + (p.counts[k] || tr('نہیں', 'none')) + tail);
+    });
     if (p.kids === 'none') got.push(tr('اولاد: نہیں', 'Children: none'));
     if (p.assets.cash) got.push(tr('رقم: ', 'Cash: ') + rs(+p.assets.cash));
     if (p.assets.kanal || p.assets.marla) got.push(tr('زمین: ', 'Land: ') + (p.assets.kanal || 0) + tr(' کنال ', ' kanal ') + (p.assets.marla || 0) + tr(' مرلہ', ' marla'));
     if (p.assets.gold) got.push(tr('سونا: ', 'Gold: ') + p.assets.gold + tr(' تولہ', ' tola'));
     var h = '<div class="askout"><p><b>' + tr('یہ سمجھا:', 'Understood:') + '</b></p><div class="chips">' + (got.length ? got.map(function (x) { return '<span class="chip on">' + esc(x) + '</span>'; }).join('') : '<span class="hint">' + tr('کوئی رشتہ نہیں پہچانا', 'No relative recognised') + '</span>') + '</div>';
+    if (p.warn && p.warn.length) h += p.warn.map(function (x) { return '<p class="err">' + esc(x) + '</p>'; }).join('');
     if (p.unknown.length) h += '<p class="err">' + tr('یہ حصہ سمجھ نہیں آیا، فارم میں خود چن لیں: ', 'This part was not understood; choose it in the form yourself: ') + p.unknown.map(function (x) { return tr('«', '"') + esc(x) + tr('»', '"'); }).join(SEP) + '</p>';
     if (p.notes.length) h += '<ul class="notes">' + p.notes.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>';
     return h + '<p class="hint">' + tr('نیچے فارم بھر دیا گیا ہے۔ ایک نظر دیکھ لیں، پھر "وراثت کا حساب لگائیں" دبائیں۔', 'The form below has been filled in. Check it, then press "Calculate inheritance".') + '</p></div>';
   }
+  // A form with the user's own entries (not an earlier question, example or shared case) is not replaced without asking (F13).
+  function ownForm() {
+    if (st.origin || st.askText) return false;
+    var a = st.assets;
+    return !!(st.name || num(st.debts) || num(st.will) || num(a.cash.amount) || (a.land.on && (num(a.land.kanal) || num(a.land.marla) || num(a.land.foot))) || (a.gold.on && num(a.gold.tola)) || (a.silver.on && num(a.silver.tola)) ||
+      st.people.some(function (q) { return q.name || (q.rel !== 'father' && q.rel !== 'mother') || q.status !== 'before'; }));
+  }
+  function confirmAsk(msg, go) {
+    $('askOut').innerHTML = '<div class="askout"><p class="err">' + esc(msg) + '</p><div class="actions"><button type="button" class="go" id="askYes">' + tr('ہاں، بدل دیں', 'Yes, replace it') + '</button><button type="button" class="go ghost" id="askNo">' + tr('رہنے دیں', 'Keep mine') + '</button></div></div>';
+    $('askYes').onclick = go;
+    $('askNo').onclick = function () { $('askOut').innerHTML = ''; };
+  }
+  var askOk = false;
   $('askGo').addEventListener('click', function () {
     var text = $('askText').value;
     if (!text.trim()) { $('askOut').innerHTML = '<p class="err">' + tr('پہلے سوال لکھیں یا پیسٹ کریں۔', 'Type or paste a question first.') + '</p>'; return; }
+    if (!askOk && ownForm()) { confirmAsk(tr('نیچے کے فارم میں آپ کی اپنی معلومات ہیں۔ سوال سے فارم بھرنے پر وہ سب (رشتہ دار، نام، ترکہ) اس سوال سے بدل جائیں گی۔', 'The form below has your own entries. Filling it from the question replaces all of them (relatives, names, estate).'), function () { askOk = true; $('askGo').click(); }); return; }
+    askOk = false;
     var p = ASK.parse(text);
     p.text = text;
-    st = ASK.apply(p); save(); renderTop(); renderPeople(); summary();
-    $('resultSec').hidden = true; cur = null;
+    st = ASK.apply(p); save(); renderTop(); renderPeople(); summary(); originNote();
+    $('resultSec').hidden = true; cur = null; stale = false;
     $('askOut').innerHTML = askSummary(p);
   });
   $('askEx').addEventListener('click', function () {
+    var typed = $('askText').value.trim();
+    if (typed && !/^(A woman died|ایک عورت فوت ہوئی)/.test(typed) && !askOk) { confirmAsk(tr('آپ کا لکھا ہوا سوال مثال سے بدل جائے گا۔', 'Your typed question will be replaced by the example.'), function () { askOk = true; $('askEx').click(); }); return; }
+    if (ownForm() && !askOk) { confirmAsk(tr('نیچے کے فارم میں آپ کی اپنی معلومات ہیں؛ مثال آزمانے سے وہ بدل جائیں گی۔', 'The form below has your own entries; trying the example replaces them.'), function () { askOk = true; $('askEx').click(); }); return; }
     $('askText').value = EN ? 'A woman died. Heirs:\n* husband\n* mother\n* two full sisters\n* one maternal half-brother\n* one maternal half-sister\n* no father, no children' : 'ایک عورت فوت ہوئی۔ ورثاء:\n* شوہر\n* ماں\n* دو حقیقی بہنیں\n* ایک اخیافی بھائی\n* ایک اخیافی بہن\n* والد موجود نہیں، اولاد نہیں';
     $('askGo').click();
   });
 
-  $('reset').addEventListener('click', function () { st = sample(); save(); renderTop(); renderPeople(); summary(); $('resultSec').hidden = true; cur = null; });
-  $('clear').addEventListener('click', function () { st = blank(); save(); renderTop(); renderPeople(); summary(); $('resultSec').hidden = true; cur = null; });
+  $('reset').addEventListener('click', function () { st = sample(); save(); renderTop(); renderPeople(); summary(); originNote(); $('resultSec').hidden = true; cur = null; stale = false; });
+  $('clear').addEventListener('click', function () { st = blank(); save(); renderTop(); renderPeople(); summary(); originNote(); $('resultSec').hidden = true; cur = null; stale = false; $('askOut').innerHTML = ''; });
   // A shared link (#w=...) opens that family and its result, in place of what this browser had saved.
-  var hw = (shareHash().match(/[#&]w=([\w-]+)/) || [])[1], fromLink = hw && unpack(hw);
-  if (fromLink) { st = fromLink; save(); }
-  renderTop(); renderPeople(); summary();
+  // The link is read once: then #w= leaves the address, so a reload opens the user's saved (possibly edited) case,
+  // not the shared one again (F1). Same origin only; the frame's own address too, for the preview.
+  function readLink() {
+    var hw = (shareHash().match(/[#&]w=([\w-]+)/) || [])[1], fromLink = hw && unpack(hw);
+    if (fromLink) { st = fromLink; save(); }
+    if (hw) {
+      try { var pl = window.parent.location; if (window.parent !== window && pl.origin === location.origin && /[#&]w=/.test(pl.hash)) window.parent.history.replaceState(window.parent.history.state, '', pl.pathname + pl.search); } catch (e) {}
+      try { if (/[#&]w=/.test(location.hash)) history.replaceState(history.state, '', location.pathname + location.search); } catch (e) {}
+    }
+    return !!fromLink;
+  }
+  readLink();
+  // A worked-example link on the same page (#w=...) changes only the address: open that case in place.
+  function onHash() { if (readLink()) { renderTop(); renderPeople(); summary(); originNote(); calc(); requestAnimationFrame(function () { var t = $('tree'); reveal(t ? t.parentNode : $('resultSec')); }); } }
+  try { if (window.parent !== window && window.parent.location.origin === location.origin) window.parent.addEventListener('hashchange', onHash); } catch (e) {}
+  window.addEventListener('hashchange', onHash);
+  $('originNew').addEventListener('click', function () { $('clear').click(); });
+  renderTop(); renderPeople(); summary(); originNote();
   if (st.shown) calc();
 })();
 </script>
